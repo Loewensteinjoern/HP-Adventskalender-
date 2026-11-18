@@ -111,6 +111,45 @@ Keine Videos – kleine Zwischenszenen mit der Spielgrafik, als Daten beschriebe
 
 Dauer ca. 10 Sekunden; Tippen beschleunigt. Jeder gesehene Haken lässt sich im Questlog erneut ansehen.
 
+### Tag 0 – Prolog „Ankunft in Løvestein“ (Wunsch Jörn, 19.11.)
+
+**Freischaltung:** sofort spielbar, sobald Charly das Spiel bekommt (auch vor dem 1.12.). Q01 startet erst, wenn der Prolog gespielt ist. Bekommt sie das Spiel erst am 1.12. oder später, spielt sie zuerst den Prolog und direkt danach Tag 1. Dauer ca. 15 Minuten.
+
+**Ablauf**
+1. **Große Halle, Begrüßungsfest** (Szene mit Kinobalken). Alle vier Haustische sind voll besetzt, Kerzen schweben, Tannenbäume. Direktorin Sternwald hält eine kurze Rede zum Winterhalbjahr und begrüßt „eine Nachzüglerin, die der Schnee aufgehalten hat“: Charly.
+2. **Hauswahl – die vier Hauslaternen:** An der Stirnseite hängen vier Laternen mit den Hauswappen (Fuchs, Eisvogel, Hirsch, Bär). Charly tritt vor, die Laternen flackern nacheinander, dann leuchtet die **Bernfuchs-Laterne** bernsteinfarben auf. Der Bernfuchs-Tisch jubelt. (Eigene Idee statt eines sprechenden Huts oder Ähnlichem.)
+3. **Jörn** sitzt am Bernfuchs-Tisch, rückt zur Seite und macht Platz: „Hier ist noch frei. Ich hab dir Kakao aufgehoben.“
+4. **Führung mit der Hauslehrerin Prof. Wilma Wurzelgrün** (neue Figur im Spiel, Name aus V1). Sie geht voraus, Charly folgt, Jörn kommt mit. Stationen: Große Halle → Vorhalle → Schlosskern → Treppenhaus/Bibliothek → Arkadengang/Innenhof → Eulenstiege/Eulenturm → Wendeltreppe/Uhrenturm → Kellergang → **Gemeinschaftsraum**. In jedem Raum ein Satz zum Ort und ein Satz Erklärung (siehe Tutorial unten). Die Führung kann man mit „Weiter“ abkürzen.
+5. **Gemeinschaftsraum:** Wurzelgrün zeigt Kamin, Frieda und Diego (Schlosshund, schläft hier im Körbchen). Diego wacht auf, beschnuppert Charly und folgt ihr ab jetzt. Erklärung Schnüffeln (B).
+6. **Pit Honigwabe** stürmt herein: „Frau Professor! Das Haupttor – es ist zugefroren! Ganz und gar!“ Wurzelgrün eilt hinaus, Charly, Jörn und Diego hinterher.
+7. **Szene am Haupttor** (Vorhalle, Kinobalken): Das große Tor ist von dickem, bläulichem Eis überzogen, mit Eisblumen in Form von Kronenzacken. Schüler stehen ratlos davor. Die Direktorin hebt den Stab: Flammula. Das Eis taut, Wasser tropft, das Tor schwingt auf, Schnee weht herein. Sternwald, leise zu Wurzelgrün: „So früh im Winter? Das hat es seit Langem nicht gegeben.“ Zu Charly: „Diesen Zauber lernst du auch noch. Wenn es so weit ist.“ Diego knurrt das schmelzende Eis an (erste Vorwarnung).
+8. **Freies Erkunden:** Charly darf sich frei bewegen. Keine Quest, aber zwei kleine Geheimnisse und ein Glutsplitter zum Ausprobieren.
+9. **Tagesende am Kamin** (siehe 5.0): Jörn: „Langer erster Tag. Morgen geht der Advent los.“ Speichern wird erklärt.
+10. **Haken Tag 0:** Nachts, Kamera am Haupttor: Auf der Außenseite des Tors erscheint im Raureif der Abdruck einer Hand mit langen, dünnen Fingern. Von außen.
+
+**Tutorial (alles im Prolog, jeweils dort, wo es gebraucht wird)**
+| Was | Wo im Prolog | Wer erklärt |
+|---|---|---|
+| Laufen (Steuerkreuz), A = sprechen/untersuchen | Große Halle nach dem Fest | Jörn |
+| Übergangsräume und Wege | Vorhalle, Treppenhaus | Wurzelgrün |
+| Menü (☰), Questlog, Phönixlied-Seite, Karte | Schlosskern | Wurzelgrün |
+| Ton-Schalter und Hinweis auf den Stummschalter | Bibliothek („Hier ist es leise …“) | Frau Leisetritt |
+| Sammeln: Glutsplitter, Schmuck, Geheimnisse | Innenhof (ein Glutsplitter liegt im Schnee) | Jörn |
+| Zaubermenü: A an Verzaubertem öffnet das Zauberbuch, der richtige Spruch wirkt | Haupttor-Szene, danach Uhrenturm (Zauberbuch noch leer, 8 vereiste Seiten) | Sternwald, Pendel |
+| Schnüffeln (B) | Gemeinschaftsraum | Wurzelgrün, Diego |
+| Speichern, Tagesablauf, Spielstand-Code | Kamin am Tagesende | Jörn |
+| **Kampf** | **nicht im Prolog**, sondern beim Probekampf an Tag 2 | Jörn, direkt im ersten Kampf |
+
+Jede Erklärung ist kurz (höchstens zwei Sätze), die betreffende Taste leuchtet dabei auf. Alle Erklärungen stehen später im Menü unter „Hilfe“ zum Nachlesen.
+
+### 5.0 Tagesablauf und Speichern (Wunsch Jörn, 19.11.)
+- **Morgens am Kamin:** Jeder neue Tag beginnt im Gemeinschaftsraum am Kamin (kurze Morgenszene: Licht durchs Fenster, Frieda im Laufrad, Diego gähnt). Von hier aus geht man zur neuen Quest.
+- **Abends am Kamin:** Nach der Tagesquest zeigt der Questlog „Zurück zum Kamin“. A am Kamin → „Tag beenden?“ → Gute-Nacht-Szene mit Jörn, die neue Phönixlied-Zeile wird gezeigt, Anzeige „Nächstes Türchen in … Stunden“. Danach kann man weiter erkunden oder das Spiel schließen.
+- **Zusätzlich speichert das Spiel unsichtbar mit** (bei jedem Raumwechsel, Quest-Schritt, alle 30 Sekunden und beim Schließen – wie bisher). Grund: Safari auf dem iPad beendet Apps im Hintergrund oft von selbst. Wer mitten am Tag aufhört, macht genau dort weiter, wo er war. Erst ein *neuer* Tag beginnt wieder am Kamin.
+- **Verpasste Tage:** Sind mehrere Tage offen, beginnt nach „Tag beenden“ sofort der nächste Morgen.
+- **Kamin = warmer Ort:** Nach verlorenem Kampf erwacht Charly am letzten warmen Ort, meist am Kamin.
+- **Spielstand-Code** (Export/Import) erklärt Jörn am Kamin im Prolog, später im Menü.
+
 ### Woche 1 – Das Schloss erwacht
 
 | Tag | Quest | Neu in V2 | Haken |
@@ -353,7 +392,8 @@ Ohne passenden Zauber ist jeder Kampf mit Schneeball, Bellen und Kakao lösbar �
 ## 9. Arbeitsaufträge, die daraus folgen
 
 - **S2 (Kampf + Karte):** Kampfbildschirm nach 8.1–8.2; Schneepixie und Frostwicht; Kachel-Eigenschaft „tiefer Schnee“; Wärme und Rückkehr zum warmen Ort; Build-Prüfung „Gegner nicht vor seiner Schwäche“; Probekampf im Innenhof (Tag 2).
-- **S3 (Q01–Q04 neu):** Texte und Haken aus Abschnitt 5; Szenen-System mit Kinobalken; Questlog-Seite „Phönixlied“ mit allen 24 neuen Zeilen in `data/quests.json`; Raureif-Stimme; Jörn-Spuren Tag 2 und 4; Diego-Geheimnisse und Tagesschmuck der gebauten Gebiete (7.2); Nebenquests N02–N04; Glutsplitter-Zählung.
+- **S2b (Prolog):** Tag 0 und Tagesablauf/Speichern am Kamin (Abschnitt 5), Szenen-System mit Kinobalken, Hilfe-Seite.
+- **S3 (Q01–Q04 neu):** Texte und Haken aus Abschnitt 5; Questlog-Seite „Phönixlied“ mit allen 24 neuen Zeilen in `data/quests.json`; Raureif-Stimme; Jörn-Spuren Tag 2 und 4; Diego-Geheimnisse und Tagesschmuck der gebauten Gebiete (7.2); Nebenquests N02–N04; Glutsplitter-Zählung.
 - **S4 (Q05–Q07):** neue Gebiete mit Übergängen und je zwei Geheimnissen; Flammula als Nikolausgeschenk; N05, N06; erster Kampf am See; Wendung Woche 1; Jörn-Spur Tag 7.
 
 ## 10. Für Jörn zur Freigabe
@@ -361,4 +401,5 @@ Ohne passenden Zauber ist jeder Kampf mit Schneeball, Bellen und Kakao lösbar �
 2. Jörns Geheimnis: die **Spieluhr** (Melodie aus Q12, Gravur im Deckel).
 3. Das gereimte Phönixlied (ersetzt die Fragment-Zeilen aus V1; Zeile 23 nennt Raureif).
 4. Nebenquests N01–N14 und Sammelsysteme.
-5. Kampfwerte (Wärme 10, Schneeball 1, Schwäche 4) – Feinschliff nach Jörns Probekämpfen in S2.
+5. Prolog Tag 0 (Hauslaternen statt Hut, Wurzelgrün führt, Haupttor in der Vorhalle) und Tagesablauf am Kamin.
+6. Kampfwerte (Wärme 10, Schneeball 1, Schwäche 4) – Feinschliff nach Jörns Probekämpfen in S2.
