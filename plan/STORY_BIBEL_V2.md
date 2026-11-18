@@ -1,6 +1,6 @@
 # Story-Bibel V2 – Die Reise zum Winterphönix
 
-Stand: 18.11.2026 · Sitzung S1 · **zur Freigabe durch Jörn**
+Stand: 19.11.2026 · Sitzung S1 · **Freigegeben von Jörn (19.11.2026)** – offen nur der Gravur-Satz der Spieluhr
 
 Baut auf `plan/STORY_BIBEL.md` (V1, freigegeben) auf. Was hier nicht geändert wird, gilt aus V1 weiter (Orte, Rätsel, Fragmente, Namen).
 Neu: spürbare Bedrohung ab Tag 1, Jörns eigene Spur, Haken am Ende jedes Tages, Wendung jede Woche, Nebenquests, Erkundung, Kampf.
