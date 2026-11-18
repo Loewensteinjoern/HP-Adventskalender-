@@ -1,0 +1,248 @@
+{
+ "name": "Großes Treppenhaus",
+ "music": "schloss",
+ "ambient": {
+  "dark": 0.42,
+  "tint": "36,20,40",
+  "particles": "staub"
+ },
+ "tiles": [
+  "TTTTTTTTTTTTTTTT",
+  "TWWWWWWWWWWWWWWT",
+  "TWWWWWWOOWWWWWWT",
+  "TggggggggggggggT",
+  "TggggggggggggggT",
+  "TFFFFbssssbFFFFT",
+  "T....bssssb....T",
+  "T....bssssb....T",
+  "T....bssssb....T",
+  "T....bssssb....T",
+  "T....bssssb....T",
+  "T..............T",
+  "T..............T",
+  "T..............T",
+  "T..............T",
+  "TTTTTTTddTTTTTTT"
+ ],
+ "objects": [
+  {
+   "type": "gemaelde_gross",
+   "x": 1,
+   "y": 1,
+   "v": "landschaft"
+  },
+  {
+   "type": "gemaelde",
+   "x": 4,
+   "y": 1,
+   "v": "dame"
+  },
+  {
+   "type": "gemaelde",
+   "x": 5,
+   "y": 1,
+   "v": "herr"
+  },
+  {
+   "type": "gemaelde",
+   "x": 10,
+   "y": 1,
+   "v": "hund"
+  },
+  {
+   "type": "gemaelde_gross",
+   "x": 12,
+   "y": 1,
+   "v": "schloss"
+  },
+  {
+   "type": "gemaelde",
+   "x": 1,
+   "y": 5,
+   "v": "schiff",
+   "talk": [
+    {
+     "dialog": "bild_schiff"
+    }
+   ]
+  },
+  {
+   "type": "gemaelde",
+   "x": 3,
+   "y": 5,
+   "v": "herr",
+   "talk": [
+    {
+     "dialog": "bild_herr"
+    }
+   ]
+  },
+  {
+   "type": "gemaelde",
+   "x": 11,
+   "y": 5,
+   "v": "dame",
+   "talk": [
+    {
+     "dialog": "bild_dame"
+    }
+   ]
+  },
+  {
+   "type": "gemaelde_gross",
+   "x": 13,
+   "y": 5,
+   "v": "obst",
+   "talk": [
+    {
+     "dialog": "bild_obst"
+    }
+   ]
+  },
+  {
+   "type": "kronleuchter",
+   "x": 7,
+   "y": 7
+  },
+  {
+   "type": "kerzen_schwebend",
+   "x": 2,
+   "y": 8
+  },
+  {
+   "type": "kerzen_schwebend",
+   "x": 11,
+   "y": 8
+  },
+  {
+   "type": "statue",
+   "x": 3,
+   "y": 3,
+   "v": "eule",
+   "talk": [
+    {
+     "dialog": "statue_eule"
+    }
+   ]
+  },
+  {
+   "type": "statue",
+   "x": 12,
+   "y": 3,
+   "v": "fuchs",
+   "talk": [
+    {
+     "dialog": "statue_fuchs"
+    }
+   ]
+  },
+  {
+   "type": "pflanze",
+   "x": 1,
+   "y": 3,
+   "talk": [
+    {
+     "dialog": "pflanze"
+    }
+   ]
+  },
+  {
+   "type": "pflanze",
+   "x": 14,
+   "y": 3,
+   "talk": [
+    {
+     "dialog": "pflanze"
+    }
+   ]
+  },
+  {
+   "type": "teppich",
+   "x": 5,
+   "y": 11
+  },
+  {
+   "type": "tannenbaum",
+   "x": 1,
+   "y": 11,
+   "talk": [
+    {
+     "dialog": "tannenbaum"
+    }
+   ]
+  },
+  {
+   "type": "sessel",
+   "x": 13,
+   "y": 11,
+   "talk": [
+    {
+     "dialog": "sessel"
+    }
+   ]
+  },
+  {
+   "type": "bank",
+   "x": 1,
+   "y": 13,
+   "talk": [
+    {
+     "dialog": "bank"
+    }
+   ]
+  },
+  {
+   "type": "pflanze",
+   "x": 14,
+   "y": 14,
+   "talk": [
+    {
+     "dialog": "pflanze"
+    }
+   ]
+  }
+ ],
+ "npcs": [
+  {
+   "char": "ida",
+   "x": 5,
+   "y": 4,
+   "dir": "down",
+   "wander": 2
+  }
+ ],
+ "doors": [
+  {
+   "x": 7,
+   "y": 2,
+   "to": "bibliothek",
+   "tx": 18,
+   "ty": 7,
+   "dir": "left"
+  },
+  {
+   "x": 8,
+   "y": 2,
+   "to": "bibliothek",
+   "tx": 18,
+   "ty": 7,
+   "dir": "left"
+  },
+  {
+   "x": 7,
+   "y": 15,
+   "to": "schlosskern",
+   "tx": 1,
+   "ty": 8,
+   "dir": "right"
+  },
+  {
+   "x": 8,
+   "y": 15,
+   "to": "schlosskern",
+   "tx": 1,
+   "ty": 8,
+   "dir": "right"
+  }
+ ]
+}

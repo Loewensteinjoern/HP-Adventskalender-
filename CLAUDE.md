@@ -32,6 +32,8 @@ Quelle: `plan/STARTPAKET.md`, Abschnitt 1 (verbindlich). Weltlexikon und Haustie
 - Grafikmaß (in der Stilprobe freigeben): Bild 512×384 (4:3), Kachel 32×32, Figur 32×40, ganzzahlig skaliert, Dreiviertelperspektive.
 - Steuerung: Steuerkreuz links, A/B rechts (Glutberg-Prinzip, für das Querformat angepasst). Ton-Schalter mit Hinweis auf den Stummschalter.
 - Vorlage Glutberg: Steuerung, Dialogbox, Gras/Effekte, Speicherlogik und Datenaufbau übernehmen und an das neue Grafikmaß anpassen.
+- **Übergänge (Wunsch Jörn):** Zwischen zwei Orten liegt immer ein eigener Übergangsraum in eigenem Stil (Treppe, Gang, Stiege …), nie eine direkte Tür von Raum zu Raum.
+- **Zauber:** Wo ein Zauber wirkt, öffnet A das Zaubermenü; nur der richtige Spruch wirkt (`zauber` in der Talk-Regel).
 - Befehle: `npm run build` (baut `docs/`), `npm test` (Kern-Tests), `npm run smoke` (Headless-Browser), `npm run check` (alles). Neue Karten: `data/maps/<id>.json`; neue Maler in `src/engine/paint_*.js`.
 
 ## Auslieferung (Prinzip wie Anatomie-3d)

@@ -244,7 +244,8 @@
       "flag:zauber_luxa"
      ],
      "seq": "kerzen",
-     "val": 1
+     "val": 1,
+     "zauber": "luxa"
     },
     {
      "dialog": "kerze_ohne_luxa"
@@ -284,7 +285,8 @@
       "flag:zauber_luxa"
      ],
      "seq": "kerzen",
-     "val": 2
+     "val": 2,
+     "zauber": "luxa"
     },
     {
      "dialog": "kerze_ohne_luxa"
@@ -324,7 +326,8 @@
       "flag:zauber_luxa"
      ],
      "seq": "kerzen",
-     "val": 3
+     "val": 3,
+     "zauber": "luxa"
     },
     {
      "dialog": "kerze_ohne_luxa"
@@ -364,7 +367,8 @@
       "flag:zauber_luxa"
      ],
      "seq": "kerzen",
-     "val": 4
+     "val": 4,
+     "zauber": "luxa"
     },
     {
      "dialog": "kerze_ohne_luxa"
@@ -687,16 +691,16 @@
   {
    "x": 11,
    "y": 15,
-   "to": "schlosskern",
-   "tx": 10,
+   "to": "vorhalle",
+   "tx": 6,
    "ty": 3,
    "dir": "down"
   },
   {
    "x": 12,
    "y": 15,
-   "to": "schlosskern",
-   "tx": 11,
+   "to": "vorhalle",
+   "tx": 7,
    "ty": 3,
    "dir": "down"
   }

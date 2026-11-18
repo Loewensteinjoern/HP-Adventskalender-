@@ -19,9 +19,10 @@ function validateData() {
     (a.set || []).forEach(f => setFlags.add(f));
     if (a.join && !chars[a.join]) E(where + ': Begleiter „' + a.join + '“ unbekannt');
     if (a.leave && !chars[a.leave]) E(where + ': Begleiter „' + a.leave + '“ unbekannt');
+    if (a.zauber && !DATA.zauber[a.zauber]) E(where + ': Zauber „' + a.zauber + '“ fehlt');
     if (a.seq && !DATA.puzzles[a.seq]) E(where + ': Rätsel „' + a.seq + '“ fehlt');
     if (a.demo && !DATA.puzzles[a.demo]) E(where + ': Rätsel „' + a.demo + '“ fehlt');
-    if (a.minigame) { if (a.minigame.type !== 'takt') E(where + ': unbekanntes Minispiel'); checkAction(a.win, where + ' Sieg'); if (!a.win) E(where + ': Minispiel ohne Sieg-Aktion'); }
+    if (a.minigame) { if (a.minigame.type !== 'takt' && a.minigame.type !== 'uhr') E(where + ': unbekanntes Minispiel'); if (a.minigame.type === 'uhr' && !(DATA.puzzles[a.minigame.raetsel] || {}).fragen) E(where + ': Uhr-Rätsel fehlt'); checkAction(a.win, where + ' Sieg'); if (!a.win) E(where + ': Minispiel ohne Sieg-Aktion'); }
   }
   const checkTalk = (list, where) => (list || []).forEach((t, i) => checkAction(t, where + '[' + i + ']'));
 
@@ -80,6 +81,7 @@ function validateData() {
   // Rätsel (Reihenfolge)
   Object.keys(DATA.puzzles).forEach(id => {
     const P = DATA.puzzles[id];
+    if (P.fragen) { P.fragen.forEach((f, i) => { if (!f.text || !(f.stunde >= 1 && f.stunde <= 12)) E('Uhr-Rätsel ' + id + ' Frage ' + (i + 1) + ' ungültig'); }); return; }
     if (!Array.isArray(P.order) || !P.order.length) return E('Rätsel ' + id + ': Reihenfolge fehlt');
     if (!Array.isArray(P.notes) || P.notes.length < Math.max.apply(null, P.order)) E('Rätsel ' + id + ': zu wenige Töne');
     P.order.forEach(v => setFlags.add(id + '_' + v));

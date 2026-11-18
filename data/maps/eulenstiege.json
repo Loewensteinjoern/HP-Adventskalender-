@@ -1,0 +1,176 @@
+{
+ "name": "Eulenstiege",
+ "music": "hof",
+ "ambient": {
+  "dark": 0.32,
+  "tint": "20,30,80",
+  "particles": "schnee"
+ },
+ "tiles": [
+  "YYYYYYYYYY",
+  "YYYYYYYYYY",
+  "YYYYOOYYYY",
+  "YnnnwwnnnY",
+  "YnnnEEnnnY",
+  "YnnnEEnnnY",
+  "YnnnEEnnnY",
+  "YnnnEEnnnY",
+  "YnnnEEnnnY",
+  "YnnnEEnnnY",
+  "YnnnEEnnnY",
+  "YnnnwwnnnY",
+  "YnnnwwnnnY",
+  "YYYYddYYYY"
+ ],
+ "objects": [
+  {
+   "type": "laterne",
+   "x": 3,
+   "y": 5,
+   "talk": [
+    {
+     "dialog": "laterne"
+    }
+   ]
+  },
+  {
+   "type": "laterne",
+   "x": 6,
+   "y": 9,
+   "talk": [
+    {
+     "dialog": "laterne"
+    }
+   ]
+  },
+  {
+   "type": "tanne",
+   "x": 1,
+   "y": 4,
+   "talk": [
+    {
+     "dialog": "tanne"
+    }
+   ]
+  },
+  {
+   "type": "tanne",
+   "x": 8,
+   "y": 6,
+   "talk": [
+    {
+     "dialog": "tanne"
+    }
+   ]
+  },
+  {
+   "type": "tanne",
+   "x": 1,
+   "y": 10,
+   "talk": [
+    {
+     "dialog": "tanne"
+    }
+   ]
+  },
+  {
+   "type": "federn",
+   "x": 2,
+   "y": 7
+  },
+  {
+   "type": "federn",
+   "x": 7,
+   "y": 4
+  },
+  {
+   "type": "federn",
+   "x": 7,
+   "y": 11
+  },
+  {
+   "type": "schneehaufen",
+   "x": 2,
+   "y": 12,
+   "talk": [
+    {
+     "dialog": "schneehaufen"
+    }
+   ]
+  },
+  {
+   "type": "schneehaufen",
+   "x": 7,
+   "y": 12,
+   "talk": [
+    {
+     "dialog": "schneehaufen"
+    }
+   ]
+  },
+  {
+   "type": "statue",
+   "x": 1,
+   "y": 7,
+   "v": "eule",
+   "talk": [
+    {
+     "dialog": "statue_eule"
+    }
+   ]
+  },
+  {
+   "type": "wegweiser",
+   "x": 7,
+   "y": 3,
+   "talk": [
+    {
+     "dialog": "wegweiser_eule"
+    }
+   ]
+  }
+ ],
+ "npcs": [
+  {
+   "char": "rotkehlchen",
+   "x": 7,
+   "y": 8,
+   "dir": "left",
+   "wander": 2
+  }
+ ],
+ "doors": [
+  {
+   "x": 4,
+   "y": 2,
+   "to": "eulenturm",
+   "tx": 5,
+   "ty": 8,
+   "dir": "up"
+  },
+  {
+   "x": 5,
+   "y": 2,
+   "to": "eulenturm",
+   "tx": 5,
+   "ty": 8,
+   "dir": "up"
+  },
+  {
+   "x": 4,
+   "y": 13,
+   "to": "innenhof",
+   "tx": 18,
+   "ty": 3,
+   "dir": "down"
+  },
+  {
+   "x": 5,
+   "y": 13,
+   "to": "innenhof",
+   "tx": 18,
+   "ty": 3,
+   "dir": "down"
+  }
+ ]
+}

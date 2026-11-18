@@ -1,0 +1,42 @@
+{
+  "luxa": {
+    "name": "Luxa",
+    "wirkung": "Licht",
+    "falsch": "Ein warmes Licht tanzt über Charlys Finger – aber hier passiert nichts."
+  },
+  "clavis": {
+    "name": "Clavis",
+    "wirkung": "Öffnen",
+    "falsch": "Klick! … Hier gibt es nichts aufzuschließen."
+  },
+  "restauro": {
+    "name": "Restauro",
+    "wirkung": "Reparieren",
+    "falsch": "Es surrt und klickt – aber hier ist nichts kaputt."
+  },
+  "advoco": {
+    "name": "Advoco",
+    "wirkung": "Heranholen",
+    "falsch": "Ein Windhauch zieht vorbei. Nichts kommt angeflogen."
+  },
+  "levitas": {
+    "name": "Levitas",
+    "wirkung": "Schweben",
+    "falsch": "Für einen Moment wackelt alles – dann bleibt es, wo es ist."
+  },
+  "flammula": {
+    "name": "Flammula",
+    "wirkung": "Feuer",
+    "falsch": "Ein Funke springt – und verglüht. Hier braucht es kein Feuer."
+  },
+  "custodia": {
+    "name": "Custodia",
+    "wirkung": "Schutz",
+    "falsch": "Ein schimmernder Schild erscheint und löst sich wieder auf."
+  },
+  "phoenix": {
+    "name": "Phoenix Hiemis",
+    "wirkung": "Phönixfeuer",
+    "falsch": "Ein Hauch von goldener Glut – noch ist nicht die Zeit dafür."
+  }
+}

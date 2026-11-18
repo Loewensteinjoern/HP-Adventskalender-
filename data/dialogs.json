@@ -634,11 +634,11 @@
     ],
     [
       "",
-      "Charly flüstert: „Clavis!“ – Klick. Die Kapsel springt auf. Sie hat den Zauber Clavis gelernt!"
+      "Charly hat den Zauber Clavis gelernt!"
     ],
     [
-      "",
-      "Im Brief steht in altmodischer Schrift: „Wer die Feder findet, trage die Botschaft weiter. Der Winter erinnert sich.“"
+      "pendel",
+      "Probier es gleich bei Pimpernell aus. Aber Achtung: Wer den falschen Zauber erwischt, kitzelt die Kapsel nur."
     ]
   ],
   "q04_start": [
@@ -732,7 +732,7 @@
   "q04_einsetzen": [
     [
       "",
-      "Charly setzt das Zahnrad ein und flüstert: „Restauro!“"
+      "Charly setzt das Zahnrad ein. Die Räder greifen ineinander …"
     ],
     [
       "",
@@ -764,15 +764,15 @@
   "uhrmeister_erwacht": [
     [
       "uhrmeister",
-      "NUR. WER. DEN. TAKT. HÄLT. DARF. DIE. UHR. STELLEN."
+      "NUR. WER. DIE. ZEIT. VERSTEHT. DARF. DIE. UHR. STELLEN."
     ],
     [
       "uhrmeister",
-      "ICH. SCHLAGE. DU. FOLGST."
+      "DREI. FRAGEN. DREI. ANTWORTEN."
     ],
     [
       "",
-      "Merk dir, welche Glocke der Uhrmeister anschlägt, und schlag sie in derselben Reihenfolge mit dem Steuerkreuz nach."
+      "Lies die Frage, dreh den Zeiger mit dem Steuerkreuz auf die richtige Stunde und bestätige mit A."
     ]
   ],
   "uhrmeister_besiegt": [
@@ -1207,6 +1207,80 @@
     [
       "",
       "Ein großer Kamin. Das Feuer knistert, und die Wärme reicht bis zu den Tischen."
+    ]
+  ],
+  "zauber_keine": [
+    [
+      "",
+      "Charly kennt noch keinen Zauber, der hier helfen könnte."
+    ]
+  ],
+  "q03_kapsel_offen": [
+    [
+      "",
+      "Klick! Die Briefkapsel springt auf."
+    ],
+    [
+      "",
+      "Im Brief steht in altmodischer Schrift: „Wer die Feder findet, trage die Botschaft weiter. Der Winter erinnert sich.“"
+    ],
+    [
+      "pimpernell",
+      "Schuhu! Ich wusste, dass es wichtig war. Ich weiß nur nicht mehr, warum."
+    ]
+  ],
+  "bild_schiff": [
+    [
+      "",
+      "Ein Segelschiff im Eismeer. Auf dem Mast sitzt ein kleiner goldener Vogel."
+    ]
+  ],
+  "bild_herr": [
+    [
+      "",
+      "Ein ernster Herr mit Bart. Als Charly vorbeigeht, zwinkert er. Ganz sicher."
+    ]
+  ],
+  "bild_dame": [
+    [
+      "",
+      "Eine Dame mit Perlenkette. Sie hält einen Fächer aus Federn – golden und weiß."
+    ]
+  ],
+  "bild_obst": [
+    [
+      "",
+      "Ein Gemälde mit Äpfeln und Birnen. Diego schaut es hungrig an."
+    ]
+  ],
+  "schiessscharte": [
+    [
+      "",
+      "Durch den schmalen Schlitz pfeift kalter Wind. Draußen tanzt der Schnee."
+    ]
+  ],
+  "wegweiser_turm": [
+    [
+      "",
+      "↑ Uhrenturm   ← Schlosskern. Darunter hat jemand gekritzelt: „Nicht schwindelig werden!“"
+    ]
+  ],
+  "wegweiser_eule": [
+    [
+      "",
+      "↑ Eulenturm. Bitte leise – Eulen schlafen tagsüber. Meistens."
+    ]
+  ],
+  "garderobe": [
+    [
+      "",
+      "Mäntel und Schals in allen Hausfarben. Darunter stehen Stiefel voller Schnee."
+    ]
+  ],
+  "schneehaufen": [
+    [
+      "",
+      "Ein Schneehaufen. Diego möchte unbedingt hineinspringen."
     ]
   ]
 }

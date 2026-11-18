@@ -1,0 +1,265 @@
+{
+ "name": "Vorhalle",
+ "music": "halle",
+ "ambient": {
+  "dark": 0.4,
+  "tint": "30,20,50",
+  "particles": "staub"
+ },
+ "tiles": [
+  "TTTTTTTTTTTTTT",
+  "TKKKKKKKKKKKKT",
+  "TKKKKKOOKKKKKT",
+  "TMMMMMRRMMMMMT",
+  "TMMMMMRRMMMMMT",
+  "TMMMMMRRMMMMMT",
+  "TMMMMMRRMMMMMT",
+  "TMMMMMRRMMMMMT",
+  "TMMMMMRRMMMMMT",
+  "TTTTTTddTTTTTT"
+ ],
+ "objects": [
+  {
+   "type": "torbogen_gross",
+   "x": 5,
+   "y": 1,
+   "talk": [
+    {
+     "dialog": "torbogen"
+    }
+   ]
+  },
+  {
+   "type": "banner_haus",
+   "x": 2,
+   "y": 1,
+   "v": "sternbaer",
+   "talk": [
+    {
+     "dialog": "banner_sternbaer"
+    }
+   ]
+  },
+  {
+   "type": "banner_haus",
+   "x": 11,
+   "y": 1,
+   "v": "tannenhirsch",
+   "talk": [
+    {
+     "dialog": "banner_tannenhirsch"
+    }
+   ]
+  },
+  {
+   "type": "girlande",
+   "x": 9,
+   "y": 1
+  },
+  {
+   "type": "girlande",
+   "x": 3,
+   "y": 1
+  },
+  {
+   "type": "ruestung",
+   "x": 3,
+   "y": 4,
+   "talk": [
+    {
+     "dialog": "ruestung"
+    }
+   ]
+  },
+  {
+   "type": "ruestung",
+   "x": 10,
+   "y": 4,
+   "talk": [
+    {
+     "dialog": "ruestung2"
+    }
+   ]
+  },
+  {
+   "type": "ruestung",
+   "x": 3,
+   "y": 7,
+   "talk": [
+    {
+     "dialog": "ruestung"
+    }
+   ]
+  },
+  {
+   "type": "ruestung",
+   "x": 10,
+   "y": 7,
+   "talk": [
+    {
+     "dialog": "ruestung2"
+    }
+   ]
+  },
+  {
+   "type": "garderobe",
+   "x": 1,
+   "y": 5,
+   "talk": [
+    {
+     "dialog": "garderobe"
+    }
+   ]
+  },
+  {
+   "type": "tannenbaum",
+   "x": 12,
+   "y": 3,
+   "talk": [
+    {
+     "dialog": "tannenbaum"
+    }
+   ]
+  },
+  {
+   "type": "kronleuchter",
+   "x": 6,
+   "y": 5
+  },
+  {
+   "type": "kerzen_schwebend",
+   "x": 1,
+   "y": 6
+  },
+  {
+   "type": "kerzen_schwebend",
+   "x": 11,
+   "y": 6
+  },
+  {
+   "type": "statue",
+   "x": 1,
+   "y": 8,
+   "v": "fuchs",
+   "talk": [
+    {
+     "dialog": "statue_fuchs"
+    }
+   ]
+  },
+  {
+   "type": "statue",
+   "x": 12,
+   "y": 8,
+   "v": "eule",
+   "talk": [
+    {
+     "dialog": "statue_eule"
+    }
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 6,
+   "y": 8,
+   "if": [
+    "quest:Q01",
+    "flag:q01_joern",
+    "!flag:q01_lotte"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 6,
+   "y": 7,
+   "if": [
+    "quest:Q01",
+    "flag:q01_joern",
+    "!flag:q01_lotte"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 7,
+   "y": 6,
+   "if": [
+    "quest:Q01",
+    "flag:q01_joern",
+    "!flag:q01_lotte"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 7,
+   "y": 5,
+   "if": [
+    "quest:Q01",
+    "flag:q01_joern",
+    "!flag:q01_lotte"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 6,
+   "y": 4,
+   "if": [
+    "quest:Q01",
+    "flag:q01_joern",
+    "!flag:q01_lotte"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 6,
+   "y": 3,
+   "if": [
+    "quest:Q01",
+    "flag:q01_joern",
+    "!flag:q01_lotte"
+   ]
+  }
+ ],
+ "npcs": [
+  {
+   "char": "kater",
+   "x": 9,
+   "y": 6,
+   "dir": "left",
+   "wander": 3
+  }
+ ],
+ "doors": [
+  {
+   "x": 6,
+   "y": 2,
+   "to": "grosse_halle",
+   "tx": 11,
+   "ty": 14,
+   "dir": "up"
+  },
+  {
+   "x": 7,
+   "y": 2,
+   "to": "grosse_halle",
+   "tx": 12,
+   "ty": 14,
+   "dir": "up"
+  },
+  {
+   "x": 6,
+   "y": 9,
+   "to": "schlosskern",
+   "tx": 10,
+   "ty": 3,
+   "dir": "down"
+  },
+  {
+   "x": 7,
+   "y": 9,
+   "to": "schlosskern",
+   "tx": 11,
+   "ty": 3,
+   "dir": "down"
+  }
+ ]
+}

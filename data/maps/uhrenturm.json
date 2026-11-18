@@ -96,7 +96,8 @@
      "set": [
       "q04_eingesetzt"
      ],
-     "sound": "zahnrad"
+     "sound": "zahnrad",
+     "zauber": "restauro"
     },
     {
      "if": [
@@ -257,12 +258,8 @@
      ],
      "dialog": "uhrmeister_erwacht",
      "minigame": {
-      "type": "takt",
-      "rounds": [
-       3,
-       4,
-       5
-      ]
+      "type": "uhr",
+      "raetsel": "uhrmeister"
      },
      "win": {
       "dialog": "uhrmeister_besiegt",
@@ -314,10 +311,10 @@
   {
    "x": 0,
    "y": 7,
-   "to": "schlosskern",
-   "tx": 20,
-   "ty": 8,
-   "dir": "left"
+   "to": "wendeltreppe",
+   "tx": 5,
+   "ty": 3,
+   "dir": "down"
   }
  ]
 }

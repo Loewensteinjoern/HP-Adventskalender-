@@ -20,7 +20,7 @@ function loadData() {
   const D = {
     welt: readJson('data/welt.json'), tiles: readJson('data/tiles.json'), objects: readJson('data/objects.json'),
     characters: readJson('data/characters.json'), dialogs: readJson('data/dialogs.json'), quests: readJson('data/quests.json'),
-    musik: readJson('data/musik.json'), puzzles: readJson('data/puzzles.json'), maps: {},
+    musik: readJson('data/musik.json'), puzzles: readJson('data/puzzles.json'), zauber: readJson('data/zauber.json'), maps: {},
   };
   fs.readdirSync(path.join(ROOT, 'data/maps')).filter(f => f.endsWith('.json')).sort()
     .forEach(f => { D.maps[f.replace(/\.json$/, '')] = readJson('data/maps/' + f); });

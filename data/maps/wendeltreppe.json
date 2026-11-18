@@ -1,0 +1,115 @@
+{
+ "name": "Wendeltreppe",
+ "music": "turm",
+ "ambient": {
+  "dark": 0.5,
+  "tint": "24,20,40",
+  "particles": "staub"
+ },
+ "tiles": [
+  "TTTTTTTTTTTT",
+  "TXXXXXXXXXXT",
+  "TXXXXOOXXXXT",
+  "TXeeeeeeeeXT",
+  "TXeeeeeeeeXT",
+  "TXeekkkkeeXT",
+  "TXeekkkkeeXT",
+  "TXeekkkkeeXT",
+  "TXeekkkkeeXT",
+  "<eeeeeeeeeXT",
+  "TXeeeeeeeeXT",
+  "TTTTTTTTTTTT"
+ ],
+ "objects": [
+  {
+   "type": "schiessscharte",
+   "x": 2,
+   "y": 2,
+   "talk": [
+    {
+     "dialog": "schiessscharte"
+    }
+   ]
+  },
+  {
+   "type": "schiessscharte",
+   "x": 9,
+   "y": 2,
+   "talk": [
+    {
+     "dialog": "schiessscharte"
+    }
+   ]
+  },
+  {
+   "type": "wandkerze",
+   "x": 3,
+   "y": 2,
+   "talk": [
+    {
+     "dialog": "wandkerze"
+    }
+   ]
+  },
+  {
+   "type": "wandkerze",
+   "x": 8,
+   "y": 2,
+   "talk": [
+    {
+     "dialog": "wandkerze"
+    }
+   ]
+  },
+  {
+   "type": "kerzen_schwebend",
+   "x": 5,
+   "y": 7
+  },
+  {
+   "type": "wegweiser",
+   "x": 9,
+   "y": 10,
+   "talk": [
+    {
+     "dialog": "wegweiser_turm"
+    }
+   ]
+  }
+ ],
+ "npcs": [
+  {
+   "char": "mats",
+   "x": 8,
+   "y": 6,
+   "dir": "left",
+   "turn": true
+  }
+ ],
+ "doors": [
+  {
+   "x": 0,
+   "y": 9,
+   "to": "schlosskern",
+   "tx": 20,
+   "ty": 8,
+   "dir": "left"
+  },
+  {
+   "x": 5,
+   "y": 2,
+   "to": "uhrenturm",
+   "tx": 1,
+   "ty": 7,
+   "dir": "right"
+  },
+  {
+   "x": 6,
+   "y": 2,
+   "to": "uhrenturm",
+   "tx": 1,
+   "ty": 7,
+   "dir": "right"
+  }
+ ]
+}

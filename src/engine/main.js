@@ -43,7 +43,8 @@ function boot() {
     };
     window.__audio = () => ({ state: AU.ctx ? AU.ctx.state : 'keiner', rate: AU.ctx ? AU.ctx.sampleRate : 0, song: AU.cur ? AU.cur.name : null, fertig: Object.keys(AU.songs) });
     window.__audioRender = async name => { const b = await AU.renderSong(name, 44100), d = b.getChannelData(0), out = new Float32Array(d.length * 2); out.set(d, 0); out.set(d, d.length); return out; };
-    window.__mini = () => (G.mini ? { phase: G.mini.phase, seq: G.mini.seq.slice(), round: G.mini.round } : null);
+    window.__mini = () => (G.mini ? { type: G.mini.type || 'takt', phase: G.mini.phase, seq: G.mini.seq ? G.mini.seq.slice() : [], round: G.mini.round, hour: G.mini.hour, ziel: G.mini.fragen ? (G.mini.fragen[G.mini.round] || {}).stunde : null } : null);
+    window.__pickSpell = z => { UI.sel = G.spells().indexOf(z); return G.mode; };
     window.__teleport = (x, y, d) => { G.enterMap(G.mapId, x, y, d); };
   }
   let hinted = false;

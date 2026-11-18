@@ -241,25 +241,25 @@
   {
    "x": 10,
    "y": 2,
-   "to": "schlosskern",
-   "tx": 10,
-   "ty": 13,
-   "dir": "up"
+   "to": "arkadengang",
+   "tx": 18,
+   "ty": 3,
+   "dir": "left"
   },
   {
    "x": 11,
    "y": 2,
-   "to": "schlosskern",
-   "tx": 11,
-   "ty": 13,
-   "dir": "up"
+   "to": "arkadengang",
+   "tx": 18,
+   "ty": 4,
+   "dir": "left"
   },
   {
    "x": 18,
    "y": 2,
-   "to": "eulenturm",
-   "tx": 5,
-   "ty": 8,
+   "to": "eulenstiege",
+   "tx": 4,
+   "ty": 12,
    "dir": "up"
   }
  ],

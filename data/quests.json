@@ -39,7 +39,7 @@
       },
       {
         "flag": "q02_kerzen",
-        "text": "Zünde die vier singenden Kerzen in der Reihenfolge der Melodie an (A). Die Spieluhr spielt sie dir gern noch einmal vor."
+        "text": "Zünde die vier singenden Kerzen in der Reihenfolge der Melodie an: vor die Kerze stellen, A, den richtigen Zauber wählen."
       }
     ]
   },
@@ -67,7 +67,11 @@
       },
       {
         "flag": "q03_clavis",
-        "text": "Die Briefkapsel ist verschlossen. Frag Prof. Pendel im Uhrenturm (Schlosskern, rechts) nach einem Öffnungszauber."
+        "text": "Die Briefkapsel ist verschlossen. Lass dir von Prof. Pendel im Uhrenturm einen Öffnungszauber zeigen."
+      },
+      {
+        "flag": "q03_offen",
+        "text": "Öffne Pimpernells Briefkapsel mit dem richtigen Zauber (A bei Pimpernell)."
       }
     ]
   },
@@ -87,11 +91,11 @@
       },
       {
         "flag": "q04_eingesetzt",
-        "text": "Setz das Zahnrad ins Uhrwerk ein."
+        "text": "Setz das Zahnrad ins Uhrwerk ein – mit dem richtigen Zauber."
       },
       {
         "flag": "q04_uhrmeister",
-        "text": "Sprich mit dem Uhrmeister und halte seinen Takt."
+        "text": "Sprich mit dem Uhrmeister und löse seine Uhr-Rätsel."
       }
     ]
   },

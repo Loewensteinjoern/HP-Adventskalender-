@@ -403,48 +403,48 @@
   {
    "x": 10,
    "y": 2,
-   "to": "grosse_halle",
-   "tx": 11,
-   "ty": 14,
+   "to": "vorhalle",
+   "tx": 6,
+   "ty": 8,
    "dir": "up"
   },
   {
    "x": 11,
    "y": 2,
-   "to": "grosse_halle",
-   "tx": 12,
-   "ty": 14,
+   "to": "vorhalle",
+   "tx": 7,
+   "ty": 8,
    "dir": "up"
   },
   {
    "x": 0,
    "y": 8,
-   "to": "bibliothek",
-   "tx": 18,
-   "ty": 7,
-   "dir": "left"
+   "to": "treppenhaus",
+   "tx": 7,
+   "ty": 14,
+   "dir": "up"
   },
   {
    "x": 21,
    "y": 8,
-   "to": "uhrenturm",
+   "to": "wendeltreppe",
    "tx": 1,
-   "ty": 7,
+   "ty": 9,
    "dir": "right"
   },
   {
    "x": 10,
    "y": 14,
-   "to": "innenhof",
-   "tx": 10,
+   "to": "arkadengang",
+   "tx": 2,
    "ty": 3,
    "dir": "down"
   },
   {
    "x": 11,
    "y": 14,
-   "to": "innenhof",
-   "tx": 11,
+   "to": "arkadengang",
+   "tx": 3,
    "ty": 3,
    "dir": "down"
   },

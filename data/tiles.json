@@ -74,5 +74,23 @@
   },
   "h": {
     "paint": "geheimgang"
+  },
+  "b": {
+    "paint": "gelaender",
+    "solid": true
+  },
+  "e": {
+    "paint": "steinstufe"
+  },
+  "k": {
+    "paint": "saeule_rund",
+    "solid": true
+  },
+  "A": {
+    "paint": "arkade",
+    "solid": true
+  },
+  "E": {
+    "paint": "schneestufe"
   }
 }

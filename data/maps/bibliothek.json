@@ -304,10 +304,10 @@
   {
    "x": 19,
    "y": 7,
-   "to": "schlosskern",
-   "tx": 1,
-   "ty": 8,
-   "dir": "right"
+   "to": "treppenhaus",
+   "tx": 7,
+   "ty": 3,
+   "dir": "down"
   }
  ]
 }

@@ -21,6 +21,7 @@ const SHOTS = process.argv[2] || null;
   const flags = o => page.evaluate(f => window.__flags(f), o);
   const shot = async n => { if (SHOTS) await page.locator('#c').screenshot({ path: path.join(SHOTS, n + '.png') }); };
   const expect = async (flag, what) => { const s = await st(); if (!s.flags[flag]) errors.push(what + ' (Flag ' + flag + ' fehlt)'); };
+  const cast = async z => { await key('Enter', 1, 200); if ((await st()).mode !== 'zauber') { errors.push('Zaubermenü öffnet sich nicht'); return; } await page.evaluate(n => window.__pickSpell(n), z); await key('Enter', 1, 200); };
   const sniffAndFind = async () => { await key('x'); await wait(1300); if (!(await st()).trail) errors.push('Keine Spur beim Schnüffeln'); await talk(); };
 
   await page.goto(FILE + '?testtag=4'); await wait(500);
@@ -40,9 +41,9 @@ const SHOTS = process.argv[2] || null;
   await go('grosse_halle', 7, 5, 'up'); await talk(); await expect('zauber_luxa', 'Q02: Luxa');
   await go('grosse_halle', 16, 5, 'up'); await talk(); await expect('q02_melodie', 'Q02: Spieluhr'); await wait(400); await shot('22_demo');
   const kx = { 1: 5, 2: 9, 3: 14, 4: 18 };
-  await go('grosse_halle', kx[1], 10, 'up'); await talk();
+  await go('grosse_halle', kx[1], 10, 'up'); await cast('luxa'); await drain();
   if ((await st()).flags.kerzen_1) errors.push('Q02: falsche Kerze wurde nicht zurückgesetzt');
-  for (const n of [2, 4, 1, 3]) { await go('grosse_halle', kx[n], 10, 'up'); await key('Enter', 1, 200); }
+  for (const n of [2, 4, 1, 3]) { await go('grosse_halle', kx[n], 10, 'up'); await cast('luxa'); }
   await drain(); await expect('q02_kerzen', 'Q02: Kerzenrätsel'); await shot('23_kerzen_an');
 
   // Q03: Eule, drei Erinnerungen, Pendel
@@ -52,21 +53,35 @@ const SHOTS = process.argv[2] || null;
   await go('bibliothek', 11, 5, 'up'); await talk(); await expect('q03_tinte', 'Q03: Tinte'); await shot('26_bibliothek');
   await go('eulenturm', 5, 5, 'up'); await talk(); await expect('q03_erinnert', 'Q03: erinnert');
   await go('uhrenturm', 3, 6, 'up'); await talk(); await expect('q03_clavis', 'Q03: Clavis'); await drain();
+  await go('eulenturm', 5, 5, 'up'); await cast('luxa'); await drain();
+  if ((await st()).flags.q03_offen) errors.push('Q03: falscher Zauber hat die Kapsel geöffnet');
+  await cast('clavis'); await drain(); await expect('q03_offen', 'Q03: Kapsel mit Clavis'); await drain();
+  await go('uhrenturm', 3, 6, 'up');
 
   // Q04: Pendel, Geheimgang, Zahnrad, Uhrwerk, Uhrmeister
   await talk(); await expect('q04_pendel', 'Q04: Pendel');
   await go('uhrenturm', 9, 7, 'right'); await sniffAndFind(); await expect('geheimgang_uhr', 'Q04: Geheimgang');
   await key('ArrowRight', 3, 260); await key('ArrowRight', 1, 200); await shot('27_geheimgang'); await talk(); await expect('q04_zahnrad', 'Q04: Zahnrad');
-  await go('uhrenturm', 6, 6, 'up'); await talk(); await expect('q04_eingesetzt', 'Q04: eingesetzt');
+  await go('uhrenturm', 6, 6, 'up'); await cast('restauro'); await drain(); await expect('q04_eingesetzt', 'Q04: eingesetzt');
   await go('uhrenturm', 9, 5, 'up'); await key('Enter', 1, 150); await drain();
   for (let r = 0; r < 3; r++) {
-    for (let i = 0; i < 60; i++) { const m = await page.evaluate(() => window.__mini()); if (m && m.phase === 'input') break; await wait(150); }
-    const m = await page.evaluate(() => window.__mini()); if (!m) { errors.push('Q04: Minispiel nicht gestartet'); break; }
-    if (r === 0) await shot('28_takt');
-    for (const d of m.seq) await key({ up: 'ArrowUp', down: 'ArrowDown', left: 'ArrowLeft', right: 'ArrowRight' }[d], 1, 150);
-    await wait(1300);
+    let m = null;
+    for (let i = 0; i < 30; i++) { m = await page.evaluate(() => window.__mini()); if (m && m.round === r && m.phase === 'frage') break; await wait(150); }
+    if (!m || m.type !== 'uhr') { errors.push('Q04: Uhr-Rätsel nicht gestartet'); break; }
+    if (r === 0) { await key('Enter', 1, 300); if ((await page.evaluate(() => window.__mini())).phase !== 'falsch') errors.push('Q04: falsche Uhrzeit wurde akzeptiert'); await wait(1800); await shot('28_uhr'); }
+    for (let i = 0; i < 12 && (await page.evaluate(() => window.__mini())).hour !== m.ziel; i++) await key('ArrowRight', 1, 90);
+    await key('Enter', 1, 200); await wait(1900);
   }
   await drain(); await drain(); await expect('q04_uhrmeister', 'Q04: Uhrmeister');
+
+  // Übergänge: zu Fuß durch alle Verbindungswege
+  const walk = async (m, x, y, d, ziel) => { await go(m, x, y, d); await key({ up: 'ArrowUp', down: 'ArrowDown', left: 'ArrowLeft', right: 'ArrowRight' }[d], 1, 900); const s2 = await st(); if (s2.map !== ziel) errors.push('Weg ' + m + ' → ' + ziel + ' fehlt (gelandet in ' + s2.map + ')'); };
+  await walk('schlosskern', 1, 8, 'left', 'treppenhaus'); await shot('30_treppenhaus');
+  await walk('treppenhaus', 7, 3, 'up', 'bibliothek'); await walk('bibliothek', 18, 7, 'right', 'treppenhaus');
+  await walk('schlosskern', 20, 8, 'right', 'wendeltreppe'); await shot('31_wendeltreppe'); await walk('wendeltreppe', 5, 3, 'up', 'uhrenturm');
+  await walk('schlosskern', 10, 13, 'down', 'arkadengang'); await shot('32_arkadengang'); await walk('arkadengang', 18, 3, 'right', 'innenhof');
+  await walk('schlosskern', 10, 3, 'up', 'vorhalle'); await shot('33_vorhalle'); await walk('vorhalle', 6, 3, 'up', 'grosse_halle');
+  await walk('innenhof', 18, 3, 'up', 'eulenstiege'); await shot('34_eulenstiege'); await walk('eulenstiege', 4, 3, 'up', 'eulenturm');
 
   // Nebenaufgabe Knarz
   await go('schlosskern', 7, 13, 'up'); await talk(); await expect('knarz_auftrag', 'Knarz: Auftrag');

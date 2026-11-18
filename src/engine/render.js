@@ -56,17 +56,24 @@ const R = {
   },
   objFrame(o, time) { const t = objType(o); return t.frames ? Math.floor(time * (t.fps || 4) + o.x * 0.7) % t.frames : 0; },
 
-  camera(px, py, m) {
+  camera(px, py, m, focus, mid) {
     const mw = mapW(m) * TILE, mh = mapH(m) * TILE;
-    this.cam.x = mw <= VIEW_W ? -Math.round((VIEW_W - mw) / 2) : Math.round(clamp(px + 16 - VIEW_W / 2, 0, mw - VIEW_W));
-    this.cam.y = mh <= VIEW_H ? -Math.round((VIEW_H - mh) / 2) : Math.round(clamp(py + 16 - VIEW_H / 2, 0, mh - VIEW_H));
+    const fx = focus ? focus[0] * TILE : px, fy = focus ? focus[1] * TILE : py;
+    const tx = mw <= VIEW_W ? -(VIEW_W - mw) / 2 : clamp(fx + 16 - VIEW_W / 2, 0, mw - VIEW_W);
+    const ty = mh <= VIEW_H ? -(VIEW_H - mh) / 2 : clamp(fy + 16 - VIEW_H / 2, 0, mh - VIEW_H);
+    // Bei Kartenwechsel springen, sonst bei Vorführungen sanft schwenken
+    if (this.camMap !== mid || (!focus && !this.camPan)) { this.camF = { x: tx, y: ty }; }
+    else { this.camF.x += (tx - this.camF.x) * 0.08; this.camF.y += (ty - this.camF.y) * 0.08; }
+    this.camPan = !!focus || (this.camPan && (Math.abs(tx - this.camF.x) > 1 || Math.abs(ty - this.camF.y) > 1));
+    this.camMap = mid;
+    this.cam.x = Math.round(this.camF.x); this.cam.y = Math.round(this.camF.y);
   },
 
   // --- Welt zeichnen ---
   world(G, time) {
     const c = this.ctx, m = DATA.maps[G.mapId], ctx = G.ctx(), cam = this.cam;
     const pp = G.renderPos(G.player);
-    this.camera(pp.x, pp.y, m);
+    this.camera(pp.x, pp.y, m, G.demo ? DATA.puzzles[G.demo.id].focus : null, G.mapId);
     c.fillStyle = '#0c0810'; c.fillRect(0, 0, VIEW_W, VIEW_H);
     c.drawImage(this.background(G.mapId), -cam.x, -cam.y);
     const objs = visibleObjs(m, ctx);

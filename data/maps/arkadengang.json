@@ -1,0 +1,169 @@
+{
+ "name": "Arkadengang",
+ "music": "hof",
+ "ambient": {
+  "dark": 0.38,
+  "tint": "20,30,70",
+  "particles": "schnee"
+ },
+ "tiles": [
+  "TTTTTTTTTTTTTTTTTTTT",
+  "TKKKKKKKKKKKKKKKKKKT",
+  "TKOOKKKKKKKKKKKKKKKT",
+  "TMMMMMMMMMMMMMMMMMM>",
+  "TMMMMMMMMMMMMMMMMMM>",
+  "TMMMMMMMMMMMMMMMMMMT",
+  "TAAAAAAAAAAAAAAAAAAT",
+  "TnnnnnnnnnnnnnnnnnnT",
+  "TYYYYYYYYYYYYYYYYYYT"
+ ],
+ "objects": [
+  {
+   "type": "garderobe",
+   "x": 5,
+   "y": 3,
+   "talk": [
+    {
+     "dialog": "garderobe"
+    }
+   ]
+  },
+  {
+   "type": "banner_haus",
+   "x": 8,
+   "y": 1,
+   "v": "bernfuchs",
+   "talk": [
+    {
+     "dialog": "banner_bernfuchs"
+    }
+   ]
+  },
+  {
+   "type": "banner_haus",
+   "x": 11,
+   "y": 1,
+   "v": "eisvogel",
+   "talk": [
+    {
+     "dialog": "banner_eisvogel"
+    }
+   ]
+  },
+  {
+   "type": "girlande",
+   "x": 13,
+   "y": 1
+  },
+  {
+   "type": "wandkerze",
+   "x": 7,
+   "y": 2,
+   "talk": [
+    {
+     "dialog": "wandkerze"
+    }
+   ]
+  },
+  {
+   "type": "wandkerze",
+   "x": 16,
+   "y": 2,
+   "talk": [
+    {
+     "dialog": "wandkerze"
+    }
+   ]
+  },
+  {
+   "type": "bank",
+   "x": 9,
+   "y": 5,
+   "talk": [
+    {
+     "dialog": "bank"
+    }
+   ]
+  },
+  {
+   "type": "schneehaufen",
+   "x": 4,
+   "y": 5,
+   "talk": [
+    {
+     "dialog": "schneehaufen"
+    }
+   ]
+  },
+  {
+   "type": "schneehaufen",
+   "x": 16,
+   "y": 5,
+   "talk": [
+    {
+     "dialog": "schneehaufen"
+    }
+   ]
+  },
+  {
+   "type": "pflanze",
+   "x": 18,
+   "y": 5,
+   "talk": [
+    {
+     "dialog": "pflanze"
+    }
+   ]
+  }
+ ],
+ "npcs": [
+  {
+   "char": "oskar",
+   "x": 12,
+   "y": 4,
+   "dir": "left",
+   "wander": 3
+  },
+  {
+   "char": "rotkehlchen",
+   "x": 14,
+   "y": 5,
+   "dir": "left",
+   "wander": 1
+  }
+ ],
+ "doors": [
+  {
+   "x": 2,
+   "y": 2,
+   "to": "schlosskern",
+   "tx": 10,
+   "ty": 13,
+   "dir": "up"
+  },
+  {
+   "x": 3,
+   "y": 2,
+   "to": "schlosskern",
+   "tx": 11,
+   "ty": 13,
+   "dir": "up"
+  },
+  {
+   "x": 19,
+   "y": 3,
+   "to": "innenhof",
+   "tx": 10,
+   "ty": 3,
+   "dir": "down"
+  },
+  {
+   "x": 19,
+   "y": 4,
+   "to": "innenhof",
+   "tx": 11,
+   "ty": 3,
+   "dir": "down"
+  }
+ ]
+}

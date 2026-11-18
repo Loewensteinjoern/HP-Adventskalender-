@@ -135,6 +135,19 @@
     },
     {
      "if": [
+      "quest:Q03",
+      "flag:q03_clavis",
+      "!flag:q03_offen"
+     ],
+     "zauber": "clavis",
+     "dialog": "q03_kapsel_offen",
+     "set": [
+      "q03_offen"
+     ],
+     "sound": "fund"
+    },
+    {
+     "if": [
       "quest:Q03"
      ],
      "dialog": "pimpernell_kapsel"
@@ -162,8 +175,8 @@
   {
    "x": 5,
    "y": 9,
-   "to": "innenhof",
-   "tx": 18,
+   "to": "eulenstiege",
+   "tx": 4,
    "ty": 3,
    "dir": "down"
   }

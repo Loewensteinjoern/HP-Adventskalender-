@@ -232,7 +232,7 @@ const UI = {
     const maxRows = 12; this.scroll = clamp(this.scroll, 0, Math.max(0, lines.length - maxRows));
     lines.slice(this.scroll, this.scroll + maxRows).forEach(([t, col, wgt], i) => R.text(t, 34, 74 + i * 20, { size: 13, color: col, weight: wgt }));
     c.fillStyle = 'rgba(224,154,44,0.4)'; c.fillRect(34, VIEW_H - 54, VIEW_W - 68, 1);
-    const sp = ['luxa', 'clavis', 'restauro', 'advoco', 'flammula', 'levitas', 'custodia'].filter(z => G.save.flags['zauber_' + z]).map(z => z[0].toUpperCase() + z.slice(1));
+    const sp = Object.keys(DATA.zauber).filter(z => G.save.flags['zauber_' + z]).map(z => DATA.zauber[z].name);
     R.text('🐾 Geheimnisse: ' + found + ' von ' + total + '    Fragmente: ' + G.save.fragments.length + ' von 24', 34, VIEW_H - 38, { size: 12, color: '#c8b898' });
     R.text('✦ Zauber: ' + (sp.length ? sp.join(', ') : 'noch keine'), 34, VIEW_H - 22, { size: 12, color: '#c8b898' });
   },
@@ -256,6 +256,7 @@ const UI = {
   // Takt-Rätsel: vier Glocken um ein Zifferblatt
   mini(G, time) {
     const M = G.mini; if (!M) return;
+    if (M.type === 'uhr') return this.uhr(G, M, time);
     const c = R.ctx, cx = VIEW_W / 2, cy = 190;
     c.fillStyle = 'rgba(8,4,12,0.72)'; c.fillRect(0, 0, VIEW_W, VIEW_H);
     R.panel(96, 24, 320, 336);
@@ -278,6 +279,28 @@ const UI = {
       : M.phase === 'ok' ? 'Richtig! Der Uhrmeister nickt.' : 'Daneben – er schlägt den Takt noch einmal.';
     R.text(msg, cx, 318, { size: 13, align: 'center', color: M.phase === 'fail' ? '#ff9a7a' : '#f4ead8', weight: 600 });
     R.text('B: aufgeben (später nochmal versuchen)', cx, 342, { size: 10, align: 'center', color: '#8a8070' });
+  },
+  // Uhr-Rätsel des Uhrmeisters
+  uhr(G, M, time) {
+    const c = R.ctx, p = Pen(c), cx = VIEW_W / 2, cy = 214;
+    c.fillStyle = 'rgba(8,4,12,0.72)'; c.fillRect(0, 0, VIEW_W, VIEW_H);
+    R.panel(40, 16, 432, 352);
+    R.text('Das Rätsel des Uhrmeisters', cx, 42, { size: 16, weight: 700, align: 'center', color: '#ffd36a', serif: true });
+    R.text('Frage ' + (Math.min(M.round, M.fragen.length - 1) + 1) + ' von ' + M.fragen.length, cx, 60, { size: 11, align: 'center', color: '#c8b898' });
+    const q = M.fragen[Math.min(M.round, M.fragen.length - 1)];
+    R.wrap(q.text, 390, 13, 600).forEach((l, i) => R.text(l, cx, 84 + i * 17, { size: 13, align: 'center', color: '#f4ead8', weight: 600 }));
+    p.circ(cx, cy, 70, '#5a4434'); p.circ(cx, cy, 66, '#c8a040'); p.circ(cx, cy, 62, '#f0e6c8');
+    for (let h = 1; h <= 12; h++) {
+      const a = h / 12 * 6.283 - 1.5708, on = h === M.hour;
+      R.text(String(h), cx + Math.cos(a) * 50, cy + Math.sin(a) * 50 + 5, { size: on ? 15 : 12, align: 'center', weight: 700, color: on ? '#b8322a' : '#3a2a1e', shadow: false });
+    }
+    const a = M.hour / 12 * 6.283 - 1.5708;
+    c.strokeStyle = '#b8322a'; c.lineWidth = 5; c.beginPath(); c.moveTo(cx, cy); c.lineTo(cx + Math.cos(a) * 38, cy + Math.sin(a) * 38); c.stroke(); c.lineWidth = 1;
+    c.fillStyle = '#b8322a'; c.beginPath(); c.moveTo(cx + Math.cos(a) * 46, cy + Math.sin(a) * 46); c.lineTo(cx + Math.cos(a + 0.35) * 32, cy + Math.sin(a + 0.35) * 32); c.lineTo(cx + Math.cos(a - 0.35) * 32, cy + Math.sin(a - 0.35) * 32); c.fill();
+    p.circ(cx, cy, 4, '#c8a040');
+    const msg = M.phase === 'ok' ? 'TICK. RICHTIG.' : M.phase === 'falsch' ? 'TICK. FALSCH. DENK. NACH.' : '◀ ▶ Zeiger drehen · A: Uhr stellen';
+    R.text(msg, cx, 316, { size: 13, align: 'center', weight: 700, color: M.phase === 'falsch' ? '#ff9a7a' : M.phase === 'ok' ? '#9ae07a' : '#f4ead8' });
+    R.text('B: aufgeben (später nochmal versuchen)', cx, 340, { size: 10, align: 'center', color: '#8a8070' });
   },
   banner(G, time) {
     const b = G.bannerMsg; if (!b) return;

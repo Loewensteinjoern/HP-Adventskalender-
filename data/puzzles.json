@@ -22,6 +22,26 @@
     "fail": {
       "dialog": "kerzen_falsch"
     },
-    "failSound": "jaul"
+    "failSound": "jaul",
+    "focus": [
+      11.5,
+      8
+    ]
+  },
+  "uhrmeister": {
+    "fragen": [
+      {
+        "text": "Das Frühstück in der Großen Halle beginnt um 7 Uhr. Der Unterricht beginnt zwei Stunden später. Stell meinen Zeiger auf den Unterrichtsbeginn.",
+        "stunde": 9
+      },
+      {
+        "text": "Heute Nacht lief ich rückwärts. Um Mitternacht fing es an, fünf Stunden lief ich zurück. Auf welcher Stunde stand mein Zeiger am Ende?",
+        "stunde": 7
+      },
+      {
+        "text": "Pimpernell fliegt um 3 Uhr los. Sie braucht 4 Stunden ins Dorf, rastet dort 1 Stunde und fliegt genauso lange zurück. Wann ist sie wieder da?",
+        "stunde": 12
+      }
+    ]
   }
 }

@@ -90,6 +90,7 @@ const G = {
     if (DLG.open) { DLG.update(dt); this.moveTick(dt, false); return; }
     if (this.mode === 'menu') return this.updateMenu();
     if (this.mode === 'mini') return this.updateMini(dt);
+    if (this.mode === 'zauber') return this.updateSpell();
     if (this.demo) this.updateDemo();
     this.updateNpcs(dt);
     if (this.mode === 'questlog' || this.mode === 'lied') {
@@ -161,8 +162,16 @@ const G = {
     return DATA.dialogs[id].map(([sp, tx]) => [sp, tx.replace(/\{tage\}/g, String(this.daysLeft())).replace(/\{tag\}/g, String(this.day))]);
   },
   say(id, cb) { DLG.show(this.lines(id), () => { if (cb) cb(); this.next(); }); },
-  runTalk(t) {
+  runTalk(t, cast) {
     if (!t) return;
+    // Zauber nötig: erst das Zaubermenü, nur der richtige Spruch wirkt
+    if (t.zauber && !cast) {
+      const known = this.spells();
+      if (!known.length) return this.say('zauber_keine');
+      this.spellAsk = t; this.mode = 'zauber';
+      UI.sel = Math.max(0, known.indexOf(this.lastSpell)); AU.sfx('menue');
+      return;
+    }
     let id = t.dialog;
     if (Array.isArray(id)) { const opts = id.filter(x => x !== this.lastTalk[id.join()]); id = pickOne(opts.length ? opts : id); this.lastTalk[t.dialog.join()] = id; }
     if (t.sound) AU.sfx(t.sound);
@@ -189,13 +198,28 @@ const G = {
     }
   },
   // --- Takt-Minispiel (Uhrmeister): Schläge merken und nachmachen ---
+  spells() { return Object.keys(DATA.zauber).filter(z => this.save.flags['zauber_' + z]); },
+  updateSpell() {
+    const known = this.spells(), opts = known.length + 1, r = UI.navigate(opts);
+    if (r === null) return;
+    const t = this.spellAsk; this.spellAsk = null; this.mode = 'play';
+    if (r < 0 || r === known.length) return;
+    const z = known[r]; this.lastSpell = z;
+    if (z === t.zauber) { AU.sfx('zauber'); this.castFx = { t0: this.time, z }; this.runTalk(t, true); }
+    else { AU.sfx('zauber'); DLG.show([['charly', DATA.zauber[z].name + '!'], ['', DATA.zauber[z].falsch]], () => this.next()); }
+  },
   startMini(cfg, onWin) {
+    if (cfg.type === 'uhr') {
+      this.mini = { cfg, onWin, type: 'uhr', round: 0, hour: 12, phase: 'frage', t: 0, fragen: DATA.puzzles[cfg.raetsel].fragen };
+      this.mode = 'mini'; return;
+    }
     const dirs = ['up', 'right', 'down', 'left'], seq = [];
     for (let i = 0; i < cfg.rounds[0]; i++) seq.push(pickOne(dirs));
     this.mini = { cfg, onWin, round: 0, seq, phase: 'show', t: -0.6, idx: -1, pos: 0, lit: null, litT: 0 };
     this.mode = 'mini';
   },
   updateMini(dt) {
+    if (this.mini.type === 'uhr') return this.updateUhr(dt);
     const M = this.mini, dirs = ['up', 'right', 'down', 'left'];
     M.t += dt; M.litT -= dt; if (M.litT <= 0) M.lit = null;
     if (IN.take('b') || IN.take('menu')) { this.mini = null; this.mode = 'play'; this.say('takt_abbruch'); return; }
@@ -239,6 +263,19 @@ const G = {
     this.persist();
   },
 
+  // Uhr-Rätsel: Denkaufgabe lesen, Zeiger stellen, mit A bestätigen
+  updateUhr(dt) {
+    const M = this.mini; M.t += dt;
+    if (IN.take('b') || IN.take('menu')) { this.mini = null; this.mode = 'play'; this.say('takt_abbruch'); return; }
+    if (M.phase === 'ok') { if (M.t > 1.6) { M.round++; M.phase = 'frage'; M.t = 0; M.hour = 12; if (M.round >= M.fragen.length) { const cb = M.onWin; this.mini = null; this.mode = 'play'; cb(); } } return; }
+    if (M.phase === 'falsch' && M.t > 1.6) { M.phase = 'frage'; M.t = 0; }
+    if (IN.take('right') || IN.take('up')) { M.hour = M.hour % 12 + 1; AU.sfx('zahnrad'); }
+    if (IN.take('left') || IN.take('down')) { M.hour = (M.hour + 10) % 12 + 1; AU.sfx('zahnrad'); }
+    if (IN.take('a') && M.phase === 'frage') {
+      if (M.hour === M.fragen[M.round].stunde) { M.phase = 'ok'; M.t = 0; AU.sfx('fund'); }
+      else { M.phase = 'falsch'; M.t = 0; AU.sfx('stoss'); }
+    }
+  },
   // --- Belebung: Figuren schauen sich um, laufen ein Stück, sagen etwas ---
   occupied(x, y) {
     const p = this.player;
@@ -377,6 +414,7 @@ const G = {
     if (this.mode === 'questlog') UI.questlog(this);
     if (this.mode === 'lied') UI.lied(this);
     if (this.mode === 'mini') UI.mini(this, time);
+    if (this.mode === 'zauber') UI.list('Welchen Zauber wirkst du?', this.spells().map(z => ({ label: DATA.zauber[z].name + ' – ' + DATA.zauber[z].wirkung })).concat([{ label: 'Abbrechen' }]), time);
     if (this.fade) { R.ctx.fillStyle = 'rgba(8,4,10,' + (1 - Math.abs(this.fade.t - 0.5) * 2).toFixed(3) + ')'; R.ctx.fillRect(0, 0, VIEW_W, VIEW_H); }
     UI.toastDraw(dt);
   },
