@@ -21,7 +21,7 @@
 - Auslieferung wie Anatomie-3d (Pages + Manifest + Apple-Icons), ohne Service Worker, Pages aus `/docs`.
 
 ## Offene Punkte
-1. **Jörn: iPad-Test** – vorher Repo öffentlich stellen, `startpaket` nach `main` übernehmen, Pages einschalten (main, /docs).
+1. **Jörn: iPad-Test.** Repo ist öffentlich, `main` = `startpaket` (18.11.). Pages muss Jörn einschalten (Settings → Pages → main, /docs). Adresse: https://loewensteinjoern.github.io/HP-Adventskalender-/
 2. Freigabe Grafikmaß und Look.
 3. iPhone quer: Bild ist wegen der Höhe nur 2-fach skaliert (klein, aber spielbar).
 
