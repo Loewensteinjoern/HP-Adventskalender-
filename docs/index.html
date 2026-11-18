@@ -14,7 +14,7 @@
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <title>Die Reise zum Winterphönix</title>
-<!-- Version 0.2 · Stufe 2 · gebaut 2026-11-18 17:52 UTC · Entwickelt und erstellt von Jörn Löwenstein mit Hilfe von künstlicher Intelligenz (Claude) -->
+<!-- Version 0.2 · Stufe 2 · gebaut 2026-11-18 17:57 UTC · Entwickelt und erstellt von Jörn Löwenstein mit Hilfe von künstlicher Intelligenz (Claude) -->
 <style>
 html,body{margin:0;height:100%;background:#120c1c;overflow:hidden;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}
 body{position:fixed;inset:0;box-sizing:border-box;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
@@ -1748,6 +1748,12 @@ const AU = {
     try { m.g.gain.cancelScheduledValues(t); m.g.gain.setValueAtTime(m.g.gain.value, t); m.g.gain.linearRampToValueAtTime(0, t + 0.5); m.src.stop(t + 0.55); } catch (e) {}
   },
 
+  note(n) { if (!this.ctx || !this.on || this.failed) return; const f = noteFreq(n); if (f) this.tone('glocke', f, this.ctx.currentTime + 0.01, 1.2, 0.3, this.sfxBus); },
+  tick(dir) {
+    if (!this.ctx || !this.on || this.failed) return;
+    const t = this.ctx.currentTime + 0.01, f = { up: 'G5', right: 'E5', down: 'C5', left: 'A4' }[dir];
+    this.noiseBurst(t, 0.05, 0.4, 3200, 3); this.tone('glocke', noteFreq(f), t, 1, 0.28, this.sfxBus);
+  },
   // --- Geräusche ---
   sfx(name) {
     if (!this.ctx || !this.on || this.failed) return;

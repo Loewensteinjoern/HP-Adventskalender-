@@ -153,6 +153,12 @@ const AU = {
     try { m.g.gain.cancelScheduledValues(t); m.g.gain.setValueAtTime(m.g.gain.value, t); m.g.gain.linearRampToValueAtTime(0, t + 0.5); m.src.stop(t + 0.55); } catch (e) {}
   },
 
+  note(n) { if (!this.ctx || !this.on || this.failed) return; const f = noteFreq(n); if (f) this.tone('glocke', f, this.ctx.currentTime + 0.01, 1.2, 0.3, this.sfxBus); },
+  tick(dir) {
+    if (!this.ctx || !this.on || this.failed) return;
+    const t = this.ctx.currentTime + 0.01, f = { up: 'G5', right: 'E5', down: 'C5', left: 'A4' }[dir];
+    this.noiseBurst(t, 0.05, 0.4, 3200, 3); this.tone('glocke', noteFreq(f), t, 1, 0.28, this.sfxBus);
+  },
   // --- Geräusche ---
   sfx(name) {
     if (!this.ctx || !this.on || this.failed) return;
