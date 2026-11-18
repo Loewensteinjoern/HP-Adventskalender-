@@ -1,6 +1,7 @@
 # STATUS
 
 ## Stand (18.11.2026)
+- **S1 erledigt:** `plan/STORY_BIBEL_V2.md` geschrieben (nur Planung, kein Code) – wartet auf Jörns Freigabe. Inhalt: Raureif braucht Charly (Wendung Woche 2) und wird am Ende erlöst; Jörns Geheimnis = Spieluhr mit Nordwind-Melodie und Gravur (löst Phase 3 des Raureif-Kampfs); Haken für alle 24 Tage; 14 Nebenquests; Diego-Geheimnisse je Gebiet; Kampfwerte und Gegnertabelle; Fragment 23 neu.
 - **Stufe 2 gebaut** (Version 0.2), wartet auf Jörns iPad-Test.
 - Neue Gebiete: Schlosskern (Drehkreuz), Große Halle, Bibliothek, Innenhof (Schnee), Eulenturm, Uhrenturm. Kellertreppe öffnet sich ab 1.12.
 - Quests Q01–Q04 vollständig spielbar, je ein Winterfragment. Nebenaufgabe „Knarz’ Schlüsselbund“ (ab Tag 1).
@@ -28,8 +29,9 @@
 - Auslieferung wie Anatomie-3d (Pages + Manifest + Apple-Icons), ohne Service Worker, Pages aus `/docs`.
 
 ## Offene Punkte
-1. **Jörn: iPad-Test.** Repo ist öffentlich, `main` = `startpaket` (18.11.). Pages muss Jörn einschalten (Settings → Pages → main, /docs). Adresse: https://loewensteinjoern.github.io/HP-Adventskalender-/
-2. iPhone quer: Bild ist wegen der Höhe nur 2-fach skaliert (klein, aber spielbar).
+1. **Jörn: Story-Bibel V2 freigeben** (Abschnitt 10 dort) und den Satz für die Gravur der Spieluhr nennen.
+2. **Jörn: iPad-Test.** Repo ist öffentlich, `main` = `startpaket` (18.11.). Pages muss Jörn einschalten (Settings → Pages → main, /docs). Adresse: https://loewensteinjoern.github.io/HP-Adventskalender-/
+3. iPhone quer: Bild ist wegen der Höhe nur 2-fach skaliert (klein, aber spielbar).
 
 ## Nächster Schritt
-**Verbindlich ist jetzt `plan/FAHRPLAN.md`** (ersetzt den Stufenplan ab Stufe 3). Nächste Sitzung: **S1 Story-Bibel V2** (bis 20.11.) – spürbare Bedrohung durch den Winterkönig ab Tag 1, Jörns eigene Geschichte, Tageshaken, Nebenquests, Erkundung, Kampfdesign. Danach S2 Kampfsystem + Schlosskarte, S3 Q01–Q04 neu erzählt, S4 Q05–Q07, S5 Generalprobe 30.11.
+**S2 Kampfsystem + Schlosskarte** (bis 23.11.) nach `plan/FAHRPLAN.md` und `plan/STORY_BIBEL_V2.md` Abschnitt 8 und 9. Danach S3 Q01–Q04 neu erzählt, S4 Q05–Q07, S5 Generalprobe 30.11.
