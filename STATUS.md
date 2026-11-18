@@ -32,4 +32,4 @@
 2. iPhone quer: Bild ist wegen der Höhe nur 2-fach skaliert (klein, aber spielbar).
 
 ## Nächster Schritt
-Stufe 3 (bis 30.11.): Generalprobe auf iPad und iPhone, Abnahme mit Sicherheits-Check. Danach Stufe 4: Q05 (Sternenuhr, Frieda) ff., Friedas Körner als Nebenquest.
+**Verbindlich ist jetzt `plan/FAHRPLAN.md`** (ersetzt den Stufenplan ab Stufe 3). Nächste Sitzung: **S1 Story-Bibel V2** (bis 20.11.) – spürbare Bedrohung durch den Winterkönig ab Tag 1, Jörns eigene Geschichte, Tageshaken, Nebenquests, Erkundung, Kampfdesign. Danach S2 Kampfsystem + Schlosskarte, S3 Q01–Q04 neu erzählt, S4 Q05–Q07, S5 Generalprobe 30.11.

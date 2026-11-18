@@ -9,7 +9,7 @@ Quelle: `plan/STARTPAKET.md`, Abschnitt 1 (verbindlich). Weltlexikon und Haustie
 
 ## Arbeitsweise
 - Sitzungsstart: `STATUS.md` lesen. Nichts fragen, was dort oder in `plan/` steht.
-- **Eine Sitzung = eine Stufe** aus dem Stufenplan.
+- **Eine Sitzung = ein Schritt** aus `plan/FAHRPLAN.md` (verbindlicher Zeitplan; ersetzt den Stufenplan im Startpaket ab Stufe 3).
 - Sitzungsende: bauen → Tests → Commit → `STATUS.md` aktualisieren (Stand, Entscheidungen, offene Punkte, nächster Schritt).
 - Bericht an Jörn: Ergebnis zuerst, je Punkt eine Zeile, was er testen soll, höchstens eine Frage. Kurz, er liest am Handy.
 
