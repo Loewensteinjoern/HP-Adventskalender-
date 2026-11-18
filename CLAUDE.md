@@ -38,6 +38,13 @@ Quelle: `plan/STARTPAKET.md`, Abschnitt 1 (verbindlich). Weltlexikon und Haustie
 - Abweichend von Anatomie-3d: **kein `sw.js`**, Pages aus `/docs` statt Wurzel.
 - Repo ist vorerst privat → vor dem ersten iPad-Test Jörn erinnern: Repo öffentlich stellen, Pages einschalten (main, /docs).
 
+## Modelle und Nutzungslimit (Entscheidung Jörn, 18.11.)
+- Ziel: Kosten und Nutzungslimit schonen.
+- **Stufe 1–3 (Motor, Generalprobe):** Opus baut selbst, ohne Hilfs-Agenten.
+- **Stufe 4 (Updates im Dezember):** Opus plant jedes Update knapp (Auftrag mit Karten, Quests, Dialogen, Tests) und prüft am Ende. Inhalte (JSON-Daten, Dialoge, Karten) schreibt ein Sonnet-Agent. Haiku nur für rein mechanische Aufgaben (z. B. Umbenennen, Tests laufen lassen).
+- Ein Hilfs-Agent bekommt immer: `CLAUDE.md`, `STATUS.md`, den Abschnitt der Story-Bibel und den konkreten Auftrag. Ergebnis gilt erst, wenn alle Tests grün sind und Opus es gesehen hat.
+- Sparsam arbeiten: große Dateien nicht mehrfach lesen, nur gezielt suchen, kurze Berichte.
+
 ## Tests vor jedem Push
 - Datenprüfung: Jede Karte ist erreichbar, jede Tür hat ein Ziel, jede Quest ist abschließbar, jeder Dialog-Verweis existiert.
 - Spielstand: Ein alter Spielstand übersteht das Update (Migrationstest mit gutem und kaputtem Beispiel).

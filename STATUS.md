@@ -11,6 +11,7 @@
 - Zauber-Reihenfolge: Luxa Q02, Clavis Q03, Restauro Q04, Advoco Q08, Levitas Q09, Flammula Q11, Custodia Q15, Phoenix Hiemis Q22.
 - Questtitel angepasst: Q14 „Die Prüfung der vier Häuser“, Q17 „Die Karte des Baumeisters“, Q18 „Das Eis unter Schneeweiler“.
 - Glutberg-Vorlage (https://claude.ai/artifact/B31G6yek3y8CZfhDK3Tyt1) ist lesbar; Technik-Notizen stehen in Masterplan V4, Abschnitt 18. Nichts davon liegt im Repo.
+- Modelle: Stufe 1–3 Opus allein; ab Stufe 4 plant/prüft Opus, Sonnet-Agent schreibt Inhalte (siehe CLAUDE.md).
 - Auslieferung wie Anatomie-3d (Pages + Manifest + Apple-Icons), aber ohne Service Worker, Pages aus `/docs`.
 
 ## Offene Punkte
