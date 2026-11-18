@@ -354,7 +354,29 @@
       "knarz_2"
      ]
     }
-   ]
+   ],
+   "turn": true
+  },
+  {
+   "char": "mats",
+   "x": 14,
+   "y": 6,
+   "dir": "left",
+   "wander": 3
+  },
+  {
+   "char": "ida",
+   "x": 3,
+   "y": 5,
+   "dir": "down",
+   "wander": 2
+  },
+  {
+   "char": "kater",
+   "x": 18,
+   "y": 12,
+   "dir": "left",
+   "wander": 3
   }
  ],
  "secrets": [

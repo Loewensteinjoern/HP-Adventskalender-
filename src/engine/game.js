@@ -62,7 +62,7 @@ const G = {
   banner(text) { this.bannerMsg = { text, t0: this.time }; },
 
   enterMap(mid, x, y, dir) {
-    this.mapId = mid;
+    this.mapId = mid; this.bubble = null;
     this.player = { x, y, fx: x, fy: y, dir, t: 1, moving: false, par: 0 };
     const back = DIRS[dir] ? [-DIRS[dir][0], -DIRS[dir][1]] : [0, 1], m = DATA.maps[mid];
     let bx = x, by = y;
@@ -91,6 +91,7 @@ const G = {
     if (this.mode === 'menu') return this.updateMenu();
     if (this.mode === 'mini') return this.updateMini(dt);
     if (this.demo) this.updateDemo();
+    this.updateNpcs(dt);
     if (this.mode === 'questlog' || this.mode === 'lied') {
       if (IN.take('up')) UI.scroll--; if (IN.take('down')) UI.scroll++;
       if (IN.take('a') || IN.take('b') || IN.take('menu')) { AU.sfx('zurueck'); this.mode = 'menu'; }
@@ -238,6 +239,37 @@ const G = {
     this.persist();
   },
 
+  // --- Belebung: Figuren schauen sich um, laufen ein Stück, sagen etwas ---
+  occupied(x, y) {
+    const p = this.player;
+    return (p.x === x && p.y === y) || (p.fx === x && p.fy === y) || this.followers.some(f => (f.x === x && f.y === y) || (f.fx === x && f.fy === y));
+  },
+  updateNpcs(dt) {
+    const m = DATA.maps[this.mapId], ctx = this.ctx(), list = visibleNpcs(m, ctx);
+    list.forEach(n => {
+      if (n.hx === undefined) { n.hx = n.x; n.hy = n.y; n.fx = n.x; n.fy = n.y; n.t = 1; n.par = 0; n.cd = 1 + Math.random() * 3; }
+      if (n.moving) { n.t += dt / (STEP_TIME * 2); if (n.t >= 1) { n.t = 1; n.moving = false; n.fx = n.x; n.fy = n.y; } return; }
+      if (n.pose === 'schlaf') return;
+      n.cd -= dt; if (n.cd > 0) return;
+      n.cd = 1.4 + Math.random() * 2.8;
+      if (n.wander) {
+        const d = pickOne(Object.keys(DIRS)), nx = n.x + DIRS[d][0], ny = n.y + DIRS[d][1];
+        n.dir = d;
+        if (Math.random() < 0.3 || Math.abs(nx - n.hx) + Math.abs(ny - n.hy) > n.wander) return;
+        if (blockedAt(m, nx, ny, ctx) || doorAt(m, nx, ny) || this.occupied(nx, ny) || (m.secrets || []).some(q => q.x === nx && q.y === ny)) return;
+        n.fx = n.x; n.fy = n.y; n.x = nx; n.y = ny; n.t = 0; n.moving = true; n.par ^= 1;
+      } else if (n.turn) n.dir = pickOne(Array.isArray(n.turn) ? n.turn : Object.keys(DIRS));
+    });
+    // Sprechblasen
+    this.bubbleCd = (this.bubbleCd || 3) - dt;
+    if (this.bubble && this.time - this.bubble.t0 > 3.2) this.bubble = null;
+    if (this.bubbleCd <= 0 && !this.bubble) {
+      this.bubbleCd = 3.5 + Math.random() * 5;
+      const pool = list.filter(n => (DATA.characters[n.char].blasen || []).length).map(n => ({ e: n, ch: n.char }))
+        .concat(this.followers.filter(f => (DATA.characters[f.char].blasen || []).length).map(f => ({ e: f, ch: f.char })));
+      if (pool.length) { const w = pickOne(pool); this.bubble = { e: w.e, text: pickOne(DATA.characters[w.ch].blasen), t0: this.time }; }
+    }
+  },
   // Vorführung eines Rätsels: Töne nacheinander, passende Objekte leuchten
   updateDemo() {
     const D = this.demo, P = DATA.puzzles[D.id], i = Math.floor((this.time - D.t0) / 0.75);

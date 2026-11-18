@@ -17,7 +17,7 @@ const DLG = {
     if (!this.open) return;
     const before = Math.floor(this.shown);
     this.shown = Math.min(this.pageLen(), this.shown + dt * 55);
-    if (Math.floor(this.shown) > before && Math.floor(this.shown) % 3 === 0) AU.sfx('blip');
+    if (Math.floor(this.shown) > before && Math.floor(this.shown) % 5 === 0) AU.sfx('blip');
     if (IN.take('a') || IN.take('b')) {
       if (this.shown < this.pageLen()) { this.shown = this.pageLen(); return; }
       this.idx++; this.shown = 0;

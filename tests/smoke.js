@@ -76,6 +76,16 @@ async function run() {
   await page.goto(FILE + '?testtag=0'); await page.waitForTimeout(500);
   await shot('10_titel_vorher');
 
+  // Musik: nicht übersteuert, keine Knackser, hörbar
+  await page.goto(FILE + '?testtag=1'); await page.waitForTimeout(300);
+  for (const song of ['kamin', 'titel', 'flur', 'schloss', 'halle', 'hof', 'turm']) {
+    const r = await page.evaluate(n => window.__audioCheck(n), song);
+    if (r.peak > 0.95) errors.push('Musik ' + song + ' übersteuert (Spitze ' + r.peak.toFixed(2) + ')');
+    if (r.jump > 0.08) errors.push('Musik ' + song + ' knackt (Sprung ' + r.jump.toFixed(3) + ')');
+    if (r.rms < 0.02) errors.push('Musik ' + song + ' zu leise (' + r.rms.toFixed(3) + ')');
+    console.log('  Musik ' + song + ': Spitze ' + r.peak.toFixed(2) + ', Sprung ' + r.jump.toFixed(3) + ', Pegel ' + r.rms.toFixed(3));
+  }
+
   // 3) iPhone quer und hoch
   const ph = await browser.newPage({ viewport: { width: 844, height: 390 }, deviceScaleFactor: 3, hasTouch: true });
   ph.on('pageerror', e => errors.push('iPhone: ' + e));

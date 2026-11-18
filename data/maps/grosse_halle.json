@@ -27,16 +27,6 @@
  "objects": [
   {
    "type": "fenster_hoch",
-   "x": 2,
-   "y": 1,
-   "talk": [
-    {
-     "dialog": "fenster_halle"
-    }
-   ]
-  },
-  {
-   "type": "fenster_hoch",
    "x": 6,
    "y": 1,
    "talk": [
@@ -56,18 +46,8 @@
    ]
   },
   {
-   "type": "fenster_hoch",
-   "x": 20,
-   "y": 1,
-   "talk": [
-    {
-     "dialog": "fenster_halle"
-    }
-   ]
-  },
-  {
    "type": "banner_haus",
-   "x": 4,
+   "x": 8,
    "y": 1,
    "v": "bernfuchs",
    "talk": [
@@ -100,7 +80,7 @@
   },
   {
    "type": "banner_haus",
-   "x": 19,
+   "x": 15,
    "y": 1,
    "v": "sternbaer",
    "talk": [
@@ -407,6 +387,155 @@
      "val": 4
     }
    ]
+  },
+  {
+   "type": "kamin",
+   "x": 3,
+   "y": 1,
+   "talk": [
+    {
+     "dialog": "kamin_halle"
+    }
+   ]
+  },
+  {
+   "type": "kamin",
+   "x": 18,
+   "y": 1,
+   "talk": [
+    {
+     "dialog": "kamin_halle"
+    }
+   ]
+  },
+  {
+   "type": "statue",
+   "x": 1,
+   "y": 6,
+   "v": "eule",
+   "talk": [
+    {
+     "dialog": "statue_eule"
+    }
+   ]
+  },
+  {
+   "type": "statue",
+   "x": 22,
+   "y": 6,
+   "v": "fuchs",
+   "talk": [
+    {
+     "dialog": "statue_fuchs"
+    }
+   ]
+  },
+  {
+   "type": "statue",
+   "x": 1,
+   "y": 10,
+   "v": "ritter",
+   "talk": [
+    {
+     "dialog": "statue_ritter"
+    }
+   ]
+  },
+  {
+   "type": "statue",
+   "x": 22,
+   "y": 10,
+   "v": "eule",
+   "talk": [
+    {
+     "dialog": "statue_eule"
+    }
+   ]
+  },
+  {
+   "type": "teppich",
+   "x": 2,
+   "y": 12
+  },
+  {
+   "type": "sofa_ruecken",
+   "x": 3,
+   "y": 13,
+   "talk": [
+    {
+     "dialog": "sofa"
+    }
+   ]
+  },
+  {
+   "type": "sessel",
+   "x": 2,
+   "y": 13,
+   "talk": [
+    {
+     "dialog": "sessel"
+    }
+   ]
+  },
+  {
+   "type": "sessel",
+   "x": 6,
+   "y": 13,
+   "talk": [
+    {
+     "dialog": "sessel"
+    }
+   ]
+  },
+  {
+   "type": "buffet",
+   "x": 15,
+   "y": 13,
+   "talk": [
+    {
+     "dialog": "buffet"
+    }
+   ]
+  },
+  {
+   "type": "tannenbaum",
+   "x": 20,
+   "y": 13,
+   "talk": [
+    {
+     "dialog": "tannenbaum"
+    }
+   ]
+  },
+  {
+   "type": "tannenbaum",
+   "x": 8,
+   "y": 13,
+   "talk": [
+    {
+     "dialog": "tannenbaum"
+    }
+   ]
+  },
+  {
+   "type": "pflanze",
+   "x": 1,
+   "y": 14,
+   "talk": [
+    {
+     "dialog": "pflanze"
+    }
+   ]
+  },
+  {
+   "type": "pflanze",
+   "x": 22,
+   "y": 14,
+   "talk": [
+    {
+     "dialog": "pflanze"
+    }
+   ]
   }
  ],
  "npcs": [
@@ -457,7 +586,8 @@
       "lotte_2"
      ]
     }
-   ]
+   ],
+   "turn": true
   },
   {
    "char": "federleicht",
@@ -492,7 +622,8 @@
     {
      "dialog": "federleicht_1"
     }
-   ]
+   ],
+   "turn": true
   },
   {
    "char": "sternwald",
@@ -509,7 +640,47 @@
     {
      "dialog": "sternwald_1"
     }
+   ],
+   "turn": true
+  },
+  {
+   "char": "mats",
+   "x": 4,
+   "y": 10,
+   "dir": "up"
+  },
+  {
+   "char": "juna",
+   "x": 18,
+   "y": 12,
+   "dir": "down",
+   "turn": true
+  },
+  {
+   "char": "pit",
+   "x": 5,
+   "y": 6,
+   "dir": "down",
+   "turn": true,
+   "talk": [
+    {
+     "dialog": "pit_2"
+    }
    ]
+  },
+  {
+   "char": "finn",
+   "x": 14,
+   "y": 12,
+   "dir": "right",
+   "wander": 2
+  },
+  {
+   "char": "oskar",
+   "x": 7,
+   "y": 10,
+   "dir": "up",
+   "turn": true
   }
  ],
  "doors": [

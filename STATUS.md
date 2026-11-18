@@ -8,6 +8,9 @@
 - Neue Figuren: Federleicht, Pendel, Leisetritt, Knarz, Sternwald, Uhrmeister, Eule Pimpernell. Musik: schloss, halle, hof, turm.
 - Tests: `npm run check` = Build mit Datenprüfung, 36 Kern-Tests, Rauchtest Stufe 1, Quest-Durchlauf Q01–Q04 + Nebenaufgabe (alle grün).
 - Look und Grafikmaß von Jörn freigegeben (18.11.).
+- Nachbesserung nach Jörns Test: Musik war nur „Klakern“ → weichere Instrumente, Bass eine Oktave höher (iPad-Lautsprecher), Flächenklang in jedem Stück, Tiefpass + Hall + Kompressor, `latencyHint: 'playback'`, leiseres Tipp-Geräusch. Automatischer Ton-Test (Übersteuerung, Knackser, Pegel) im Rauchtest.
+- Belebung: Figuren schauen sich um (`turn`), laufen umher (`wander: n`), Sprechblasen (`blasen` an der Figur). Neue Figuren: Mats, Juna, Ida Muschelweiß, Oskar Rindenmoos, Finn Haselnuss, Kater Zimt, Rotkehlchen.
+- Große Halle gemütlicher: zwei Kamine, vier Statuen, Sitzecke mit Teppich, Weihnachtsbuffet, kleine Tannenbäume.
 
 ## Entscheidungen
 - Siehe `CLAUDE.md`, Weltlexikon und Bauauftrag (`plan/STARTPAKET.md`).

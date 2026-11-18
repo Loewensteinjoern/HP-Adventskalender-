@@ -262,5 +262,35 @@
    "ty": 8,
    "dir": "up"
   }
+ ],
+ "npcs": [
+  {
+   "char": "oskar",
+   "x": 7,
+   "y": 12,
+   "dir": "left",
+   "wander": 2
+  },
+  {
+   "char": "mats",
+   "x": 4,
+   "y": 10,
+   "dir": "right",
+   "wander": 3
+  },
+  {
+   "char": "rotkehlchen",
+   "x": 15,
+   "y": 12,
+   "dir": "left",
+   "wander": 3
+  },
+  {
+   "char": "rotkehlchen",
+   "x": 3,
+   "y": 8,
+   "dir": "right",
+   "wander": 3
+  }
  ]
 }

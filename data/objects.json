@@ -534,5 +534,28 @@
     "up": 0,
     "solid": false,
     "decal": true
+  },
+  "statue": {
+    "paint": "statue",
+    "w": 1,
+    "h": 1,
+    "up": 40,
+    "solid": true
+  },
+  "buffet": {
+    "paint": "buffet",
+    "w": 4,
+    "h": 1,
+    "up": 14,
+    "solid": true,
+    "frames": 2,
+    "fps": 3,
+    "light": {
+      "x": 94,
+      "y": -2,
+      "r": 56,
+      "col": "255,200,110",
+      "flicker": true
+    }
   }
 }

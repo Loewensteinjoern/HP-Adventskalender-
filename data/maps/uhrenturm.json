@@ -282,6 +282,13 @@
      "dialog": "uhrmeister_still"
     }
    ]
+  },
+  {
+   "char": "kater",
+   "x": 3,
+   "y": 9,
+   "dir": "right",
+   "wander": 2
   }
  ],
  "secrets": [

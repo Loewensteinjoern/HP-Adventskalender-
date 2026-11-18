@@ -18,6 +18,16 @@ const LOOKS = {
     robe: '#2a2458', robeD: '#1c1840', robeL: '#3c3478', trim: '#c8c0e0', eye: '#4a4a8a', hat: '#2a2458', hatBand: '#c8c0e0', hatStar: true },
   uhrmeister: { hair: '#8a6a2a', hairD: '#5a4418', hairL: '#c8a040', bald: true, metal: true, skin: '#c8a040', skinD: '#8a6a2a',
     robe: '#6a5434', robeD: '#4a3a20', robeL: '#8a7044', trim: '#e8c050', eye: '#ff7a2a' },
+  mats: { hair: '#4a2c18', hairD: '#2e1a0e', hairL: '#6a4428', long: false, messy: true, skin: '#eec4a2', skinD: '#d6a07e',
+    robe: '#2a5a32', robeD: '#1c4024', robeL: '#3c7444', trim: '#c0703a', eye: '#3a5a3a' },
+  oskar: { hair: '#e8cc78', hairD: '#c0a050', hairL: '#f8e4a8', long: false, messy: true, skin: '#f4d0b4', skinD: '#e0ac8c',
+    robe: '#2a5a32', robeD: '#1c4024', robeL: '#3c7444', trim: '#c0703a', eye: '#3a5a8a' },
+  juna: { hair: '#1e1a22', hairD: '#0e0a12', hairL: '#3a3444', long: true, skin: '#d8a882', skinD: '#c08a66',
+    robe: '#5a2a5e', robeD: '#3c1a42', robeL: '#74407c', trim: '#c8c8d8', eye: '#2a1a12' },
+  ida: { hair: '#c0542a', hairD: '#8a3a1a', hairL: '#e07a4a', long: true, curls: true, skin: '#f6d6c0', skinD: '#e2b29a',
+    robe: '#22747a', robeD: '#16545a', robeL: '#3a9aa0', trim: '#eef0f4', eye: '#3a6a5a', glasses: '#3a2a2a' },
+  finn: { hair: '#2a2228', hairD: '#16101a', hairL: '#4a3e48', long: false, messy: true, skin: '#c89070', skinD: '#a87454',
+    robe: '#3e5624', robeD: '#2c3f18', robeL: '#5a7432', trim: '#e09a2c', eye: '#2a1a12' },
   lotte: { hair: '#3a2418', hairD: '#24140c', hairL: '#5a3a26', long: true, curls: true, skin: '#f2cdb0', skinD: '#dca888',
     robe: '#22747a', robeD: '#16545a', robeL: '#3a9aa0', trim: '#eef0f4', eye: '#3a2a1e' },
 };
@@ -195,12 +205,46 @@ function drawOwl(dir, fr) {
   return c;
 }
 
+// Kater Zimt: rot getigert
+function drawCat(dir, fr, pose) {
+  const c = mkCanvas(32, 32), p = Pen(c.getContext('2d')), B = '#e0883a', D = '#b0602a', L = '#f4c08a';
+  if (pose === 'schlaf') {
+    p.ell(16, 25, 10, 5, B); for (let x = 9; x < 24; x += 4) p.r(x, 21, 2, 7, D);
+    p.ell(23, 23, 5, 4, B); p.r(20, 19, 2, 2, B); p.r(25, 19, 2, 2, B); p.r(22, 23, 3, 1, '#3a2010');
+    p.r(6, 27, 14, 3, L); outline(c, '#2a1a12'); return c;
+  }
+  const st = fr === 1 ? 1 : 0;
+  if (dir === 'left' || dir === 'right') {
+    p.ell(15, 22, 8, 4, B); for (let x = 10; x < 21; x += 4) p.r(x, 19, 2, 5, D);
+    [9, 12, 18, 21].forEach((x, i) => p.r(x, 25, 2, 5 - ((i + st) % 2), B));
+    p.ell(24, 17, 5, 4, B); p.r(21, 11, 2, 3, B); p.r(26, 11, 2, 3, B); p.r(25, 16, 2, 2, '#4a8a3a'); p.px(28, 18, '#e87a8a');
+    p.r(5, 14 - st, 2, 9, B); p.r(4, 12 - st, 2, 3, D);
+  } else {
+    p.ell(16, 22, 6, 6, B); p.ell(16, 13, 6, 5, B); p.r(10, 7, 3, 4, B); p.r(19, 7, 3, 4, B);
+    if (dir === 'down') { p.r(12, 12, 2, 2, '#4a8a3a'); p.r(18, 12, 2, 2, '#4a8a3a'); p.px(16, 15, '#e87a8a'); p.ell(16, 23, 3, 4, L); }
+    else { p.r(15, 9, 2, 8, D); p.r(15 + (fr % 2 ? 2 : -2), 26, 2, 5, B); }
+    p.r(12, 27, 2, 3, B); p.r(18, 27, 2, 3, B);
+  }
+  if (dir === 'left') { const m = mkCanvas(32, 32), g = m.getContext('2d'); g.translate(32, 0); g.scale(-1, 1); g.drawImage(c, 0, 0); outline(m, '#2a1a12'); return m; }
+  outline(c, '#2a1a12'); return c;
+}
+// Rotkehlchen: klein, hüpft
+function drawRobin(dir, fr) {
+  const c = mkCanvas(32, 32), p = Pen(c.getContext('2d')), h = fr === 1 ? 2 : 0;
+  p.ell(16, 24 - h, 5, 4, '#7a5a3a'); p.ell(17, 25 - h, 3, 3, '#e05a2a'); p.circ(19, 20 - h, 3, '#7a5a3a'); p.circ(19, 21 - h, 2, '#e05a2a');
+  p.px(20, 19 - h, '#1a1a1a'); p.r(22, 20 - h, 2, 1, '#3a2a1e'); p.r(10, 22 - h, 3, 2, '#5a4028');
+  p.r(15, 28 - h, 1, 2, '#3a2a1e'); p.r(18, 28 - h, 1, 2, '#3a2a1e');
+  if (dir === 'left') { const m = mkCanvas(32, 32), g = m.getContext('2d'); g.translate(32, 0); g.scale(-1, 1); g.drawImage(c, 0, 0); outline(m, '#2a1a12'); return m; }
+  outline(c, '#2a1a12'); return c;
+}
+const ANIMALS = { diego: drawDog, pimpernell: drawOwl, kater: drawCat, rotkehlchen: drawRobin };
+
 // Sprite-Speicher: SPR.get('charly', 'down', 0, pose)
 const SPR = {
   cache: {},
   get(key, dir, fr, pose) {
     const k = key + dir + fr + (pose || '');
-    if (!this.cache[k]) this.cache[k] = key === 'diego' ? drawDog(dir, fr, pose) : key === 'pimpernell' ? drawOwl(dir, fr) : drawHuman(LOOKS[key], dir, fr);
+    if (!this.cache[k]) this.cache[k] = ANIMALS[key] ? ANIMALS[key](dir, fr, pose) : drawHuman(LOOKS[key], dir, fr);
     return this.cache[k];
   },
 };

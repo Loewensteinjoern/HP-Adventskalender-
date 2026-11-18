@@ -26,10 +26,19 @@ const AU = {
       if (!this.ctx) {
         const AC = window.AudioContext || window.webkitAudioContext;
         if (!AC) { this.failed = true; return; }
-        const c = this.ctx = new AC();
-        this.master = c.createGain(); this.master.gain.value = this.on ? 0.8 : 0; this.master.connect(c.destination);
-        this.music = c.createGain(); this.music.gain.value = 0.32; this.music.connect(this.master);
-        this.sfxBus = c.createGain(); this.sfxBus.gain.value = 0.5; this.sfxBus.connect(this.master);
+        // 'playback' = größerer Puffer: verhindert Knacken, wenn das Bild viel zu tun hat
+        let c; try { c = new AC({ latencyHint: 'playback' }); } catch (e) { c = new AC(); }
+        this.ctx = c;
+        const comp = c.createDynamicsCompressor(); comp.threshold.value = -14; comp.ratio.value = 4; comp.connect(c.destination);
+        this.master = c.createGain(); this.master.gain.value = this.on ? 0.9 : 0; this.master.connect(comp);
+        // Musik: sanfter Tiefpass gegen klickende Höhen, dazu etwas Hall für Wärme
+        const lp = c.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 3200; lp.Q.value = 0.4; lp.connect(this.master);
+        this.music = c.createGain(); this.music.gain.value = 0.55; this.music.connect(lp);
+        const len = Math.floor(c.sampleRate * 2.4), ir = c.createBuffer(2, len, c.sampleRate);
+        for (let ch = 0; ch < 2; ch++) { const d = ir.getChannelData(ch); for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 2.6); }
+        const rev = c.createConvolver(); rev.buffer = ir; const wet = c.createGain(); wet.gain.value = 0.28;
+        this.music.connect(rev); rev.connect(wet); wet.connect(this.master);
+        this.sfxBus = c.createGain(); this.sfxBus.gain.value = 0.45; this.sfxBus.connect(this.master);
         const nb = c.createBuffer(1, c.sampleRate, c.sampleRate), d = nb.getChannelData(0);
         for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
         this.noise = nb;
@@ -42,7 +51,7 @@ const AU = {
   setOn(v) {
     this.on = v;
     try { localStorage.setItem(SOUND_KEY, v ? 'an' : 'aus'); } catch (e) {}
-    if (this.master) this.master.gain.setTargetAtTime(v ? 0.8 : 0, this.ctx.currentTime, 0.05);
+    if (this.master) this.master.gain.setTargetAtTime(v ? 0.9 : 0, this.ctx.currentTime, 0.05);
     if (v && this.want) this.playMusic(this.want, true);
   },
   suspend() { if (this.ctx && this.ctx.state === 'running') this.ctx.suspend(); },
@@ -53,21 +62,26 @@ const AU = {
     const c = this.ctx, g = c.createGain(); g.connect(bus || this.music);
     const o = c.createOscillator(); o.frequency.value = f; o.connect(g);
     if (type === 'spieluhr') {
-      o.type = 'sine'; const o2 = c.createOscillator(); o2.type = 'sine'; o2.frequency.value = f * 4; const g2 = c.createGain(); g2.gain.value = 0.12; o2.connect(g2); g2.connect(g);
-      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + 0.006); g.gain.exponentialRampToValueAtTime(0.0001, t + 1.4);
-      o2.start(t); o2.stop(t + 1.5); o.start(t); o.stop(t + 1.5);
+      // weiche Spieluhr: Grundton + leiser Oberton, sanfter Einschwung, langes Ausklingen
+      o.type = 'sine'; const o2 = c.createOscillator(); o2.type = 'triangle'; o2.frequency.value = f * 2; const g2 = c.createGain(); g2.gain.value = 0.08; o2.connect(g2); g2.connect(g);
+      g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(vol, t + 0.018); g.gain.setTargetAtTime(0, t + 0.05, 0.55);
+      o2.start(t); o2.stop(t + 2.6); o.start(t); o.stop(t + 2.6);
     } else if (type === 'glocke') {
-      o.type = 'sine'; const o2 = c.createOscillator(); o2.type = 'sine'; o2.frequency.value = f * 2.76; const g2 = c.createGain(); g2.gain.value = 0.25; o2.connect(g2); g2.connect(g);
-      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, t + 2.4);
-      o2.start(t); o2.stop(t + 2.5); o.start(t); o.stop(t + 2.5);
+      o.type = 'sine';
+      [[2.76, 0.14], [5.4, 0.04]].forEach(([m, v]) => { const ox = c.createOscillator(); ox.type = 'sine'; ox.frequency.value = f * m; const gx = c.createGain(); gx.gain.value = v; ox.connect(gx); gx.connect(g); ox.start(t); ox.stop(t + 3); });
+      g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(vol, t + 0.012); g.gain.setTargetAtTime(0, t + 0.04, 0.8);
+      o.start(t); o.stop(t + 3);
     } else if (type === 'bass') {
-      o.type = 'triangle';
-      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + dur * 0.95);
-      o.start(t); o.stop(t + dur);
+      // auch auf kleinen Lautsprechern hörbar: Grundton plus Oktave darüber
+      o.type = 'sine'; o.frequency.value = f * 2; const o2 = c.createOscillator(); o2.type = 'triangle'; o2.frequency.value = f; const g2 = c.createGain(); g2.gain.value = 0.6; o2.connect(g2); g2.connect(g);
+      g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(vol * 0.7, t + 0.03); g.gain.setTargetAtTime(0, t + dur * 0.6, dur * 0.25);
+      o2.start(t); o2.stop(t + dur * 1.6); o.start(t); o.stop(t + dur * 1.6);
     } else if (type === 'flaeche') {
-      o.type = 'triangle'; const o2 = c.createOscillator(); o2.type = 'triangle'; o2.frequency.value = f * 1.5; o2.detune.value = 6; o2.connect(g);
-      g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(vol * 0.6, t + dur * 0.35); g.gain.linearRampToValueAtTime(0.0001, t + dur);
-      o2.start(t); o2.stop(t + dur); o.start(t); o.stop(t + dur);
+      o.type = 'triangle'; const o2 = c.createOscillator(); o2.type = 'triangle'; o2.frequency.value = f * 1.5; o2.detune.value = 5;
+      const o3 = c.createOscillator(); o3.type = 'sine'; o3.frequency.value = f * 2; o3.detune.value = -4;
+      const lp = c.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 1400; o.connect(lp); o2.connect(lp); o3.connect(lp); o.disconnect(g); lp.connect(g);
+      g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(vol * 0.45, t + Math.min(0.6, dur * 0.3)); g.gain.setValueAtTime(vol * 0.45, t + dur * 0.8); g.gain.linearRampToValueAtTime(0, t + dur * 1.1);
+      [o, o2, o3].forEach(x => { x.start(t); x.stop(t + dur * 1.15); });
     } else {
       o.type = type;
       g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + 0.005); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
@@ -93,13 +107,13 @@ const AU = {
     const len = Math.max.apply(null, voices.map(v => v.len)) * eighth;
     this.cur = { name, voices, eighth, len, start: this.ctx.currentTime + 0.15, idx: voices.map(() => 0), loop: voices.map(() => 0) };
     this.music.gain.cancelScheduledValues(this.ctx.currentTime);
-    this.music.gain.setValueAtTime(0.0001, this.ctx.currentTime); this.music.gain.exponentialRampToValueAtTime(0.32, this.ctx.currentTime + 0.8);
-    this.timer = setInterval(() => this.tick(), 60); this.tick();
+    this.music.gain.setValueAtTime(0.0001, this.ctx.currentTime); this.music.gain.exponentialRampToValueAtTime(0.55, this.ctx.currentTime + 0.8);
+    this.timer = setInterval(() => this.tick(), 50); this.tick();
   },
   stopMusic() { if (this.timer) clearInterval(this.timer); this.timer = null; this.cur = null; },
   tick() {
     const m = this.cur; if (!m || !this.ctx) return;
-    const ahead = this.ctx.currentTime + 0.3;
+    const ahead = this.ctx.currentTime + 0.6;
     m.voices.forEach((v, i) => {
       for (let guard = 0; guard < 64; guard++) {
         if (!v.ev.length) return;
@@ -122,7 +136,7 @@ const AU = {
     if (!this.ctx || !this.on || this.failed) return;
     const t = this.ctx.currentTime + 0.01, B = this.sfxBus;
     switch (name) {
-      case 'blip': this.tone('square', 760, t, 0.03, 0.03, B); break;
+      case 'blip': this.tone('sine', 620, t, 0.025, 0.012, B); break;
       case 'menue': this.tone('sine', 660, t, 0.08, 0.15, B); break;
       case 'zurueck': this.tone('sine', 440, t, 0.08, 0.12, B); break;
       case 'wuff': this.noiseBurst(t, 0.12, 0.5, 500, 2); this.tone('square', 210, t, 0.1, 0.08, B); this.noiseBurst(t + 0.18, 0.1, 0.4, 520, 2); this.tone('square', 190, t + 0.18, 0.08, 0.07, B); break;

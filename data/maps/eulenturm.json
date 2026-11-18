@@ -149,6 +149,13 @@
      "dialog": "pimpernell_1"
     }
    ]
+  },
+  {
+   "char": "juna",
+   "x": 8,
+   "y": 7,
+   "dir": "up",
+   "turn": true
   }
  ],
  "doors": [

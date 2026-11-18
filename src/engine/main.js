@@ -15,7 +15,7 @@ function showSoundHint() {
 function selfCheck() {
   Object.keys(DATA.tiles).forEach(k => { if (!PAINT_TILE[DATA.tiles[k].paint]) console.error('Kachel-Maler fehlt: ' + DATA.tiles[k].paint); });
   Object.keys(DATA.objects).forEach(k => { if (!PAINT_OBJ[DATA.objects[k].paint]) console.error('Objekt-Maler fehlt: ' + DATA.objects[k].paint); });
-  Object.keys(DATA.characters).forEach(k => { const s = DATA.characters[k].sprite; if (s && s !== 'diego' && s !== 'pimpernell' && !LOOKS[s]) console.error('Figur fehlt: ' + s); });
+  Object.keys(DATA.characters).forEach(k => { const s = DATA.characters[k].sprite; if (s && !ANIMALS[s] && !LOOKS[s]) console.error('Figur fehlt: ' + s); });
 }
 function boot() {
   selfCheck();
@@ -31,6 +31,18 @@ function boot() {
     window.__face = d => { G.player.dir = d; };
     window.__go = (mid, x, y, d) => { G.trail = null; G.enterMap(mid, x, y, d); };
     window.__flags = o => { Object.assign(G.save.flags, o); if (o.diego_dabei && G.save.followers.indexOf('diego') < 0) G.save.followers.push('diego'); G.enterMap(G.mapId, G.player.x, G.player.y, G.player.dir); };
+    // Ton-Prüfung: Musikstück offline berechnen, Spitzenpegel und Sprünge (Knackser) messen
+    window.__audioCheck = async name => {
+      const song = DATA.musik[name], sec = 8, o = new OfflineAudioContext(1, 44100 * sec, 44100);
+      const keep = { ctx: AU.ctx, music: AU.music };
+      AU.ctx = o; AU.music = o.createGain(); AU.music.gain.value = 0.55; AU.music.connect(o.destination);
+      const eighth = 60 / song.bpm / 2;
+      song.voices.forEach(v => { const pv = parseVoice(v.notes); pv.ev.forEach(e => { const t = 0.05 + e.t * eighth; if (t < sec - 0.5) AU.tone(v.inst, e.f, t, e.dur * eighth, v.vol || 0.4); }); });
+      const buf = await o.startRendering(); AU.ctx = keep.ctx; AU.music = keep.music;
+      const d = buf.getChannelData(0); let peak = 0, jump = 0, sum = 0;
+      for (let i = 1; i < d.length; i++) { peak = Math.max(peak, Math.abs(d[i])); jump = Math.max(jump, Math.abs(d[i] - d[i - 1])); sum += d[i] * d[i]; }
+      return { peak, jump, rms: Math.sqrt(sum / d.length) };
+    };
     window.__mini = () => (G.mini ? { phase: G.mini.phase, seq: G.mini.seq.slice(), round: G.mini.round } : null);
     window.__teleport = (x, y, d) => { G.enterMap(G.mapId, x, y, d); };
   }

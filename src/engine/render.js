@@ -76,7 +76,11 @@ const R = {
     // Figuren und Möbel nach Tiefe sortiert
     const list = [];
     objs.forEach(o => { const t = objType(o); if (!t.wall && !t.decal && !t.overlay) list.push({ y: (o.y + t.h) * TILE, d: () => c.drawImage(this.objImg(o, this.objFrame(o, time)), o.x * TILE - cam.x, o.y * TILE - t.up - cam.y) }); });
-    visibleNpcs(m, ctx).forEach(n => list.push({ y: (n.y + 1) * TILE + 0.5, d: () => this.actor(n.char, n.x * TILE, n.y * TILE - (n.lift || 0), n.dir, n.anim ? Math.floor(time * 2 + n.x) % 2 : 0, n.pose, time, n.lift) }));
+    visibleNpcs(m, ctx).forEach(n => {
+      const np = n.fx !== undefined ? G.renderPos(n) : { x: n.x * TILE, y: n.y * TILE };
+      const fr = n.moving ? G.walkFrame(n) : (n.anim ? Math.floor(time * 2 + n.x) % 2 : 0);
+      list.push({ y: np.y + TILE + 0.5, d: () => this.actor(n.char, np.x, np.y - (n.lift || 0), n.dir, fr, n.pose, time, n.lift) });
+    });
     G.followers.forEach(f => { const p = G.renderPos(f); list.push({ y: p.y + TILE + 0.4, d: () => this.actor(f.char, p.x, p.y, f.dir, G.walkFrame(f), f.pose, time) }); });
     list.push({ y: pp.y + TILE + 0.6, d: () => this.actor('charly', pp.x, pp.y, G.player.dir, G.walkFrame(G.player), null, time) });
     list.sort((a, b) => a.y - b.y).forEach(e => e.d());
@@ -90,14 +94,27 @@ const R = {
     });
     this.particles(G, m, objs, time);
     this.lights(G, m, objs, pp, time);
+    this.bubble(G, time);
+  },
+  // Kleine Sprechblase über einer Figur
+  bubble(G, time) {
+    const b = G.bubble; if (!b || DLG.open) return;
+    const c = this.ctx, p = b.e.fx !== undefined ? G.renderPos(b.e) : { x: b.e.x * TILE, y: b.e.y * TILE };
+    const age = time - b.t0, a = Math.min(1, age * 5, (3.2 - age) * 3);
+    c.font = '600 9px ' + this.FONT; const w = Math.ceil(c.measureText(b.text).width) + 10;
+    const x = Math.round(clamp(p.x + 16 - this.cam.x - w / 2, 2, VIEW_W - w - 2)), y = Math.round(p.y - this.cam.y - 30);
+    c.globalAlpha = Math.max(0, a);
+    c.fillStyle = 'rgba(250,244,230,0.95)'; c.fillRect(x, y, w, 14); c.fillRect(x + w / 2 - 2, y + 14, 4, 3);
+    c.fillStyle = 'rgba(60,40,30,0.6)'; c.fillRect(x, y + 14, w, 1);
+    c.fillStyle = '#3a2a1e'; c.textAlign = 'left'; c.fillText(b.text, x + 5, y + 10);
+    c.globalAlpha = 1;
   },
   actor(key, x, y, dir, fr, pose, time, lift) {
     const c = this.ctx, cx = x - this.cam.x, cy = y - this.cam.y;
     c.fillStyle = 'rgba(20,8,4,0.28)';
     if (!lift) { c.beginPath(); c.ellipse(cx + 16, cy + 29, key === 'diego' ? 11 : 9, 3, 0, 0, 6.283); c.fill(); }
-    if (key === 'pimpernell') { c.drawImage(SPR.get(key, dir, fr, pose), cx, cy - 2); return; }
-    if (key === 'diego') {
-      c.drawImage(SPR.get('diego', dir, fr, pose), cx, cy - 2);
+    if (ANIMALS[key]) {
+      c.drawImage(SPR.get(key, dir, fr, pose), cx, cy - 2);
       if (pose === 'schlaf') this.zzz(cx + 22, cy - 6, time);
     } else c.drawImage(SPR.get(key, dir, fr), cx, cy - 10);
   },

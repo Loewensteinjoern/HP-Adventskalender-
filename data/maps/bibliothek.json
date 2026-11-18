@@ -265,6 +265,38 @@
       "leisetritt_2"
      ]
     }
+   ],
+   "turn": true
+  },
+  {
+   "char": "ida",
+   "x": 9,
+   "y": 9,
+   "dir": "up"
+  },
+  {
+   "char": "kater",
+   "x": 17,
+   "y": 10,
+   "dir": "down",
+   "pose": "schlaf"
+  },
+  {
+   "char": "lotte",
+   "x": 10,
+   "y": 12,
+   "dir": "up",
+   "turn": true,
+   "if": [
+    "done:Q01"
+   ],
+   "talk": [
+    {
+     "dialog": [
+      "lotte_1",
+      "lotte_2"
+     ]
+    }
    ]
   }
  ],

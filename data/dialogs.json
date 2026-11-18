@@ -1092,5 +1092,121 @@
       "",
       "Eine Steinwand. Einer der Steine sitzt ein bisschen schief."
     ]
+  ],
+  "mats_1": [
+    [
+      "mats",
+      "Hey Charly! Nach dem Abendessen: Schneeballschlacht im Innenhof. Tannenhirsch gegen Bernfuchs!"
+    ]
+  ],
+  "mats_2": [
+    [
+      "mats",
+      "Ich hab gehört, im Uhrenturm gibt es einen Geheimgang. Quatsch, oder?"
+    ]
+  ],
+  "oskar_1": [
+    [
+      "oskar",
+      "Unser Schneemann braucht noch eine Nase. Hast du zufällig eine Karotte dabei?"
+    ]
+  ],
+  "oskar_2": [
+    [
+      "oskar",
+      "Ich hab einen Handschuh verloren. Wenn Diego ihn findet, darf er ihn behalten. Fast."
+    ]
+  ],
+  "juna_1": [
+    [
+      "juna",
+      "Die Sterne stehen diesen Winter ganz eigenartig. Prof. Nachtfalter ist ganz aufgeregt."
+    ]
+  ],
+  "juna_2": [
+    [
+      "juna",
+      "Ich schreibe meiner Oma einen Brief. Hoffentlich findet die Eule den Weg."
+    ]
+  ],
+  "ida_1": [
+    [
+      "ida",
+      "Psst … Lotte und ich machen ein Wettlesen. Ich bin bei Buch vierzehn."
+    ]
+  ],
+  "ida_2": [
+    [
+      "ida",
+      "Weißt du, dass in dieser Bibliothek ein Buch über Phönixe fehlt? Einfach weg!"
+    ]
+  ],
+  "finn_1": [
+    [
+      "finn",
+      "Hast du die Zimtsterne am Buffet probiert? Ich hab schon sieben. Glaube ich."
+    ]
+  ],
+  "finn_2": [
+    [
+      "finn",
+      "Diego darf bestimmt auch einen Keks. Oder zwei. Ich sag’s keinem."
+    ]
+  ],
+  "kater_1": [
+    [
+      "kater",
+      "Miau."
+    ],
+    [
+      "",
+      "Kater Zimt streicht um Charlys Beine und ignoriert Diego mit großer Würde."
+    ]
+  ],
+  "kater_2": [
+    [
+      "",
+      "Kater Zimt rollt sich auf den Rücken. Eine Falle. Jeder weiß das."
+    ]
+  ],
+  "rotkehlchen": [
+    [
+      "",
+      "Ein Rotkehlchen hüpft durch den Schnee und schaut Charly neugierig an."
+    ]
+  ],
+  "statue_eule": [
+    [
+      "",
+      "Eine steinerne Eule mit Stechpalmenkranz. Ihre Augen scheinen Charly zu folgen."
+    ]
+  ],
+  "statue_fuchs": [
+    [
+      "",
+      "Ein steinerner Fuchs mit buschigem Schwanz – das Wappentier von Bernfuchs."
+    ]
+  ],
+  "statue_ritter": [
+    [
+      "",
+      "Ein steinerner Ritter. Jemand hat ihm eine Zipfelmütze aufgesetzt."
+    ]
+  ],
+  "buffet": [
+    [
+      "",
+      "Das Weihnachtsbuffet: Lebkuchen, Zimtsterne, Bratäpfel und eine dampfende Schüssel Apfelpunsch."
+    ],
+    [
+      "joern",
+      "Nur einen. Na gut, zwei."
+    ]
+  ],
+  "kamin_halle": [
+    [
+      "",
+      "Ein großer Kamin. Das Feuer knistert, und die Wärme reicht bis zu den Tischen."
+    ]
   ]
 }
