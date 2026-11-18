@@ -76,6 +76,14 @@ async function run() {
   await page.goto(FILE + '?testtag=0'); await page.waitForTimeout(500);
   await shot('10_titel_vorher');
 
+  // Musik spielt wirklich: nach einer Berührung läuft das Titelstück als vorberechnete Schleife
+  await page.goto(FILE + '?testtag=1'); await page.waitForTimeout(300);
+  await page.mouse.click(600, 400); await page.waitForTimeout(2500);
+  const au = await page.evaluate(() => window.__audio());
+  if (au.song !== 'titel') errors.push('Titelmusik läuft nicht: ' + JSON.stringify(au));
+  if (au.rate < 44000) errors.push('Falsche Abtastrate: ' + au.rate);
+  console.log('  Ton: ' + JSON.stringify(au));
+
   // Musik: nicht übersteuert, keine Knackser, hörbar
   await page.goto(FILE + '?testtag=1'); await page.waitForTimeout(300);
   for (const song of ['kamin', 'titel', 'flur', 'schloss', 'halle', 'hof', 'turm']) {

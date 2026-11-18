@@ -9,6 +9,7 @@
 - Tests: `npm run check` = Build mit Datenprüfung, 36 Kern-Tests, Rauchtest Stufe 1, Quest-Durchlauf Q01–Q04 + Nebenaufgabe (alle grün).
 - Look und Grafikmaß von Jörn freigegeben (18.11.).
 - Nachbesserung nach Jörns Test: Musik war nur „Klakern“ → weichere Instrumente, Bass eine Oktave höher (iPad-Lautsprecher), Flächenklang in jedem Stück, Tiefpass + Hall + Kompressor, `latencyHint: 'playback'`, leiseres Tipp-Geräusch. Automatischer Ton-Test (Übersteuerung, Knackser, Pegel) im Rauchtest.
+- Musik knatterte auf dem iPad weiter → Ursache vermutlich der stumme Freischalt-Ton mit 22.050 Hz (bekannter iOS-Fehler: Gerät wechselt auf falsche Abtastrate). Jetzt mit Geräte-Abtastrate, plus Neuanlage bei falscher Rate. Außerdem wird jedes Stück vorab (OfflineAudioContext) mit Filter und Hall berechnet und als **eine** Schleife abgespielt. Test prüft: Musik läuft live, Rate ≥ 44,1 kHz, keine Übersteuerung/Knackser, nahtlose Schleife.
 - Belebung: Figuren schauen sich um (`turn`), laufen umher (`wander: n`), Sprechblasen (`blasen` an der Figur). Neue Figuren: Mats, Juna, Ida Muschelweiß, Oskar Rindenmoos, Finn Haselnuss, Kater Zimt, Rotkehlchen.
 - Große Halle gemütlicher: zwei Kamine, vier Statuen, Sitzecke mit Teppich, Weihnachtsbuffet, kleine Tannenbäume.
 

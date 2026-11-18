@@ -33,16 +33,16 @@ function boot() {
     window.__flags = o => { Object.assign(G.save.flags, o); if (o.diego_dabei && G.save.followers.indexOf('diego') < 0) G.save.followers.push('diego'); G.enterMap(G.mapId, G.player.x, G.player.y, G.player.dir); };
     // Ton-Prüfung: Musikstück offline berechnen, Spitzenpegel und Sprünge (Knackser) messen
     window.__audioCheck = async name => {
-      const song = DATA.musik[name], sec = 8, o = new OfflineAudioContext(1, 44100 * sec, 44100);
-      const keep = { ctx: AU.ctx, music: AU.music };
-      AU.ctx = o; AU.music = o.createGain(); AU.music.gain.value = 0.55; AU.music.connect(o.destination);
-      const eighth = 60 / song.bpm / 2;
-      song.voices.forEach(v => { const pv = parseVoice(v.notes); pv.ev.forEach(e => { const t = 0.05 + e.t * eighth; if (t < sec - 0.5) AU.tone(v.inst, e.f, t, e.dur * eighth, v.vol || 0.4); }); });
-      const buf = await o.startRendering(); AU.ctx = keep.ctx; AU.music = keep.music;
-      const d = buf.getChannelData(0); let peak = 0, jump = 0, sum = 0;
+      delete AU.songs[name];
+      const buf = await AU.renderSong(name, 44100), d = buf.getChannelData(0);
+      let peak = 0, jump = 0, sum = 0;
       for (let i = 1; i < d.length; i++) { peak = Math.max(peak, Math.abs(d[i])); jump = Math.max(jump, Math.abs(d[i] - d[i - 1])); sum += d[i] * d[i]; }
-      return { peak, jump, rms: Math.sqrt(sum / d.length) };
+      // Schleifennaht: Ende → Anfang darf nicht springen
+      jump = Math.max(jump, Math.abs(d[0] - d[d.length - 1]));
+      return { peak, jump, rms: Math.sqrt(sum / d.length), sec: d.length / 44100 };
     };
+    window.__audio = () => ({ state: AU.ctx ? AU.ctx.state : 'keiner', rate: AU.ctx ? AU.ctx.sampleRate : 0, song: AU.cur ? AU.cur.name : null, fertig: Object.keys(AU.songs) });
+    window.__audioRender = async name => { const b = await AU.renderSong(name, 44100), d = b.getChannelData(0), out = new Float32Array(d.length * 2); out.set(d, 0); out.set(d, d.length); return out; };
     window.__mini = () => (G.mini ? { phase: G.mini.phase, seq: G.mini.seq.slice(), round: G.mini.round } : null);
     window.__teleport = (x, y, d) => { G.enterMap(G.mapId, x, y, d); };
   }
