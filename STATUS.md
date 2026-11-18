@@ -1,7 +1,7 @@
 # STATUS
 
 ## Stand (18.11.2026)
-- **S1 erledigt:** `plan/STORY_BIBEL_V2.md` geschrieben (nur Planung, kein Code) – wartet auf Jörns Freigabe. Inhalt: Raureif braucht Charly (Wendung Woche 2) und wird am Ende erlöst; Jörns Geheimnis = Spieluhr mit Nordwind-Melodie und Gravur (löst Phase 3 des Raureif-Kampfs); Haken für alle 24 Tage; 14 Nebenquests; Diego-Geheimnisse je Gebiet; Kampfwerte und Gegnertabelle; Fragment 23 neu.
+- **S1 erledigt:** `plan/STORY_BIBEL_V2.md` geschrieben (nur Planung, kein Code) – wartet auf Jörns Freigabe. Inhalt: Raureif braucht Charly (Wendung Woche 2) und wird am Ende erlöst; Jörns Geheimnis = Spieluhr mit Nordwind-Melodie und Gravur (löst Phase 3 des Raureif-Kampfs); Haken für alle 24 Tage; 14 Nebenquests; Diego-Geheimnisse je Gebiet; Kampfwerte und Gegnertabelle; gereimtes Phönixlied (24 Zeilen, setzt sich im Questlog zusammen); Haken als Zwischenszenen mit Kinobalken (Jörn, 19.11.).
 - **Stufe 2 gebaut** (Version 0.2), wartet auf Jörns iPad-Test.
 - Neue Gebiete: Schlosskern (Drehkreuz), Große Halle, Bibliothek, Innenhof (Schnee), Eulenturm, Uhrenturm. Kellertreppe öffnet sich ab 1.12.
 - Quests Q01–Q04 vollständig spielbar, je ein Winterfragment. Nebenaufgabe „Knarz’ Schlüsselbund“ (ab Tag 1).

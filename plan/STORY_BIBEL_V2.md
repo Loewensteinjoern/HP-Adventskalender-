@@ -101,6 +101,16 @@ Raureif spricht selten, immer kursiv und in Eisblau, ohne Namensschild, oft nur 
 Spalten: **Neu in V2** = was gegenüber V1 dazukommt oder sich ändert. **Haken** = letztes Bild des Tages (kurze Szene nach Quest-Ende, ca. 10 Sekunden).
 Rätsel aus V1 bleiben, sofern nicht anders vermerkt. Q01–Q04 sind gebaut; S3 ändert dort nur Texte, Ereignisse und Haken.
 
+### Wie ein Haken aussieht (Entscheidung Jörn, 19.11.: mit Kinobalken)
+Keine Videos – kleine Zwischenszenen mit der Spielgrafik, als Daten beschrieben (Szenen-System, gebaut in S3).
+1. Nach dem Quest-Ende schieben sich **Kinobalken** oben und unten ins Bild, Charly bleibt stehen.
+2. Die Kamera schwenkt langsam zum Ort des Hakens (Fenster, Kerze, Eis …).
+3. Das Ereignis läuft mit Spieleffekten ab (Eisblumen wachsen, Schrift im Raureif, Figuren bewegen sich, Diego bellt).
+4. Kurzes Frostmotiv, Musik wird leiser.
+5. Balken fahren weg, Kamera zurück, weiterspielen.
+
+Dauer ca. 10 Sekunden; Tippen beschleunigt. Jeder gesehene Haken lässt sich im Questlog erneut ansehen.
+
 ### Woche 1 – Das Schloss erwacht
 
 | Tag | Quest | Neu in V2 | Haken |
@@ -145,9 +155,76 @@ Rätsel aus V1 bleiben, sofern nicht anders vermerkt. Q01–Q04 sind gebaut; S3 
 | 23 | Q23 Das Herz des Winters | Boss Raureif in Phasen (siehe 8.3). Er friert das Phönixlied ein; **Jörns Spieluhr** löst es. **Wendung Woche 4.** | Raureif legt die Krone ab. Zum ersten Mal fällt goldener Schnee. Der Funke in der Krone wird größer. |
 | 24 | Q24 Die Reise zum Winterphönix | Phönix-Rettung (Rätselkampf mit Takt). Raureif ist dabei, als Zuschauer, und darf bleiben. Weihnachtsfest in der Großen Halle, Spieluhr mit Gravur, Abspann mit Wasserzeichen. | – (Abspann. Nach dem Abspann: Raureif baut im Innenhof mit Oskar einen Schneemann.) |
 
-### Änderungen an den Fragmenten
-- **Fragment 23** neu (Raureifs Name kommt ins Lied, Teil der Erlösung): „Raureif gab das Feuer zurück, und der Winter vergaß ihn nie.“
-- Alle anderen Fragmente bleiben wie in V1.
+### Das Phönixlied (Wunsch Jörn, 19.11.)
+Die 24 Fragmente sind jetzt **ein gereimtes Lied** in sechs Strophen zu je vier Zeilen. Jede Zeile gehört zu einer Quest und erzählt deren Inhalt. Sie ersetzen die Prosa-Zeilen aus V1. Weil sich immer zwei Tage reimen, ahnt man am ungeraden Tag schon, wie die Zeile am nächsten Tag klingen könnte.
+
+| Tag | Quest | Zeile |
+|---|---|---|
+| 1 | Q01 Die letzte Winterfeder | Naht die längste Nacht heran, |
+| 2 | Q02 Die singenden Kerzen | stimmt der Phönix Kerzen an. |
+| 3 | Q03 Die Eule ohne Erinnerung | Eulen trugen seine Kunde, |
+| 4 | Q04 Das Herz des Uhrenturms | Türme schlugen ihm die Stunde. |
+| 5 | Q05 Die verlorene Sternenuhr | Sterne künden seine Wiederkehr – |
+| 6 | Q06 Das Flüstern der Porträts | einer schwieg, und schwieg so schwer. |
+| 7 | Q07 Schnee über dem Spiegelsee | Am Spiegelsee lag einst sein Nest, |
+| 8 | Q08 Die singenden Gewächshäuser | die Glutrose hält es fest. |
+| 9 | Q09 Das vergessene Klassenzimmer | Man verbot, von ihm zu lehren, |
+| 10 | Q10 Die Eulenbotschaft | doch ein Ruf lässt ihn heimkehren. |
+| 11 | Q11 Schatten im Raunwald | Schatten ziehn durch Wald und Eis, |
+| 12 | Q12 Das Lied des Nordwinds | wer sein Lied kennt, ruft ihn leis. |
+| 13 | Q13 Die Bibliothek unter der Bibliothek | Raureif schloss sein Feuer ein, |
+| 14 | Q14 Die Prüfung der vier Häuser | vier Flammen müssen es befrein. |
+| 15 | Q15 Die Frostnacht | In der Frostnacht, still und kalt, |
+| 16 | Q16 Die goldene Feder | blieb die Feder warm und alt. |
+| 17 | Q17 Die Karte des Baumeisters | Unterm Dorf führt tief ein Gang |
+| 18 | Q18 Das Eis unter Schneeweiler | hin, wo einst der Winter sang. |
+| 19 | Q19 Der Ruf des Phönix | Schwach ist er, ein Funke nur, |
+| 20 | Q20 Die Ruinen des ersten Winters | Skarn wacht treu bei seinem Schwur. |
+| 21 | Q21 Die Krone des Winterkönigs | Ewig sollte Winter sein – |
+| 22 | Q22 Der letzte Geheimgang | alle Zauber lassen ein. |
+| 23 | Q23 Das Herz des Winters | Raureif gab’s zurück – vergessen wird er nicht, |
+| 24 | Q24 Die Reise zum Winterphönix | und die längste Nacht wird Licht. |
+
+**Das ganze Lied**
+
+> Naht die längste Nacht heran,
+> stimmt der Phönix Kerzen an.
+> Eulen trugen seine Kunde,
+> Türme schlugen ihm die Stunde.
+>
+> Sterne künden seine Wiederkehr –
+> einer schwieg, und schwieg so schwer.
+> Am Spiegelsee lag einst sein Nest,
+> die Glutrose hält es fest.
+>
+> Man verbot, von ihm zu lehren,
+> doch ein Ruf lässt ihn heimkehren.
+> Schatten ziehn durch Wald und Eis,
+> wer sein Lied kennt, ruft ihn leis.
+>
+> Raureif schloss sein Feuer ein,
+> vier Flammen müssen es befrein.
+> In der Frostnacht, still und kalt,
+> blieb die Feder warm und alt.
+>
+> Unterm Dorf führt tief ein Gang
+> hin, wo einst der Winter sang.
+> Schwach ist er, ein Funke nur,
+> Skarn wacht treu bei seinem Schwur.
+>
+> Ewig sollte Winter sein –
+> alle Zauber lassen ein.
+> Raureif gab’s zurück – vergessen wird er nicht,
+> und die längste Nacht wird Licht.
+
+**So setzt es sich im Questlog zusammen (Bau in S3):**
+- Eigene Seite „Phönixlied“: sechs Strophen, Platz für alle 24 Zeilen.
+- Fehlende Zeilen stehen als blasse Eiskristalle mit der Tagesnummer da (Inhalt bleibt geheim).
+- Neue Zeile: Die Buchstaben tauen aus dem Eis auf und leuchten golden; dazu spielt die Spieluhr-Melodie den passenden Takt.
+- Ist ein Reimpaar komplett, leuchten beide Zeilen kurz auf; ist eine Strophe komplett, klingt ein kleiner Akkord.
+- In Q23 (Phase 3) friert Raureif das Lied ein: alle Zeilen werden eisgrau, bis Jörns Spieluhr sie wieder auftaut.
+- Im Finale (Q24) wählt Charly die Zeilen in der richtigen Reihenfolge; danach läuft das ganze Lied mit Spieluhr-Begleitung durch.
+- Technik: Spielstände speichern nur, *welche* Fragmente gefunden sind, nicht den Text. Die neuen Zeilen gelten deshalb auch für bestehende Spielstände ohne Migration.
 
 ---
 
@@ -276,12 +353,12 @@ Ohne passenden Zauber ist jeder Kampf mit Schneeball, Bellen und Kakao lösbar �
 ## 9. Arbeitsaufträge, die daraus folgen
 
 - **S2 (Kampf + Karte):** Kampfbildschirm nach 8.1–8.2; Schneepixie und Frostwicht; Kachel-Eigenschaft „tiefer Schnee“; Wärme und Rückkehr zum warmen Ort; Build-Prüfung „Gegner nicht vor seiner Schwäche“; Probekampf im Innenhof (Tag 2).
-- **S3 (Q01–Q04 neu):** Texte und Haken aus Abschnitt 5; Raureif-Stimme; Jörn-Spuren Tag 2 und 4; Diego-Geheimnisse und Tagesschmuck der gebauten Gebiete (7.2); Nebenquests N02–N04; Glutsplitter-Zählung.
+- **S3 (Q01–Q04 neu):** Texte und Haken aus Abschnitt 5; Szenen-System mit Kinobalken; Questlog-Seite „Phönixlied“ mit allen 24 neuen Zeilen in `data/quests.json`; Raureif-Stimme; Jörn-Spuren Tag 2 und 4; Diego-Geheimnisse und Tagesschmuck der gebauten Gebiete (7.2); Nebenquests N02–N04; Glutsplitter-Zählung.
 - **S4 (Q05–Q07):** neue Gebiete mit Übergängen und je zwei Geheimnissen; Flammula als Nikolausgeschenk; N05, N06; erster Kampf am See; Wendung Woche 1; Jörn-Spur Tag 7.
 
 ## 10. Für Jörn zur Freigabe
 1. Rückgrat: Raureif **braucht** Charly und wird am Ende erlöst, nicht besiegt.
 2. Jörns Geheimnis: die **Spieluhr** (Melodie aus Q12, Gravur im Deckel).
-3. Neues Fragment 23 (Raureifs Name im Lied).
+3. Das gereimte Phönixlied (ersetzt die Fragment-Zeilen aus V1; Zeile 23 nennt Raureif).
 4. Nebenquests N01–N14 und Sammelsysteme.
 5. Kampfwerte (Wärme 10, Schneeball 1, Schwäche 4) – Feinschliff nach Jörns Probekämpfen in S2.
