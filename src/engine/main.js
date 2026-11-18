@@ -21,6 +21,7 @@ function boot() {
   selfCheck();
   R.init(); IN.init(); AU.init(); UI.init(); G.init();
   updateSoundButton();
+  setInterval(() => AU.watch(), 1500);
   // Nur im Testmodus: Einblick für den automatischen Rauchtest
   if (G.testDay !== null) {
     window.__wp = () => ({
@@ -41,8 +42,12 @@ function boot() {
       jump = Math.max(jump, Math.abs(d[0] - d[d.length - 1]));
       return { peak, jump, rms: Math.sqrt(sum / d.length), sec: d.length / 44100 };
     };
-    window.__audio = () => ({ state: AU.ctx ? AU.ctx.state : 'keiner', rate: AU.ctx ? AU.ctx.sampleRate : 0, song: AU.cur ? AU.cur.name : null, fertig: Object.keys(AU.songs) });
+    window.__breakAudio = () => { AU.__alt = AU.ctx; AU.ctx.suspend(); AU.lastCt = AU.ctx.currentTime; AU.stall = 5; AU.ctx.__kaputt = true; AU.watch(); };
+    window.__audio = () => ({ state: AU.ctx ? AU.ctx.state : 'keiner', rate: AU.ctx ? AU.ctx.sampleRate : 0, song: AU.cur ? AU.cur.name : null, neu: !!(AU.__alt && AU.ctx && AU.ctx !== AU.__alt), fertig: Object.keys(AU.songs) });
     window.__audioRender = async name => { const b = await AU.renderSong(name, 44100), d = b.getChannelData(0), out = new Float32Array(d.length * 2); out.set(d, 0); out.set(d, d.length); return out; };
+    window.__probeInstall = () => { const an = AU.ctx.createAnalyser(); an.fftSize = 2048; AU.master.connect(an); AU.__an = an; };
+    window.__probe = () => { const d = new Float32Array(2048); AU.__an.getFloatTimeDomainData(d); let nan = 0, pk = 0; d.forEach(v => { if (!isFinite(v)) nan++; else pk = Math.max(pk, Math.abs(v)); });
+      return { state: AU.ctx.state, master: AU.master.gain.value, nan, pk: +pk.toFixed(3), on: AU.on, song: AU.cur && AU.cur.name }; };
     window.__mini = () => (G.mini ? { type: G.mini.type || 'takt', phase: G.mini.phase, seq: G.mini.seq ? G.mini.seq.slice() : [], round: G.mini.round, hour: G.mini.hour, ziel: G.mini.fragen ? (G.mini.fragen[G.mini.round] || {}).stunde : null } : null);
     window.__pickSpell = z => { UI.sel = G.spells().indexOf(z); return G.mode; };
     window.__teleport = (x, y, d) => { G.enterMap(G.mapId, x, y, d); };

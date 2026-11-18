@@ -258,7 +258,7 @@ const G = {
     const neu = updateQuests(s, this.day);
     neu.forEach(id => this.queue.push(() => {
       if (DATA.quests[id].neben) { AU.sfx('fund'); this.banner('Nebenaufgabe erledigt: ' + DATA.quests[id].title); this.next(); return; }
-      AU.sfx('tuerchen'); this.banner('Winterfragment ' + DATA.quests[id].day + ' gefunden!');
+      setTimeout(() => AU.sfx('tuerchen'), 900); this.banner('Winterfragment ' + DATA.quests[id].day + ' gefunden!');
       DLG.show([['', 'Ein eisblauer Splitter leuchtet auf. Darin klingt eine Zeile des Phönixlieds:'], ['', '„' + DATA.quests[id].fragment + '“']], () => this.next()); }));
     this.persist();
   },

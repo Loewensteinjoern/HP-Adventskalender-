@@ -22,6 +22,7 @@ const AU = {
   },
   unlock() {
     if (this.failed) return;
+    if (this.broken) this.rebuild();
     try {
       if (!this.ctx) {
         const AC = window.AudioContext || window.webkitAudioContext;
@@ -45,10 +46,31 @@ const AU = {
         const s = c.createBufferSource(); s.buffer = c.createBuffer(1, 1, c.sampleRate); s.connect(c.destination); s.start(0);
         if (this.want) this.playMusic(this.want, true);
       }
-      if (this.ctx.state === 'suspended') this.ctx.resume();
+      if (this.ctx.state !== 'running' && this.ctx.state !== 'closed') this.ctx.resume();
     } catch (e) { this.failed = true; }
   },
+  // Tonausgabe komplett neu anlegen (muss während einer Berührung passieren)
+  rebuild() {
+    this.broken = false; this.cur = null; this.lastCt = undefined; this.stall = 0;
+    const old = this.ctx; this.ctx = null; this.an = null; this.voices = 0; this.songs = {}; this.rendering = {};
+    try { if (old && old.close) old.close(); } catch (e) {}
+  },
+  // Wächter: merkt, wenn Safari die Tonausgabe angehalten oder verdorben hat
+  watch() {
+    if (!this.ctx || !this.on || document.hidden || this.broken) return;
+    const c = this.ctx;
+    if (!this.an) { try { this.an = c.createAnalyser(); this.an.fftSize = 256; this.master.connect(this.an); this.anBuf = new Float32Array(256); } catch (e) {} }
+    let bad = c.state === 'interrupted' || c.state === 'closed';
+    if (c.state === 'suspended') { try { c.resume(); } catch (e) {} this.stall = (this.stall || 0) + 1; }
+    else if (c.state === 'running') {
+      if (this.lastCt !== undefined && Math.abs(c.currentTime - this.lastCt) < 0.01) this.stall = (this.stall || 0) + 1; else this.stall = 0;
+      if (this.an) { this.an.getFloatTimeDomainData(this.anBuf); for (let i = 0; i < this.anBuf.length; i++) if (!isFinite(this.anBuf[i])) { bad = true; break; } }
+    }
+    this.lastCt = c.currentTime;
+    if (bad || this.stall >= 3) { this.broken = true; if (typeof UI !== 'undefined') UI.toast('Der Ton hängt – einmal auf den Bildschirm tippen.'); }
+  },
   setOn(v) {
+    if (v && this.broken) { this.rebuild(); this.unlock(); }
     this.on = v;
     try { localStorage.setItem(SOUND_KEY, v ? 'an' : 'aus'); } catch (e) {}
     if (this.master) this.master.gain.setTargetAtTime(v ? 0.9 : 0, this.ctx.currentTime, 0.05);
@@ -60,7 +82,11 @@ const AU = {
 
   // --- Instrumente ---
   tone(type, f, t, dur, vol, bus) {
-    const c = this.ctx, g = c.createGain(); g.connect(bus || this.music);
+    if (!(isFinite(f) && f > 0 && isFinite(t) && isFinite(dur) && dur > 0 && isFinite(vol))) return;
+    const c = this.ctx;
+    // Echtzeit-Geräusche begrenzen: höchstens 14 gleichzeitig (Offline-Berechnung der Musik ist nicht betroffen)
+    if (bus === this.sfxBus) { if ((this.voices || 0) >= 14) return; this.voices = (this.voices || 0) + 1; setTimeout(() => { this.voices = Math.max(0, this.voices - 1); }, (dur + 1.5) * 1000); }
+    const g = c.createGain(); g.connect(bus || this.music);
     const o = c.createOscillator(); o.frequency.value = f; o.connect(g);
     if (type === 'spieluhr') {
       // weiche Spieluhr: Grundton + leiser Oberton, sanfter Einschwung, langes Ausklingen
@@ -69,7 +95,7 @@ const AU = {
       o2.start(t); o2.stop(t + 2.6); o.start(t); o.stop(t + 2.6);
     } else if (type === 'glocke') {
       o.type = 'sine';
-      [[2.76, 0.14], [5.4, 0.04]].forEach(([m, v]) => { const ox = c.createOscillator(); ox.type = 'sine'; ox.frequency.value = f * m; const gx = c.createGain(); gx.gain.value = v; ox.connect(gx); gx.connect(g); ox.start(t); ox.stop(t + 3); });
+      [[2.76, 0.14]].forEach(([m, v]) => { const ox = c.createOscillator(); ox.type = 'sine'; ox.frequency.value = f * m; const gx = c.createGain(); gx.gain.value = v; ox.connect(gx); gx.connect(g); ox.start(t); ox.stop(t + 3); });
       g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(vol, t + 0.012); g.gain.setTargetAtTime(0, t + 0.04, 0.8);
       o.start(t); o.stop(t + 3);
     } else if (type === 'bass') {

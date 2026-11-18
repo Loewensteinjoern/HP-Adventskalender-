@@ -14,7 +14,7 @@
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <title>Die Reise zum Winterphönix</title>
-<!-- Version 0.2 · Stufe 2 · gebaut 2026-11-18 18:19 UTC · Entwickelt und erstellt von Jörn Löwenstein mit Hilfe von künstlicher Intelligenz (Claude) -->
+<!-- Version 0.2 · Stufe 2 · gebaut 2026-11-18 18:36 UTC · Entwickelt und erstellt von Jörn Löwenstein mit Hilfe von künstlicher Intelligenz (Claude) -->
 <style>
 html,body{margin:0;height:100%;background:#120c1c;overflow:hidden;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}
 body{position:fixed;inset:0;box-sizing:border-box;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
@@ -1709,6 +1709,7 @@ const AU = {
   },
   unlock() {
     if (this.failed) return;
+    if (this.broken) this.rebuild();
     try {
       if (!this.ctx) {
         const AC = window.AudioContext || window.webkitAudioContext;
@@ -1732,10 +1733,31 @@ const AU = {
         const s = c.createBufferSource(); s.buffer = c.createBuffer(1, 1, c.sampleRate); s.connect(c.destination); s.start(0);
         if (this.want) this.playMusic(this.want, true);
       }
-      if (this.ctx.state === 'suspended') this.ctx.resume();
+      if (this.ctx.state !== 'running' && this.ctx.state !== 'closed') this.ctx.resume();
     } catch (e) { this.failed = true; }
   },
+  // Tonausgabe komplett neu anlegen (muss während einer Berührung passieren)
+  rebuild() {
+    this.broken = false; this.cur = null; this.lastCt = undefined; this.stall = 0;
+    const old = this.ctx; this.ctx = null; this.an = null; this.voices = 0; this.songs = {}; this.rendering = {};
+    try { if (old && old.close) old.close(); } catch (e) {}
+  },
+  // Wächter: merkt, wenn Safari die Tonausgabe angehalten oder verdorben hat
+  watch() {
+    if (!this.ctx || !this.on || document.hidden || this.broken) return;
+    const c = this.ctx;
+    if (!this.an) { try { this.an = c.createAnalyser(); this.an.fftSize = 256; this.master.connect(this.an); this.anBuf = new Float32Array(256); } catch (e) {} }
+    let bad = c.state === 'interrupted' || c.state === 'closed';
+    if (c.state === 'suspended') { try { c.resume(); } catch (e) {} this.stall = (this.stall || 0) + 1; }
+    else if (c.state === 'running') {
+      if (this.lastCt !== undefined && Math.abs(c.currentTime - this.lastCt) < 0.01) this.stall = (this.stall || 0) + 1; else this.stall = 0;
+      if (this.an) { this.an.getFloatTimeDomainData(this.anBuf); for (let i = 0; i < this.anBuf.length; i++) if (!isFinite(this.anBuf[i])) { bad = true; break; } }
+    }
+    this.lastCt = c.currentTime;
+    if (bad || this.stall >= 3) { this.broken = true; if (typeof UI !== 'undefined') UI.toast('Der Ton hängt – einmal auf den Bildschirm tippen.'); }
+  },
   setOn(v) {
+    if (v && this.broken) { this.rebuild(); this.unlock(); }
     this.on = v;
     try { localStorage.setItem(SOUND_KEY, v ? 'an' : 'aus'); } catch (e) {}
     if (this.master) this.master.gain.setTargetAtTime(v ? 0.9 : 0, this.ctx.currentTime, 0.05);
@@ -1747,7 +1769,11 @@ const AU = {
 
   // --- Instrumente ---
   tone(type, f, t, dur, vol, bus) {
-    const c = this.ctx, g = c.createGain(); g.connect(bus || this.music);
+    if (!(isFinite(f) && f > 0 && isFinite(t) && isFinite(dur) && dur > 0 && isFinite(vol))) return;
+    const c = this.ctx;
+    // Echtzeit-Geräusche begrenzen: höchstens 14 gleichzeitig (Offline-Berechnung der Musik ist nicht betroffen)
+    if (bus === this.sfxBus) { if ((this.voices || 0) >= 14) return; this.voices = (this.voices || 0) + 1; setTimeout(() => { this.voices = Math.max(0, this.voices - 1); }, (dur + 1.5) * 1000); }
+    const g = c.createGain(); g.connect(bus || this.music);
     const o = c.createOscillator(); o.frequency.value = f; o.connect(g);
     if (type === 'spieluhr') {
       // weiche Spieluhr: Grundton + leiser Oberton, sanfter Einschwung, langes Ausklingen
@@ -1756,7 +1782,7 @@ const AU = {
       o2.start(t); o2.stop(t + 2.6); o.start(t); o.stop(t + 2.6);
     } else if (type === 'glocke') {
       o.type = 'sine';
-      [[2.76, 0.14], [5.4, 0.04]].forEach(([m, v]) => { const ox = c.createOscillator(); ox.type = 'sine'; ox.frequency.value = f * m; const gx = c.createGain(); gx.gain.value = v; ox.connect(gx); gx.connect(g); ox.start(t); ox.stop(t + 3); });
+      [[2.76, 0.14]].forEach(([m, v]) => { const ox = c.createOscillator(); ox.type = 'sine'; ox.frequency.value = f * m; const gx = c.createGain(); gx.gain.value = v; ox.connect(gx); gx.connect(g); ox.start(t); ox.stop(t + 3); });
       g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(vol, t + 0.012); g.gain.setTargetAtTime(0, t + 0.04, 0.8);
       o.start(t); o.stop(t + 3);
     } else if (type === 'bass') {
@@ -2819,7 +2845,7 @@ const G = {
     const neu = updateQuests(s, this.day);
     neu.forEach(id => this.queue.push(() => {
       if (DATA.quests[id].neben) { AU.sfx('fund'); this.banner('Nebenaufgabe erledigt: ' + DATA.quests[id].title); this.next(); return; }
-      AU.sfx('tuerchen'); this.banner('Winterfragment ' + DATA.quests[id].day + ' gefunden!');
+      setTimeout(() => AU.sfx('tuerchen'), 900); this.banner('Winterfragment ' + DATA.quests[id].day + ' gefunden!');
       DLG.show([['', 'Ein eisblauer Splitter leuchtet auf. Darin klingt eine Zeile des Phönixlieds:'], ['', '„' + DATA.quests[id].fragment + '“']], () => this.next()); }));
     this.persist();
   },
@@ -3005,6 +3031,7 @@ function boot() {
   selfCheck();
   R.init(); IN.init(); AU.init(); UI.init(); G.init();
   updateSoundButton();
+  setInterval(() => AU.watch(), 1500);
   // Nur im Testmodus: Einblick für den automatischen Rauchtest
   if (G.testDay !== null) {
     window.__wp = () => ({
@@ -3025,8 +3052,12 @@ function boot() {
       jump = Math.max(jump, Math.abs(d[0] - d[d.length - 1]));
       return { peak, jump, rms: Math.sqrt(sum / d.length), sec: d.length / 44100 };
     };
-    window.__audio = () => ({ state: AU.ctx ? AU.ctx.state : 'keiner', rate: AU.ctx ? AU.ctx.sampleRate : 0, song: AU.cur ? AU.cur.name : null, fertig: Object.keys(AU.songs) });
+    window.__breakAudio = () => { AU.__alt = AU.ctx; AU.ctx.suspend(); AU.lastCt = AU.ctx.currentTime; AU.stall = 5; AU.ctx.__kaputt = true; AU.watch(); };
+    window.__audio = () => ({ state: AU.ctx ? AU.ctx.state : 'keiner', rate: AU.ctx ? AU.ctx.sampleRate : 0, song: AU.cur ? AU.cur.name : null, neu: !!(AU.__alt && AU.ctx && AU.ctx !== AU.__alt), fertig: Object.keys(AU.songs) });
     window.__audioRender = async name => { const b = await AU.renderSong(name, 44100), d = b.getChannelData(0), out = new Float32Array(d.length * 2); out.set(d, 0); out.set(d, d.length); return out; };
+    window.__probeInstall = () => { const an = AU.ctx.createAnalyser(); an.fftSize = 2048; AU.master.connect(an); AU.__an = an; };
+    window.__probe = () => { const d = new Float32Array(2048); AU.__an.getFloatTimeDomainData(d); let nan = 0, pk = 0; d.forEach(v => { if (!isFinite(v)) nan++; else pk = Math.max(pk, Math.abs(v)); });
+      return { state: AU.ctx.state, master: AU.master.gain.value, nan, pk: +pk.toFixed(3), on: AU.on, song: AU.cur && AU.cur.name }; };
     window.__mini = () => (G.mini ? { type: G.mini.type || 'takt', phase: G.mini.phase, seq: G.mini.seq ? G.mini.seq.slice() : [], round: G.mini.round, hour: G.mini.hour, ziel: G.mini.fragen ? (G.mini.fragen[G.mini.round] || {}).stunde : null } : null);
     window.__pickSpell = z => { UI.sel = G.spells().indexOf(z); return G.mode; };
     window.__teleport = (x, y, d) => { G.enterMap(G.mapId, x, y, d); };

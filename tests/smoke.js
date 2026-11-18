@@ -84,6 +84,15 @@ async function run() {
   if (au.rate < 44000) errors.push('Falsche Abtastrate: ' + au.rate);
   console.log('  Ton: ' + JSON.stringify(au));
 
+  // Ton hängt (wie auf dem iPad beobachtet): Wächter merkt es, ein Tippen legt die Ausgabe neu an
+  await page.evaluate(() => window.__probeInstall());
+  await page.evaluate(() => window.__breakAudio());
+  await page.waitForTimeout(3500);
+  await page.mouse.click(600, 400); await page.waitForTimeout(2500);
+  const au2 = await page.evaluate(() => window.__audio());
+  if (au2.song !== 'titel' || au2.state !== 'running' || au2.neu !== true) errors.push('Ton erholt sich nicht: ' + JSON.stringify(au2));
+  console.log('  Ton nach Neuanlage: ' + JSON.stringify(au2));
+
   // Musik: nicht übersteuert, keine Knackser, hörbar
   await page.goto(FILE + '?testtag=1'); await page.waitForTimeout(300);
   for (const song of ['kamin', 'titel', 'flur', 'schloss', 'halle', 'hof', 'turm']) {
