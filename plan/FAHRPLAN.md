@@ -49,7 +49,7 @@ Nach CLAUDE.md: Opus plant und prüft, ein Sonnet-Agent schreibt die Inhalte, Te
 - **Gegenspieler ab Tag 1:** Der Winterkönig Raureif erwacht. Seine **Frostschatten** stehlen Wärme, Licht und Erinnerungen. Die Ereignisse der ersten Woche sind sein Werk (schiefe Kerzen = Frost im Docht, Pimpernells Gedächtnis gestohlen, Uhr läuft rückwärts, weil er die Zeit in der längsten Nacht anhalten will).
 - **Jeder Tag endet mit einem Haken** (z. B. ein Frostgesicht am Fenster, eine Botschaft im Raureif „Bald“).
 - **Jede Woche eine Wendung**, Woche 3 die große Krise (Frostnacht).
-- **Persönlicher Einsatz:** Vorschlag für die Story-Bibel V2: In der Frostnacht wird **Jörn** zu Eis erstarrt; Charly muss ihn retten. Jörn bekommt vorher eine eigene Spur (er bereitet heimlich etwas vor), die im Finale aufgelöst wird.
+- **Persönlicher Einsatz (freigegeben):** In der Frostnacht wird **Jörn** zu Eis erstarrt; Charly muss ihn retten. Jörn bekommt vorher eine eigene Spur (er bereitet heimlich etwas vor), die im Finale aufgelöst wird.
 - **Diego** spürt die Gefahr zuerst (knurrt, Fell gesträubt) – Vorwarnung vor Kämpfen.
 
 ---
@@ -88,7 +88,22 @@ Nebenquest-Ideen (Auswahl, Feinschliff in Story-Bibel V2):
 - **Rätsel im Kampf:** Jeder Gegner hat eine Schwäche gegen einen bestimmten Zauber (Frostwicht ↔ Flammula, Schneepixie ↔ Luxa, Beißendes Buch ↔ Clavis, Rüstung ↔ Restauro …). Wer klug zaubert, gewinnt schnell. Bosse sind Rätselkämpfe.
 - **Wärme statt Lebenspunkte:** Frost raubt Wärme. Bei 0 Wärme: kein Game Over – Charly erwacht am letzten warmen Ort (Kamin, Laterne) mit voller Wärme.
 - **Kein Stufen-Sammeln:** Fortschritt nur durch neue Zauber, Glutsplitter und Gegenstände.
-- **Zauber vorziehen:** Flammula wird dafür schon in Woche 1/2 gelernt (Story-Bibel V2 passt die Reihenfolge an).
+- **Grundaktionen immer da:** Schneeball (schwach), Jörn: Kakao (heilt) und Mut zusprechen (Schutz), Diego: Bellen (Gegner setzt aus). Damit ist jeder Kampf auch ohne passenden Zauber lösbar – nur langsamer.
+
+### Zauber-Fahrplan (Entscheidung Jörn: Zauber müssen passend zu den Gegnern gelernt werden)
+
+| Zauber | gelernt in | bei wem (Vorschlag) | wirkt im Kampf gegen | Gegner tauchen frühestens auf |
+|---|---|---|---|---|
+| Luxa (Licht) | Q02 | Prof. Federleicht | Schneepixie (geblendet), Frostschatten | Probekampf ab Tag 2, Q07 |
+| Clavis (Öffnen) | Q03 | Prof. Pendel | Beißendes Buch (klappt zu) | U2 (Q11–Q13) |
+| Restauro (Reparieren) | Q04 | Prof. Pendel | Verzauberte Rüstung (beruhigt) | U3 (Q14–Q16) |
+| **Flammula (Feuer)** | **Q06** (vorgezogen, war Q11) | Wildhüter Moosbrunn oder Direktorin | Frostwicht (schmilzt), Eisgolem | **Q07** (erster richtiger Kampf am Spiegelsee) |
+| Advoco (Heranholen) | Q08 | Prof. Wurzelgrün | Fliegendes Tintenfass (weggezogen) | U2 (Q11–Q13) |
+| Levitas (Schweben) | Q09 | Prof. Federleicht | Eiszapfen-Fallen, Lawinen-Schnee (Hindernisse) | U2 (Raunwald) |
+| **Custodia (Schutz)** | **Q12** (vorgezogen, war Q15) | Direktorin Sternwald | Frostpoltergeist (Boss Q15), starke Frostschatten | Q15, U4 |
+| Phoenix Hiemis | Q22 | Direktorin / Phönix | Winterkönig, Finale | Q23–Q24 |
+
+**Regel (wird ab S2 automatisch getestet):** Ein Gegner darf in einem Gebiet erst ab dem Tag auftauchen, an dem seine Schwäche als Zauber gelernt werden kann. Die Datenprüfung meldet sonst einen Fehler.
 
 ---
 
@@ -105,5 +120,5 @@ Nebenquest-Ideen (Auswahl, Feinschliff in Story-Bibel V2):
 ## 8. Offene Entscheidungen für Jörn
 
 1. Story-Bibel V2 freigeben (S1).
-2. Jörn erstarrt in der Frostnacht zu Eis – passt das, oder zu düster?
+2. ~~Jörn erstarrt in der Frostnacht zu Eis~~ – **freigegeben** (18.11.).
 3. Persönliche Anspielungen (Orte, Insider, Lieblingsdinge), die deine Frau wiedererkennen soll – gern jederzeit schicken, sie werden in S1/S3 eingeplant.
