@@ -1,6 +1,6 @@
 # Story-Bibel – Die Reise zum Winterphönix
 
-Stand: 18.11.2026 · Stufe 0 · **Entwurf zur Freigabe durch Jörn**
+Stand: 18.11.2026 · Stufe 0 · **Freigegeben von Jörn (18.11.2026)**
 
 Jede Hauptquest dauert ca. 10 Minuten. Jede Quest bringt ein **Winterfragment** (eisblauer Splitter mit einer Zeile der Legende). Im Questlog wächst daraus Tag für Tag das „Phönixlied“ – 24 Zeilen, wie 24 Türchen. Zauber werden nach und nach gelernt.
 
@@ -163,7 +163,7 @@ Alle 300 Winter steigt der Winterphönix in der längsten Nacht auf und erneuert
 
 ---
 
-## Namensvorschläge (bitte freigeben)
+## Namen (freigegeben)
 
 ### Lehrkräfte
 | Name | Rolle |

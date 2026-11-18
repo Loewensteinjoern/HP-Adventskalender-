@@ -1,7 +1,7 @@
 # STATUS
 
 ## Stand (18.11.2026)
-- **Stufe 0 erledigt**, wartet auf Jörns Freigabe der Story-Bibel.
+- **Stufe 0 abgeschlossen.** Story-Bibel und Namen von Jörn freigegeben (18.11.).
 - Angelegt: `CLAUDE.md`, `STATUS.md`, `src/`, `data/`, `docs/`, `plan/MASTERPLAN_V4.md`, `plan/STORY_BIBEL.md`.
 - Arbeitsbranch: `startpaket`.
 
@@ -14,9 +14,8 @@
 - Auslieferung wie Anatomie-3d (Pages + Manifest + Apple-Icons), aber ohne Service Worker, Pages aus `/docs`.
 
 ## Offene Punkte
-1. Freigabe Story-Bibel und Namen (Lehrkräfte, NPCs).
-2. Freigabe Grafikmaß in der Stilprobe (Stufe 1).
-3. Repo ist vorerst **privat** (GitHub Free: kein Pages bei privaten Repos). **Vor dem ersten iPad-Test in Stufe 1 Jörn erinnern:** Repo auf öffentlich stellen und Pages einschalten (main, /docs). Dabei `startpaket` nach `main` übernehmen.
+1. Freigabe Grafikmaß in der Stilprobe (Stufe 1).
+2. Repo ist vorerst **privat** (GitHub Free: kein Pages bei privaten Repos). **Vor dem ersten iPad-Test in Stufe 1 Jörn erinnern:** Repo auf öffentlich stellen und Pages einschalten (main, /docs). Dabei `startpaket` nach `main` übernehmen.
 
 ## Nächster Schritt
 Stufe 1 (bis 24.11.): Motor (Steuerung, Kollision, Kartenwechsel, Dialog, Questlog, Speichern, Freischaltung, Testmodus) + Stilprobe Bernfuchs-Gemeinschaftsraum mit Charly, Jörn, Diego, Frieda.

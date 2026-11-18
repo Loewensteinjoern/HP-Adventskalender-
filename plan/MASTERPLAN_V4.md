@@ -61,7 +61,7 @@ Nicht:
 | Schutz | **Custodia** |
 | Finalzauber | **Phoenix Hiemis** |
 
-Weitere Namen (Lehrkräfte, Porträts, NPCs): Vorschläge in `plan/STORY_BIBEL.md`, Freigabe durch Jörn.
+Weitere Namen (Lehrkräfte, Porträts, NPCs): freigegeben in `plan/STORY_BIBEL.md`.
 
 Regel: Keine Original-Figuren, -Wappen, -Namen oder -Musik aus Harry Potter oder anderen Werken. Die Stimmung (verschneites Zauberschloss, Kerzen, Porträts, Eulen) ist frei.
 
@@ -236,9 +236,9 @@ Bosse sind eher Rätselkämpfe.
 | Boss | Thema | Quest |
 |---|---|---|
 | Uhrmeister | Zeitmagie | Q04 |
-| Frostpoltergeist (Vorschlag: Klirr) | Winterchaos | Q15 |
+| Frostpoltergeist Klirr | Winterchaos | Q15 |
 | Eisdrache Skarn | Alte Wintermagie | Q20 |
-| Winterkönig (Vorschlag: Raureif) | Herrschaft über den Winter | Q23 |
+| Winterkönig Raureif | Herrschaft über den Winter | Q23 |
 | Winterphönix | Wiedergeburt, Magie, Hoffnung (kein Kampf zum Besiegen, sondern zum Retten) | Q24 |
 
 ---
@@ -353,10 +353,9 @@ Definiert für: Karten, Figuren, Gegner, Bosse, Objekte, Quests, Dialoge. Speich
 # 19. Produktionsstand
 
 ## Freigegeben (aus V3)
-✅ Projektvision · ✅ Weltstruktur · ✅ Art Bible · ✅ Lichtsystem · ✅ Weihnachtsregeln · ✅ Magieregeln · ✅ Figurenstandard · ✅ Referenzraum Gemeinschaftsraum · ✅ Questgerüst Q01–Q24 · ✅ Gegnerbibliothek · ✅ Bossbibliothek · ✅ Möbelbibliothek · ✅ Weltlexikon · ✅ Haustiere
+✅ Projektvision · ✅ Weltstruktur · ✅ Art Bible · ✅ Lichtsystem · ✅ Weihnachtsregeln · ✅ Magieregeln · ✅ Figurenstandard · ✅ Referenzraum Gemeinschaftsraum · ✅ Questgerüst Q01–Q24 · ✅ Gegnerbibliothek · ✅ Bossbibliothek · ✅ Möbelbibliothek · ✅ Weltlexikon · ✅ Haustiere · ✅ Story-Bibel Q01–Q24 und Namen (18.11.)
 
 ## Zur Freigabe
-⏳ Story-Bibel Q01–Q24 und Namensvorschläge (`plan/STORY_BIBEL.md`)
 ⏳ Grafikmaß (Stilprobe, Stufe 1)
 
 ---
@@ -370,7 +369,6 @@ Definiert für: Karten, Figuren, Gegner, Bosse, Objekte, Quests, Dialoge. Speich
 5. Objektbibliothek.
 6. Fenster- und Vorhangsystem.
 7. Pflanzensystem.
-8. Freigabe der Namen für Lehrkräfte und NPCs.
-9. Freigabe des Grafikmaßes in der Stilprobe.
+8. Freigabe des Grafikmaßes in der Stilprobe.
 
 # ENDE MASTERPLAN V4
