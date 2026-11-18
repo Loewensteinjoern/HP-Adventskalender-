@@ -1,0 +1,15 @@
+{
+  "Q01": {
+    "day": 1,
+    "title": "Die letzte Winterfeder",
+    "start": "q01_start",
+    "teilweise": true,
+    "fragment": "Wenn die längste Nacht sich naht, sucht der Phönix sein Feuer.",
+    "steps": [
+      { "flag": "diego_dabei", "text": "Weck Diego in seinem Körbchen am Kamin." },
+      { "flag": "q01_feder", "text": "Am Kamin glitzert Raureif. Lass Diego schnüffeln (Taste B)." },
+      { "flag": "q01_joern", "text": "Zeig Jörn die Feder." },
+      { "flag": "q01_lotte", "text": "Folge der Raureif-Spur zur Großen Halle und frag Lotte Silberfeder." }
+    ]
+  }
+}

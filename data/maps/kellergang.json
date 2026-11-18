@@ -1,0 +1,31 @@
+{
+  "name": "Kellergang",
+  "music": "flur",
+  "ambient": { "dark": 0.55, "tint": "20,20,45", "particles": "staub" },
+  "tiles": [
+    "TTTTTTTTTTTTTTTTTT",
+    "TXXXXXXXXXXXXXXXXT",
+    "TXXXXXXXXXXXXXXXXT",
+    "TppppppppppppppppT",
+    "TppppppppppppppppT",
+    "TppppppppppppppppT",
+    "TTTTTTTTdTTTTTTTTT"
+  ],
+  "objects": [
+    { "type": "portraet_ottokar", "x": 4, "y": 1, "talk": [ { "dialog": "ottokar", "sound": "schnarch" } ] },
+    { "type": "wandkerze", "x": 3, "y": 2, "talk": [ { "dialog": "wandkerze" } ] },
+    { "type": "wandkerze", "x": 7, "y": 2, "talk": [ { "dialog": "wandkerze" } ] },
+    { "type": "wandkerze", "x": 11, "y": 2, "talk": [ { "dialog": "wandkerze" } ] },
+    { "type": "treppe_hoch", "x": 14, "y": 1, "bump": true,
+      "talk": [ { "if": ["day<1"], "dialog": "treppe_vor" }, { "dialog": "treppe_bald" } ] },
+    { "type": "ruestung", "x": 12, "y": 3, "talk": [ { "dialog": "ruestung" } ] },
+    { "type": "bank", "x": 8, "y": 3, "talk": [ { "dialog": "bank" } ] },
+    { "type": "pflanze", "x": 16, "y": 3, "talk": [ { "dialog": "pflanze" } ] },
+    { "type": "pflanze", "x": 1, "y": 5, "talk": [ { "dialog": "pflanze" } ] }
+  ],
+  "secrets": [
+    { "id": "notiz", "x": 1, "y": 2, "if": ["!flag:geheim_notiz"],
+      "found": { "dialog": "geheim_notiz", "set": ["geheim_notiz"], "sound": "fund" } }
+  ],
+  "doors": [ { "x": 8, "y": 6, "to": "gemeinschaftsraum", "tx": 17, "ty": 3, "dir": "down" } ]
+}

@@ -1,0 +1,17 @@
+{
+  "charly":  { "name": "Charly", "sprite": "charly" },
+  "joern":   { "name": "Jörn", "sprite": "joern",
+    "talk": [
+      { "if": ["quest:Q01", "flag:q01_feder", "!flag:q01_joern"], "dialog": "q01_joern", "set": ["q01_joern"], "sound": "fund" },
+      { "if": ["quest:Q01", "flag:q01_joern"], "dialog": "q01_joern_danach" },
+      { "if": ["quest:Q01"], "dialog": "joern_q01_tipp" },
+      { "if": ["day<1"], "dialog": ["joern_vor1", "joern_vor2", "joern_vor3"] },
+      { "dialog": ["joern_1", "joern_2", "joern_3"] }
+    ] },
+  "diego":   { "name": "Diego", "sprite": "diego",
+    "talk": [ { "dialog": ["diego_1", "diego_2", "diego_3"] } ] },
+  "frieda":  { "name": "Frieda" },
+  "pit":     { "name": "Pit Honigwabe", "sprite": "pit" },
+  "ottokar": { "name": "Sir Ottokar der Schnarcher" },
+  "lotte":   { "name": "Lotte Silberfeder", "sprite": "lotte" }
+}

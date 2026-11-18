@@ -1,0 +1,13 @@
+{
+  "T": { "paint": "decke", "solid": true },
+  "W": { "paint": "wand_putz", "solid": true },
+  ".": { "paint": "dielen" },
+  "g": { "paint": "galerie" },
+  "F": { "paint": "galerie_front", "solid": true },
+  "f": { "paint": "galerie_seite", "solid": true },
+  "s": { "paint": "treppe" },
+  "D": { "paint": "wand_putz" },
+  "X": { "paint": "wand_stein", "solid": true },
+  "p": { "paint": "steinboden" },
+  "d": { "paint": "ausgang_unten" }
+}

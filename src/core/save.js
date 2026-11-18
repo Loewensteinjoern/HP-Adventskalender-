@@ -1,0 +1,115 @@
+// ===== Spielstand: Format, Migration, Speicher, Export =====
+// Regel: Ein Update darf einen Spielstand nie löschen. Unbekannte Felder bleiben erhalten.
+
+function newSave(now) {
+  const s = DATA.welt.start;
+  return {
+    v: SAVE_VERSION, created: now, updated: now,
+    map: s.map, x: s.x, y: s.y, dir: s.dir,
+    flags: {}, done: [], fragments: [], secrets: [],
+    followers: ['joern'], seenDay: 0, playMs: 0,
+  };
+}
+
+// Migrationen: MIGRATIONS[n] macht aus Version n die Version n+1
+const MIGRATIONS = {
+  // v0 = Vorab-Format (nur zum Test der Migrationskette): {version:0, pos:{map,x,y}, flags}
+  0: d => {
+    const out = Object.assign({}, d);
+    out.v = 1;
+    if (isObj(d.pos)) { out.map = d.pos.map; out.x = d.pos.x; out.y = d.pos.y; }
+    delete out.pos; delete out.version;
+    return out;
+  },
+};
+
+// Liefert {save, warnings} oder null, wenn gar nichts zu retten ist
+function migrateSave(raw) {
+  if (!isObj(raw)) return null;
+  let d = Object.assign({}, raw);
+  const warnings = [];
+  let v = isNum(d.v) ? d.v : (isNum(d.version) ? d.version : null);
+  if (v === null) return null;
+  while (v < SAVE_VERSION) {
+    if (!MIGRATIONS[v]) return null;
+    d = MIGRATIONS[v](d); v += 1; d.v = v;
+    warnings.push('migriert auf v' + v);
+  }
+  // Neuere Version (z. B. nach einem Zurücksetzen): behalten, nichts herabstufen
+  if (v > SAVE_VERSION) warnings.push('Spielstand stammt aus neuerer Version');
+
+  const s = newSave(isNum(d.created) ? d.created : 0);
+  const out = Object.assign({}, d);
+  out.v = Math.max(v, SAVE_VERSION);
+  out.created = isNum(d.created) ? d.created : 0;
+  out.updated = isNum(d.updated) ? d.updated : 0;
+  out.flags = {};
+  if (isObj(d.flags)) Object.keys(d.flags).forEach(k => {
+    const val = d.flags[k];
+    if (/^\w{1,60}$/.test(k) && (typeof val === 'boolean' || isNum(val))) out.flags[k] = val;
+  });
+  const strList = a => Array.isArray(a) ? a.filter(x => typeof x === 'string' && x.length < 60) : [];
+  out.done = strList(d.done);
+  out.fragments = strList(d.fragments);
+  out.secrets = strList(d.secrets);
+  out.followers = strList(d.followers).filter(f => DATA.characters[f]);
+  if (out.followers.indexOf('joern') < 0) out.followers.unshift('joern');
+  out.seenDay = isNum(d.seenDay) ? clamp(d.seenDay, 0, 24) : 0;
+  out.playMs = isNum(d.playMs) ? d.playMs : 0;
+  // Position: unbekannte Karte oder Wand -> sicher zum Start, Fortschritt bleibt
+  const m = typeof d.map === 'string' && DATA.maps[d.map];
+  const posOk = m && isNum(d.x) && isNum(d.y) && d.x >= 0 && d.y >= 0 && d.y < m.tiles.length && d.x < m.tiles[0].length
+    && !(DATA.tiles[m.tiles[d.y][d.x]] || {}).solid;
+  if (posOk) { out.map = d.map; out.x = d.x; out.y = d.y; }
+  else { out.map = s.map; out.x = s.x; out.y = s.y; warnings.push('Position zurückgesetzt'); }
+  out.dir = DIRS[d.dir] ? d.dir : 'down';
+  return { save: out, warnings };
+}
+
+// st: Objekt mit getItem/setItem (localStorage oder Testattrappe)
+function storeLoad(st, key) {
+  const tryParse = raw => { try { return migrateSave(JSON.parse(raw)); } catch (e) { return null; } };
+  let raw = null;
+  try { raw = st.getItem(key); } catch (e) { return { save: null, source: null, broken: false }; }
+  if (raw) {
+    const r = tryParse(raw);
+    if (r) return { save: r.save, warnings: r.warnings, source: 'main', broken: false };
+    // Kaputt: Rohdaten aufheben (nie löschen), dann Sicherung versuchen
+    try { if (st.getItem(key + '_defekt') !== raw) st.setItem(key + '_defekt', raw); } catch (e) {}
+  }
+  let braw = null;
+  try { braw = st.getItem(key + '_backup'); } catch (e) {}
+  if (braw) {
+    const r = tryParse(braw);
+    if (r) return { save: r.save, warnings: r.warnings, source: 'backup', broken: !!raw };
+  }
+  return { save: null, source: null, broken: !!raw };
+}
+
+function storeWrite(st, key, save) {
+  try {
+    const old = st.getItem(key);
+    // Vorherigen Stand nur dann als Sicherung behalten, wenn er gültig ist
+    if (old) { let ok = false; try { ok = !!migrateSave(JSON.parse(old)); } catch (e) {} if (ok) st.setItem(key + '_backup', old); }
+    st.setItem(key, JSON.stringify(save));
+    return true;
+  } catch (e) { return false; }
+}
+
+// Export-Code: WP1-<base64>-<prüfwert>
+function exportCode(save) {
+  const json = JSON.stringify(save);
+  return 'WP1-' + utf8ToB64(json) + '-' + hashStr(json);
+}
+function importCode(code) {
+  const c = String(code || '').replace(/\s+/g, '');
+  const m = /^WP1-([A-Za-z0-9+/=]+)-([0-9a-z]+)$/.exec(c);
+  if (!m) return { error: 'Das ist kein gültiger Spielstand-Code.' };
+  let json;
+  try { json = b64ToUtf8(m[1]); } catch (e) { return { error: 'Der Code ist beschädigt.' }; }
+  if (hashStr(json) !== m[2]) return { error: 'Der Code ist unvollständig oder verändert.' };
+  let r = null;
+  try { r = migrateSave(JSON.parse(json)); } catch (e) {}
+  if (!r) return { error: 'Der Code enthält keinen lesbaren Spielstand.' };
+  return { save: r.save };
+}

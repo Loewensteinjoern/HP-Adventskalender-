@@ -1,0 +1,11 @@
+{
+  "name": "winterphoenix",
+  "private": true,
+  "description": "Die Reise zum Winterphönix – Adventskalender-Spiel. Keine Abhängigkeiten.",
+  "scripts": {
+    "build": "node tools/build.js",
+    "test": "node tests/test.js",
+    "smoke": "node tests/smoke.js",
+    "check": "node tools/build.js && node tests/test.js && node tests/smoke.js"
+  }
+}

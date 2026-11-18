@@ -1,0 +1,63 @@
+{
+  "name": "Bernfuchs-Gemeinschaftsraum",
+  "music": "kamin",
+  "ambient": { "dark": 0.5, "tint": "36,16,46", "particles": "funken" },
+  "tiles": [
+    "TTTTTTTTTTTTTTTTTTTT",
+    "TWWWWWWWWWWWWWWWWWWT",
+    "TgggggggggfWWWWWWDWT",
+    "Tgggggggggf........T",
+    "Tgggggggggf........T",
+    "TFFFFFFFFsf........T",
+    "T..................T",
+    "T..................T",
+    "T..................T",
+    "T..................T",
+    "T..................T",
+    "T..................T",
+    "T..................T",
+    "TTTTTTTTTTTTTTTTTTTT"
+  ],
+  "objects": [
+    { "type": "kamin", "x": 13, "y": 1, "talk": [ { "if": ["quest:Q01", "!flag:q01_feder"], "dialog": "kamin_q01" }, { "dialog": "kamin" } ] },
+    { "type": "tuer", "x": 17, "y": 1 },
+    { "type": "banner", "x": 11, "y": 1, "talk": [ { "dialog": "banner" } ] },
+    { "type": "wanduhr", "x": 16, "y": 1, "talk": [ { "dialog": "wanduhr" } ] },
+    { "type": "fenster", "x": 6, "y": 1, "talk": [ { "dialog": "fenster" } ] },
+    { "type": "regal_hoch", "x": 1, "y": 2, "seed": 3, "talk": [ { "dialog": "regal_1" } ] },
+    { "type": "regal_hoch", "x": 3, "y": 2, "seed": 8, "talk": [ { "dialog": "regal_2" } ] },
+    { "type": "sessel", "x": 5, "y": 2, "talk": [ { "dialog": "sessel" } ] },
+    { "type": "beistelltisch", "x": 8, "y": 2, "talk": [ { "dialog": "buecher" } ] },
+    { "type": "stehlampe", "x": 9, "y": 2, "talk": [ { "dialog": "lampe" } ] },
+    { "type": "buecherstapel", "x": 1, "y": 4, "talk": [ { "dialog": "buecher" } ] },
+    { "type": "teppich", "x": 11, "y": 5 },
+    { "type": "korb", "x": 12, "y": 4 },
+    { "type": "tisch_rund", "x": 13, "y": 6, "talk": [ { "dialog": "tisch" } ] },
+    { "type": "sofa_ruecken", "x": 12, "y": 8, "talk": [ { "dialog": "sofa" } ] },
+    { "type": "sessel_ruecken", "x": 16, "y": 6, "talk": [ { "dialog": "sessel" } ] },
+    { "type": "friedas_haus", "x": 17, "y": 10, "talk": [ { "dialog": "frieda", "sound": "piep" } ] },
+    { "type": "tannenbaum", "x": 7, "y": 6, "talk": [ { "dialog": "tannenbaum" } ] },
+    { "type": "kommode", "x": 2, "y": 6, "talk": [ { "dialog": "kommode" } ] },
+    { "type": "stehlampe", "x": 2, "y": 10, "talk": [ { "dialog": "lampe" } ] },
+    { "type": "sessel", "x": 3, "y": 10, "talk": [ { "dialog": "sessel" } ] },
+    { "type": "beistelltisch", "x": 4, "y": 10, "talk": [ { "dialog": "buecher" } ] },
+    { "type": "farn", "x": 1, "y": 11, "talk": [ { "dialog": "pflanze" } ] },
+    { "type": "pflanze", "x": 1, "y": 12, "talk": [ { "dialog": "pflanze" } ] },
+    { "type": "pflanze", "x": 18, "y": 12, "talk": [ { "dialog": "pflanze" } ] },
+    { "type": "pflanze", "x": 18, "y": 3, "talk": [ { "dialog": "pflanze" } ] },
+    { "type": "buecherstapel", "x": 8, "y": 10, "talk": [ { "dialog": "buecher" } ] }
+  ],
+  "npcs": [
+    { "char": "diego", "x": 12, "y": 4, "dir": "down", "pose": "schlaf", "if": ["!flag:diego_dabei"],
+      "talk": [ { "dialog": "diego_wecken", "set": ["diego_dabei"], "join": "diego", "sound": "wuff" } ] },
+    { "char": "pit", "x": 6, "y": 3, "dir": "down",
+      "talk": [ { "if": ["day>=1"], "dialog": "pit_2" }, { "dialog": "pit_1" } ] }
+  ],
+  "secrets": [
+    { "id": "zimtstern", "x": 1, "y": 11, "if": ["!flag:geheim_zimtstern"],
+      "found": { "dialog": "geheim_zimtstern", "set": ["geheim_zimtstern"], "sound": "fund" } },
+    { "id": "q01_feder", "x": 15, "y": 3, "count": false, "if": ["quest:Q01", "!flag:q01_feder"],
+      "found": { "dialog": "q01_feder_fund", "set": ["q01_feder"], "sound": "fund" } }
+  ],
+  "doors": [ { "x": 17, "y": 2, "to": "kellergang", "tx": 8, "ty": 5, "dir": "up" } ]
+}

@@ -32,6 +32,7 @@ Quelle: `plan/STARTPAKET.md`, Abschnitt 1 (verbindlich). Weltlexikon und Haustie
 - Grafikmaß (in der Stilprobe freigeben): Bild 512×384 (4:3), Kachel 32×32, Figur 32×40, ganzzahlig skaliert, Dreiviertelperspektive.
 - Steuerung: Steuerkreuz links, A/B rechts (Glutberg-Prinzip, für das Querformat angepasst). Ton-Schalter mit Hinweis auf den Stummschalter.
 - Vorlage Glutberg: Steuerung, Dialogbox, Gras/Effekte, Speicherlogik und Datenaufbau übernehmen und an das neue Grafikmaß anpassen.
+- Befehle: `npm run build` (baut `docs/`), `npm test` (Kern-Tests), `npm run smoke` (Headless-Browser), `npm run check` (alles). Neue Karten: `data/maps/<id>.json`; neue Maler in `src/engine/paint_*.js`.
 
 ## Auslieferung (Prinzip wie Anatomie-3d)
 - GitHub Pages + Homescreen-App: `docs/index.html`, `docs/app.webmanifest` (`display: standalone`, `orientation: landscape`, `start_url: ./`), Icons 180/192/512 als PNG (vom Build-Skript selbst erzeugt), `apple-mobile-web-app-capable`, `apple-touch-icon`, `theme-color`.

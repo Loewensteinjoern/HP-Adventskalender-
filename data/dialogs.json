@@ -1,0 +1,86 @@
+{
+  "intro": [
+    ["", "Løvestein, Ende November. Über dem Schloss fällt der erste richtige Schnee."],
+    ["", "Im Gemeinschaftsraum des Hauses Bernfuchs knistert das Kaminfeuer."],
+    ["joern", "Charly, schau mal raus! Bis morgen früh ist alles weiß."],
+    ["joern", "Und Diego hat sich schon in sein Körbchen vor dem Kamin gerollt. Der weiß genau, wo es am gemütlichsten ist."],
+    ["", "Steuerkreuz: laufen. A: sprechen und untersuchen. B: Diego schnüffeln lassen. ☰ oben rechts: Menü und Questlog."]
+  ],
+  "q01_start": [
+    ["", "1. Dezember. Über Nacht ist Løvestein unter einer dicken Schneedecke verschwunden."],
+    ["joern", "Charly … riechst du das auch? Wie Glut und Schnee gleichzeitig."],
+    ["", "Am Rand des Kamins glitzert Raureif. Mitten in der Wärme."],
+    ["joern", "Das ist doch nicht normal. Vielleicht findet Diego heraus, was da los ist."]
+  ],
+  "diego_wecken": [
+    ["", "Diego schnarcht leise. Charly krault ihn hinter den Ohren."],
+    ["diego", "Wuff?"],
+    ["", "Diego streckt sich, gähnt ausgiebig – und weicht Charly ab jetzt nicht mehr von der Seite."],
+    ["", "Tipp: Drück B, dann schnüffelt Diego nach Geheimnissen in der Nähe. Goldene Pfotenspuren zeigen den Weg."]
+  ],
+  "diego_1": [["", "Diego wedelt so heftig, dass sein ganzer Hintern mitwackelt."]],
+  "diego_2": [["", "Diego schaut dich an, als hätte er seit Stunden nichts gegessen. Hat er aber."]],
+  "diego_3": [["diego", "Wuff!"], ["", "Diego stupst dich mit der Nase an. Schnüffeln? (Taste B)"]],
+  "diego_kein_geruch": [["", "Diego schnüffelt eifrig am Boden … aber hier riecht nichts Besonderes."]],
+  "diego_nicht_da": [["", "Diego ist gerade nicht bei dir. Vielleicht schläft er noch im Körbchen am Kamin?"]],
+
+  "joern_vor1": [["joern", "Noch {tage} Tage, dann beginnt der Advent. Ich hab das Gefühl, dieses Jahr passiert hier etwas Besonderes."]],
+  "joern_vor2": [["joern", "Ich hab Frieda vorhin beim Laufrad-Marathon zugeschaut. Die ist fitter als ich."]],
+  "joern_vor3": [["joern", "Weißt du, was das Beste am Winter in Løvestein ist? Dass wir ihn zusammen erleben."]],
+  "joern_1": [["joern", "Wenn du mich brauchst: Ich bin direkt hinter dir. Wie immer."]],
+  "joern_2": [["joern", "Noch eine Tasse Kakao, und ich schlafe vor dem Kamin ein. Neben Diego."]],
+  "joern_3": [["joern", "Hörst du das? Das Schloss knarrt, als würde es sich im Schlaf umdrehen."]],
+  "joern_q01_tipp": [["joern", "Der Raureif am Kamin lässt mir keine Ruhe. Diego hat die beste Nase im ganzen Schloss – lass ihn mal schnüffeln."]],
+  "q01_joern": [
+    ["joern", "Eine Feder? Die ist ja … warm. Mitten im Winter."],
+    ["joern", "Schau, sie glimmt wie Glut. So einen Vogel gibt es hier doch gar nicht."],
+    ["", "An der Feder hängen feine Raureif-Kristalle. Sie glitzern in Richtung Tür."],
+    ["joern", "Lotte Silberfeder weiß bestimmt, was das ist. Sie sitzt sicher wieder in der Großen Halle über ihren Büchern."]
+  ],
+  "q01_joern_danach": [["joern", "Die Raureif-Spur führt hinaus in den Gang. Komm, wir folgen ihr!"]],
+
+  "q01_feder_fund": [
+    ["", "Diego bellt den Kamin an. Hinter einem losen Ziegel steckt … eine Feder!"],
+    ["", "Sie schimmert golden-weiß und fühlt sich warm an, obwohl ringsum Raureif glitzert."],
+    ["", "Charly hat die Winterfeder gefunden."]
+  ],
+  "geheim_zimtstern": [
+    ["", "Hinter dem Farn liegt ein Zimtstern – noch ganz knusprig!"],
+    ["", "Diego bekommt die Hälfte. Mindestens."]
+  ],
+  "geheim_notiz": [
+    ["", "Hinter einem losen Stein steckt ein vergilbter Zettel:"],
+    ["", "„Wer das hier findet, hat einen sehr guten Hund. – Ein Schüler aus Bernfuchs, vor langer, langer Zeit.“"]
+  ],
+
+  "pit_1": [["pit", "Hey Charly! Ich lese gerade „Wintermagie für Anfänger“. Kapitel eins: Nie die Zunge an einen Eiszapfen halten."]],
+  "pit_2": [["pit", "Hast du das auch gemerkt? Seit heute Nacht flackern alle Kerzen im Schloss so komisch."]],
+
+  "frieda": [
+    ["", "Frieda rennt in ihrem Laufrad, als gäbe es kein Morgen."],
+    ["frieda", "Piep!"],
+    ["", "Sie stopft sich die Backen voll und schaut dich mit glänzenden Knopfaugen an."]
+  ],
+  "kamin": [["", "Das Feuer knistert. Es riecht nach Tannenzapfen und ein bisschen nach Zimt."]],
+  "kamin_q01": [["", "Am Rand des Kamins glitzert Raureif – direkt neben den Flammen. Diego könnte schnüffeln (Taste B)."]],
+  "fenster": [["", "Draußen tanzen dicke Schneeflocken. In der Ferne glitzert der Spiegelsee im Mondlicht."]],
+  "regal_1": [["", "„Hundert Arten, Tee zu kochen“, „Rätsel für lange Winterabende“ … und ganz hinten ein Buch, das leise summt."]],
+  "regal_2": [["", "„Moosgrün und Bernstein – Die Geschichte des Hauses Bernfuchs“. Auf dem Rücken klebt ein Hundehaar."]],
+  "banner": [["", "Das Banner des Hauses Bernfuchs: ein Fuchs auf Moosgrün und Bernstein. Darunter steht: „Treu und warm.“"]],
+  "wanduhr": [["", "Die Wanduhr tickt gemütlich. Ihr Pendel schwingt im Takt des Kaminfeuers."]],
+  "tannenbaum": [["", "Ein kleiner Tannenbaum mit Strohsternen. Jemand hat einen Hundekeks als Schmuck aufgehängt. Diego hat ihn schon im Blick."]],
+  "sofa": [["", "Das gemütlichste Sofa im ganzen Schloss. Leider ist Diego der gleichen Meinung."]],
+  "tisch": [["", "Ein Adventskranz aus Tannenzweigen. Daneben dampfen zwei Tassen Kakao – eine mit extra viel Sahne."]],
+  "sessel": [["", "Ein weicher Lesesessel. Die Delle im Polster hat genau Charlys Form."]],
+  "lampe": [["", "Die Stehlampe verbreitet warmes, honiggelbes Licht."]],
+  "kommode": [["", "In der Kommode: Wollsocken, Strickmützen und eine Dose Hundekekse. Diego sitzt sofort daneben."]],
+  "buecher": [["", "Ein wackeliger Bücherstapel. Ganz oben: „Pfotenkunde für Fortgeschrittene“."]],
+  "pflanze": [["", "Eine Zimmerpflanze. Sie hat sich zum Kamin gedreht, um es warm zu haben."]],
+
+  "ottokar": [["ottokar", "Chrrr … pfffh … chrrr …"], ["", "Sir Ottokar der Schnarcher schläft in seinem Goldrahmen. Wie immer."]],
+  "ruestung": [["", "Eine alte Ritterrüstung. Als Charly vorbeigeht, quietscht das Visier ganz leise."]],
+  "bank": [["", "Eine Holzbank. In die Lehne hat jemand einen kleinen Fuchs geschnitzt."]],
+  "wandkerze": [["", "Eine Kerze in einem eisernen Halter. Die Flamme neigt sich zur Treppe hin, als wehe von oben ein kalter Wind."]],
+  "treppe_vor": [["", "Die Treppe hinauf zum Schlosskern. Oben ist es noch still – ab dem 1. Dezember geht es hier weiter."]],
+  "treppe_bald": [["", "Ein kalter Luftzug weht von oben herab. Die Treppe ist noch zugeschneit. Hier geht es bald weiter."]]
+}
