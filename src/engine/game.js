@@ -89,6 +89,8 @@ const G = {
     if (this.fade) return this.updateFade(dt);
     if (DLG.open) { DLG.update(dt); this.moveTick(dt, false); return; }
     if (this.mode === 'menu') return this.updateMenu();
+    if (this.mode === 'mini') return this.updateMini(dt);
+    if (this.demo) this.updateDemo();
     if (this.mode === 'questlog' || this.mode === 'lied') {
       if (IN.take('up')) UI.scroll--; if (IN.take('down')) UI.scroll++;
       if (IN.take('a') || IN.take('b') || IN.take('menu')) { AU.sfx('zurueck'); this.mode = 'menu'; }
@@ -163,12 +165,63 @@ const G = {
     let id = t.dialog;
     if (Array.isArray(id)) { const opts = id.filter(x => x !== this.lastTalk[id.join()]); id = pickOne(opts.length ? opts : id); this.lastTalk[t.dialog.join()] = id; }
     if (t.sound) AU.sfx(t.sound);
-    const apply = () => this.applyAction(t);
+    if (t.seq) return this.seqPress(t.seq, t.val);
+    const apply = () => {
+      this.applyAction(t);
+      if (t.demo) this.demo = { id: t.demo, t0: this.time, played: -1 };
+      if (t.minigame) this.startMini(t.minigame, () => this.runTalk(t.win));
+    };
     if (id) this.say(id, apply); else apply();
+  },
+  // --- Reihenfolge-Rätsel (z. B. singende Kerzen) ---
+  seqPress(id, val) {
+    const P = DATA.puzzles[id], f = this.save.flags, n = P.order.filter(v => f[id + '_' + v]).length;
+    const note = P.notes[val - 1];
+    if (f[id + '_' + val]) { AU.note(note); return; }
+    if (P.order[n] === val) {
+      f[id + '_' + val] = true; AU.note(note);
+      if (n + 1 === P.order.length) this.runTalk(P.win); else this.persist();
+    } else {
+      P.order.forEach(v => { delete f[id + '_' + v]; });
+      AU.sfx(P.failSound || 'jaul');
+      this.runTalk(P.fail);
+    }
+  },
+  // --- Takt-Minispiel (Uhrmeister): Schläge merken und nachmachen ---
+  startMini(cfg, onWin) {
+    const dirs = ['up', 'right', 'down', 'left'], seq = [];
+    for (let i = 0; i < cfg.rounds[0]; i++) seq.push(pickOne(dirs));
+    this.mini = { cfg, onWin, round: 0, seq, phase: 'show', t: -0.6, idx: -1, pos: 0, lit: null, litT: 0 };
+    this.mode = 'mini';
+  },
+  updateMini(dt) {
+    const M = this.mini, dirs = ['up', 'right', 'down', 'left'];
+    M.t += dt; M.litT -= dt; if (M.litT <= 0) M.lit = null;
+    if (IN.take('b') || IN.take('menu')) { this.mini = null; this.mode = 'play'; this.say('takt_abbruch'); return; }
+    if (M.phase === 'show') {
+      const i = Math.floor(M.t / 0.62);
+      if (i > M.idx && i < M.seq.length && M.t >= 0) { M.idx = i; M.lit = M.seq[i]; M.litT = 0.42; AU.tick(M.seq[i]); }
+      if (M.t > M.seq.length * 0.62 + 0.2) { M.phase = 'input'; M.pos = 0; }
+      IN.clear();
+    } else if (M.phase === 'input') {
+      const d = dirs.find(k => IN.take(k));
+      if (!d) return;
+      M.lit = d; M.litT = 0.25; AU.tick(d);
+      if (d !== M.seq[M.pos]) { M.phase = 'fail'; M.t = 0; AU.sfx('jaul'); return; }
+      M.pos++;
+      if (M.pos >= M.seq.length) { M.phase = 'ok'; M.t = 0; AU.sfx('spur'); }
+    } else if (M.phase === 'fail' && M.t > 1.4) { M.phase = 'show'; M.t = -0.3; M.idx = -1; }
+    else if (M.phase === 'ok' && M.t > 1.1) {
+      M.round++;
+      if (M.round >= M.cfg.rounds.length) { const cb = M.onWin; this.mini = null; this.mode = 'play'; cb(); return; }
+      while (M.seq.length < M.cfg.rounds[M.round]) M.seq.push(pickOne(dirs));
+      M.phase = 'show'; M.t = -0.3; M.idx = -1;
+    }
   },
   applyAction(t) {
     const s = this.save;
     (t.set || []).forEach(f => { s.flags[f] = true; });
+    (t.unset || []).forEach(f => { delete s.flags[f]; });
     if (t.join && s.followers.indexOf(t.join) < 0) {
       s.followers.push(t.join);
       const m = DATA.maps[this.mapId], n = (m.npcs || []).find(n => n.char === t.join);
@@ -178,9 +231,23 @@ const G = {
     }
     if (t.leave) { s.followers = s.followers.filter(c => c !== t.leave); this.followers = this.followers.filter(f => f.char !== t.leave); }
     const neu = updateQuests(s, this.day);
-    neu.forEach(id => this.queue.push(() => { AU.sfx('fund'); this.banner('Winterfragment ' + DATA.quests[id].day + ' gefunden!');
+    neu.forEach(id => this.queue.push(() => {
+      if (DATA.quests[id].neben) { AU.sfx('fund'); this.banner('Nebenaufgabe erledigt: ' + DATA.quests[id].title); this.next(); return; }
+      AU.sfx('tuerchen'); this.banner('Winterfragment ' + DATA.quests[id].day + ' gefunden!');
       DLG.show([['', 'Ein eisblauer Splitter leuchtet auf. Darin klingt eine Zeile des Phönixlieds:'], ['', '„' + DATA.quests[id].fragment + '“']], () => this.next()); }));
     this.persist();
+  },
+
+  // Vorführung eines Rätsels: Töne nacheinander, passende Objekte leuchten
+  updateDemo() {
+    const D = this.demo, P = DATA.puzzles[D.id], i = Math.floor((this.time - D.t0) / 0.75);
+    if (i !== D.played && i < P.order.length) { D.played = i; AU.note(P.notes[P.order[i] - 1]); }
+    if (i >= P.order.length + 1) this.demo = null;
+  },
+  demoVal(o) {
+    const D = this.demo; if (!D || o.seq !== D.id) return false;
+    const i = Math.floor((this.time - D.t0) / 0.75), P = DATA.puzzles[D.id];
+    return i >= 0 && i < P.order.length && P.order[i] === o.seqVal;
   },
 
   // --- Diegos Schnüffeln ---
@@ -277,6 +344,7 @@ const G = {
     if (this.mode === 'menu') UI.list('Menü', this.menuOptions(), time);
     if (this.mode === 'questlog') UI.questlog(this);
     if (this.mode === 'lied') UI.lied(this);
+    if (this.mode === 'mini') UI.mini(this, time);
     if (this.fade) { R.ctx.fillStyle = 'rgba(8,4,10,' + (1 - Math.abs(this.fade.t - 0.5) * 2).toFixed(3) + ')'; R.ctx.fillRect(0, 0, VIEW_W, VIEW_H); }
     UI.toastDraw(dt);
   },

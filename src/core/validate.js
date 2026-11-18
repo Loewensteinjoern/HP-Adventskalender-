@@ -19,6 +19,9 @@ function validateData() {
     (a.set || []).forEach(f => setFlags.add(f));
     if (a.join && !chars[a.join]) E(where + ': Begleiter „' + a.join + '“ unbekannt');
     if (a.leave && !chars[a.leave]) E(where + ': Begleiter „' + a.leave + '“ unbekannt');
+    if (a.seq && !DATA.puzzles[a.seq]) E(where + ': Rätsel „' + a.seq + '“ fehlt');
+    if (a.demo && !DATA.puzzles[a.demo]) E(where + ': Rätsel „' + a.demo + '“ fehlt');
+    if (a.minigame) { if (a.minigame.type !== 'takt') E(where + ': unbekanntes Minispiel'); checkAction(a.win, where + ' Sieg'); if (!a.win) E(where + ': Minispiel ohne Sieg-Aktion'); }
   }
   const checkTalk = (list, where) => (list || []).forEach((t, i) => checkAction(t, where + '[' + i + ']'));
 
@@ -74,8 +77,21 @@ function validateData() {
     });
   });
 
-  // Erreichbarkeit: vom Start über Türen alle Karten, Figuren und Objekte
+  // Rätsel (Reihenfolge)
+  Object.keys(DATA.puzzles).forEach(id => {
+    const P = DATA.puzzles[id];
+    if (!Array.isArray(P.order) || !P.order.length) return E('Rätsel ' + id + ': Reihenfolge fehlt');
+    if (!Array.isArray(P.notes) || P.notes.length < Math.max.apply(null, P.order)) E('Rätsel ' + id + ': zu wenige Töne');
+    P.order.forEach(v => setFlags.add(id + '_' + v));
+    checkAction(P.win, 'Rätsel ' + id + ' Sieg'); checkAction(P.fail, 'Rätsel ' + id + ' Fehler');
+  });
+
+  // Erreichbarkeit: vom Start über Türen alle Karten, Figuren und Objekte.
+  // Bedingte Objekte/Figuren (z. B. Geheimgang-Steine) gelten als wegräumbar.
   const ctx = { flags: {}, day: 24, done: [], followers: Object.keys(chars) };
+  const blockedAt = (m, x, y) => tileSolid(m, x, y) ||
+    (m.objects || []).some(o => !o.if && objSolid(o) && objCovers(o, x, y)) ||
+    (m.npcs || []).some(n => !n.if && n.x === x && n.y === y);
   const seen = {}; Object.keys(maps).forEach(k => { seen[k] = new Set(); });
   const queue = [[DATA.welt.start.map, DATA.welt.start.x, DATA.welt.start.y]];
   while (queue.length) {
@@ -86,7 +102,7 @@ function validateData() {
     if (d && maps[d.to]) { queue.push([d.to, d.tx, d.ty]); continue; }
     Object.values(DIRS).forEach(([dx, dy]) => {
       const nx = x + dx, ny = y + dy;
-      if (!blockedAt(m, nx, ny, ctx) && !seen[mid].has(nx + ',' + ny)) queue.push([mid, nx, ny]);
+      if (!blockedAt(m, nx, ny) && !seen[mid].has(nx + ',' + ny)) queue.push([mid, nx, ny]);
     });
   }
   const nearReach = (mid, cells) => cells.some(([x, y]) => Object.values(DIRS).some(([dx, dy]) => seen[mid].has((x + dx) + ',' + (y + dy))) || seen[mid].has(x + ',' + y));
@@ -108,16 +124,17 @@ function validateData() {
   const days = {};
   Object.keys(DATA.quests).forEach(id => {
     const q = DATA.quests[id];
-    if (!(q.day >= 1 && q.day <= 24)) E('Quest ' + id + ': Tag ungültig');
-    if (days[q.day]) E('Quest ' + id + ': Tag ' + q.day + ' doppelt'); days[q.day] = id;
+    if (!(q.day >= (q.neben ? 0 : 1) && q.day <= 24)) E('Quest ' + id + ': Tag ungültig');
+    if (!q.neben) { if (days[q.day]) E('Quest ' + id + ': Tag ' + q.day + ' doppelt'); days[q.day] = id; }
+    if (!q.neben && !q.fragment) E('Quest ' + id + ': Fragment fehlt');
     if (!q.title || !Array.isArray(q.steps) || !q.steps.length) E('Quest ' + id + ': Titel oder Schritte fehlen');
     if (q.start) checkDialogRef(q.start, 'Quest ' + id);
-    (q.steps || []).forEach((st, i) => {
-      if (!setFlags.has(st.flag)) {
-        if (q.teilweise) Wn('Quest ' + id + ' Schritt ' + (i + 1) + ' (' + st.flag + ') ist noch nicht baubar – Quest als „teilweise“ markiert');
-        else E('Quest ' + id + ' Schritt ' + (i + 1) + ': Flag „' + st.flag + '“ wird nirgends gesetzt – nicht abschließbar');
+    (q.steps || []).forEach((st, i) => stepFlags(st).forEach(f => {
+      if (!setFlags.has(f)) {
+        if (q.teilweise) Wn('Quest ' + id + ' Schritt ' + (i + 1) + ' (' + f + ') ist noch nicht baubar – Quest als „teilweise“ markiert');
+        else E('Quest ' + id + ' Schritt ' + (i + 1) + ': Flag „' + f + '“ wird nirgends gesetzt – nicht abschließbar');
       }
-    });
+    }));
     if (q.teilweise) Wn('Quest ' + id + ' ist noch nicht vollständig gebaut');
   });
   return { errors, warnings };

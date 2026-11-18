@@ -6,6 +6,18 @@ const LOOKS = {
     robe: '#3a4f22', robeD: '#283816', robeL: '#55702e', trim: '#d08a26', eye: '#4a6a3a' },
   pit: { hair: '#5a3a22', hairD: '#3a2414', hairL: '#7a5232', long: false, messy: true, skin: '#f0c8a8', skinD: '#d8a684',
     robe: '#425a26', robeD: '#2e4018', robeL: '#5c7834', trim: '#e09a2c', eye: '#3a2a1e' },
+  federleicht: { hair: '#ece6da', hairD: '#c8c0b0', hairL: '#ffffff', long: false, messy: true, skin: '#f2cdb0', skinD: '#dca888',
+    robe: '#34468a', robeD: '#243266', robeL: '#4a60aa', trim: '#e8c050', eye: '#3a5a8a', hat: '#34468a', hatBand: '#e8c050' },
+  pendel: { hair: '#9a9aa2', hairD: '#76767e', hairL: '#c0c0c8', long: false, glasses: '#c8a040', beard: '#b4b4bc', skin: '#eec8a8', skinD: '#d6a482',
+    robe: '#5a3a22', robeD: '#3e2614', robeL: '#7a5232', trim: '#c8a040', eye: '#3a2a1e' },
+  leisetritt: { hair: '#aaa2ac', hairD: '#847c88', hairL: '#d0c8d4', long: false, bun: true, glasses: '#7a5a8a', skin: '#f0caae', skinD: '#d8a888',
+    robe: '#56285e', robeD: '#3c1a42', robeL: '#74407c', trim: '#e8dcc8', eye: '#3a2a1e' },
+  knarz: { hair: '#7a6a5a', hairD: '#5a4a3a', hairL: '#9a8a7a', bald: true, beard: '#8a7a6a', skin: '#e8b898', skinD: '#cc9878',
+    robe: '#4a4038', robeD: '#342c26', robeL: '#62564a', trim: '#8a6a3a', eye: '#3a2a1e' },
+  sternwald: { hair: '#dcdcec', hairD: '#b0b0c4', hairL: '#ffffff', long: true, skin: '#f0caae', skinD: '#d8a888',
+    robe: '#2a2458', robeD: '#1c1840', robeL: '#3c3478', trim: '#c8c0e0', eye: '#4a4a8a', hat: '#2a2458', hatBand: '#c8c0e0', hatStar: true },
+  uhrmeister: { hair: '#8a6a2a', hairD: '#5a4418', hairL: '#c8a040', bald: true, metal: true, skin: '#c8a040', skinD: '#8a6a2a',
+    robe: '#6a5434', robeD: '#4a3a20', robeL: '#8a7044', trim: '#e8c050', eye: '#ff7a2a' },
   lotte: { hair: '#3a2418', hairD: '#24140c', hairL: '#5a3a26', long: true, curls: true, skin: '#f2cdb0', skinD: '#dca888',
     robe: '#22747a', robeD: '#16545a', robeL: '#3a9aa0', trim: '#eef0f4', eye: '#3a2a1e' },
 };
@@ -58,16 +70,19 @@ function drawHuman(L, dir, fr) {
     for (let x = 10; x < 23; x += 3) p.r(x, 6, 1, 12, L.hairD);
     p.r(12, 4, 5, 2, L.hairL);
   } else if (dir === 'down') {
-    p.ell(16, 8, 8, 5, L.hair); p.r(8, 7, 16, 4, L.hair);
-    p.r(8, 9, 3, 6, L.hair); p.r(21, 9, 3, 6, L.hair);
+    if (L.bald) { p.ell(16, 8, 7, 4, L.skin); p.r(8, 10, 3, 5, L.hair); p.r(21, 10, 3, 5, L.hair); if (L.metal) { p.ell(16, 7, 7, 4, '#d8b050'); p.r(15, 2, 2, 3, '#e8c050'); p.r(9, 11, 14, 1, '#8a6a2a'); } }
+    else { p.ell(16, 8, 8, 5, L.hair); p.r(8, 7, 16, 4, L.hair);
+    p.r(8, 9, 3, 6, L.hair); p.r(21, 9, 3, 6, L.hair); }
     if (L.messy) { p.r(12, 2, 2, 2, L.hair); p.r(18, 3, 2, 2, L.hair); p.r(9, 11, 2, 2, L.hair); }
-    p.r(11, 10, 10, 1, L.hairD); p.r(12, 4, 6, 2, L.hairL);
+    if (!L.bald) { p.r(11, 10, 10, 1, L.hairD); p.r(12, 4, 6, 2, L.hairL); }
     if (L.curls) for (let x = 8; x < 25; x += 3) p.r(x, 11 + (x % 2), 2, 2, L.hairD);
     // Gesicht
     p.r(12, 13, 2, 2, '#2a1a14'); p.r(18, 13, 2, 2, '#2a1a14'); p.px(12, 13, '#ffffff'); p.px(18, 13, '#ffffff');
     p.px(13, 14, L.eye); p.px(19, 14, L.eye);
     p.r(10, 16, 2, 1, '#f0a090'); p.r(20, 16, 2, 1, '#f0a090');
     p.r(15, 17, 3, 1, '#b86a5a');
+    if (L.metal) { p.r(12, 13, 2, 2, L.eye); p.r(18, 13, 2, 2, L.eye); p.r(13, 17, 6, 1, '#5a4418'); }
+    if (L.beard) { p.r(11, 16, 10, 4, L.beard); p.r(12, 20, 8, 2, L.beard); p.r(14, 22, 4, 1, L.beard); p.r(15, 17, 3, 1, shade(L.beard, -0.3)); }
     if (L.glasses) {
       const g = L.glasses;
       p.r(10, 12, 5, 1, g); p.r(10, 15, 5, 1, g); p.r(10, 12, 1, 4, g); p.r(14, 12, 1, 4, g);
@@ -78,12 +93,26 @@ function drawHuman(L, dir, fr) {
     // Seitenansicht (für rechts gemalt, links wird gespiegelt)
     p.ell(15, 8, 8, 5, L.hair); p.r(8, 7, 13, 6, L.hair); p.r(8, 10, 6, 7, L.hair);
     if (L.messy) { p.r(12, 2, 2, 2, L.hair); p.r(17, 3, 2, 2, L.hair); }
-    p.r(11, 4, 6, 2, L.hairL); p.r(9, 13, 4, 2, L.hairD);
+    if (L.bald) { p.ell(15, 8, 7, 4, L.skin); p.r(8, 10, 5, 5, L.hair); if (L.metal) p.ell(15, 7, 7, 4, '#d8b050'); }
+    else { p.r(11, 4, 6, 2, L.hairL); p.r(9, 13, 4, 2, L.hairD); }
     if (L.curls) for (let y = 9; y < 20; y += 3) p.r(8, y, 2, 2, L.hairD);
     p.r(13, 12, 2, 3, L.skinD); // Ohr
     p.r(20, 13, 2, 2, '#2a1a14'); p.px(21, 13, '#ffffff');
     p.r(23, 15, 1, 2, L.skinD); p.r(19, 16, 2, 1, '#f0a090'); p.r(20, 18, 2, 1, '#b86a5a');
+    if (L.beard) { p.r(17, 16, 7, 5, L.beard); p.r(18, 21, 5, 2, L.beard); }
+    if (L.metal) p.r(20, 13, 2, 2, L.eye);
     if (L.glasses) { const g = L.glasses; p.r(19, 12, 4, 1, g); p.r(19, 15, 4, 1, g); p.r(19, 12, 1, 4, g); p.r(22, 12, 1, 4, g); p.r(14, 13, 5, 1, g); }
+  }
+  if (L.bun && dir !== 'down') p.circ(side ? 10 : 16, 4, 3, L.hair);
+  if (L.bun && dir === 'down') { p.circ(16, 2, 3, L.hair); p.px(15, 1, L.hairL); }
+  if (L.beard && dir === 'up') { p.r(10, 17, 2, 3, L.beard); p.r(20, 17, 2, 3, L.beard); }
+  // Spitzhut der Lehrkräfte
+  if (L.hat) {
+    const hx = side ? (dir === 'right' ? 15 : 17) : 16;
+    p.r(hx - 10, 6, 20, 3, L.hat); p.r(hx - 10, 6, 20, 1, shade(L.hat, 0.2));
+    p.r(hx - 6, 3, 12, 3, L.hat); p.r(hx - 4, 1, 8, 2, L.hat); p.r(hx - 2 + (side ? 2 : 1), 0, 3, 1, L.hat);
+    p.r(hx - 6, 5, 12, 1, L.hatBand);
+    if (L.hatStar) { p.px(hx + 2, 3, '#ffe890'); p.px(hx + 1, 3, '#fff8d0'); }
   }
   if (dir === 'left') {
     const m = mkCanvas(32, 40), g = m.getContext('2d'); g.translate(32, 0); g.scale(-1, 1); g.drawImage(c, 0, 0);
@@ -147,12 +176,31 @@ function drawDog(dir, fr, pose) {
   return c;
 }
 
+// Pimpernell: zerzauste Eule mit schiefem Blick
+function drawOwl(dir, fr) {
+  const c = mkCanvas(32, 32), p = Pen(c.getContext('2d'));
+  const flap = fr === 1;
+  p.ell(16, 20, 8, 9, '#8a6a4a'); p.ell(16, 22, 5, 6, '#dcc4a2');
+  for (let y = 18; y < 28; y += 3) for (let x = 13; x < 20; x += 3) p.px(x + (y % 2), y, '#a88a66');
+  p.r(flap ? 4 : 7, flap ? 13 : 17, 4, 9, '#6e5236'); p.r(flap ? 24 : 21, flap ? 13 : 17, 4, 9, '#6e5236');
+  if (dir !== 'up') {
+    p.circ(12, 15, 4, '#f4ead8'); p.circ(20, 15, 4, '#f4ead8');
+    p.r(13, 14, 2, 2, '#1a1210'); p.r(18, 16, 2, 2, '#1a1210'); // schielt verwirrt
+    p.r(15, 18, 2, 3, '#e09a2c');
+  } else { p.ell(16, 16, 7, 5, '#7a5c3e'); }
+  p.r(9, 9, 3, 4, '#6e5236'); p.r(20, 9, 3, 4, '#6e5236'); p.px(9, 8, '#6e5236'); p.px(22, 8, '#6e5236');
+  p.r(14, 9, 2, 2, '#a88a66'); p.r(17, 8, 1, 3, '#a88a66'); // zerzauste Federn
+  p.r(12, 29, 3, 2, '#e09a2c'); p.r(17, 29, 3, 2, '#e09a2c');
+  outline(c, '#2a1a12');
+  return c;
+}
+
 // Sprite-Speicher: SPR.get('charly', 'down', 0, pose)
 const SPR = {
   cache: {},
   get(key, dir, fr, pose) {
     const k = key + dir + fr + (pose || '');
-    if (!this.cache[k]) this.cache[k] = key === 'diego' ? drawDog(dir, fr, pose) : drawHuman(LOOKS[key], dir, fr);
+    if (!this.cache[k]) this.cache[k] = key === 'diego' ? drawDog(dir, fr, pose) : key === 'pimpernell' ? drawOwl(dir, fr) : drawHuman(LOOKS[key], dir, fr);
     return this.cache[k];
   },
 };

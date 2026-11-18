@@ -1,0 +1,438 @@
+{
+ "name": "Schlosskern",
+ "music": "schloss",
+ "ambient": {
+  "dark": 0.42,
+  "tint": "30,20,50",
+  "particles": "staub"
+ },
+ "tiles": [
+  "TTTTTTTTTTTTTTTTTTTTTT",
+  "TKKKKKKKKKKKKKKKKKKKKT",
+  "TKKKKKKKKKOOKKKKKKKKKT",
+  "TMMMMMMMMMRRMMMMMMMMMT",
+  "TMMMMMMMMMRRMMMMMMMMMT",
+  "TMMMMMMMMMRRMMMMMMMMMT",
+  "TMMMMMMMMMRRMMMMMMMMMT",
+  "TMMMMMMMMMRRMMMMMMMMMT",
+  "<RRRRRRRRRRRRRRRRRRRR>",
+  "TMMMMMMMMMRRMMMMMMMMMT",
+  "TMMMMMMMMMRRMMMMMMMMMT",
+  "TMMMMMMMMMRRMMMMMMMMMT",
+  "TMMMMMMMMMRRMMMMMMMMMT",
+  "TMMMMMMMMMRRMMMMMMMMMT",
+  "TTTyTTTTTTddTTTTTTTTTT"
+ ],
+ "objects": [
+  {
+   "type": "torbogen_gross",
+   "x": 9,
+   "y": 1,
+   "talk": [
+    {
+     "dialog": "torbogen"
+    }
+   ]
+  },
+  {
+   "type": "banner_haus",
+   "x": 2,
+   "y": 1,
+   "v": "bernfuchs",
+   "talk": [
+    {
+     "dialog": "banner_bernfuchs"
+    }
+   ]
+  },
+  {
+   "type": "banner_haus",
+   "x": 5,
+   "y": 1,
+   "v": "eisvogel",
+   "talk": [
+    {
+     "dialog": "banner_eisvogel"
+    }
+   ]
+  },
+  {
+   "type": "banner_haus",
+   "x": 16,
+   "y": 1,
+   "v": "tannenhirsch",
+   "talk": [
+    {
+     "dialog": "banner_tannenhirsch"
+    }
+   ]
+  },
+  {
+   "type": "banner_haus",
+   "x": 19,
+   "y": 1,
+   "v": "sternbaer",
+   "talk": [
+    {
+     "dialog": "banner_sternbaer"
+    }
+   ]
+  },
+  {
+   "type": "girlande",
+   "x": 7,
+   "y": 1
+  },
+  {
+   "type": "girlande",
+   "x": 13,
+   "y": 1
+  },
+  {
+   "type": "saeule",
+   "x": 5,
+   "y": 5,
+   "talk": [
+    {
+     "dialog": "saeule"
+    }
+   ]
+  },
+  {
+   "type": "saeule",
+   "x": 16,
+   "y": 5,
+   "talk": [
+    {
+     "dialog": "saeule"
+    }
+   ]
+  },
+  {
+   "type": "saeule",
+   "x": 5,
+   "y": 11,
+   "talk": [
+    {
+     "dialog": "saeule"
+    }
+   ]
+  },
+  {
+   "type": "saeule",
+   "x": 16,
+   "y": 11,
+   "talk": [
+    {
+     "dialog": "saeule"
+    }
+   ]
+  },
+  {
+   "type": "ruestung",
+   "x": 1,
+   "y": 3,
+   "talk": [
+    {
+     "dialog": "ruestung"
+    }
+   ]
+  },
+  {
+   "type": "ruestung",
+   "x": 20,
+   "y": 3,
+   "talk": [
+    {
+     "dialog": "ruestung2"
+    }
+   ]
+  },
+  {
+   "type": "tannenbaum_gross",
+   "x": 13,
+   "y": 10,
+   "talk": [
+    {
+     "dialog": "tannenbaum_gross"
+    }
+   ]
+  },
+  {
+   "type": "kerzen_schwebend",
+   "x": 6,
+   "y": 4
+  },
+  {
+   "type": "kerzen_schwebend",
+   "x": 14,
+   "y": 4
+  },
+  {
+   "type": "kerzen_schwebend",
+   "x": 7,
+   "y": 10
+  },
+  {
+   "type": "bank",
+   "x": 1,
+   "y": 10,
+   "talk": [
+    {
+     "dialog": "bank"
+    }
+   ]
+  },
+  {
+   "type": "pflanze",
+   "x": 20,
+   "y": 13,
+   "talk": [
+    {
+     "dialog": "pflanze"
+    }
+   ]
+  },
+  {
+   "type": "pflanze",
+   "x": 1,
+   "y": 13,
+   "talk": [
+    {
+     "dialog": "pflanze"
+    }
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 3,
+   "y": 12,
+   "if": [
+    "quest:Q01",
+    "flag:q01_joern",
+    "!flag:q01_lotte"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 3,
+   "y": 11,
+   "if": [
+    "quest:Q01",
+    "flag:q01_joern",
+    "!flag:q01_lotte"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 4,
+   "y": 10,
+   "if": [
+    "quest:Q01",
+    "flag:q01_joern",
+    "!flag:q01_lotte"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 5,
+   "y": 9,
+   "if": [
+    "quest:Q01",
+    "flag:q01_joern",
+    "!flag:q01_lotte"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 6,
+   "y": 8,
+   "if": [
+    "quest:Q01",
+    "flag:q01_joern",
+    "!flag:q01_lotte"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 7,
+   "y": 8,
+   "if": [
+    "quest:Q01",
+    "flag:q01_joern",
+    "!flag:q01_lotte"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 8,
+   "y": 7,
+   "if": [
+    "quest:Q01",
+    "flag:q01_joern",
+    "!flag:q01_lotte"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 9,
+   "y": 6,
+   "if": [
+    "quest:Q01",
+    "flag:q01_joern",
+    "!flag:q01_lotte"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 10,
+   "y": 5,
+   "if": [
+    "quest:Q01",
+    "flag:q01_joern",
+    "!flag:q01_lotte"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 10,
+   "y": 4,
+   "if": [
+    "quest:Q01",
+    "flag:q01_joern",
+    "!flag:q01_lotte"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 10,
+   "y": 3,
+   "if": [
+    "quest:Q01",
+    "flag:q01_joern",
+    "!flag:q01_lotte"
+   ]
+  }
+ ],
+ "npcs": [
+  {
+   "char": "knarz",
+   "x": 7,
+   "y": 12,
+   "dir": "down",
+   "talk": [
+    {
+     "if": [
+      "!flag:knarz_auftrag"
+     ],
+     "dialog": "knarz_auftrag",
+     "set": [
+      "knarz_auftrag"
+     ]
+    },
+    {
+     "if": [
+      "flag:knarz_schluessel",
+      "!flag:knarz_fertig"
+     ],
+     "dialog": "knarz_danke",
+     "set": [
+      "knarz_fertig"
+     ],
+     "sound": "fund"
+    },
+    {
+     "if": [
+      "flag:knarz_auftrag",
+      "!flag:knarz_fertig"
+     ],
+     "dialog": "knarz_warten"
+    },
+    {
+     "dialog": [
+      "knarz_1",
+      "knarz_2"
+     ]
+    }
+   ]
+  }
+ ],
+ "secrets": [
+  {
+   "id": "siegelwachs",
+   "x": 21,
+   "y": 5,
+   "count": false,
+   "if": [
+    "quest:Q03",
+    "flag:q03_eule",
+    "!flag:q03_siegel"
+   ],
+   "found": {
+    "dialog": "q03_siegel",
+    "set": [
+     "q03_siegel"
+    ],
+    "sound": "fund"
+   }
+  }
+ ],
+ "doors": [
+  {
+   "x": 10,
+   "y": 2,
+   "to": "grosse_halle",
+   "tx": 11,
+   "ty": 14,
+   "dir": "up"
+  },
+  {
+   "x": 11,
+   "y": 2,
+   "to": "grosse_halle",
+   "tx": 12,
+   "ty": 14,
+   "dir": "up"
+  },
+  {
+   "x": 0,
+   "y": 8,
+   "to": "bibliothek",
+   "tx": 18,
+   "ty": 7,
+   "dir": "left"
+  },
+  {
+   "x": 21,
+   "y": 8,
+   "to": "uhrenturm",
+   "tx": 1,
+   "ty": 7,
+   "dir": "right"
+  },
+  {
+   "x": 10,
+   "y": 14,
+   "to": "innenhof",
+   "tx": 10,
+   "ty": 3,
+   "dir": "down"
+  },
+  {
+   "x": 11,
+   "y": 14,
+   "to": "innenhof",
+   "tx": 11,
+   "ty": 3,
+   "dir": "down"
+  },
+  {
+   "x": 3,
+   "y": 14,
+   "to": "kellergang",
+   "tx": 14,
+   "ty": 3,
+   "dir": "down"
+  }
+ ]
+}

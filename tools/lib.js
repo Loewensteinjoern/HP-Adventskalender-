@@ -6,7 +6,7 @@ const vm = require('vm');
 
 const ROOT = path.join(__dirname, '..');
 const CORE_FILES = ['util', 'unlock', 'conditions', 'save', 'world', 'quests', 'validate'].map(n => 'src/core/' + n + '.js');
-const ENGINE_FILES = ['pixel', 'paint_tiles', 'paint_objects', 'paint_chars', 'audio', 'input', 'render', 'dialog', 'ui', 'game', 'main'].map(n => 'src/engine/' + n + '.js');
+const ENGINE_FILES = ['pixel', 'paint_tiles', 'paint_objects', 'paint_schloss', 'paint_chars', 'audio', 'input', 'render', 'dialog', 'ui', 'game', 'main'].map(n => 'src/engine/' + n + '.js');
 const CORE_EXPORTS = ['SAVE_VERSION', 'SAVE_KEY', 'TEST_KEY', 'berlinDate', 'unlockedDay', 'daysUntilStart', 'parseTestDay',
   'checkCond', 'condsOk', 'pickTalk', 'newSave', 'migrateSave', 'storeLoad', 'storeWrite', 'exportCode', 'importCode',
   'blockedAt', 'findPath', 'updateQuests', 'questComplete', 'allSecretIds', 'validateData'];
@@ -20,7 +20,7 @@ function loadData() {
   const D = {
     welt: readJson('data/welt.json'), tiles: readJson('data/tiles.json'), objects: readJson('data/objects.json'),
     characters: readJson('data/characters.json'), dialogs: readJson('data/dialogs.json'), quests: readJson('data/quests.json'),
-    musik: readJson('data/musik.json'), maps: {},
+    musik: readJson('data/musik.json'), puzzles: readJson('data/puzzles.json'), maps: {},
   };
   fs.readdirSync(path.join(ROOT, 'data/maps')).filter(f => f.endsWith('.json')).sort()
     .forEach(f => { D.maps[f.replace(/\.json$/, '')] = readJson('data/maps/' + f); });

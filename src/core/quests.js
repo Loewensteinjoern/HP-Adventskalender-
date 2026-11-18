@@ -2,7 +2,9 @@
 function questIds() {
   return Object.keys(DATA.quests).sort((a, b) => DATA.quests[a].day - DATA.quests[b].day || (a < b ? -1 : 1));
 }
-function stepDone(st, flags) { return !!flags[st.flag]; }
+function stepFlags(st) { return st.flags || [st.flag]; }
+function stepDone(st, flags) { return stepFlags(st).every(f => !!flags[f]); }
+function stepCount(st, flags) { return stepFlags(st).filter(f => !!flags[f]).length; }
 function questComplete(q, flags) {
   return !q.teilweise && q.steps.every(st => stepDone(st, flags));
 }
@@ -14,7 +16,7 @@ function updateQuests(save, day) {
     if (q.day > day || save.done.indexOf(id) >= 0) return;
     if (questComplete(q, save.flags)) {
       save.done.push(id);
-      if (save.fragments.indexOf(id) < 0) save.fragments.push(id);
+      if (!q.neben && save.fragments.indexOf(id) < 0) save.fragments.push(id);
       neu.push(id);
     }
   });

@@ -10,6 +10,7 @@ function tileSolid(m, x, y) {
   return c === null || !!(DATA.tiles[c] || {}).solid;
 }
 function objType(o) { return DATA.objects[o.type]; }
+function objSolid(o) { return o.solid !== undefined ? !!o.solid : !!objType(o).solid; }
 function objCovers(o, x, y) {
   const t = objType(o);
   return x >= o.x && x < o.x + t.w && y >= o.y && y < o.y + t.h;
@@ -24,7 +25,7 @@ function secretAt(m, x, y, ctx) { return (m.secrets || []).find(s => s.x === x &
 
 function blockedAt(m, x, y, ctx) {
   if (tileSolid(m, x, y)) return true;
-  if (visibleObjs(m, ctx).some(o => objType(o).solid && objCovers(o, x, y))) return true;
+  if (visibleObjs(m, ctx).some(o => objSolid(o) && objCovers(o, x, y))) return true;
   if (npcAt(m, x, y, ctx)) return true;
   return false;
 }

@@ -1,13 +1,78 @@
 {
-  "T": { "paint": "decke", "solid": true },
-  "W": { "paint": "wand_putz", "solid": true },
-  ".": { "paint": "dielen" },
-  "g": { "paint": "galerie" },
-  "F": { "paint": "galerie_front", "solid": true },
-  "f": { "paint": "galerie_seite", "solid": true },
-  "s": { "paint": "treppe" },
-  "D": { "paint": "wand_putz" },
-  "X": { "paint": "wand_stein", "solid": true },
-  "p": { "paint": "steinboden" },
-  "d": { "paint": "ausgang_unten" }
+  "T": {
+    "paint": "decke",
+    "solid": true
+  },
+  "W": {
+    "paint": "wand_putz",
+    "solid": true
+  },
+  ".": {
+    "paint": "dielen"
+  },
+  "g": {
+    "paint": "galerie"
+  },
+  "F": {
+    "paint": "galerie_front",
+    "solid": true
+  },
+  "f": {
+    "paint": "galerie_seite",
+    "solid": true
+  },
+  "s": {
+    "paint": "treppe"
+  },
+  "D": {
+    "paint": "wand_putz"
+  },
+  "X": {
+    "paint": "wand_stein",
+    "solid": true
+  },
+  "p": {
+    "paint": "steinboden"
+  },
+  "d": {
+    "paint": "ausgang_unten"
+  },
+  "M": {
+    "paint": "marmor"
+  },
+  "K": {
+    "paint": "wand_schloss",
+    "solid": true
+  },
+  "R": {
+    "paint": "laeufer"
+  },
+  "O": {
+    "paint": "torbogen"
+  },
+  "<": {
+    "paint": "ausgang_links"
+  },
+  ">": {
+    "paint": "ausgang_rechts"
+  },
+  "y": {
+    "paint": "treppe_runter"
+  },
+  "n": {
+    "paint": "schnee"
+  },
+  "w": {
+    "paint": "weg_schnee"
+  },
+  "Y": {
+    "paint": "aussenmauer",
+    "solid": true
+  },
+  "z": {
+    "paint": "stroh"
+  },
+  "h": {
+    "paint": "geheimgang"
+  }
 }

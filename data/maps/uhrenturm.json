@@ -1,0 +1,316 @@
+{
+ "name": "Uhrenturm",
+ "music": "turm",
+ "ambient": {
+  "dark": 0.48,
+  "tint": "30,20,40",
+  "particles": "staub"
+ },
+ "tiles": [
+  "TTTTTTTTTTTTTTTT",
+  "TXXXXXXXXXXXXXXT",
+  "TXXXXXXXXXXXXXXT",
+  "TMMMMMMMMMXMMMMT",
+  "TMMMMMMMMMXMMMMT",
+  "TMMMMMMMMMXMMMMT",
+  "TMMMMMMMMMXMMMMT",
+  "<MMMMMMMMMhMMMMT",
+  "TMMMMMMMMMXMMMMT",
+  "TMMMMMMMMMXMMMMT",
+  "TMMMMMMMMMXMMMMT",
+  "TTTTTTTTTTTTTTTT"
+ ],
+ "objects": [
+  {
+   "type": "zifferblatt",
+   "x": 3,
+   "y": 1,
+   "if": [
+    "!done:Q04"
+   ],
+   "talk": [
+    {
+     "dialog": "zifferblatt"
+    }
+   ]
+  },
+  {
+   "type": "zifferblatt",
+   "x": 3,
+   "y": 1,
+   "v": "ok",
+   "if": [
+    "done:Q04"
+   ],
+   "talk": [
+    {
+     "dialog": "zifferblatt_ok"
+    }
+   ]
+  },
+  {
+   "type": "wandkerze",
+   "x": 2,
+   "y": 2,
+   "talk": [
+    {
+     "dialog": "wandkerze"
+    }
+   ]
+  },
+  {
+   "type": "wandkerze",
+   "x": 8,
+   "y": 2,
+   "talk": [
+    {
+     "dialog": "wandkerze"
+    }
+   ]
+  },
+  {
+   "type": "wandkerze",
+   "x": 12,
+   "y": 2,
+   "talk": [
+    {
+     "dialog": "wandkerze"
+    }
+   ]
+  },
+  {
+   "type": "uhrwerk",
+   "x": 5,
+   "y": 4,
+   "v": "kaputt",
+   "if": [
+    "!flag:q04_eingesetzt"
+   ],
+   "talk": [
+    {
+     "if": [
+      "quest:Q04",
+      "flag:q04_zahnrad"
+     ],
+     "dialog": "q04_einsetzen",
+     "set": [
+      "q04_eingesetzt"
+     ],
+     "sound": "zahnrad"
+    },
+    {
+     "if": [
+      "quest:Q04"
+     ],
+     "dialog": "uhrwerk_luecke"
+    },
+    {
+     "dialog": "uhrwerk_kaputt"
+    }
+   ]
+  },
+  {
+   "type": "uhrwerk",
+   "x": 5,
+   "y": 4,
+   "v": "neu",
+   "if": [
+    "flag:q04_eingesetzt"
+   ],
+   "talk": [
+    {
+     "dialog": "uhrwerk_laeuft"
+    }
+   ]
+  },
+  {
+   "type": "werkbank",
+   "x": 1,
+   "y": 9,
+   "talk": [
+    {
+     "dialog": "werkbank"
+    }
+   ]
+  },
+  {
+   "type": "loser_stein",
+   "x": 10,
+   "y": 7,
+   "if": [
+    "!flag:geheimgang_uhr"
+   ],
+   "talk": [
+    {
+     "dialog": "loser_stein"
+    }
+   ]
+  },
+  {
+   "type": "zahnrad",
+   "x": 13,
+   "y": 7,
+   "if": [
+    "!flag:q04_zahnrad"
+   ],
+   "talk": [
+    {
+     "if": [
+      "quest:Q04"
+     ],
+     "dialog": "q04_zahnrad_fund",
+     "set": [
+      "q04_zahnrad"
+     ],
+     "sound": "fund"
+    },
+    {
+     "dialog": "zahnrad"
+    }
+   ]
+  },
+  {
+   "type": "pflanze",
+   "x": 14,
+   "y": 10,
+   "talk": [
+    {
+     "dialog": "pflanze"
+    }
+   ]
+  }
+ ],
+ "npcs": [
+  {
+   "char": "pendel",
+   "x": 3,
+   "y": 5,
+   "dir": "down",
+   "talk": [
+    {
+     "if": [
+      "quest:Q03",
+      "flag:q03_erinnert",
+      "!flag:q03_clavis"
+     ],
+     "dialog": "q03_pendel",
+     "set": [
+      "zauber_clavis",
+      "q03_clavis"
+     ],
+     "sound": "zauber"
+    },
+    {
+     "if": [
+      "quest:Q04",
+      "!flag:q04_pendel"
+     ],
+     "dialog": "q04_pendel",
+     "set": [
+      "q04_pendel",
+      "zauber_restauro"
+     ],
+     "sound": "zauber"
+    },
+    {
+     "if": [
+      "quest:Q04",
+      "!flag:q04_zahnrad"
+     ],
+     "dialog": "pendel_tipp_zahnrad"
+    },
+    {
+     "if": [
+      "quest:Q04",
+      "!flag:q04_eingesetzt"
+     ],
+     "dialog": "pendel_tipp_einsetzen"
+    },
+    {
+     "if": [
+      "quest:Q04"
+     ],
+     "dialog": "pendel_tipp_uhrmeister"
+    },
+    {
+     "if": [
+      "done:Q04"
+     ],
+     "dialog": "pendel_danke"
+    },
+    {
+     "dialog": "pendel_1"
+    }
+   ]
+  },
+  {
+   "char": "uhrmeister",
+   "x": 9,
+   "y": 4,
+   "dir": "down",
+   "talk": [
+    {
+     "if": [
+      "quest:Q04",
+      "flag:q04_eingesetzt",
+      "!flag:q04_uhrmeister"
+     ],
+     "dialog": "uhrmeister_erwacht",
+     "minigame": {
+      "type": "takt",
+      "rounds": [
+       3,
+       4,
+       5
+      ]
+     },
+     "win": {
+      "dialog": "uhrmeister_besiegt",
+      "set": [
+       "q04_uhrmeister"
+      ],
+      "sound": "fund"
+     }
+    },
+    {
+     "if": [
+      "flag:q04_uhrmeister"
+     ],
+     "dialog": "uhrmeister_ruhig"
+    },
+    {
+     "dialog": "uhrmeister_still"
+    }
+   ]
+  }
+ ],
+ "secrets": [
+  {
+   "id": "geheimgang_uhr",
+   "x": 10,
+   "y": 7,
+   "if": [
+    "quest:Q04",
+    "flag:q04_pendel",
+    "!flag:geheimgang_uhr"
+   ],
+   "found": {
+    "dialog": "q04_geheimgang",
+    "set": [
+     "geheimgang_uhr"
+    ],
+    "sound": "stein"
+   }
+  }
+ ],
+ "doors": [
+  {
+   "x": 0,
+   "y": 7,
+   "to": "schlosskern",
+   "tx": 20,
+   "ty": 8,
+   "dir": "left"
+  }
+ ]
+}

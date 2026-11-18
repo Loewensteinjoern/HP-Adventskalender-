@@ -14,7 +14,7 @@
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <title>Die Reise zum Winterphönix</title>
-<!-- Version 0.1 · Stufe 1 (Stilprobe) · gebaut 2026-11-18 16:51 UTC · Entwickelt und erstellt von Jörn Löwenstein mit Hilfe von künstlicher Intelligenz (Claude) -->
+<!-- Version 0.2 · Stufe 2 · gebaut 2026-11-18 17:10 UTC · Entwickelt und erstellt von Jörn Löwenstein mit Hilfe von künstlicher Intelligenz (Claude) -->
 <style>
 html,body{margin:0;height:100%;background:#120c1c;overflow:hidden;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}
 body{position:fixed;inset:0;box-sizing:border-box;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
@@ -73,7 +73,7 @@ body.hoch #tools{position:absolute;top:8px;right:8px;flex-direction:row}
 <script>
 'use strict';
 (function () {
-const DATA = {"welt":{"version":"0.1 · Stufe 1 (Stilprobe)","start":{"map":"gemeinschaftsraum","x":13,"y":4,"dir":"left"},"intro":"intro"},"tiles":{"T":{"paint":"decke","solid":true},"W":{"paint":"wand_putz","solid":true},".":{"paint":"dielen"},"g":{"paint":"galerie"},"F":{"paint":"galerie_front","solid":true},"f":{"paint":"galerie_seite","solid":true},"s":{"paint":"treppe"},"D":{"paint":"wand_putz"},"X":{"paint":"wand_stein","solid":true},"p":{"paint":"steinboden"},"d":{"paint":"ausgang_unten"}},"objects":{"kamin":{"paint":"kamin","w":3,"h":3,"up":0,"solid":true,"wall":true,"frames":4,"fps":7,"light":{"x":48,"y":66,"r":150,"col":"255,150,60","flicker":true}},"tuer":{"paint":"tuer","w":1,"h":2,"up":0,"solid":false,"wall":true},"banner":{"paint":"banner","w":1,"h":2,"up":0,"solid":true,"wall":true},"wanduhr":{"paint":"wanduhr","w":1,"h":2,"up":0,"solid":true,"wall":true,"frames":2,"fps":1},"fenster":{"paint":"fenster","w":2,"h":1,"up":0,"solid":true,"wall":true,"frames":4,"fps":3,"light":{"x":32,"y":30,"r":70,"col":"150,190,255"}},"regal_hoch":{"paint":"regal_hoch","w":2,"h":1,"up":44,"solid":true},"sessel":{"paint":"sessel","w":1,"h":1,"up":12,"solid":true},"sessel_ruecken":{"paint":"sessel_ruecken","w":1,"h":1,"up":12,"solid":true},"sofa_ruecken":{"paint":"sofa_ruecken","w":3,"h":1,"up":12,"solid":true},"beistelltisch":{"paint":"beistelltisch","w":1,"h":1,"up":10,"solid":true,"frames":2,"fps":5,"light":{"x":20,"y":2,"r":40,"col":"255,200,110","flicker":true}},"stehlampe":{"paint":"stehlampe","w":1,"h":1,"up":34,"solid":true,"light":{"x":16,"y":-22,"r":70,"col":"255,190,100"}},"tisch_rund":{"paint":"tisch_rund","w":2,"h":1,"up":12,"solid":true,"frames":2,"fps":5,"light":{"x":32,"y":-4,"r":46,"col":"255,190,100","flicker":true}},"teppich":{"paint":"teppich","w":5,"h":3,"up":0,"solid":false,"decal":true},"korb":{"paint":"korb","w":1,"h":1,"up":0,"solid":false,"decal":true},"pflanze":{"paint":"pflanze","w":1,"h":1,"up":16,"solid":true},"farn":{"paint":"farn","w":1,"h":1,"up":14,"solid":true},"buecherstapel":{"paint":"buecherstapel","w":1,"h":1,"up":6,"solid":true},"kommode":{"paint":"kommode","w":2,"h":1,"up":18,"solid":true},"tannenbaum":{"paint":"tannenbaum","w":1,"h":1,"up":46,"solid":true,"frames":2,"fps":2,"light":{"x":16,"y":-8,"r":44,"col":"255,170,120"}},"friedas_haus":{"paint":"friedas_haus","w":2,"h":1,"up":28,"solid":true,"frames":4,"fps":8},"portraet_ottokar":{"paint":"portraet_ottokar","w":2,"h":2,"up":0,"solid":true,"wall":true,"frames":2,"fps":1},"wandkerze":{"paint":"wandkerze","w":1,"h":1,"up":0,"solid":true,"wall":true,"frames":3,"fps":6,"light":{"x":16,"y":6,"r":64,"col":"255,180,90","flicker":true}},"treppe_hoch":{"paint":"treppe_hoch","w":2,"h":2,"up":0,"solid":true,"wall":true},"ruestung":{"paint":"ruestung","w":1,"h":1,"up":34,"solid":true},"bank":{"paint":"bank","w":2,"h":1,"up":8,"solid":true}},"characters":{"charly":{"name":"Charly","sprite":"charly"},"joern":{"name":"Jörn","sprite":"joern","talk":[{"if":["quest:Q01","flag:q01_feder","!flag:q01_joern"],"dialog":"q01_joern","set":["q01_joern"],"sound":"fund"},{"if":["quest:Q01","flag:q01_joern"],"dialog":"q01_joern_danach"},{"if":["quest:Q01"],"dialog":"joern_q01_tipp"},{"if":["day\u003c1"],"dialog":["joern_vor1","joern_vor2","joern_vor3"]},{"dialog":["joern_1","joern_2","joern_3"]}]},"diego":{"name":"Diego","sprite":"diego","talk":[{"dialog":["diego_1","diego_2","diego_3"]}]},"frieda":{"name":"Frieda"},"pit":{"name":"Pit Honigwabe","sprite":"pit"},"ottokar":{"name":"Sir Ottokar der Schnarcher"},"lotte":{"name":"Lotte Silberfeder","sprite":"lotte"}},"dialogs":{"intro":[["","Løvestein, Ende November. Über dem Schloss fällt der erste richtige Schnee."],["","Im Gemeinschaftsraum des Hauses Bernfuchs knistert das Kaminfeuer."],["joern","Charly, schau mal raus! Bis morgen früh ist alles weiß."],["joern","Und Diego hat sich schon in sein Körbchen vor dem Kamin gerollt. Der weiß genau, wo es am gemütlichsten ist."],["","Steuerkreuz: laufen. A: sprechen und untersuchen. B: Diego schnüffeln lassen. ☰ oben rechts: Menü und Questlog."]],"q01_start":[["","1. Dezember. Über Nacht ist Løvestein unter einer dicken Schneedecke verschwunden."],["joern","Charly … riechst du das auch? Wie Glut und Schnee gleichzeitig."],["","Am Rand des Kamins glitzert Raureif. Mitten in der Wärme."],["joern","Das ist doch nicht normal. Vielleicht findet Diego heraus, was da los ist."]],"diego_wecken":[["","Diego schnarcht leise. Charly krault ihn hinter den Ohren."],["diego","Wuff?"],["","Diego streckt sich, gähnt ausgiebig – und weicht Charly ab jetzt nicht mehr von der Seite."],["","Tipp: Drück B, dann schnüffelt Diego nach Geheimnissen in der Nähe. Goldene Pfotenspuren zeigen den Weg."]],"diego_1":[["","Diego wedelt so heftig, dass sein ganzer Hintern mitwackelt."]],"diego_2":[["","Diego schaut dich an, als hätte er seit Stunden nichts gegessen. Hat er aber."]],"diego_3":[["diego","Wuff!"],["","Diego stupst dich mit der Nase an. Schnüffeln? (Taste B)"]],"diego_kein_geruch":[["","Diego schnüffelt eifrig am Boden … aber hier riecht nichts Besonderes."]],"diego_nicht_da":[["","Diego ist gerade nicht bei dir. Vielleicht schläft er noch im Körbchen am Kamin?"]],"joern_vor1":[["joern","Noch {tage} Tage, dann beginnt der Advent. Ich hab das Gefühl, dieses Jahr passiert hier etwas Besonderes."]],"joern_vor2":[["joern","Ich hab Frieda vorhin beim Laufrad-Marathon zugeschaut. Die ist fitter als ich."]],"joern_vor3":[["joern","Weißt du, was das Beste am Winter in Løvestein ist? Dass wir ihn zusammen erleben."]],"joern_1":[["joern","Wenn du mich brauchst: Ich bin direkt hinter dir. Wie immer."]],"joern_2":[["joern","Noch eine Tasse Kakao, und ich schlafe vor dem Kamin ein. Neben Diego."]],"joern_3":[["joern","Hörst du das? Das Schloss knarrt, als würde es sich im Schlaf umdrehen."]],"joern_q01_tipp":[["joern","Der Raureif am Kamin lässt mir keine Ruhe. Diego hat die beste Nase im ganzen Schloss – lass ihn mal schnüffeln."]],"q01_joern":[["joern","Eine Feder? Die ist ja … warm. Mitten im Winter."],["joern","Schau, sie glimmt wie Glut. So einen Vogel gibt es hier doch gar nicht."],["","An der Feder hängen feine Raureif-Kristalle. Sie glitzern in Richtung Tür."],["joern","Lotte Silberfeder weiß bestimmt, was das ist. Sie sitzt sicher wieder in der Großen Halle über ihren Büchern."]],"q01_joern_danach":[["joern","Die Raureif-Spur führt hinaus in den Gang. Komm, wir folgen ihr!"]],"q01_feder_fund":[["","Diego bellt den Kamin an. Hinter einem losen Ziegel steckt … eine Feder!"],["","Sie schimmert golden-weiß und fühlt sich warm an, obwohl ringsum Raureif glitzert."],["","Charly hat die Winterfeder gefunden."]],"geheim_zimtstern":[["","Hinter dem Farn liegt ein Zimtstern – noch ganz knusprig!"],["","Diego bekommt die Hälfte. Mindestens."]],"geheim_notiz":[["","Hinter einem losen Stein steckt ein vergilbter Zettel:"],["","„Wer das hier findet, hat einen sehr guten Hund. – Ein Schüler aus Bernfuchs, vor langer, langer Zeit.“"]],"pit_1":[["pit","Hey Charly! Ich lese gerade „Wintermagie für Anfänger“. Kapitel eins: Nie die Zunge an einen Eiszapfen halten."]],"pit_2":[["pit","Hast du das auch gemerkt? Seit heute Nacht flackern alle Kerzen im Schloss so komisch."]],"frieda":[["","Frieda rennt in ihrem Laufrad, als gäbe es kein Morgen."],["frieda","Piep!"],["","Sie stopft sich die Backen voll und schaut dich mit glänzenden Knopfaugen an."]],"kamin":[["","Das Feuer knistert. Es riecht nach Tannenzapfen und ein bisschen nach Zimt."]],"kamin_q01":[["","Am Rand des Kamins glitzert Raureif – direkt neben den Flammen. Diego könnte schnüffeln (Taste B)."]],"fenster":[["","Draußen tanzen dicke Schneeflocken. In der Ferne glitzert der Spiegelsee im Mondlicht."]],"regal_1":[["","„Hundert Arten, Tee zu kochen“, „Rätsel für lange Winterabende“ … und ganz hinten ein Buch, das leise summt."]],"regal_2":[["","„Moosgrün und Bernstein – Die Geschichte des Hauses Bernfuchs“. Auf dem Rücken klebt ein Hundehaar."]],"banner":[["","Das Banner des Hauses Bernfuchs: ein Fuchs auf Moosgrün und Bernstein. Darunter steht: „Treu und warm.“"]],"wanduhr":[["","Die Wanduhr tickt gemütlich. Ihr Pendel schwingt im Takt des Kaminfeuers."]],"tannenbaum":[["","Ein kleiner Tannenbaum mit Strohsternen. Jemand hat einen Hundekeks als Schmuck aufgehängt. Diego hat ihn schon im Blick."]],"sofa":[["","Das gemütlichste Sofa im ganzen Schloss. Leider ist Diego der gleichen Meinung."]],"tisch":[["","Ein Adventskranz aus Tannenzweigen. Daneben dampfen zwei Tassen Kakao – eine mit extra viel Sahne."]],"sessel":[["","Ein weicher Lesesessel. Die Delle im Polster hat genau Charlys Form."]],"lampe":[["","Die Stehlampe verbreitet warmes, honiggelbes Licht."]],"kommode":[["","In der Kommode: Wollsocken, Strickmützen und eine Dose Hundekekse. Diego sitzt sofort daneben."]],"buecher":[["","Ein wackeliger Bücherstapel. Ganz oben: „Pfotenkunde für Fortgeschrittene“."]],"pflanze":[["","Eine Zimmerpflanze. Sie hat sich zum Kamin gedreht, um es warm zu haben."]],"ottokar":[["ottokar","Chrrr … pfffh … chrrr …"],["","Sir Ottokar der Schnarcher schläft in seinem Goldrahmen. Wie immer."]],"ruestung":[["","Eine alte Ritterrüstung. Als Charly vorbeigeht, quietscht das Visier ganz leise."]],"bank":[["","Eine Holzbank. In die Lehne hat jemand einen kleinen Fuchs geschnitzt."]],"wandkerze":[["","Eine Kerze in einem eisernen Halter. Die Flamme neigt sich zur Treppe hin, als wehe von oben ein kalter Wind."]],"treppe_vor":[["","Die Treppe hinauf zum Schlosskern. Oben ist es noch still – ab dem 1. Dezember geht es hier weiter."]],"treppe_bald":[["","Ein kalter Luftzug weht von oben herab. Die Treppe ist noch zugeschneit. Hier geht es bald weiter."]]},"quests":{"Q01":{"day":1,"title":"Die letzte Winterfeder","start":"q01_start","teilweise":true,"fragment":"Wenn die längste Nacht sich naht, sucht der Phönix sein Feuer.","steps":[{"flag":"diego_dabei","text":"Weck Diego in seinem Körbchen am Kamin."},{"flag":"q01_feder","text":"Am Kamin glitzert Raureif. Lass Diego schnüffeln (Taste B)."},{"flag":"q01_joern","text":"Zeig Jörn die Feder."},{"flag":"q01_lotte","text":"Folge der Raureif-Spur zur Großen Halle und frag Lotte Silberfeder."}]}},"musik":{"kamin":{"bpm":92,"voices":[{"inst":"spieluhr","vol":0.55,"notes":"A4:2 C5:2 F5:2 E5:3 D5:1 C5:2 A#4:2 D5:2 G5:2 F5:4 E5:2 D5:2 F5:2 A5:2 G5:3 F5:1 E5:2 D5:2 C5:2 E5:2 F5:6 C5:2 A4:2 C5:2 D5:3 C5:1 A#4:2 A4:2 F4:2 A4:2 G4:6 A4:2 C5:2 F5:2 E5:2 G5:2 A#5:2 A5:3 G5:1 E5:2 F5:6"},{"inst":"bass","vol":0.5,"notes":"F2:2 A3:2 C4:2 C3:2 E3:2 G3:2 G2:2 A#3:2 D4:2 C3:2 E3:2 G3:2 D3:2 F3:2 A3:2 C3:2 E3:2 G3:2 C3:2 E3:2 G3:2 F2:2 A3:2 C4:2 F2:2 A3:2 C4:2 A#2:2 D3:2 F3:2 F2:2 A3:2 C4:2 C3:2 E3:2 G3:2 F2:2 A3:2 C4:2 C3:2 E3:2 A#3:2 C3:2 E3:2 G3:2 F2:2 A3:2 C4:2"}]},"titel":{"bpm":80,"voices":[{"inst":"glocke","vol":0.45,"notes":"A4:2 C5:2 F5:2 E5:3 D5:1 C5:2 A#4:2 D5:2 G5:2 F5:4 E5:2 D5:2 F5:2 A5:2 G5:3 F5:1 E5:2 D5:2 C5:2 E5:2 F5:6"},{"inst":"flaeche","vol":0.3,"notes":"F3:6 C3:6 G3:6 C3:6 D3:6 C3:6 C3:6 F3:6"}]},"flur":{"bpm":76,"voices":[{"inst":"spieluhr","vol":0.45,"notes":"A4:4 C5:2 B4:4 G4:2 A4:2 B4:2 C5:2 E5:6 D5:4 C5:2 B4:2 A4:2 G#4:2 A4:6 -:6"},{"inst":"bass","vol":0.45,"notes":"A2:2 E3:2 A3:2 E2:2 B2:2 E3:2 F2:2 C3:2 F3:2 E2:2 B2:2 E3:2 D3:2 F3:2 A3:2 E2:2 B2:2 E3:2 A2:2 E3:2 A3:2 A2:2 E3:2 A3:2"}]}},"maps":{"gemeinschaftsraum":{"name":"Bernfuchs-Gemeinschaftsraum","music":"kamin","ambient":{"dark":0.5,"tint":"36,16,46","particles":"funken"},"tiles":["TTTTTTTTTTTTTTTTTTTT","TWWWWWWWWWWWWWWWWWWT","TgggggggggfWWWWWWDWT","Tgggggggggf........T","Tgggggggggf........T","TFFFFFFFFsf........T","T..................T","T..................T","T..................T","T..................T","T..................T","T..................T","T..................T","TTTTTTTTTTTTTTTTTTTT"],"objects":[{"type":"kamin","x":13,"y":1,"talk":[{"if":["quest:Q01","!flag:q01_feder"],"dialog":"kamin_q01"},{"dialog":"kamin"}]},{"type":"tuer","x":17,"y":1},{"type":"banner","x":11,"y":1,"talk":[{"dialog":"banner"}]},{"type":"wanduhr","x":16,"y":1,"talk":[{"dialog":"wanduhr"}]},{"type":"fenster","x":6,"y":1,"talk":[{"dialog":"fenster"}]},{"type":"regal_hoch","x":1,"y":2,"seed":3,"talk":[{"dialog":"regal_1"}]},{"type":"regal_hoch","x":3,"y":2,"seed":8,"talk":[{"dialog":"regal_2"}]},{"type":"sessel","x":5,"y":2,"talk":[{"dialog":"sessel"}]},{"type":"beistelltisch","x":8,"y":2,"talk":[{"dialog":"buecher"}]},{"type":"stehlampe","x":9,"y":2,"talk":[{"dialog":"lampe"}]},{"type":"buecherstapel","x":1,"y":4,"talk":[{"dialog":"buecher"}]},{"type":"teppich","x":11,"y":5},{"type":"korb","x":12,"y":4},{"type":"tisch_rund","x":13,"y":6,"talk":[{"dialog":"tisch"}]},{"type":"sofa_ruecken","x":12,"y":8,"talk":[{"dialog":"sofa"}]},{"type":"sessel_ruecken","x":16,"y":6,"talk":[{"dialog":"sessel"}]},{"type":"friedas_haus","x":17,"y":10,"talk":[{"dialog":"frieda","sound":"piep"}]},{"type":"tannenbaum","x":7,"y":6,"talk":[{"dialog":"tannenbaum"}]},{"type":"kommode","x":2,"y":6,"talk":[{"dialog":"kommode"}]},{"type":"stehlampe","x":2,"y":10,"talk":[{"dialog":"lampe"}]},{"type":"sessel","x":3,"y":10,"talk":[{"dialog":"sessel"}]},{"type":"beistelltisch","x":4,"y":10,"talk":[{"dialog":"buecher"}]},{"type":"farn","x":1,"y":11,"talk":[{"dialog":"pflanze"}]},{"type":"pflanze","x":1,"y":12,"talk":[{"dialog":"pflanze"}]},{"type":"pflanze","x":18,"y":12,"talk":[{"dialog":"pflanze"}]},{"type":"pflanze","x":18,"y":3,"talk":[{"dialog":"pflanze"}]},{"type":"buecherstapel","x":8,"y":10,"talk":[{"dialog":"buecher"}]}],"npcs":[{"char":"diego","x":12,"y":4,"dir":"down","pose":"schlaf","if":["!flag:diego_dabei"],"talk":[{"dialog":"diego_wecken","set":["diego_dabei"],"join":"diego","sound":"wuff"}]},{"char":"pit","x":6,"y":3,"dir":"down","talk":[{"if":["day>=1"],"dialog":"pit_2"},{"dialog":"pit_1"}]}],"secrets":[{"id":"zimtstern","x":1,"y":11,"if":["!flag:geheim_zimtstern"],"found":{"dialog":"geheim_zimtstern","set":["geheim_zimtstern"],"sound":"fund"}},{"id":"q01_feder","x":15,"y":3,"count":false,"if":["quest:Q01","!flag:q01_feder"],"found":{"dialog":"q01_feder_fund","set":["q01_feder"],"sound":"fund"}}],"doors":[{"x":17,"y":2,"to":"kellergang","tx":8,"ty":5,"dir":"up"}]},"kellergang":{"name":"Kellergang","music":"flur","ambient":{"dark":0.55,"tint":"20,20,45","particles":"staub"},"tiles":["TTTTTTTTTTTTTTTTTT","TXXXXXXXXXXXXXXXXT","TXXXXXXXXXXXXXXXXT","TppppppppppppppppT","TppppppppppppppppT","TppppppppppppppppT","TTTTTTTTdTTTTTTTTT"],"objects":[{"type":"portraet_ottokar","x":4,"y":1,"talk":[{"dialog":"ottokar","sound":"schnarch"}]},{"type":"wandkerze","x":3,"y":2,"talk":[{"dialog":"wandkerze"}]},{"type":"wandkerze","x":7,"y":2,"talk":[{"dialog":"wandkerze"}]},{"type":"wandkerze","x":11,"y":2,"talk":[{"dialog":"wandkerze"}]},{"type":"treppe_hoch","x":14,"y":1,"bump":true,"talk":[{"if":["day\u003c1"],"dialog":"treppe_vor"},{"dialog":"treppe_bald"}]},{"type":"ruestung","x":12,"y":3,"talk":[{"dialog":"ruestung"}]},{"type":"bank","x":8,"y":3,"talk":[{"dialog":"bank"}]},{"type":"pflanze","x":16,"y":3,"talk":[{"dialog":"pflanze"}]},{"type":"pflanze","x":1,"y":5,"talk":[{"dialog":"pflanze"}]}],"secrets":[{"id":"notiz","x":1,"y":2,"if":["!flag:geheim_notiz"],"found":{"dialog":"geheim_notiz","set":["geheim_notiz"],"sound":"fund"}}],"doors":[{"x":8,"y":6,"to":"gemeinschaftsraum","tx":17,"ty":3,"dir":"down"}]}}};
+const DATA = {"welt":{"version":"0.2 · Stufe 2","start":{"map":"gemeinschaftsraum","x":13,"y":4,"dir":"left"},"intro":"intro"},"tiles":{"T":{"paint":"decke","solid":true},"W":{"paint":"wand_putz","solid":true},".":{"paint":"dielen"},"g":{"paint":"galerie"},"F":{"paint":"galerie_front","solid":true},"f":{"paint":"galerie_seite","solid":true},"s":{"paint":"treppe"},"D":{"paint":"wand_putz"},"X":{"paint":"wand_stein","solid":true},"p":{"paint":"steinboden"},"d":{"paint":"ausgang_unten"},"M":{"paint":"marmor"},"K":{"paint":"wand_schloss","solid":true},"R":{"paint":"laeufer"},"O":{"paint":"torbogen"},"\u003c":{"paint":"ausgang_links"},">":{"paint":"ausgang_rechts"},"y":{"paint":"treppe_runter"},"n":{"paint":"schnee"},"w":{"paint":"weg_schnee"},"Y":{"paint":"aussenmauer","solid":true},"z":{"paint":"stroh"},"h":{"paint":"geheimgang"}},"objects":{"kamin":{"paint":"kamin","w":3,"h":3,"up":0,"solid":true,"wall":true,"frames":4,"fps":7,"light":{"x":48,"y":66,"r":150,"col":"255,150,60","flicker":true}},"tuer":{"paint":"tuer","w":1,"h":2,"up":0,"solid":false,"wall":true},"banner":{"paint":"banner","w":1,"h":2,"up":0,"solid":true,"wall":true},"wanduhr":{"paint":"wanduhr","w":1,"h":2,"up":0,"solid":true,"wall":true,"frames":2,"fps":1},"fenster":{"paint":"fenster","w":2,"h":1,"up":0,"solid":true,"wall":true,"frames":4,"fps":3,"light":{"x":32,"y":30,"r":70,"col":"150,190,255"}},"regal_hoch":{"paint":"regal_hoch","w":2,"h":1,"up":44,"solid":true},"sessel":{"paint":"sessel","w":1,"h":1,"up":12,"solid":true},"sessel_ruecken":{"paint":"sessel_ruecken","w":1,"h":1,"up":12,"solid":true},"sofa_ruecken":{"paint":"sofa_ruecken","w":3,"h":1,"up":12,"solid":true},"beistelltisch":{"paint":"beistelltisch","w":1,"h":1,"up":10,"solid":true,"frames":2,"fps":5,"light":{"x":20,"y":2,"r":40,"col":"255,200,110","flicker":true}},"stehlampe":{"paint":"stehlampe","w":1,"h":1,"up":34,"solid":true,"light":{"x":16,"y":-22,"r":70,"col":"255,190,100"}},"tisch_rund":{"paint":"tisch_rund","w":2,"h":1,"up":12,"solid":true,"frames":2,"fps":5,"light":{"x":32,"y":-4,"r":46,"col":"255,190,100","flicker":true}},"teppich":{"paint":"teppich","w":5,"h":3,"up":0,"solid":false,"decal":true},"korb":{"paint":"korb","w":1,"h":1,"up":0,"solid":false,"decal":true},"pflanze":{"paint":"pflanze","w":1,"h":1,"up":16,"solid":true},"farn":{"paint":"farn","w":1,"h":1,"up":14,"solid":true},"buecherstapel":{"paint":"buecherstapel","w":1,"h":1,"up":6,"solid":true},"kommode":{"paint":"kommode","w":2,"h":1,"up":18,"solid":true},"tannenbaum":{"paint":"tannenbaum","w":1,"h":1,"up":46,"solid":true,"frames":2,"fps":2,"light":{"x":16,"y":-8,"r":44,"col":"255,170,120"}},"friedas_haus":{"paint":"friedas_haus","w":2,"h":1,"up":28,"solid":true,"frames":4,"fps":8},"portraet_ottokar":{"paint":"portraet_ottokar","w":2,"h":2,"up":0,"solid":true,"wall":true,"frames":2,"fps":1},"wandkerze":{"paint":"wandkerze","w":1,"h":1,"up":0,"solid":true,"wall":true,"frames":3,"fps":6,"light":{"x":16,"y":6,"r":64,"col":"255,180,90","flicker":true}},"treppe_hoch":{"paint":"treppe_hoch","w":2,"h":2,"up":0,"solid":true,"wall":true},"ruestung":{"paint":"ruestung","w":1,"h":1,"up":34,"solid":true},"bank":{"paint":"bank","w":2,"h":1,"up":8,"solid":true},"banner_haus":{"paint":"banner_haus","w":1,"h":2,"up":0,"solid":true,"wall":true},"torbogen_gross":{"paint":"torbogen_gross","w":4,"h":2,"up":0,"solid":false,"wall":true},"girlande":{"paint":"girlande","w":2,"h":1,"up":0,"solid":true,"wall":true},"saeule":{"paint":"saeule","w":1,"h":1,"up":44,"solid":true},"kerzen_schwebend":{"paint":"kerzen_schwebend","w":2,"h":1,"up":40,"solid":false,"overlay":true,"frames":2,"fps":2,"light":{"x":32,"y":-20,"r":60,"col":"255,180,90","flicker":true}},"tannenbaum_gross":{"paint":"tannenbaum_gross","w":2,"h":2,"up":50,"solid":true,"frames":2,"fps":2,"light":{"x":32,"y":0,"r":70,"col":"255,170,120","flicker":false}},"fenster_hoch":{"paint":"fenster_hoch","w":2,"h":2,"up":0,"solid":true,"wall":true,"frames":4,"fps":3,"light":{"x":32,"y":40,"r":70,"col":"150,190,255","flicker":false}},"lehrertisch":{"paint":"lehrertisch","w":8,"h":1,"up":14,"solid":true},"langtisch":{"paint":"langtisch","w":6,"h":1,"up":10,"solid":true},"singkerze":{"paint":"singkerze","w":1,"h":1,"up":34,"solid":true,"frames":2,"fps":2},"singkerze_an":{"paint":"singkerze","w":1,"h":1,"up":34,"solid":true,"frames":2,"fps":2,"light":{"x":16,"y":-26,"r":60,"col":"255,200,110","flicker":true}},"spieluhr":{"paint":"spieluhr","w":1,"h":1,"up":12,"solid":true,"frames":2,"fps":2},"lesetisch":{"paint":"lesetisch","w":3,"h":1,"up":10,"solid":true,"frames":2,"fps":5,"light":{"x":72,"y":0,"r":50,"col":"255,200,110","flicker":true}},"pult":{"paint":"pult","w":2,"h":1,"up":16,"solid":true,"frames":2,"fps":5,"light":{"x":54,"y":-6,"r":56,"col":"255,200,110","flicker":true}},"globus":{"paint":"globus","w":1,"h":1,"up":16,"solid":true},"mauseloch":{"paint":"mauseloch","w":1,"h":1,"up":0,"solid":true,"wall":true},"tanne":{"paint":"tanne","w":1,"h":1,"up":44,"solid":true},"brunnen_eis":{"paint":"brunnen_eis","w":2,"h":2,"up":0,"solid":true},"laterne":{"paint":"laterne","w":1,"h":1,"up":32,"solid":true,"light":{"x":16,"y":-18,"r":84,"col":"255,190,100","flicker":true}},"schneemann":{"paint":"schneemann","w":1,"h":1,"up":20,"solid":true},"baum_kahl":{"paint":"baum_kahl","w":1,"h":1,"up":46,"solid":true,"frames":2,"fps":2},"stange":{"paint":"stange","w":2,"h":1,"up":18,"solid":true,"frames":3,"fps":1},"zifferblatt":{"paint":"zifferblatt","w":4,"h":2,"up":0,"solid":true,"wall":true,"frames":4,"fps":1},"uhrwerk":{"paint":"uhrwerk","w":3,"h":2,"up":18,"solid":true,"frames":16,"fps":6},"zahnrad":{"paint":"zahnrad","w":1,"h":1,"up":0,"solid":true,"frames":2,"fps":3,"light":{"x":16,"y":22,"r":40,"col":"255,220,140","flicker":false}},"loser_stein":{"paint":"loser_stein","w":1,"h":1,"up":0,"solid":true,"wall":true},"werkbank":{"paint":"werkbank","w":2,"h":1,"up":14,"solid":true},"raureif":{"paint":"raureif","w":1,"h":1,"up":0,"solid":false,"decal":true}},"characters":{"charly":{"name":"Charly","sprite":"charly"},"joern":{"name":"Jörn","sprite":"joern","talk":[{"if":["quest:Q01","flag:q01_feder","!flag:q01_joern"],"dialog":"q01_joern","set":["q01_joern"],"sound":"fund"},{"if":["quest:Q01","flag:q01_joern"],"dialog":"q01_joern_danach"},{"if":["quest:Q01"],"dialog":"joern_q01_tipp"},{"if":["day\u003c1"],"dialog":["joern_vor1","joern_vor2","joern_vor3"]},{"dialog":["joern_1","joern_2","joern_3"]}]},"diego":{"name":"Diego","sprite":"diego","talk":[{"dialog":["diego_1","diego_2","diego_3"]}]},"frieda":{"name":"Frieda"},"pit":{"name":"Pit Honigwabe","sprite":"pit"},"ottokar":{"name":"Sir Ottokar der Schnarcher"},"lotte":{"name":"Lotte Silberfeder","sprite":"lotte"},"federleicht":{"name":"Prof. Fridolin Federleicht","sprite":"federleicht"},"pendel":{"name":"Prof. Kasimir Pendel","sprite":"pendel"},"leisetritt":{"name":"Frau Ottilie Leisetritt","sprite":"leisetritt"},"knarz":{"name":"Hausmeister Ignaz Knarz","sprite":"knarz"},"sternwald":{"name":"Direktorin Adelheid Sternwald","sprite":"sternwald"},"uhrmeister":{"name":"Der Uhrmeister","sprite":"uhrmeister"},"pimpernell":{"name":"Pimpernell","sprite":"pimpernell"}},"dialogs":{"intro":[["","Løvestein, Ende November. Über dem Schloss fällt der erste richtige Schnee."],["","Im Gemeinschaftsraum des Hauses Bernfuchs knistert das Kaminfeuer."],["joern","Charly, schau mal raus! Bis morgen früh ist alles weiß."],["joern","Und Diego hat sich schon in sein Körbchen vor dem Kamin gerollt. Der weiß genau, wo es am gemütlichsten ist."],["","Steuerkreuz: laufen. A: sprechen und untersuchen. B: Diego schnüffeln lassen. ☰ oben rechts: Menü und Questlog."]],"q01_start":[["","1. Dezember. Über Nacht ist Løvestein unter einer dicken Schneedecke verschwunden."],["joern","Charly … riechst du das auch? Wie Glut und Schnee gleichzeitig."],["","Am Rand des Kamins glitzert Raureif. Mitten in der Wärme."],["joern","Das ist doch nicht normal. Vielleicht findet Diego heraus, was da los ist."]],"diego_wecken":[["","Diego schnarcht leise. Charly krault ihn hinter den Ohren."],["diego","Wuff?"],["","Diego streckt sich, gähnt ausgiebig – und weicht Charly ab jetzt nicht mehr von der Seite."],["","Tipp: Drück B, dann schnüffelt Diego nach Geheimnissen in der Nähe. Goldene Pfotenspuren zeigen den Weg."]],"diego_1":[["","Diego wedelt so heftig, dass sein ganzer Hintern mitwackelt."]],"diego_2":[["","Diego schaut dich an, als hätte er seit Stunden nichts gegessen. Hat er aber."]],"diego_3":[["diego","Wuff!"],["","Diego stupst dich mit der Nase an. Schnüffeln? (Taste B)"]],"diego_kein_geruch":[["","Diego schnüffelt eifrig am Boden … aber hier riecht nichts Besonderes."]],"diego_nicht_da":[["","Diego ist gerade nicht bei dir. Vielleicht schläft er noch im Körbchen am Kamin?"]],"joern_vor1":[["joern","Noch {tage} Tage, dann beginnt der Advent. Ich hab das Gefühl, dieses Jahr passiert hier etwas Besonderes."]],"joern_vor2":[["joern","Ich hab Frieda vorhin beim Laufrad-Marathon zugeschaut. Die ist fitter als ich."]],"joern_vor3":[["joern","Weißt du, was das Beste am Winter in Løvestein ist? Dass wir ihn zusammen erleben."]],"joern_1":[["joern","Wenn du mich brauchst: Ich bin direkt hinter dir. Wie immer."]],"joern_2":[["joern","Noch eine Tasse Kakao, und ich schlafe vor dem Kamin ein. Neben Diego."]],"joern_3":[["joern","Hörst du das? Das Schloss knarrt, als würde es sich im Schlaf umdrehen."]],"joern_q01_tipp":[["joern","Der Raureif am Kamin lässt mir keine Ruhe. Diego hat die beste Nase im ganzen Schloss – lass ihn mal schnüffeln."]],"q01_joern":[["joern","Eine Feder? Die ist ja … warm. Mitten im Winter."],["joern","Schau, sie glimmt wie Glut. So einen Vogel gibt es hier doch gar nicht."],["","An der Feder hängen feine Raureif-Kristalle. Sie glitzern in Richtung Tür."],["joern","Lotte Silberfeder weiß bestimmt, was das ist. Sie sitzt sicher wieder in der Großen Halle über ihren Büchern."]],"q01_joern_danach":[["joern","Die Raureif-Spur führt durch die Tür in den Kellergang und die Treppe hinauf. Komm, wir folgen ihr!"]],"q01_feder_fund":[["","Diego bellt den Kamin an. Hinter einem losen Ziegel steckt … eine Feder!"],["","Sie schimmert golden-weiß und fühlt sich warm an, obwohl ringsum Raureif glitzert."],["","Charly hat die Winterfeder gefunden."]],"geheim_zimtstern":[["","Hinter dem Farn liegt ein Zimtstern – noch ganz knusprig!"],["","Diego bekommt die Hälfte. Mindestens."]],"geheim_notiz":[["","Hinter einem losen Stein steckt ein vergilbter Zettel:"],["","„Wer das hier findet, hat einen sehr guten Hund. – Ein Schüler aus Bernfuchs, vor langer, langer Zeit.“"]],"pit_1":[["pit","Hey Charly! Ich lese gerade „Wintermagie für Anfänger“. Kapitel eins: Nie die Zunge an einen Eiszapfen halten."]],"pit_2":[["pit","Hast du das auch gemerkt? Seit heute Nacht flackern alle Kerzen im Schloss so komisch."]],"frieda":[["","Frieda rennt in ihrem Laufrad, als gäbe es kein Morgen."],["frieda","Piep!"],["","Sie stopft sich die Backen voll und schaut dich mit glänzenden Knopfaugen an."]],"kamin":[["","Das Feuer knistert. Es riecht nach Tannenzapfen und ein bisschen nach Zimt."]],"kamin_q01":[["","Am Rand des Kamins glitzert Raureif – direkt neben den Flammen. Diego könnte schnüffeln (Taste B)."]],"fenster":[["","Draußen tanzen dicke Schneeflocken. In der Ferne glitzert der Spiegelsee im Mondlicht."]],"regal_1":[["","„Hundert Arten, Tee zu kochen“, „Rätsel für lange Winterabende“ … und ganz hinten ein Buch, das leise summt."]],"regal_2":[["","„Moosgrün und Bernstein – Die Geschichte des Hauses Bernfuchs“. Auf dem Rücken klebt ein Hundehaar."]],"banner":[["","Das Banner des Hauses Bernfuchs: ein Fuchs auf Moosgrün und Bernstein. Darunter steht: „Treu und warm.“"]],"wanduhr":[["","Die Wanduhr tickt gemütlich. Ihr Pendel schwingt im Takt des Kaminfeuers."]],"tannenbaum":[["","Ein kleiner Tannenbaum mit Strohsternen. Jemand hat einen Hundekeks als Schmuck aufgehängt. Diego hat ihn schon im Blick."]],"sofa":[["","Das gemütlichste Sofa im ganzen Schloss. Leider ist Diego der gleichen Meinung."]],"tisch":[["","Ein Adventskranz aus Tannenzweigen. Daneben dampfen zwei Tassen Kakao – eine mit extra viel Sahne."]],"sessel":[["","Ein weicher Lesesessel. Die Delle im Polster hat genau Charlys Form."]],"lampe":[["","Die Stehlampe verbreitet warmes, honiggelbes Licht."]],"kommode":[["","In der Kommode: Wollsocken, Strickmützen und eine Dose Hundekekse. Diego sitzt sofort daneben."]],"buecher":[["","Ein wackeliger Bücherstapel. Ganz oben: „Pfotenkunde für Fortgeschrittene“."]],"pflanze":[["","Eine Zimmerpflanze. Sie hat sich zum Kamin gedreht, um es warm zu haben."]],"ottokar":[["ottokar","Chrrr … pfffh … chrrr …"],["","Sir Ottokar der Schnarcher schläft in seinem Goldrahmen. Wie immer."]],"ruestung":[["","Eine alte Ritterrüstung. Als Charly vorbeigeht, quietscht das Visier ganz leise."]],"bank":[["","Eine Holzbank. In die Lehne hat jemand einen kleinen Fuchs geschnitzt."]],"wandkerze":[["","Eine Kerze in einem eisernen Halter. Die Flamme neigt sich zur Treppe hin, als wehe von oben ein kalter Wind."]],"treppe_vor":[["","Die Treppe hinauf zum Schlosskern. Oben ist es noch still – ab dem 1. Dezember geht es hier weiter."]],"treppe_bald":[["","Ein kalter Luftzug weht von oben herab. Die Treppe ist noch zugeschneit. Hier geht es bald weiter."]],"q01_lotte":[["lotte","Charly! Was hast du denn da … Ist das etwa eine Feder?"],["lotte","Golden, warm und mit Raureif … Das hab ich schon mal gesehen. In einem ganz alten Buch über Winterwesen."],["lotte","Da stand: Wenn eine Winterfeder auftaucht, erwacht eine alte Legende. Die vom Winterphönix."],["joern","Ein Phönix? Im Winter? Ich dachte, die mögen es eher warm."],["lotte","Genau das ist ja das Rätsel. Ich suche heute Abend in der Bibliothek weiter. Pass gut auf die Feder auf!"],["","Als Charly die Feder hochhält, löst sich ein eisblauer Splitter aus dem Raureif …"]],"lotte_q01_frueh":[["lotte","Guten Morgen, Charly! Draußen liegt so viel Schnee, dass Knarz seit Sonnenaufgang schippt."]],"lotte_q02":[["lotte","Hörst du die Kerzen? Die singen so schief, dass mir die Ohren klingeln."],["lotte","Prof. Federleicht steht links neben dem Lehrertisch. Er weiß bestimmt Rat."]],"lotte_q03":[["lotte","Eine Eule ohne Gedächtnis? Frau Leisetritt in der Bibliothek kennt jede Feder und jeden Tintenfleck im Schloss. Frag sie mal."]],"lotte_q04":[["lotte","Die Turmuhr hat heute Nacht dreizehnmal geschlagen. Rückwärts! Prof. Pendel ist ganz außer sich."]],"lotte_1":[["lotte","Ich hab drei Bücher über Phönixe gefunden. In allen fehlt genau das Kapitel über den Winter. Merkwürdig, oder?"]],"lotte_2":[["lotte","Diego hat mir vorhin ein Lesezeichen geklaut. Ich glaube, er wollte nur helfen."]],"q02_start":[["","2. Dezember. Beim Frühstück in der Großen Halle singen die schwebenden Kerzen."],["","Leider schief. Sehr schief."],["joern","Das klingt wie ich unter der Dusche. Vielleicht weiß Prof. Federleicht, was los ist."]],"q02_federleicht":[["federleicht","Ah, Charly! Hörst du das? Meine Kerzen haben ihre Melodie vergessen."],["federleicht","Kerzen erinnern sich nur, wenn man sie in der richtigen Reihenfolge entzündet. Dafür brauchst du den Lichtzauber."],["federleicht","Hand locker, Blick zur Flamme – und dann sanft: „Luxa!“"],["","Ein warmes Licht tanzt über Charlys Finger. Sie hat den Zauber Luxa gelernt!"],["federleicht","Wunderbar! Die Spieluhr rechts neben dem Lehrertisch kennt die richtige Melodie. Hör gut hin – und schau, welche Kerze mitleuchtet."]],"federleicht_tipp":[["federleicht","Die Spieluhr spielt die Melodie, so oft du willst. Achte darauf, welche Kerze bei welchem Ton aufleuchtet."]],"federleicht_danke":[["federleicht","Hörst du das? Sie singen wieder richtig! Ein Hoch auf Charly und ihr feines Gehör."]],"federleicht_1":[["federleicht","Ich unterrichte Zauberkunst. Mein Lieblingszauber? Der, der Kakao warm hält."]],"spieluhr_q02":[["","Charly zieht die Spieluhr auf. Vier Töne erklingen – und bei jedem leuchtet eine der Kerzen auf."],["joern","Merk dir die Reihenfolge. Ich hab sie schon wieder vergessen."]],"spieluhr_danach":[["","Die Spieluhr spielt, und alle vier Kerzen singen mit. Diesmal klingt es wunderschön."]],"spieluhr":[["","Eine kleine Spieluhr aus Walnussholz. Sie spielt vier helle Töne."]],"kerze_ohne_luxa":[["","Die Kerze schwebt in der Luft und summt leise. Um sie anzuzünden, bräuchte man einen Lichtzauber."]],"kerzen_falsch":[["","Diego jault schief mit. Die Kerzen erlöschen mit einem beleidigten Zischen."],["","Noch einmal von vorn! Die Spieluhr hilft beim Erinnern."]],"q02_geschafft":[["","Die vierte Kerze flammt auf – und plötzlich singen alle vier zusammen, klar und warm."],["","In ihrem Licht glitzert etwas in der Luft: ein eisblauer Splitter schwebt herab."],["federleicht","Bravo, Charly! So schön haben sie seit Jahren nicht gesungen."]],"q03_start":[["","3. Dezember. Mitten in der Nacht klopft es ans Fenster des Gemeinschaftsraums."],["","Eine zerzauste Eule mit einer Briefkapsel am Bein flattert vorbei – und dann weiter Richtung Eulenturm."],["joern","Die sah aber verwirrt aus. Wollen wir nachsehen? Der Eulenturm liegt am Innenhof."]],"q03_eule":[["pimpernell","Schuhu? Wer … wer bist du? Und wer bin ich? Ach ja. Pimpernell. Glaube ich."],["pimpernell","Ich habe einen Brief. Einen wichtigen! Aber ich weiß nicht mehr, für wen. Oder von wem. Oder warum."],["pimpernell","Ich erinnere mich nur an drei Dinge: rotes Siegelwachs … ein rotes Band … und einen Tintenklecks."],["joern","Dann suchen wir diese drei Dinge. Vielleicht kommt die Erinnerung dann zurück."]],"pimpernell_warten":[["pimpernell","Siegelwachs, rotes Band, Tintenfass … Hast du schon alles? Ich hab vergessen, ob ich schon gefragt habe."]],"q03_erinnert":[["","Charly legt Siegelwachs, Band und Tintenfass vor Pimpernell."],["pimpernell","Schuhu! Jetzt weiß ich es wieder! Der Brief ist für … für dich, Charly! Für die, die die Winterfeder gefunden hat."],["pimpernell","Aber die Kapsel ist verschlossen. Ein alter Schlosszauber. Prof. Pendel kennt sich mit allem aus, was tickt und klickt."]],"pimpernell_kapsel":[["pimpernell","Die Kapsel klemmt. Prof. Pendel im Uhrenturm kennt sich mit Schlössern aus. Schuhu."]],"pimpernell_danke":[["pimpernell","Ich weiß noch alles! Fast alles. Na ja, das Wichtigste. Danke, Charly."]],"pimpernell_1":[["pimpernell","Schuhu? Kennen wir uns? Du kommst mir bekannt vor. Oder ist das der Hund?"]],"q03_siegel":[["","Diego kratzt an einer Mauerritze. Darin klebt ein Klumpen rotes Siegelwachs!"],["","Charly hat das Siegelwachs gefunden."]],"q03_band":[["","Charly pflückt das rote Band aus den verschneiten Zweigen. Es ist mit kleinen Federn bestickt."],["","Charly hat das rote Band gefunden."]],"q03_leisetritt":[["leisetritt","Psst! Ein Tintenfass für eine Eule? Ach, Pimpernell! Die schreibt seit Jahren mit genau diesem hier."],["leisetritt","Nimm es nur mit. Aber kein Klecks auf meine Bücher, verstanden?"],["","Charly hat das Tintenfass bekommen."]],"q03_pendel":[["pendel","Eine Briefkapsel mit Schlosszauber? Wie aufregend. Das ist ganz alte Handwerkskunst."],["pendel","Jedes Schloss hört auf einen Zauber: „Clavis.“ Man muss nur freundlich fragen. Schlösser sind empfindlich."],["","Charly flüstert: „Clavis!“ – Klick. Die Kapsel springt auf. Sie hat den Zauber Clavis gelernt!"],["","Im Brief steht in altmodischer Schrift: „Wer die Feder findet, trage die Botschaft weiter. Der Winter erinnert sich.“"]],"q04_start":[["","4. Dezember. Heute Nacht hat die Turmuhr dreizehnmal geschlagen. Rückwärts."],["joern","Dreizehnmal? Und rückwärts? Das will ich sehen. Der Uhrenturm ist rechts vom Schlosskern."]],"q04_pendel":[["pendel","Charly! Hörst du das Ticken? Es tickt falsch herum! Ein Zahnrad fehlt – das große aus Messing."],["pendel","Bevor du es einsetzt, brauchst du den Reparaturzauber. „Restauro!“ Und dabei ganz ruhig an das Ganze denken."],["","Ein feines Klicken geht durch Charlys Fingerspitzen. Sie hat den Zauber Restauro gelernt!"],["pendel","Das Zahnrad kann nicht weit sein. Irgendjemand hat es versteckt … Vielleicht findet eine gute Nase die Spur."]],"pendel_tipp_zahnrad":[["pendel","Das Zahnrad riecht nach Öl und Messing. Ein Hund würde das sofort merken. Nur so ein Gedanke."]],"pendel_tipp_einsetzen":[["pendel","Du hast es! Setz es ins Uhrwerk in der Mitte ein. Und dann: Restauro!"]],"pendel_tipp_uhrmeister":[["pendel","Der Uhrmeister ist erwacht. Er prüft jeden, der an seiner Uhr arbeitet. Hör genau auf seinen Takt."]],"pendel_danke":[["pendel","Tick, tack, tick – in der richtigen Richtung! Ich könnte weinen vor Glück. Tu ich aber nicht. Fast nicht."]],"pendel_1":[["pendel","Ich bin Prof. Pendel, Zeitkunde. Wenn du irgendwann Zeit hast – das ist ein Witz für Fortgeschrittene."]],"q04_geheimgang":[["","Diego bellt eine Wand an. Ein Stein ist locker! Charly drückt dagegen …"],["","Mit lautem Knirschen schiebt sich der Stein zur Seite. Dahinter: ein geheimer Gang!"],["joern","Ein Geheimgang! Diego, du bist unbezahlbar."]],"q04_zahnrad_fund":[["","In der Nische liegt ein großes Zahnrad aus Messing. Es ist warm, als hätte es gerade noch getickt."],["","Charly hat das Zahnrad gefunden."]],"zahnrad":[["","Ein glänzendes Zahnrad aus Messing."]],"q04_einsetzen":[["","Charly setzt das Zahnrad ein und flüstert: „Restauro!“"],["","Die Räder greifen ineinander, das Uhrwerk ruckt – und die Messingfigur neben der Uhr hebt langsam den Kopf."],["uhrmeister","TICK. TACK. WER. RÜHRT. MEINE. UHR. AN?"]],"uhrwerk_luecke":[["","Im Uhrwerk klafft eine Lücke. Hier fehlt eindeutig ein großes Zahnrad."]],"uhrwerk_kaputt":[["","Das Uhrwerk ruckelt und knarzt. Irgendetwas stimmt hier nicht."]],"uhrwerk_laeuft":[["","Die Zahnräder drehen sich ruhig und gleichmäßig. Tick, tack."]],"uhrmeister_erwacht":[["uhrmeister","NUR. WER. DEN. TAKT. HÄLT. DARF. DIE. UHR. STELLEN."],["uhrmeister","ICH. SCHLAGE. DU. FOLGST."],["","Merk dir, welche Glocke der Uhrmeister anschlägt, und schlag sie in derselben Reihenfolge mit dem Steuerkreuz nach."]],"uhrmeister_besiegt":[["uhrmeister","TAKT. GEHALTEN. DU. BIST. WÜRDIG."],["","Der Uhrmeister dreht die Zeiger mit einem Ruck in die richtige Richtung. Die Turmuhr schlägt – vorwärts."],["","Aus dem Zifferblatt rieselt ein eisblauer Splitter."]],"uhrmeister_ruhig":[["uhrmeister","TICK. TACK. ALLES. IN. ORDNUNG."]],"uhrmeister_still":[["","Eine Ritterfigur aus Messing. Sie steht ganz still, nur ihre Augen glimmen ein bisschen."]],"takt_abbruch":[["","Charly tritt einen Schritt zurück. Der Uhrmeister wartet geduldig. Sprich ihn an, wenn du es noch einmal versuchen willst."]],"knarz_auftrag":[["knarz","Grmpf. Hast du meinen Schlüsselbund gesehen? Groß, rostig, klimpert."],["knarz","Muss mir beim Schneeschippen im Innenhof aus der Tasche gefallen sein. Jetzt liegt er irgendwo unter dem Schnee."],["joern","Diego findet doch sonst auch jeden Keks. Vielleicht auch Schlüssel?"]],"knarz_warten":[["knarz","Ohne Schlüssel komm ich nicht mal an meine eigene Teekanne. Grmpf."]],"knarz_schluessel_fund":[["","Diego buddelt im Schnee wie ein Weltmeister – und zieht einen klimpernden Schlüsselbund heraus!"]],"knarz_danke":[["knarz","Mein Schlüsselbund! Grmpf … ich meine: Danke. Wirklich."],["knarz","Für dich und den Hund. Ein Lebkuchen. Den Hund erst später, ja?"],["","Diego hat den Lebkuchen trotzdem schon im Blick."]],"knarz_1":[["knarz","Schnee schippen, Kerzen putzen, Rüstungen polieren. Grmpf. Ich liebe diesen Job."]],"knarz_2":[["knarz","Wenn die Rüstungen nachts quietschen, ist das normal. Glaube ich."]],"sternwald_1":[["sternwald","Willkommen, Charly. Løvestein ist in diesem Winter … wacher als sonst. Halte die Augen offen."]],"sternwald_2":[["sternwald","Die Turmuhr schlägt wieder richtig. Ich habe gehört, wer dahintersteckt. Gut gemacht."]],"torbogen":[["","Ein Torbogen mit einer frischen Tannengirlande. Darüber das Wappen von Løvestein."]],"banner_bernfuchs":[["","Haus Bernfuchs: Moosgrün und Bernstein. „Treu und warm.“"]],"banner_eisvogel":[["","Haus Eisvogel: Türkis und Perlweiß. „Klar wie Wasser.“"]],"banner_tannenhirsch":[["","Haus Tannenhirsch: Tannengrün und Kupfer. „Mutig durch jeden Wald.“"]],"banner_sternbaer":[["","Haus Sternbär: Pflaume und Silber. „Geduld bringt Sterne.“"]],"saeule":[["","Eine Säule aus hellem Stein, umwickelt mit Tannengrün und einer roten Schleife."]],"ruestung2":[["","Diese Rüstung trägt einen Schal. Knarz behauptet, er war das nicht."]],"tannenbaum_gross":[["","Ein riesiger Tannenbaum mit roten Kugeln und hunderten Lichtern. Er duftet nach Wald und Zimt."]],"fenster_halle":[["","Hinter dem hohen Fenster wirbelt der Schnee. Im Glas spiegeln sich die schwebenden Kerzen."]],"lehrertisch":[["","Der Lehrertisch. Auf Prof. Federleichts Platz liegt ein Stapel Notenblätter."]],"tisch_bernfuchs":[["","Der Tisch des Hauses Bernfuchs. Hier gibt es immer den besten Apfelkuchen. Zufall? Sicher nicht."]],"tisch_eisvogel":[["","Der Tisch des Hauses Eisvogel. Lotte hat ein Buch neben ihren Teller gelegt. Natürlich."]],"tisch_tannenhirsch":[["","Der Tisch des Hauses Tannenhirsch. Jemand hat Tannenzapfen zu einer kleinen Burg gestapelt."]],"tisch_sternbaer":[["","Der Tisch des Hauses Sternbär. Die Servietten sind zu Sternen gefaltet."]],"regal_bib1":[["","„Die Kunst des leisen Umblätterns“ von O. Leisetritt. Signiert."]],"regal_bib2":[["","„Winterwesen und wo sie überwintern“. Das Kapitel über den Phönix wurde herausgerissen."]],"regal_bib3":[["","„Zahnräder, Zeiger und Zauber“. Jemand hat mit Bleistift „Pendel war hier“ hineingeschrieben."]],"regal_bib4":[["","Ganz oben steht ein Buch, das sich weigert, herausgenommen zu werden. Es brummt."]],"pult":[["","Frau Leisetritts Pult. Alles liegt exakt im rechten Winkel. Sogar die Krümel."]],"mauseloch":[["","Ein kleines Loch in der Wand. Es riecht nach Sonnenblumenkernen und altem Pergament."]],"globus":[["","Ein Globus mit Løvestein in der Mitte. Ganz im Norden ist ein kleiner Vogel eingraviert."]],"lesetisch":[["","Ein Lesetisch mit aufgeschlagenen Büchern und einer Kerze, die nie herunterbrennt."]],"leisetritt_1":[["leisetritt","Psssst! Hier wird geflüstert. Auch Hunde flüstern hier. Nicht wahr, Diego?"]],"leisetritt_2":[["leisetritt","Bücher kommen nach dem Lesen zurück ins Regal. Mit dem Rücken nach vorne. Immer."]],"laterne":[["","Eine Laterne mit Tannenzweig. Ihr Licht malt goldene Kreise in den Schnee."]],"brunnen":[["","Der Brunnen ist zugefroren. Im Eis glitzern Münzen von Wünschen aus vielen Wintern."]],"tanne":[["","Eine Tanne unter einer dicken Schneedecke. Ein Rotkehlchen guckt kurz heraus."]],"schneemann":[["","Ein Schneemann mit Bernfuchs-Schal. Pit behauptet, er sähe ihm ähnlich."]],"baum_band":[["","In den kahlen Zweigen flattert ein rotes Band."]],"baum_kahl":[["","Ein kahler Baum voller Schneehäubchen."]],"fenster_eule":[["","Vom Eulenturm aus sieht man weit über den verschneiten Raunwald."]],"stange":[["","Auf der Stange sitzen Schuleulen. Eine zwinkert, eine schläft, eine tut beides gleichzeitig."]],"stange_leer":[["","Eine leere Sitzstange. Hier sitzt wohl Pimpernell – wenn sie sich daran erinnert."]],"zifferblatt":[["","Das große Zifferblatt von innen. Die Zeiger laufen … rückwärts."]],"zifferblatt_ok":[["","Das große Zifferblatt. Die Zeiger laufen wieder vorwärts. Tick, tack."]],"werkbank":[["","Prof. Pendels Werkbank: Schräubchen, Federn, ein halbes Butterbrot."]],"loser_stein":[["","Eine Steinwand. Einer der Steine sitzt ein bisschen schief."]]},"quests":{"Q01":{"day":1,"title":"Die letzte Winterfeder","start":"q01_start","fragment":"Wenn die längste Nacht sich naht, sucht der Phönix sein Feuer.","steps":[{"flag":"diego_dabei","text":"Weck Diego in seinem Körbchen am Kamin."},{"flag":"q01_feder","text":"Am Kamin glitzert Raureif. Lass Diego schnüffeln (Taste B)."},{"flag":"q01_joern","text":"Zeig Jörn die Feder."},{"flag":"q01_lotte","text":"Folge der Raureif-Spur über den Kellergang und den Schlosskern in die Große Halle und frag Lotte Silberfeder."}]},"Q02":{"day":2,"title":"Die singenden Kerzen","start":"q02_start","fragment":"Sein Lied weckt das Licht in allen Kerzen.","steps":[{"flag":"zauber_luxa","text":"Lass dir von Prof. Federleicht in der Großen Halle den Lichtzauber zeigen."},{"flag":"q02_melodie","text":"Hör dir die Spieluhr rechts neben dem Lehrertisch an. Achte darauf, welche Kerze mitleuchtet."},{"flag":"q02_kerzen","text":"Zünde die vier singenden Kerzen in der Reihenfolge der Melodie an (A). Die Spieluhr spielt sie dir gern noch einmal vor."}]},"Q03":{"day":3,"title":"Die Eule ohne Erinnerung","start":"q03_start","fragment":"Eulen trugen einst seine Botschaften über das Land.","steps":[{"flag":"q03_eule","text":"Besuch die verwirrte Eule im Eulenturm. Der Weg führt über den Innenhof."},{"flags":["q03_siegel","q03_band","q03_tinte"],"text":"Finde Pimpernells drei Erinnerungsstücke ({n}/3): Siegelwachs (Diego hilft), ein rotes Band im Innenhof, ein Tintenfass in der Bibliothek."},{"flag":"q03_erinnert","text":"Bring die Erinnerungsstücke zu Pimpernell."},{"flag":"q03_clavis","text":"Die Briefkapsel ist verschlossen. Frag Prof. Pendel im Uhrenturm (Schlosskern, rechts) nach einem Öffnungszauber."}]},"Q04":{"day":4,"title":"Das Herz des Uhrenturms","start":"q04_start","fragment":"Alle dreihundert Winter schlägt die Turmuhr für ihn.","steps":[{"flag":"q04_pendel","text":"Sprich mit Prof. Pendel im Uhrenturm."},{"flag":"q04_zahnrad","text":"Finde das fehlende Zahnrad. Diego hat die beste Nase (Taste B)."},{"flag":"q04_eingesetzt","text":"Setz das Zahnrad ins Uhrwerk ein."},{"flag":"q04_uhrmeister","text":"Sprich mit dem Uhrmeister und halte seinen Takt."}]},"N_knarz":{"day":1,"neben":true,"title":"Knarz’ Schlüsselbund","steps":[{"flag":"knarz_auftrag","text":"Sprich mit Hausmeister Knarz im Schlosskern."},{"flag":"knarz_schluessel","text":"Such den Schlüsselbund im verschneiten Innenhof. Diego kann ihn erschnüffeln (B)."},{"flag":"knarz_fertig","text":"Bring Knarz den Schlüsselbund zurück."}]}},"musik":{"kamin":{"bpm":92,"voices":[{"inst":"spieluhr","vol":0.55,"notes":"A4:2 C5:2 F5:2 E5:3 D5:1 C5:2 A#4:2 D5:2 G5:2 F5:4 E5:2 D5:2 F5:2 A5:2 G5:3 F5:1 E5:2 D5:2 C5:2 E5:2 F5:6 C5:2 A4:2 C5:2 D5:3 C5:1 A#4:2 A4:2 F4:2 A4:2 G4:6 A4:2 C5:2 F5:2 E5:2 G5:2 A#5:2 A5:3 G5:1 E5:2 F5:6"},{"inst":"bass","vol":0.5,"notes":"F2:2 A3:2 C4:2 C3:2 E3:2 G3:2 G2:2 A#3:2 D4:2 C3:2 E3:2 G3:2 D3:2 F3:2 A3:2 C3:2 E3:2 G3:2 C3:2 E3:2 G3:2 F2:2 A3:2 C4:2 F2:2 A3:2 C4:2 A#2:2 D3:2 F3:2 F2:2 A3:2 C4:2 C3:2 E3:2 G3:2 F2:2 A3:2 C4:2 C3:2 E3:2 A#3:2 C3:2 E3:2 G3:2 F2:2 A3:2 C4:2"}]},"titel":{"bpm":80,"voices":[{"inst":"glocke","vol":0.45,"notes":"A4:2 C5:2 F5:2 E5:3 D5:1 C5:2 A#4:2 D5:2 G5:2 F5:4 E5:2 D5:2 F5:2 A5:2 G5:3 F5:1 E5:2 D5:2 C5:2 E5:2 F5:6"},{"inst":"flaeche","vol":0.3,"notes":"F3:6 C3:6 G3:6 C3:6 D3:6 C3:6 C3:6 F3:6"}]},"flur":{"bpm":76,"voices":[{"inst":"spieluhr","vol":0.45,"notes":"A4:4 C5:2 B4:4 G4:2 A4:2 B4:2 C5:2 E5:6 D5:4 C5:2 B4:2 A4:2 G#4:2 A4:6 -:6"},{"inst":"bass","vol":0.45,"notes":"A2:2 E3:2 A3:2 E2:2 B2:2 E3:2 F2:2 C3:2 F3:2 E2:2 B2:2 E3:2 D3:2 F3:2 A3:2 E2:2 B2:2 E3:2 A2:2 E3:2 A3:2 A2:2 E3:2 A3:2"}]},"schloss":{"bpm":84,"voices":[{"inst":"spieluhr","vol":0.5,"notes":"F#4:2 A4:2 D5:2 C#5:3 B4:1 A4:2 G4:2 B4:2 E5:2 D5:6 B4:2 D5:2 G5:2 F#5:3 E5:1 D5:2 E5:2 C#5:2 A4:2 D5:6"},{"inst":"bass","vol":0.45,"notes":"D3:2 F#3:2 A3:2 A2:2 C#3:2 E3:2 G2:2 B2:2 D3:2 D3:2 F#3:2 A3:2 G2:2 B2:2 D3:2 D3:2 F#3:2 A3:2 A2:2 C#3:2 E3:2 D3:2 F#3:2 A3:2"}]},"halle":{"bpm":112,"voices":[{"inst":"glocke","vol":0.4,"notes":"G4:2 B4:2 D5:2 B4:2 C5:2 E5:2 D5:4 B4:2 G4:2 A4:2 B4:2 A4:6 -:2 G4:2 B4:2 D5:2 G5:2 F#5:2 E5:2 D5:4 C5:2 A4:2 F#4:2 A4:2 G4:6 -:2"},{"inst":"bass","vol":0.45,"notes":"G2:4 D3:4 C3:4 G2:4 G2:4 D3:4 D3:4 A2:4 G2:4 D3:4 C3:4 E3:4 D3:4 F#2:4 G2:4 D3:4"}]},"hof":{"bpm":70,"voices":[{"inst":"glocke","vol":0.4,"notes":"E5:4 B4:2 G5:4 F#5:2 E5:2 D5:2 B4:2 E5:6 G5:4 A5:2 B5:4 A5:2 G5:2 F#5:2 D5:2 E5:6"},{"inst":"flaeche","vol":0.3,"notes":"E3:6 C3:6 G3:6 B2:6 E3:6 G3:6 D3:6 E3:6"}]},"turm":{"bpm":100,"voices":[{"inst":"spieluhr","vol":0.45,"notes":"A4:1 -:1 E5:1 -:1 A4:1 -:1 E5:1 -:1 C5:1 -:1 E5:1 -:1 B4:2 -:2 A4:1 -:1 E5:1 -:1 A4:1 -:1 F5:1 -:1 E5:2 D5:2 C5:2 B4:2"},{"inst":"bass","vol":0.45,"notes":"A2:4 E2:4 A2:4 E2:4 F2:4 C3:4 E2:4 E2:4"}]}},"puzzles":{"kerzen":{"order":[2,4,1,3],"notes":["C5","E5","G5","C6"],"win":{"dialog":"q02_geschafft","set":["q02_kerzen"],"sound":"fund"},"fail":{"dialog":"kerzen_falsch"},"failSound":"jaul"}},"maps":{"bibliothek":{"name":"Bibliothek","music":"schloss","ambient":{"dark":0.5,"tint":"30,18,40","particles":"staub"},"tiles":["TTTTTTTTTTTTTTTTTTTT","TWWWWWWWWWWWWWWWWWWT","TWWWWWWWWWWWWWWWWWWT","T..................T","T..................T","T..................T","T..................T","T..................>","T..................T","T..................T","T..................T","T..................T","T..................T","TTTTTTTTTTTTTTTTTTTT"],"objects":[{"type":"regal_hoch","x":1,"y":3,"seed":11,"talk":[{"dialog":"regal_bib1"}]},{"type":"regal_hoch","x":3,"y":3,"seed":12,"talk":[{"dialog":"regal_bib2"}]},{"type":"regal_hoch","x":5,"y":3,"seed":13,"talk":[{"dialog":"regal_bib3"}]},{"type":"regal_hoch","x":13,"y":3,"seed":14,"talk":[{"dialog":"regal_bib1"}]},{"type":"regal_hoch","x":15,"y":3,"seed":15,"talk":[{"dialog":"regal_bib4"}]},{"type":"fenster","x":7,"y":2,"talk":[{"dialog":"fenster"}]},{"type":"fenster","x":11,"y":2,"talk":[{"dialog":"fenster"}]},{"type":"pult","x":9,"y":4,"talk":[{"dialog":"pult"}]},{"type":"mauseloch","x":17,"y":2,"talk":[{"dialog":"mauseloch"}]},{"type":"globus","x":17,"y":4,"talk":[{"dialog":"globus"}]},{"type":"regal_hoch","x":2,"y":7,"seed":16,"talk":[{"dialog":"regal_bib2"}]},{"type":"regal_hoch","x":4,"y":7,"seed":17,"talk":[{"dialog":"regal_bib3"}]},{"type":"regal_hoch","x":2,"y":10,"seed":18,"talk":[{"dialog":"regal_bib4"}]},{"type":"regal_hoch","x":4,"y":10,"seed":19,"talk":[{"dialog":"regal_bib1"}]},{"type":"regal_hoch","x":13,"y":7,"seed":20,"talk":[{"dialog":"regal_bib2"}]},{"type":"regal_hoch","x":15,"y":10,"seed":21,"talk":[{"dialog":"regal_bib3"}]},{"type":"lesetisch","x":8,"y":8,"talk":[{"dialog":"lesetisch"}]},{"type":"lesetisch","x":8,"y":11,"talk":[{"dialog":"lesetisch"}]},{"type":"stehlampe","x":12,"y":10,"talk":[{"dialog":"lampe"}]},{"type":"sessel","x":17,"y":11,"talk":[{"dialog":"sessel"}]},{"type":"kerzen_schwebend","x":7,"y":5}],"npcs":[{"char":"leisetritt","x":11,"y":4,"dir":"down","talk":[{"if":["quest:Q03","flag:q03_eule","!flag:q03_tinte"],"dialog":"q03_leisetritt","set":["q03_tinte"],"sound":"fund"},{"dialog":["leisetritt_1","leisetritt_2"]}]}],"doors":[{"x":19,"y":7,"to":"schlosskern","tx":1,"ty":8,"dir":"right"}]},"eulenturm":{"name":"Eulenturm","music":"hof","ambient":{"dark":0.5,"tint":"20,20,50","particles":"staub"},"tiles":["TTTTTTTTTTTT","TXXXXXXXXXXT","TXXXXXXXXXXT","TzzzzzzzzzzT","TzzzzzzzzzzT","TzzzzzzzzzzT","TzzzzzzzzzzT","TzzzzzzzzzzT","TzzzzzzzzzzT","TTTTTdTTTTTT"],"objects":[{"type":"fenster","x":4,"y":2,"talk":[{"dialog":"fenster_eule"}]},{"type":"wandkerze","x":3,"y":2,"talk":[{"dialog":"wandkerze"}]},{"type":"wandkerze","x":7,"y":2,"talk":[{"dialog":"wandkerze"}]},{"type":"stange","x":1,"y":3,"talk":[{"dialog":"stange"}]},{"type":"stange","x":8,"y":3,"seed":2,"talk":[{"dialog":"stange"}]},{"type":"stange","x":1,"y":6,"seed":3,"talk":[{"dialog":"stange"}]},{"type":"stange","x":8,"y":6,"v":"leer","talk":[{"dialog":"stange_leer"}]}],"npcs":[{"char":"pimpernell","x":5,"y":4,"dir":"down","anim":true,"talk":[{"if":["quest:Q03","!flag:q03_eule"],"dialog":"q03_eule","set":["q03_eule"],"sound":"piep"},{"if":["quest:Q03","flag:q03_siegel","flag:q03_band","flag:q03_tinte","!flag:q03_erinnert"],"dialog":"q03_erinnert","set":["q03_erinnert"],"sound":"fund"},{"if":["quest:Q03","!flag:q03_erinnert"],"dialog":"pimpernell_warten"},{"if":["quest:Q03"],"dialog":"pimpernell_kapsel"},{"if":["done:Q03"],"dialog":"pimpernell_danke"},{"dialog":"pimpernell_1"}]}],"doors":[{"x":5,"y":9,"to":"innenhof","tx":18,"ty":3,"dir":"down"}]},"gemeinschaftsraum":{"name":"Bernfuchs-Gemeinschaftsraum","music":"kamin","ambient":{"dark":0.5,"tint":"36,16,46","particles":"funken"},"tiles":["TTTTTTTTTTTTTTTTTTTT","TWWWWWWWWWWWWWWWWWWT","TgggggggggfWWWWWWDWT","Tgggggggggf........T","Tgggggggggf........T","TFFFFFFFFsf........T","T..................T","T..................T","T..................T","T..................T","T..................T","T..................T","T..................T","TTTTTTTTTTTTTTTTTTTT"],"objects":[{"type":"kamin","x":13,"y":1,"talk":[{"if":["quest:Q01","!flag:q01_feder"],"dialog":"kamin_q01"},{"dialog":"kamin"}]},{"type":"tuer","x":17,"y":1},{"type":"banner","x":11,"y":1,"talk":[{"dialog":"banner"}]},{"type":"wanduhr","x":16,"y":1,"talk":[{"dialog":"wanduhr"}]},{"type":"fenster","x":6,"y":1,"talk":[{"dialog":"fenster"}]},{"type":"regal_hoch","x":1,"y":2,"seed":3,"talk":[{"dialog":"regal_1"}]},{"type":"regal_hoch","x":3,"y":2,"seed":8,"talk":[{"dialog":"regal_2"}]},{"type":"sessel","x":5,"y":2,"talk":[{"dialog":"sessel"}]},{"type":"beistelltisch","x":8,"y":2,"talk":[{"dialog":"buecher"}]},{"type":"stehlampe","x":9,"y":2,"talk":[{"dialog":"lampe"}]},{"type":"buecherstapel","x":1,"y":4,"talk":[{"dialog":"buecher"}]},{"type":"teppich","x":11,"y":5},{"type":"korb","x":12,"y":4},{"type":"tisch_rund","x":13,"y":6,"talk":[{"dialog":"tisch"}]},{"type":"sofa_ruecken","x":12,"y":8,"talk":[{"dialog":"sofa"}]},{"type":"sessel_ruecken","x":16,"y":6,"talk":[{"dialog":"sessel"}]},{"type":"friedas_haus","x":17,"y":10,"talk":[{"dialog":"frieda","sound":"piep"}]},{"type":"tannenbaum","x":7,"y":6,"talk":[{"dialog":"tannenbaum"}]},{"type":"kommode","x":2,"y":6,"talk":[{"dialog":"kommode"}]},{"type":"stehlampe","x":2,"y":10,"talk":[{"dialog":"lampe"}]},{"type":"sessel","x":3,"y":10,"talk":[{"dialog":"sessel"}]},{"type":"beistelltisch","x":4,"y":10,"talk":[{"dialog":"buecher"}]},{"type":"farn","x":1,"y":11,"talk":[{"dialog":"pflanze"}]},{"type":"pflanze","x":1,"y":12,"talk":[{"dialog":"pflanze"}]},{"type":"pflanze","x":18,"y":12,"talk":[{"dialog":"pflanze"}]},{"type":"pflanze","x":18,"y":3,"talk":[{"dialog":"pflanze"}]},{"type":"buecherstapel","x":8,"y":10,"talk":[{"dialog":"buecher"}]}],"npcs":[{"char":"diego","x":12,"y":4,"dir":"down","pose":"schlaf","if":["!flag:diego_dabei"],"talk":[{"dialog":"diego_wecken","set":["diego_dabei"],"join":"diego","sound":"wuff"}]},{"char":"pit","x":6,"y":3,"dir":"down","talk":[{"if":["day>=1"],"dialog":"pit_2"},{"dialog":"pit_1"}]}],"secrets":[{"id":"zimtstern","x":1,"y":11,"if":["!flag:geheim_zimtstern"],"found":{"dialog":"geheim_zimtstern","set":["geheim_zimtstern"],"sound":"fund"}},{"id":"q01_feder","x":15,"y":3,"count":false,"if":["quest:Q01","!flag:q01_feder"],"found":{"dialog":"q01_feder_fund","set":["q01_feder"],"sound":"fund"}}],"doors":[{"x":17,"y":2,"to":"kellergang","tx":8,"ty":5,"dir":"up"}]},"grosse_halle":{"name":"Große Halle","music":"halle","ambient":{"dark":0.34,"tint":"30,20,50","particles":"staub"},"tiles":["TTTTTTTTTTTTTTTTTTTTTTTT","TKKKKKKKKKKKKKKKKKKKKKKT","TKKKKKKKKKKKKKKKKKKKKKKT","TMMMMMMMMMMRRMMMMMMMMMMT","TMMMMMMMMMMRRMMMMMMMMMMT","TMMMMMMMMMMRRMMMMMMMMMMT","TMMMMMMMMMMRRMMMMMMMMMMT","TMMMMMMMMMMRRMMMMMMMMMMT","TMMMMMMMMMMRRMMMMMMMMMMT","TMMMMMMMMMMRRMMMMMMMMMMT","TMMMMMMMMMMRRMMMMMMMMMMT","TMMMMMMMMMMRRMMMMMMMMMMT","TMMMMMMMMMMRRMMMMMMMMMMT","TMMMMMMMMMMRRMMMMMMMMMMT","TMMMMMMMMMMRRMMMMMMMMMMT","TTTTTTTTTTTddTTTTTTTTTTT"],"objects":[{"type":"fenster_hoch","x":2,"y":1,"talk":[{"dialog":"fenster_halle"}]},{"type":"fenster_hoch","x":6,"y":1,"talk":[{"dialog":"fenster_halle"}]},{"type":"fenster_hoch","x":16,"y":1,"talk":[{"dialog":"fenster_halle"}]},{"type":"fenster_hoch","x":20,"y":1,"talk":[{"dialog":"fenster_halle"}]},{"type":"banner_haus","x":4,"y":1,"v":"bernfuchs","talk":[{"dialog":"banner_bernfuchs"}]},{"type":"banner_haus","x":9,"y":1,"v":"eisvogel","talk":[{"dialog":"banner_eisvogel"}]},{"type":"banner_haus","x":14,"y":1,"v":"tannenhirsch","talk":[{"dialog":"banner_tannenhirsch"}]},{"type":"banner_haus","x":19,"y":1,"v":"sternbaer","talk":[{"dialog":"banner_sternbaer"}]},{"type":"girlande","x":11,"y":1},{"type":"lehrertisch","x":8,"y":4,"talk":[{"dialog":"lehrertisch"}]},{"type":"spieluhr","x":16,"y":4,"talk":[{"if":["quest:Q02","flag:zauber_luxa","!flag:q02_kerzen"],"dialog":"spieluhr_q02","set":["q02_melodie"],"demo":"kerzen"},{"if":["flag:q02_kerzen"],"dialog":"spieluhr_danach","demo":"kerzen"},{"dialog":"spieluhr","demo":"kerzen"}]},{"type":"tannenbaum_gross","x":1,"y":3,"talk":[{"dialog":"tannenbaum_gross"}]},{"type":"tannenbaum_gross","x":21,"y":3,"talk":[{"dialog":"tannenbaum_gross"}]},{"type":"langtisch","x":2,"y":7,"v":"bernfuchs","talk":[{"dialog":"tisch_bernfuchs"}]},{"type":"langtisch","x":15,"y":7,"v":"eisvogel","talk":[{"dialog":"tisch_eisvogel"}]},{"type":"langtisch","x":2,"y":11,"v":"tannenhirsch","talk":[{"dialog":"tisch_tannenhirsch"}]},{"type":"langtisch","x":15,"y":11,"v":"sternbaer","talk":[{"dialog":"tisch_sternbaer"}]},{"type":"kerzen_schwebend","x":4,"y":5},{"type":"kerzen_schwebend","x":10,"y":6},{"type":"kerzen_schwebend","x":17,"y":5},{"type":"kerzen_schwebend","x":4,"y":13},{"type":"kerzen_schwebend","x":17,"y":13},{"type":"kerzen_schwebend","x":10,"y":10},{"type":"singkerze","v":"aus","x":5,"y":9,"seq":"kerzen","seqVal":1,"if":["!flag:kerzen_1"],"talk":[{"if":["flag:zauber_luxa"],"seq":"kerzen","val":1},{"dialog":"kerze_ohne_luxa"}]},{"type":"singkerze_an","v":"an","x":5,"y":9,"seq":"kerzen","seqVal":1,"if":["flag:kerzen_1"],"talk":[{"seq":"kerzen","val":1}]},{"type":"singkerze","v":"aus","x":9,"y":9,"seq":"kerzen","seqVal":2,"if":["!flag:kerzen_2"],"talk":[{"if":["flag:zauber_luxa"],"seq":"kerzen","val":2},{"dialog":"kerze_ohne_luxa"}]},{"type":"singkerze_an","v":"an","x":9,"y":9,"seq":"kerzen","seqVal":2,"if":["flag:kerzen_2"],"talk":[{"seq":"kerzen","val":2}]},{"type":"singkerze","v":"aus","x":14,"y":9,"seq":"kerzen","seqVal":3,"if":["!flag:kerzen_3"],"talk":[{"if":["flag:zauber_luxa"],"seq":"kerzen","val":3},{"dialog":"kerze_ohne_luxa"}]},{"type":"singkerze_an","v":"an","x":14,"y":9,"seq":"kerzen","seqVal":3,"if":["flag:kerzen_3"],"talk":[{"seq":"kerzen","val":3}]},{"type":"singkerze","v":"aus","x":18,"y":9,"seq":"kerzen","seqVal":4,"if":["!flag:kerzen_4"],"talk":[{"if":["flag:zauber_luxa"],"seq":"kerzen","val":4},{"dialog":"kerze_ohne_luxa"}]},{"type":"singkerze_an","v":"an","x":18,"y":9,"seq":"kerzen","seqVal":4,"if":["flag:kerzen_4"],"talk":[{"seq":"kerzen","val":4}]}],"npcs":[{"char":"lotte","x":17,"y":8,"dir":"down","talk":[{"if":["quest:Q01","flag:q01_joern","!flag:q01_lotte"],"dialog":"q01_lotte","set":["q01_lotte"]},{"if":["quest:Q01"],"dialog":"lotte_q01_frueh"},{"if":["quest:Q02"],"dialog":"lotte_q02"},{"if":["quest:Q03"],"dialog":"lotte_q03"},{"if":["quest:Q04"],"dialog":"lotte_q04"},{"dialog":["lotte_1","lotte_2"]}]},{"char":"federleicht","x":7,"y":4,"dir":"down","talk":[{"if":["quest:Q02","!flag:zauber_luxa"],"dialog":"q02_federleicht","set":["zauber_luxa"],"sound":"zauber"},{"if":["quest:Q02","!flag:q02_kerzen"],"dialog":"federleicht_tipp"},{"if":["done:Q02"],"dialog":"federleicht_danke"},{"dialog":"federleicht_1"}]},{"char":"sternwald","x":12,"y":3,"dir":"down","talk":[{"if":["done:Q04"],"dialog":"sternwald_2"},{"dialog":"sternwald_1"}]}],"doors":[{"x":11,"y":15,"to":"schlosskern","tx":10,"ty":3,"dir":"down"},{"x":12,"y":15,"to":"schlosskern","tx":11,"ty":3,"dir":"down"}]},"innenhof":{"name":"Innenhof","music":"hof","ambient":{"dark":0.32,"tint":"20,30,80","particles":"schnee"},"tiles":["YYYYYYYYYYYYYYYYYYYYYY","YYYYYYYYYYYYYYYYYYYYYY","YYYYYYYYYYOOYYYYYYOYYY","YnnnnnnnnnwwnnnnnnwnnY","YnnnnnnnnnwwnnnnnnwnnY","YnnnnnnnnnwwwwwwwwwnnY","YnnnnnnnnnwwnnnnnnnnnY","YnnnnnnnnnwwnnnnnnnnnY","YnnnnnnnnnwwnnnnnnnnnY","YnnnnnnnnnwwnnnnnnnnnY","YnnnnnnnnnwwnnnnnnnnnY","YnnnnnnnnnwwnnnnnnnnnY","YnnnnnnnnnwwnnnnnnnnnY","YnnnnnnnnnwwnnnnnnnnnY","YnnnnnnnnnwwnnnnnnnnnY","YYYYYYYYYYYYYYYYYYYYYY"],"objects":[{"type":"fenster_hoch","x":2,"y":0,"v":"aussen"},{"type":"fenster_hoch","x":6,"y":0,"v":"aussen"},{"type":"fenster_hoch","x":13,"y":0,"v":"aussen"},{"type":"fenster_hoch","x":15,"y":0,"v":"aussen"},{"type":"laterne","x":8,"y":4,"talk":[{"dialog":"laterne"}]},{"type":"laterne","x":13,"y":4,"talk":[{"dialog":"laterne"}]},{"type":"laterne","x":8,"y":10,"talk":[{"dialog":"laterne"}]},{"type":"laterne","x":13,"y":10,"talk":[{"dialog":"laterne"}]},{"type":"brunnen_eis","x":14,"y":8,"talk":[{"dialog":"brunnen"}]},{"type":"tanne","x":2,"y":4,"talk":[{"dialog":"tanne"}]},{"type":"tanne","x":5,"y":7,"talk":[{"dialog":"tanne"}]},{"type":"tanne","x":3,"y":12,"talk":[{"dialog":"tanne"}]},{"type":"tanne","x":19,"y":9,"talk":[{"dialog":"tanne"}]},{"type":"tanne","x":20,"y":13,"talk":[{"dialog":"tanne"}]},{"type":"tanne","x":17,"y":12,"talk":[{"dialog":"tanne"}]},{"type":"schneemann","x":6,"y":12,"talk":[{"dialog":"schneemann"}]},{"type":"baum_kahl","x":17,"y":7,"v":"band","if":["!flag:q03_band"],"talk":[{"if":["quest:Q03","flag:q03_eule"],"dialog":"q03_band","set":["q03_band"],"sound":"fund"},{"dialog":"baum_band"}]},{"type":"baum_kahl","x":17,"y":7,"if":["flag:q03_band"],"talk":[{"dialog":"baum_kahl"}]},{"type":"bank","x":1,"y":9,"talk":[{"dialog":"bank"}]}],"secrets":[{"id":"schluessel","x":4,"y":6,"count":false,"if":["flag:knarz_auftrag","!flag:knarz_schluessel"],"found":{"dialog":"knarz_schluessel_fund","set":["knarz_schluessel"],"sound":"fund"}}],"doors":[{"x":10,"y":2,"to":"schlosskern","tx":10,"ty":13,"dir":"up"},{"x":11,"y":2,"to":"schlosskern","tx":11,"ty":13,"dir":"up"},{"x":18,"y":2,"to":"eulenturm","tx":5,"ty":8,"dir":"up"}]},"kellergang":{"name":"Kellergang","music":"flur","ambient":{"dark":0.55,"tint":"20,20,45","particles":"staub"},"tiles":["TTTTTTTTTTTTTTTTTT","TXXXXXXXXXXXXXXXXT","TXXXXXXXXXXXXXhhXT","TppppppppppppppppT","TppppppppppppppppT","TppppppppppppppppT","TTTTTTTTdTTTTTTTTT"],"objects":[{"type":"portraet_ottokar","x":4,"y":1,"talk":[{"dialog":"ottokar","sound":"schnarch"}]},{"type":"wandkerze","x":3,"y":2,"talk":[{"dialog":"wandkerze"}]},{"type":"wandkerze","x":7,"y":2,"talk":[{"dialog":"wandkerze"}]},{"type":"wandkerze","x":11,"y":2,"talk":[{"dialog":"wandkerze"}]},{"type":"ruestung","x":12,"y":3,"talk":[{"dialog":"ruestung"}]},{"type":"bank","x":8,"y":3,"talk":[{"dialog":"bank"}]},{"type":"pflanze","x":16,"y":3,"talk":[{"dialog":"pflanze"}]},{"type":"pflanze","x":1,"y":5,"talk":[{"dialog":"pflanze"}]},{"type":"treppe_hoch","x":14,"y":1,"bump":true,"if":["day\u003c1"],"talk":[{"dialog":"treppe_vor"}]},{"type":"treppe_hoch","x":14,"y":1,"solid":false,"if":["day>=1"]},{"type":"raureif","x":9,"y":4,"if":["quest:Q01","flag:q01_joern","!flag:q01_lotte"]},{"type":"raureif","x":10,"y":4,"if":["quest:Q01","flag:q01_joern","!flag:q01_lotte"]},{"type":"raureif","x":11,"y":4,"if":["quest:Q01","flag:q01_joern","!flag:q01_lotte"]},{"type":"raureif","x":12,"y":3,"if":["quest:Q01","flag:q01_joern","!flag:q01_lotte"]},{"type":"raureif","x":13,"y":3,"if":["quest:Q01","flag:q01_joern","!flag:q01_lotte"]},{"type":"raureif","x":14,"y":3,"if":["quest:Q01","flag:q01_joern","!flag:q01_lotte"]}],"secrets":[{"id":"notiz","x":1,"y":2,"if":["!flag:geheim_notiz"],"found":{"dialog":"geheim_notiz","set":["geheim_notiz"],"sound":"fund"}}],"doors":[{"x":8,"y":6,"to":"gemeinschaftsraum","tx":17,"ty":3,"dir":"down"},{"x":14,"y":2,"to":"schlosskern","tx":3,"ty":13,"dir":"up"},{"x":15,"y":2,"to":"schlosskern","tx":3,"ty":13,"dir":"up"}]},"schlosskern":{"name":"Schlosskern","music":"schloss","ambient":{"dark":0.42,"tint":"30,20,50","particles":"staub"},"tiles":["TTTTTTTTTTTTTTTTTTTTTT","TKKKKKKKKKKKKKKKKKKKKT","TKKKKKKKKKOOKKKKKKKKKT","TMMMMMMMMMRRMMMMMMMMMT","TMMMMMMMMMRRMMMMMMMMMT","TMMMMMMMMMRRMMMMMMMMMT","TMMMMMMMMMRRMMMMMMMMMT","TMMMMMMMMMRRMMMMMMMMMT","\u003cRRRRRRRRRRRRRRRRRRRR>","TMMMMMMMMMRRMMMMMMMMMT","TMMMMMMMMMRRMMMMMMMMMT","TMMMMMMMMMRRMMMMMMMMMT","TMMMMMMMMMRRMMMMMMMMMT","TMMMMMMMMMRRMMMMMMMMMT","TTTyTTTTTTddTTTTTTTTTT"],"objects":[{"type":"torbogen_gross","x":9,"y":1,"talk":[{"dialog":"torbogen"}]},{"type":"banner_haus","x":2,"y":1,"v":"bernfuchs","talk":[{"dialog":"banner_bernfuchs"}]},{"type":"banner_haus","x":5,"y":1,"v":"eisvogel","talk":[{"dialog":"banner_eisvogel"}]},{"type":"banner_haus","x":16,"y":1,"v":"tannenhirsch","talk":[{"dialog":"banner_tannenhirsch"}]},{"type":"banner_haus","x":19,"y":1,"v":"sternbaer","talk":[{"dialog":"banner_sternbaer"}]},{"type":"girlande","x":7,"y":1},{"type":"girlande","x":13,"y":1},{"type":"saeule","x":5,"y":5,"talk":[{"dialog":"saeule"}]},{"type":"saeule","x":16,"y":5,"talk":[{"dialog":"saeule"}]},{"type":"saeule","x":5,"y":11,"talk":[{"dialog":"saeule"}]},{"type":"saeule","x":16,"y":11,"talk":[{"dialog":"saeule"}]},{"type":"ruestung","x":1,"y":3,"talk":[{"dialog":"ruestung"}]},{"type":"ruestung","x":20,"y":3,"talk":[{"dialog":"ruestung2"}]},{"type":"tannenbaum_gross","x":13,"y":10,"talk":[{"dialog":"tannenbaum_gross"}]},{"type":"kerzen_schwebend","x":6,"y":4},{"type":"kerzen_schwebend","x":14,"y":4},{"type":"kerzen_schwebend","x":7,"y":10},{"type":"bank","x":1,"y":10,"talk":[{"dialog":"bank"}]},{"type":"pflanze","x":20,"y":13,"talk":[{"dialog":"pflanze"}]},{"type":"pflanze","x":1,"y":13,"talk":[{"dialog":"pflanze"}]},{"type":"raureif","x":3,"y":12,"if":["quest:Q01","flag:q01_joern","!flag:q01_lotte"]},{"type":"raureif","x":3,"y":11,"if":["quest:Q01","flag:q01_joern","!flag:q01_lotte"]},{"type":"raureif","x":4,"y":10,"if":["quest:Q01","flag:q01_joern","!flag:q01_lotte"]},{"type":"raureif","x":5,"y":9,"if":["quest:Q01","flag:q01_joern","!flag:q01_lotte"]},{"type":"raureif","x":6,"y":8,"if":["quest:Q01","flag:q01_joern","!flag:q01_lotte"]},{"type":"raureif","x":7,"y":8,"if":["quest:Q01","flag:q01_joern","!flag:q01_lotte"]},{"type":"raureif","x":8,"y":7,"if":["quest:Q01","flag:q01_joern","!flag:q01_lotte"]},{"type":"raureif","x":9,"y":6,"if":["quest:Q01","flag:q01_joern","!flag:q01_lotte"]},{"type":"raureif","x":10,"y":5,"if":["quest:Q01","flag:q01_joern","!flag:q01_lotte"]},{"type":"raureif","x":10,"y":4,"if":["quest:Q01","flag:q01_joern","!flag:q01_lotte"]},{"type":"raureif","x":10,"y":3,"if":["quest:Q01","flag:q01_joern","!flag:q01_lotte"]}],"npcs":[{"char":"knarz","x":7,"y":12,"dir":"down","talk":[{"if":["!flag:knarz_auftrag"],"dialog":"knarz_auftrag","set":["knarz_auftrag"]},{"if":["flag:knarz_schluessel","!flag:knarz_fertig"],"dialog":"knarz_danke","set":["knarz_fertig"],"sound":"fund"},{"if":["flag:knarz_auftrag","!flag:knarz_fertig"],"dialog":"knarz_warten"},{"dialog":["knarz_1","knarz_2"]}]}],"secrets":[{"id":"siegelwachs","x":21,"y":5,"count":false,"if":["quest:Q03","flag:q03_eule","!flag:q03_siegel"],"found":{"dialog":"q03_siegel","set":["q03_siegel"],"sound":"fund"}}],"doors":[{"x":10,"y":2,"to":"grosse_halle","tx":11,"ty":14,"dir":"up"},{"x":11,"y":2,"to":"grosse_halle","tx":12,"ty":14,"dir":"up"},{"x":0,"y":8,"to":"bibliothek","tx":18,"ty":7,"dir":"left"},{"x":21,"y":8,"to":"uhrenturm","tx":1,"ty":7,"dir":"right"},{"x":10,"y":14,"to":"innenhof","tx":10,"ty":3,"dir":"down"},{"x":11,"y":14,"to":"innenhof","tx":11,"ty":3,"dir":"down"},{"x":3,"y":14,"to":"kellergang","tx":14,"ty":3,"dir":"down"}]},"uhrenturm":{"name":"Uhrenturm","music":"turm","ambient":{"dark":0.48,"tint":"30,20,40","particles":"staub"},"tiles":["TTTTTTTTTTTTTTTT","TXXXXXXXXXXXXXXT","TXXXXXXXXXXXXXXT","TMMMMMMMMMXMMMMT","TMMMMMMMMMXMMMMT","TMMMMMMMMMXMMMMT","TMMMMMMMMMXMMMMT","\u003cMMMMMMMMMhMMMMT","TMMMMMMMMMXMMMMT","TMMMMMMMMMXMMMMT","TMMMMMMMMMXMMMMT","TTTTTTTTTTTTTTTT"],"objects":[{"type":"zifferblatt","x":3,"y":1,"if":["!done:Q04"],"talk":[{"dialog":"zifferblatt"}]},{"type":"zifferblatt","x":3,"y":1,"v":"ok","if":["done:Q04"],"talk":[{"dialog":"zifferblatt_ok"}]},{"type":"wandkerze","x":2,"y":2,"talk":[{"dialog":"wandkerze"}]},{"type":"wandkerze","x":8,"y":2,"talk":[{"dialog":"wandkerze"}]},{"type":"wandkerze","x":12,"y":2,"talk":[{"dialog":"wandkerze"}]},{"type":"uhrwerk","x":5,"y":4,"v":"kaputt","if":["!flag:q04_eingesetzt"],"talk":[{"if":["quest:Q04","flag:q04_zahnrad"],"dialog":"q04_einsetzen","set":["q04_eingesetzt"],"sound":"zahnrad"},{"if":["quest:Q04"],"dialog":"uhrwerk_luecke"},{"dialog":"uhrwerk_kaputt"}]},{"type":"uhrwerk","x":5,"y":4,"v":"neu","if":["flag:q04_eingesetzt"],"talk":[{"dialog":"uhrwerk_laeuft"}]},{"type":"werkbank","x":1,"y":9,"talk":[{"dialog":"werkbank"}]},{"type":"loser_stein","x":10,"y":7,"if":["!flag:geheimgang_uhr"],"talk":[{"dialog":"loser_stein"}]},{"type":"zahnrad","x":13,"y":7,"if":["!flag:q04_zahnrad"],"talk":[{"if":["quest:Q04"],"dialog":"q04_zahnrad_fund","set":["q04_zahnrad"],"sound":"fund"},{"dialog":"zahnrad"}]},{"type":"pflanze","x":14,"y":10,"talk":[{"dialog":"pflanze"}]}],"npcs":[{"char":"pendel","x":3,"y":5,"dir":"down","talk":[{"if":["quest:Q03","flag:q03_erinnert","!flag:q03_clavis"],"dialog":"q03_pendel","set":["zauber_clavis","q03_clavis"],"sound":"zauber"},{"if":["quest:Q04","!flag:q04_pendel"],"dialog":"q04_pendel","set":["q04_pendel","zauber_restauro"],"sound":"zauber"},{"if":["quest:Q04","!flag:q04_zahnrad"],"dialog":"pendel_tipp_zahnrad"},{"if":["quest:Q04","!flag:q04_eingesetzt"],"dialog":"pendel_tipp_einsetzen"},{"if":["quest:Q04"],"dialog":"pendel_tipp_uhrmeister"},{"if":["done:Q04"],"dialog":"pendel_danke"},{"dialog":"pendel_1"}]},{"char":"uhrmeister","x":9,"y":4,"dir":"down","talk":[{"if":["quest:Q04","flag:q04_eingesetzt","!flag:q04_uhrmeister"],"dialog":"uhrmeister_erwacht","minigame":{"type":"takt","rounds":[3,4,5]},"win":{"dialog":"uhrmeister_besiegt","set":["q04_uhrmeister"],"sound":"fund"}},{"if":["flag:q04_uhrmeister"],"dialog":"uhrmeister_ruhig"},{"dialog":"uhrmeister_still"}]}],"secrets":[{"id":"geheimgang_uhr","x":10,"y":7,"if":["quest:Q04","flag:q04_pendel","!flag:geheimgang_uhr"],"found":{"dialog":"q04_geheimgang","set":["geheimgang_uhr"],"sound":"stein"}}],"doors":[{"x":0,"y":7,"to":"schlosskern","tx":20,"ty":8,"dir":"left"}]}}};
 // ---- src/core/util.js ----
 // ===== Grundlagen (ohne DOM, in Node testbar) =====
 const SAVE_VERSION = 1;
@@ -308,6 +308,7 @@ function tileSolid(m, x, y) {
   return c === null || !!(DATA.tiles[c] || {}).solid;
 }
 function objType(o) { return DATA.objects[o.type]; }
+function objSolid(o) { return o.solid !== undefined ? !!o.solid : !!objType(o).solid; }
 function objCovers(o, x, y) {
   const t = objType(o);
   return x >= o.x && x < o.x + t.w && y >= o.y && y < o.y + t.h;
@@ -322,7 +323,7 @@ function secretAt(m, x, y, ctx) { return (m.secrets || []).find(s => s.x === x &
 
 function blockedAt(m, x, y, ctx) {
   if (tileSolid(m, x, y)) return true;
-  if (visibleObjs(m, ctx).some(o => objType(o).solid && objCovers(o, x, y))) return true;
+  if (visibleObjs(m, ctx).some(o => objSolid(o) && objCovers(o, x, y))) return true;
   if (npcAt(m, x, y, ctx)) return true;
   return false;
 }
@@ -355,7 +356,9 @@ function findPath(m, from, to, ctx, maxLen) {
 function questIds() {
   return Object.keys(DATA.quests).sort((a, b) => DATA.quests[a].day - DATA.quests[b].day || (a < b ? -1 : 1));
 }
-function stepDone(st, flags) { return !!flags[st.flag]; }
+function stepFlags(st) { return st.flags || [st.flag]; }
+function stepDone(st, flags) { return stepFlags(st).every(f => !!flags[f]); }
+function stepCount(st, flags) { return stepFlags(st).filter(f => !!flags[f]).length; }
 function questComplete(q, flags) {
   return !q.teilweise && q.steps.every(st => stepDone(st, flags));
 }
@@ -367,7 +370,7 @@ function updateQuests(save, day) {
     if (q.day > day || save.done.indexOf(id) >= 0) return;
     if (questComplete(q, save.flags)) {
       save.done.push(id);
-      if (save.fragments.indexOf(id) < 0) save.fragments.push(id);
+      if (!q.neben && save.fragments.indexOf(id) < 0) save.fragments.push(id);
       neu.push(id);
     }
   });
@@ -401,6 +404,9 @@ function validateData() {
     (a.set || []).forEach(f => setFlags.add(f));
     if (a.join && !chars[a.join]) E(where + ': Begleiter „' + a.join + '“ unbekannt');
     if (a.leave && !chars[a.leave]) E(where + ': Begleiter „' + a.leave + '“ unbekannt');
+    if (a.seq && !DATA.puzzles[a.seq]) E(where + ': Rätsel „' + a.seq + '“ fehlt');
+    if (a.demo && !DATA.puzzles[a.demo]) E(where + ': Rätsel „' + a.demo + '“ fehlt');
+    if (a.minigame) { if (a.minigame.type !== 'takt') E(where + ': unbekanntes Minispiel'); checkAction(a.win, where + ' Sieg'); if (!a.win) E(where + ': Minispiel ohne Sieg-Aktion'); }
   }
   const checkTalk = (list, where) => (list || []).forEach((t, i) => checkAction(t, where + '[' + i + ']'));
 
@@ -456,8 +462,21 @@ function validateData() {
     });
   });
 
-  // Erreichbarkeit: vom Start über Türen alle Karten, Figuren und Objekte
+  // Rätsel (Reihenfolge)
+  Object.keys(DATA.puzzles).forEach(id => {
+    const P = DATA.puzzles[id];
+    if (!Array.isArray(P.order) || !P.order.length) return E('Rätsel ' + id + ': Reihenfolge fehlt');
+    if (!Array.isArray(P.notes) || P.notes.length < Math.max.apply(null, P.order)) E('Rätsel ' + id + ': zu wenige Töne');
+    P.order.forEach(v => setFlags.add(id + '_' + v));
+    checkAction(P.win, 'Rätsel ' + id + ' Sieg'); checkAction(P.fail, 'Rätsel ' + id + ' Fehler');
+  });
+
+  // Erreichbarkeit: vom Start über Türen alle Karten, Figuren und Objekte.
+  // Bedingte Objekte/Figuren (z. B. Geheimgang-Steine) gelten als wegräumbar.
   const ctx = { flags: {}, day: 24, done: [], followers: Object.keys(chars) };
+  const blockedAt = (m, x, y) => tileSolid(m, x, y) ||
+    (m.objects || []).some(o => !o.if && objSolid(o) && objCovers(o, x, y)) ||
+    (m.npcs || []).some(n => !n.if && n.x === x && n.y === y);
   const seen = {}; Object.keys(maps).forEach(k => { seen[k] = new Set(); });
   const queue = [[DATA.welt.start.map, DATA.welt.start.x, DATA.welt.start.y]];
   while (queue.length) {
@@ -468,7 +487,7 @@ function validateData() {
     if (d && maps[d.to]) { queue.push([d.to, d.tx, d.ty]); continue; }
     Object.values(DIRS).forEach(([dx, dy]) => {
       const nx = x + dx, ny = y + dy;
-      if (!blockedAt(m, nx, ny, ctx) && !seen[mid].has(nx + ',' + ny)) queue.push([mid, nx, ny]);
+      if (!blockedAt(m, nx, ny) && !seen[mid].has(nx + ',' + ny)) queue.push([mid, nx, ny]);
     });
   }
   const nearReach = (mid, cells) => cells.some(([x, y]) => Object.values(DIRS).some(([dx, dy]) => seen[mid].has((x + dx) + ',' + (y + dy))) || seen[mid].has(x + ',' + y));
@@ -490,16 +509,17 @@ function validateData() {
   const days = {};
   Object.keys(DATA.quests).forEach(id => {
     const q = DATA.quests[id];
-    if (!(q.day >= 1 && q.day <= 24)) E('Quest ' + id + ': Tag ungültig');
-    if (days[q.day]) E('Quest ' + id + ': Tag ' + q.day + ' doppelt'); days[q.day] = id;
+    if (!(q.day >= (q.neben ? 0 : 1) && q.day <= 24)) E('Quest ' + id + ': Tag ungültig');
+    if (!q.neben) { if (days[q.day]) E('Quest ' + id + ': Tag ' + q.day + ' doppelt'); days[q.day] = id; }
+    if (!q.neben && !q.fragment) E('Quest ' + id + ': Fragment fehlt');
     if (!q.title || !Array.isArray(q.steps) || !q.steps.length) E('Quest ' + id + ': Titel oder Schritte fehlen');
     if (q.start) checkDialogRef(q.start, 'Quest ' + id);
-    (q.steps || []).forEach((st, i) => {
-      if (!setFlags.has(st.flag)) {
-        if (q.teilweise) Wn('Quest ' + id + ' Schritt ' + (i + 1) + ' (' + st.flag + ') ist noch nicht baubar – Quest als „teilweise“ markiert');
-        else E('Quest ' + id + ' Schritt ' + (i + 1) + ': Flag „' + st.flag + '“ wird nirgends gesetzt – nicht abschließbar');
+    (q.steps || []).forEach((st, i) => stepFlags(st).forEach(f => {
+      if (!setFlags.has(f)) {
+        if (q.teilweise) Wn('Quest ' + id + ' Schritt ' + (i + 1) + ' (' + f + ') ist noch nicht baubar – Quest als „teilweise“ markiert');
+        else E('Quest ' + id + ' Schritt ' + (i + 1) + ': Flag „' + f + '“ wird nirgends gesetzt – nicht abschließbar');
       }
-    });
+    }));
     if (q.teilweise) Wn('Quest ' + id + ' ist noch nicht vollständig gebaut');
   });
   return { errors, warnings };
@@ -955,6 +975,344 @@ const PAINT_OBJ = {
   },
 };
 
+// ---- src/engine/paint_schloss.js ----
+// ===== Stufe 2: Kacheln und Objekte für Schloss, Große Halle, Bibliothek, Innenhof, Eulen- und Uhrenturm =====
+
+function stoneBlocks(p, R, nb, cols, mortar) {
+  p.r(0, 0, 32, 32, mortar);
+  for (let row = 0; row < 4; row++) {
+    const y = row * 8, off = (row + nb.y) % 2 ? 8 : 0;
+    for (let x = -off; x < 32; x += 16) {
+      const c = cols[(R() * cols.length) | 0];
+      p.r(x + 1, y + 1, 14, 6, c); p.r(x + 1, y + 1, 14, 1, shade(c, 0.14)); p.r(x + 1, y + 6, 14, 1, shade(c, -0.18));
+    }
+  }
+}
+
+Object.assign(PAINT_TILE, {
+  marmor(p, R, nb) {
+    for (let i = 0; i < 4; i++) {
+      const x = (i % 2) * 16, y = (i >> 1) * 16, dark = ((nb.x * 2 + (i % 2)) + (nb.y * 2 + (i >> 1))) % 2;
+      const c = dark ? '#8e8274' : '#bcae98';
+      p.r(x, y, 16, 16, c); p.r(x, y, 16, 1, shade(c, 0.12)); p.r(x, y + 15, 16, 1, shade(c, -0.2));
+      if (R() < 0.5) p.line(x + 2 + ((R() * 6) | 0), y + 3, x + 9 + ((R() * 5) | 0), y + 12, shade(c, -0.08));
+    }
+  },
+  wand_schloss(p, R, nb) {
+    stoneBlocks(p, R, nb, ['#a08870', '#988068', '#a88e74'], '#6a5848');
+    if (nb.up === 'T') { p.r(0, 0, 32, 5, '#3a2a20'); p.r(0, 5, 32, 1, '#5a4434'); }
+    if (!['K', 'O'].includes(nb.down)) { p.r(0, 25, 32, 7, '#5a4434'); p.r(0, 25, 32, 2, '#8a6c54'); p.r(0, 31, 32, 1, '#2e2018'); }
+  },
+  laeufer(p, R, nb) {
+    p.r(0, 0, 32, 32, '#8a2a24');
+    for (let y = 2; y < 32; y += 8) for (let x = 4; x < 32; x += 8) { p.r(x, y, 2, 2, '#b8463a'); p.px(x + 1, y + 4, '#6a1e1a'); }
+    const edge = ch => ch !== 'R' && ch !== 'O' && ch !== 'd' && ch !== '<' && ch !== '>';
+    if (edge(nb.left)) { p.r(0, 0, 3, 32, '#e0a838'); p.r(3, 0, 1, 32, '#6a1e1a'); }
+    if (edge(nb.right)) { p.r(29, 0, 3, 32, '#e0a838'); p.r(28, 0, 1, 32, '#6a1e1a'); }
+    if (edge(nb.up)) { p.r(0, 0, 32, 3, '#e0a838'); p.r(0, 3, 32, 1, '#6a1e1a'); }
+    if (edge(nb.down)) { p.r(0, 29, 32, 3, '#e0a838'); p.r(0, 28, 32, 1, '#6a1e1a'); }
+  },
+  torbogen(p, R, nb) {
+    if (nb.left === 'Y' || nb.right === 'Y') PAINT_TILE.aussenmauer(p, R, nb); else PAINT_TILE.wand_schloss(p, R, nb);
+    const leftHalf = nb.right === 'O', rightHalf = nb.left === 'O';
+    const cx = leftHalf ? 32 : rightHalf ? 0 : 16, rx = leftHalf || rightHalf ? 28 : 13;
+    p.ell(cx, 10, rx + 3, 10, '#6a5848'); p.r(Math.max(0, cx - rx - 3), 10, Math.min(32, (rx + 3) * 2), 22, '#6a5848');
+    p.ell(cx, 11, rx, 9, '#1a120e'); p.r(Math.max(0, cx - rx), 11, Math.min(32, rx * 2), 21, '#1a120e');
+    for (let y = 14; y < 32; y += 3) p.r(Math.max(0, cx - rx), y, Math.min(32, rx * 2), 1, 'rgba(255,200,120,' + ((y - 12) / 80).toFixed(2) + ')');
+  },
+  ausgang_links(p, R, nb) {
+    if (nb.right === '.') PAINT_TILE.dielen(p, R, nb); else if (nb.right === 'R') PAINT_TILE.laeufer(p, R, nb); else PAINT_TILE.marmor(p, R, nb);
+    for (let x = 0; x < 20; x += 2) p.r(x, 0, 2, 32, 'rgba(10,6,12,' + ((20 - x) / 24).toFixed(2) + ')');
+  },
+  ausgang_rechts(p, R, nb) {
+    if (nb.left === '.') PAINT_TILE.dielen(p, R, nb); else if (nb.left === 'R') PAINT_TILE.laeufer(p, R, nb); else PAINT_TILE.marmor(p, R, nb);
+    for (let x = 12; x < 32; x += 2) p.r(x, 0, 2, 32, 'rgba(10,6,12,' + ((x - 10) / 24).toFixed(2) + ')');
+  },
+  treppe_runter(p) {
+    for (let i = 0; i < 4; i++) { const y = i * 8, c = shade('#8e8274', -i * 0.18); p.r(0, y, 32, 5, c); p.r(0, y, 32, 1, shade(c, 0.2)); p.r(0, y + 5, 32, 3, shade(c, -0.4)); }
+    p.r(0, 0, 3, 32, '#4a3a2e'); p.r(29, 0, 3, 32, '#4a3a2e');
+    for (let y = 16; y < 32; y += 2) p.r(0, y, 32, 2, 'rgba(8,4,10,' + ((y - 14) / 24).toFixed(2) + ')');
+  },
+  schnee(p, R) {
+    p.r(0, 0, 32, 32, '#e2eaf6');
+    for (let i = 0; i < 10; i++) p.px((R() * 32) | 0, (R() * 32) | 0, R() < 0.5 ? '#c8d4e8' : '#f4f8ff');
+    for (let i = 0; i < 2; i++) { const x = (R() * 28) | 0, y = (R() * 28) | 0; p.r(x, y, 4, 1, '#cfd9ec'); }
+    if (R() < 0.3) p.px((R() * 32) | 0, (R() * 32) | 0, '#ffffff');
+  },
+  weg_schnee(p, R, nb) {
+    p.r(0, 0, 32, 32, '#6a6470');
+    for (let y = 0; y < 32; y += 8) for (let x = ((y / 8) % 2) * 5 - 5; x < 32; x += 10) {
+      const c = ['#8a8290', '#7e7686', '#948c9a'][(R() * 3) | 0]; p.r(x + 1, y + 1, 8, 6, c); p.r(x + 1, y + 1, 8, 1, shade(c, 0.2));
+    }
+    const sn = ch => ch === 'n';
+    if (sn(nb.left)) for (let y = 0; y < 32; y += 4) p.r(0, y, 3 + ((R() * 4) | 0), 4, '#e2eaf6');
+    if (sn(nb.right)) for (let y = 0; y < 32; y += 4) { const w = 3 + ((R() * 4) | 0); p.r(32 - w, y, w, 4, '#e2eaf6'); }
+    for (let i = 0; i < 4; i++) p.r((R() * 28) | 0, (R() * 30) | 0, 3, 2, '#dfe7f4');
+  },
+  aussenmauer(p, R, nb) {
+    if (nb.y < 3) {
+      stoneBlocks(p, R, nb, ['#6e7286', '#666a7e', '#767a8e'], '#3e4052');
+      if (nb.y === 0) { p.r(0, 0, 32, 6, '#e8f0fc'); for (let x = 0; x < 32; x += 8) p.r(x, 6, 4, 3, '#e8f0fc'); }
+      if (nb.y === 2) { p.r(0, 27, 32, 5, '#3e4052'); p.r(0, 30, 32, 2, '#2a2c3a'); }
+    } else {
+      p.r(0, 0, 32, 32, '#5a5e70');
+      for (let x = 0; x < 32; x += 8) { p.r(x, 0, 7, 32, '#666a7e'); p.r(x, 0, 1, 32, '#7a7e92'); }
+      p.r(2, 2, 28, 28, '#e8f0fc'); p.r(2, 2, 28, 2, '#ffffff');
+      for (let i = 0; i < 4; i++) p.px(4 + ((R() * 24) | 0), 6 + ((R() * 20) | 0), '#c8d4e8');
+    }
+  },
+  stroh(p, R) {
+    p.r(0, 0, 32, 32, '#a8884a');
+    for (let i = 0; i < 26; i++) { const x = (R() * 30) | 0, y = (R() * 31) | 0, c = ['#c8a85a', '#8a6c34', '#d8b86a'][(R() * 3) | 0]; p.r(x, y, 3 + ((R() * 3) | 0), 1, c); }
+  },
+  geheimgang(p, R, nb) {
+    stoneBlocks(p, R, nb, ['#6e6472', '#675d6b', '#746a78'], '#3a3340');
+    p.ell(16, 12, 11, 9, '#0a080e'); p.r(5, 12, 22, 20, '#0a080e');
+    for (let y = 18; y < 32; y += 2) p.r(5, y, 22, 1, 'rgba(255,210,120,' + ((y - 16) / 90).toFixed(2) + ')');
+  },
+});
+
+// Hauswappen-Tiere für Banner
+const HAUS = {
+  bernfuchs: { a: '#4f6b2a', b: '#e09a2c' }, eisvogel: { a: '#22747a', b: '#eef0f4' },
+  tannenhirsch: { a: '#2a5a32', b: '#c0703a' }, sternbaer: { a: '#5a2a5e', b: '#c8c8d8' },
+};
+function wappen(p, v, cx, cy) {
+  if (v === 'eisvogel') {
+    p.ell(cx, cy + 2, 6, 4, '#2a9ab8'); p.ell(cx - 2, cy - 3, 4, 4, '#2a9ab8'); p.r(cx - 4, cy + 1, 7, 3, '#e8762a');
+    p.r(cx - 10, cy - 3, 5, 2, '#1a1a1a'); p.px(cx - 3, cy - 4, '#ffffff'); p.r(cx + 4, cy + 4, 5, 2, '#1a6a8a');
+  } else if (v === 'tannenhirsch') {
+    p.ell(cx, cy + 3, 4, 5, '#c0703a'); p.r(cx - 1, cy + 6, 3, 2, '#2a1a12');
+    p.r(cx - 8, cy - 8, 2, 8, '#e8d8b0'); p.r(cx + 6, cy - 8, 2, 8, '#e8d8b0'); p.r(cx - 8, cy - 8, 4, 2, '#e8d8b0'); p.r(cx + 4, cy - 8, 4, 2, '#e8d8b0');
+    p.r(cx - 6, cy - 4, 2, 2, '#e8d8b0'); p.r(cx + 4, cy - 4, 2, 2, '#e8d8b0'); p.px(cx - 2, cy + 1, '#1a1a1a'); p.px(cx + 1, cy + 1, '#1a1a1a');
+  } else if (v === 'sternbaer') {
+    p.ell(cx, cy + 2, 7, 6, '#8a6a4a'); p.circ(cx - 5, cy - 4, 2, '#8a6a4a'); p.circ(cx + 5, cy - 4, 2, '#8a6a4a');
+    p.ell(cx, cy + 4, 3, 2, '#c8a882'); p.px(cx, cy + 3, '#1a1a1a'); p.px(cx - 3, cy, '#1a1a1a'); p.px(cx + 3, cy, '#1a1a1a');
+    p.r(cx - 1, cy - 12, 3, 3, '#f4e890'); p.px(cx, cy - 13, '#f4e890'); p.px(cx, cy - 9, '#f4e890');
+  } else {
+    p.ell(cx, cy + 1, 7, 6, '#e8762a');
+    for (let i = 0; i < 5; i++) { p.r(cx - 6 + i, cy - 9 + i, 3 - (i > 2 ? 1 : 0), 1, '#e8762a'); p.r(cx + 4 - i, cy - 9 + i, 3 - (i > 2 ? 1 : 0), 1, '#e8762a'); }
+    p.ell(cx - 3, cy + 4, 3, 2, '#fff4e0'); p.ell(cx + 3, cy + 4, 3, 2, '#fff4e0'); p.r(cx - 1, cy + 5, 2, 2, '#2a1a12');
+    p.r(cx - 4, cy - 1, 2, 2, '#2a1a12'); p.r(cx + 3, cy - 1, 2, 2, '#2a1a12');
+  }
+}
+
+Object.assign(PAINT_OBJ, {
+  banner_haus(p, f, R, W, H, v) {
+    const c = HAUS[v] || HAUS.bernfuchs;
+    p.r(3, 5, 26, 2, '#5a3a20'); p.r(2, 4, 2, 4, '#e8c050'); p.r(28, 4, 2, 4, '#e8c050');
+    p.r(5, 7, 22, 46, c.b); p.r(7, 7, 18, 44, c.a);
+    for (let i = 0; i < 6; i++) { p.r(5 + i, 53 + i, 11 - i * 2 + 1, 1, c.b); p.r(16 + i, 53 + i, 11 - i * 2, 1, c.b); }
+    wappen(p, v, 16, 28);
+    p.r(9, 42, 14, 1, c.b); p.r(11, 45, 10, 1, c.b);
+  },
+  torbogen_gross(p) {
+    for (let a = 0; a <= 16; a++) { const ang = Math.PI + a * Math.PI / 16; p.r(64 + Math.cos(ang) * 46 - 3, 40 + Math.sin(ang) * 32 - 3, 7, 6, a % 2 ? '#c8b090' : '#b09878'); }
+    p.r(14, 38, 8, 26, '#b09878'); p.r(106, 38, 8, 26, '#b09878'); p.r(14, 38, 8, 2, '#d8c0a0'); p.r(106, 38, 8, 2, '#d8c0a0');
+    p.r(56, 4, 16, 12, '#e8c050'); p.r(58, 6, 12, 8, '#4f6b2a'); p.r(62, 8, 4, 4, '#e8c050');
+    for (let x = 22; x < 106; x += 6) { p.ell(x, 20 + Math.sin(x / 13) * 3, 4, 3, '#2f6a32'); if (x % 18 === 4) p.r(x - 1, 21, 2, 2, '#c8282a'); }
+  },
+  girlande(p) {
+    for (let x = 2; x < 62; x += 4) { const y = 10 + Math.sin((x - 2) / 60 * Math.PI) * 8; p.ell(x, y, 4, 3, '#2f6a32'); p.px(x, y - 2, '#4a8a3e'); }
+    [10, 24, 38, 52].forEach((x, i) => { const y = 12 + Math.sin((x - 2) / 60 * Math.PI) * 8; p.r(x - 1, y, 3, 3, ['#c8282a', '#e8c050', '#c8282a', '#e8c050'][i]); });
+    p.r(0, 6, 4, 8, '#c8282a'); p.r(60, 6, 4, 8, '#c8282a');
+  },
+  saeule(p) {
+    p.r(6, 68, 20, 8, '#8e8274'); p.r(6, 68, 20, 2, '#b0a490');
+    p.r(9, 8, 14, 60, '#b0a490'); p.r(9, 8, 3, 60, '#ccc0aa'); p.r(19, 8, 4, 60, '#8e8274');
+    for (let x = 12; x < 20; x += 3) p.r(x, 10, 1, 56, '#9e9282');
+    p.r(5, 2, 22, 7, '#8e8274'); p.r(5, 2, 22, 2, '#ccc0aa');
+    p.r(7, 26, 18, 4, '#2f6a32'); p.r(14, 30, 4, 6, '#c8282a');
+  },
+  kerzen_schwebend(p, f) {
+    [[8, 6], [24, 14], [40, 4], [56, 12]].forEach(([x, y], i) => {
+      const b = (f + i) % 2;
+      p.r(x - 2, y + 8 + b, 4, 12, '#f4ead8'); p.r(x - 2, y + 8 + b, 1, 12, '#ffffff');
+      flame(p, x, y + 8 + b, f + i, false);
+    });
+  },
+  tannenbaum_gross(p, f) {
+    p.r(24, 104, 16, 10, '#b8322a'); p.r(24, 104, 16, 2, '#e85a4a'); p.r(31, 104, 2, 10, '#e8c050');
+    p.r(30, 96, 4, 8, '#5e3820');
+    for (let i = 0; i < 5; i++) {
+      const top = 8 + i * 18, w = 8 + i * 6;
+      for (let y = 0; y < 22; y++) p.r(32 - (w * y / 22) - 2, top + y, (w * y / 22) * 2 + 4, 1, y % 5 === 4 ? '#1f5a26' : (i % 2 ? '#2f6a32' : '#2a6230'));
+      for (let x = 32 - w; x < 32 + w; x += 3) p.px(x, top + 21, '#eef4ff');
+    }
+    for (let i = 0; i < 18; i++) { const y = 20 + ((i * 37) % 76), sp = 6 + (y - 8) / 3.2, x = 32 + (((i * 53) % 100) / 100 - 0.5) * sp * 2; p.r(x, y, 2, 2, ['#ff5a4a', '#ffd36a', '#6ab0ff', '#ff9ad0'][(i + f) % 4]); }
+    [[26, 40], [38, 58], [22, 76], [42, 84]].forEach(([x, y]) => { p.circ(x, y, 3, '#c8282a'); p.px(x - 1, y - 1, '#ff8a8a'); });
+    p.r(29, 0, 6, 6, '#ffd36a'); p.r(27, 2, 10, 2, '#ffd36a'); p.px(31, 0, '#fff8d0');
+  },
+  fenster_hoch(p, f, R, W, H, v) {
+    const aussen = v === 'aussen';
+    p.ell(32, 14, 26, 12, '#4a3a2e'); p.r(6, 14, 52, 46, '#4a3a2e');
+    p.ell(32, 15, 22, 10, aussen ? '#c8862a' : '#16204a'); p.vgrad(10, 15, 44, 40, aussen ? '#e8a840' : '#16204a', aussen ? '#ffd27a' : '#3a5a9a', 5);
+    if (aussen) { p.r(14, 34, 8, 16, 'rgba(90,50,20,0.35)'); p.circ(44, 24, 3, '#fff2b0'); }
+    else for (let i = 0; i < 16; i++) p.px(10 + ((i * 29 + f * (i % 3 + 1) * 2) % 44), 8 + ((i * 17 + f * 4 + i) % 46), '#eef4ff');
+    p.r(31, 6, 2, 50, '#4a3a2e'); p.r(10, 30, 44, 2, '#4a3a2e');
+    p.r(10, 50, 44, 5, '#c8d8f0'); p.r(4, 56, 56, 5, '#8a7a6a'); p.r(4, 56, 56, 1, '#b0a090'); p.r(6, 54, 52, 3, '#eef4ff');
+  },
+  lehrertisch(p) {
+    p.r(0, 12, 256, 26, '#5e3820'); p.r(0, 12, 256, 4, '#8a5a34'); p.r(0, 16, 256, 2, '#3a2214');
+    p.r(4, 18, 248, 20, '#4a2c18'); for (let x = 8; x < 250; x += 30) { p.r(x, 20, 24, 16, '#5a361e'); p.r(x, 20, 24, 1, '#7a4a2a'); }
+    p.r(0, 6, 256, 7, '#e8dcc8'); p.r(0, 6, 256, 1, '#ffffff');
+    for (let x = 18; x < 250; x += 34) { p.circ(x, 8, 4, '#c8c0b0'); p.circ(x, 8, 3, '#f4ead8'); p.r(x + 8, 2, 3, 7, '#c8a040'); p.r(x + 8, 1, 3, 2, '#e8c050'); }
+    p.r(120, 0, 16, 7, '#c8a040'); p.r(122, -2, 12, 3, '#e8c050');
+  },
+  langtisch(p, f, R, W, H, v) {
+    const c = HAUS[v] || HAUS.bernfuchs;
+    p.r(0, 30, W, 6, '#5e3820'); p.r(0, 30, W, 1, '#7a4a2a');
+    p.r(0, 8, W, 20, '#7a4a2a'); p.r(0, 8, W, 2, '#a86d40'); p.r(0, 26, W, 2, '#4a2c18');
+    p.r(0, 13, W, 9, c.a); p.r(0, 13, W, 1, c.b); p.r(0, 21, W, 1, c.b);
+    for (let x = 10; x < W - 4; x += 22) {
+      p.circ(x, 11, 4, '#c8c0b0'); p.circ(x, 11, 3, '#f4ead8');
+      const food = R(); if (food < 0.3) p.r(x - 2, 9, 4, 3, '#c87a3a'); else if (food < 0.6) p.r(x - 2, 9, 4, 2, '#e8c050');
+      p.r(x + 6, 6, 3, 6, '#c8c0d0'); p.r(x + 6, 6, 3, 1, '#ffffff');
+    }
+    for (let x = 4; x < W; x += 40) { p.r(x + 16, 10, 8, 6, '#c8a040'); p.r(x + 17, 6, 6, 4, ['#c84a3a', '#e8c050', '#7ac04a'][(x / 40) % 3]); }
+    p.r(0, 36, W, 6, '#4a2c18'); p.r(0, 36, W, 1, '#6a4428'); p.r(0, 0, W, 6, '#4a2c18'); p.r(0, 0, W, 1, '#6a4428');
+  },
+  singkerze(p, f, R, W, H, v) {
+    const on = v === 'an', bob = f % 2;
+    p.ell(16, 64, 6, 2, 'rgba(0,0,0,0.25)');
+    p.r(11, 14 + bob, 10, 26, '#f4ead8'); p.r(11, 14 + bob, 3, 26, '#ffffff'); p.r(19, 14 + bob, 2, 26, '#d8ccb8');
+    p.r(10, 38 + bob, 12, 3, '#c8a040'); p.r(12, 41 + bob, 8, 2, '#a8862a');
+    p.r(13, 22 + bob, 2, 6, '#e8dcc8'); p.r(18, 16 + bob, 2, 4, '#e8dcc8');
+    p.r(15, 10 + bob, 2, 4, '#3a2a1e');
+    if (on) { p.r(13, 1 + bob, 6, 10, '#ff9a2a'); p.r(14, -1 + bob + 2, 4, 4, '#ffd36a'); p.r(15, 4 + bob, 2, 6, '#fff2b0'); }
+    else { p.px(14 + bob, 6, '#a8a0b0'); p.px(16 - bob, 3, '#9890a0'); }
+    // Notenzeichen
+    if (on && f % 2) { p.r(25, 6, 1, 6, '#ffd36a'); p.r(23, 11, 3, 2, '#ffd36a'); }
+  },
+  spieluhr(p, f) {
+    p.r(6, 28, 20, 14, '#6a3a1e'); p.r(6, 28, 20, 2, '#9a6a3a'); p.r(8, 32, 16, 1, '#e8c050');
+    p.r(4, 40, 24, 3, '#4a2c18');
+    p.r(8, 16, 16, 13, '#7a4a2a'); p.r(8, 16, 16, 2, '#a86d40'); p.r(15, 10, 2, 6, '#c8a040');
+    p.circ(16, 8, 3, '#e8c050'); p.px(15, 7, '#fff2b0');
+    p.r(26, 32, 4, 2, '#c8a040'); p.r(28, 30 + (f % 2) * 2, 2, 4, '#c8a040');
+  },
+  lesetisch(p, f) {
+    p.r(4, 28, 4, 14, '#4a2c18'); p.r(88, 28, 4, 14, '#4a2c18');
+    p.r(0, 12, 96, 18, '#7a4a2a'); p.r(0, 12, 96, 2, '#a86d40'); p.r(0, 28, 96, 2, '#4a2c18');
+    p.r(10, 14, 16, 10, '#f4ead8'); p.r(18, 14, 1, 10, '#c8b898'); p.r(12, 16, 5, 1, '#6a5a4a'); p.r(20, 16, 5, 1, '#6a5a4a');
+    p.r(40, 10, 12, 8, '#2a4a8a'); p.r(40, 7, 12, 3, '#8a2a2a'); p.r(42, 4, 10, 3, '#3a6a3a');
+    p.r(70, 6, 4, 10, '#f4ead8'); flame(p, 72, 6, f, false); p.r(68, 15, 8, 2, '#c8a040');
+  },
+  pult(p, f) {
+    p.r(2, 18, 60, 30, '#5e3820'); p.r(2, 18, 60, 3, '#8a5a34'); p.r(4, 24, 56, 1, '#3a2214');
+    p.r(6, 28, 24, 8, '#6e4428'); p.r(34, 28, 24, 8, '#6e4428'); p.r(16, 31, 4, 2, '#e8c050'); p.r(44, 31, 4, 2, '#e8c050');
+    p.r(8, 10, 22, 9, '#f4ead8'); p.r(19, 10, 1, 9, '#c8b898');
+    p.r(40, 8, 8, 10, '#1a1a2a'); p.r(41, 6, 6, 3, '#3a3a4a'); p.r(46, 0, 1, 10, '#eef0f4'); p.r(45, 0, 3, 3, '#f4ead8');
+    p.r(52, 4, 4, 12, '#f4ead8'); flame(p, 54, 4, f, false);
+    p.r(28, 2, 10, 8, '#e8c050'); p.px(33, 1, '#f4ead8');
+  },
+  globus(p) {
+    p.r(10, 44, 12, 4, '#4a2c18'); p.r(15, 30, 2, 14, '#c8a040');
+    p.circ(16, 18, 11, '#c8a040'); p.circ(16, 18, 9, '#3a6a9a');
+    p.r(10, 12, 6, 5, '#5a8a3a'); p.r(17, 19, 5, 6, '#5a8a3a'); p.r(12, 21, 3, 2, '#5a8a3a'); p.px(13, 13, '#7aaa5a');
+  },
+  mauseloch(p) {
+    p.ell(16, 28, 5, 4, '#1a120e'); p.r(11, 28, 10, 4, '#1a120e'); p.px(14, 27, '#3a2a20');
+  },
+  tanne(p, f, R) {
+    p.r(14, 66, 4, 10, '#5e3820');
+    for (let i = 0; i < 4; i++) {
+      const top = 4 + i * 16, w = 5 + i * 3.5;
+      for (let y = 0; y < 18; y++) p.r(16 - (w * y / 18) - 2, top + y, (w * y / 18) * 2 + 4, 1, y % 5 === 4 ? '#1a4a24' : '#25582e');
+      for (let x = 16 - w; x < 16 + w; x += 2) p.px(x, top + 16 + (x % 3 === 0 ? 1 : 0), '#eef4ff');
+      p.r(16 - w / 2, top + 6, w, 2, '#e8f0fc');
+    }
+    p.r(13, 2, 6, 4, '#e8f0fc');
+  },
+  brunnen_eis(p) {
+    p.ell(32, 46, 30, 16, '#6e7286'); p.ell(32, 44, 28, 14, '#8a8ea2'); p.ell(32, 44, 24, 11, '#a8d0ec'); p.ell(30, 42, 16, 6, '#c8e4f8');
+    p.r(20, 41, 10, 1, '#ffffff'); p.r(36, 47, 8, 1, '#ffffff');
+    p.r(28, 14, 8, 30, '#8a8ea2'); p.r(28, 14, 3, 30, '#a8acbe');
+    p.ell(32, 14, 10, 4, '#8a8ea2'); p.ell(32, 12, 8, 3, '#e8f0fc');
+    for (let i = 0; i < 5; i++) p.r(24 + i * 4, 16, 2, 4 + (i % 3) * 3, '#c8e4f8');
+    p.ell(32, 33, 30, 6, 'rgba(0,0,0,0)'); p.r(4, 34, 56, 4, '#e8f0fc');
+  },
+  laterne(p, f) {
+    p.r(15, 22, 3, 40, '#2a2a34'); p.r(11, 60, 11, 4, '#2a2a34');
+    p.r(9, 6, 15, 16, '#2a2a34'); p.r(11, 8, 11, 12, '#ffcf6a'); p.r(12, 9, 3, 10, '#fff2b0');
+    p.r(7, 4, 19, 3, '#2a2a34'); p.r(13, 1, 7, 3, '#2a2a34'); p.r(8, 2, 17, 3, '#e8f0fc');
+    p.r(6, 22, 6, 4, '#2f6a32'); p.r(8, 25, 2, 3, '#c8282a');
+  },
+  schneemann(p) {
+    p.ell(16, 46, 11, 9, '#f4f8ff'); p.ell(16, 44, 10, 7, '#ffffff');
+    p.ell(16, 30, 8, 7, '#f4f8ff'); p.circ(16, 17, 6, '#f4f8ff'); p.circ(15, 16, 5, '#ffffff');
+    p.r(13, 15, 2, 2, '#1a1a1a'); p.r(18, 15, 2, 2, '#1a1a1a'); p.r(16, 18, 5, 2, '#e8762a');
+    p.r(10, 22, 13, 3, '#4f6b2a'); p.r(19, 24, 3, 7, '#4f6b2a'); p.r(20, 24, 2, 7, '#e09a2c');
+    p.r(11, 8, 10, 3, '#2a2a34'); p.r(13, 3, 6, 6, '#2a2a34');
+    p.r(16, 29, 2, 2, '#2a2a2a'); p.r(16, 34, 2, 2, '#2a2a2a');
+    p.line(6, 30, 0, 24, '#5e3820'); p.line(26, 30, 31, 23, '#5e3820');
+  },
+  baum_kahl(p, f, R, W, H, v) {
+    p.r(13, 30, 6, 48, '#4a3424'); p.r(13, 30, 2, 48, '#5e4430');
+    const br = [[16, 34, 4, 18], [16, 40, 28, 22], [16, 26, 6, 6], [16, 26, 26, 4], [16, 30, 16, 2], [5, 19, 2, 12], [27, 23, 30, 14]];
+    br.forEach(([x1, y1, x2, y2]) => { p.line(x1, y1, x2, y2, '#4a3424'); p.line(x1 + 1, y1, x2 + 1, y2, '#4a3424'); });
+    [[4, 18], [6, 6], [26, 4], [16, 2], [28, 22], [2, 12]].forEach(([x, y]) => p.r(x - 2, y - 1, 5, 2, '#e8f0fc'));
+    if (v === 'band') { p.r(20, 44, 3, 6, '#c8282a'); p.r(22, 48 + (f % 2), 2, 6, '#c8282a'); p.r(18, 46, 3, 2, '#e85a4a'); }
+  },
+  stange(p, f, R, W, H, v) {
+    p.r(4, 30, 3, 20, '#5e3820'); p.r(57, 30, 3, 20, '#5e3820'); p.r(0, 28, 64, 4, '#7a4a2a'); p.r(0, 28, 64, 1, '#a86d40');
+    const owls = v === 'leer' ? [] : [[14, '#8a8a92'], [36, '#a07a50'], [52, '#d8d0c0']];
+    owls.forEach(([x, col], i) => {
+      const blink = (f + i) % 3 === 0;
+      p.ell(x, 20, 6, 8, col); p.ell(x, 22, 4, 5, shade(col, 0.3));
+      p.r(x - 4, 14, 3, 3, blink ? col : '#f4ead8'); p.r(x + 1, 14, 3, 3, blink ? col : '#f4ead8');
+      if (!blink) { p.px(x - 3, 15, '#1a1a1a'); p.px(x + 2, 15, '#1a1a1a'); }
+      p.r(x - 1, 17, 2, 2, '#e09a2c'); p.r(x - 3, 27, 2, 2, '#e09a2c'); p.r(x + 1, 27, 2, 2, '#e09a2c');
+      p.px(x - 5, 11, col); p.px(x + 4, 11, col);
+    });
+    for (let x = 6; x < 60; x += 7) p.px(x, 34 + (x % 3), '#eef0f4');
+  },
+  zifferblatt(p, f, R, W, H, v) {
+    p.circ(64, 34, 31, '#5a4434'); p.circ(64, 34, 29, '#c8a040'); p.circ(64, 34, 26, '#f0e6c8');
+    for (let i = 0; i < 12; i++) { const a = i / 12 * 6.283; p.r(64 + Math.cos(a) * 21 - 1, 34 + Math.sin(a) * 21 - 2, 3, 4, '#3a2a1e'); }
+    const back = (v === 'ok' ? -1 : 1) * f / 4 * 6.283;
+    p.line(64, 34, 64 + Math.round(Math.cos(-back - 1.57) * 18), 34 + Math.round(Math.sin(-back - 1.57) * 18), '#2a1a12');
+    p.line(64, 34, 64 + Math.round(Math.cos(back * 0.25) * 12), 34 + Math.round(Math.sin(back * 0.25) * 12), '#2a1a12');
+    p.circ(64, 34, 2, '#c8a040');
+    p.r(20, 4, 14, 56, '#4a3424'); p.r(94, 4, 14, 56, '#4a3424'); for (let y = 8; y < 60; y += 8) { p.r(22, y, 10, 1, '#6a5040'); p.r(96, y, 10, 1, '#6a5040'); }
+  },
+  uhrwerk(p, f, R, W, H, v) {
+    const ok = v !== 'kaputt', ang = ok ? f * 0.4 : 0;
+    p.r(2, 40, 92, 42, '#4a3424'); p.r(2, 40, 92, 3, '#6a5040');
+    const gear = (cx, cy, r, teeth, rot, col) => {
+      p.circ(cx, cy, r, col); p.circ(cx, cy, r - 3, shade(col, -0.2)); p.circ(cx, cy, 3, '#2a1a12');
+      for (let i = 0; i < teeth; i++) { const a = rot + i / teeth * 6.283; p.r(cx + Math.cos(a) * (r + 1) - 2, cy + Math.sin(a) * (r + 1) - 2, 4, 4, col); }
+      for (let i = 0; i < 4; i++) { const a = rot + i * 1.57; p.line(cx, cy, cx + Math.round(Math.cos(a) * (r - 4)), cy + Math.round(Math.sin(a) * (r - 4)), shade(col, 0.2)); }
+    };
+    gear(24, 36, 14, 10, ang, '#c8a040');
+    gear(56, 26, 10, 8, -ang * 1.4, '#b89040');
+    if (ok || v === 'neu') gear(74, 44, 12, 9, ang * 1.2, '#d8b050');
+    else { p.circ(74, 44, 12, '#2a1a12'); p.circ(74, 44, 3, '#5a4434'); }
+    p.r(10, 70, 76, 8, '#3a2618'); p.r(44, 50, 4, 30, '#8a6a3a');
+  },
+  zahnrad(p, f) {
+    const cx = 16, cy = 22;
+    p.circ(cx, cy, 7, '#d8b050'); p.circ(cx, cy, 2, '#5a4434');
+    for (let i = 0; i < 8; i++) { const a = i / 8 * 6.283; p.r(cx + Math.cos(a) * 8 - 1, cy + Math.sin(a) * 8 - 1, 3, 3, '#d8b050'); }
+    if (f % 2) { p.px(cx - 4, cy - 5, '#ffffff'); p.px(cx + 5, cy - 3, '#fff2b0'); }
+  },
+  loser_stein(p) {
+    p.r(4, 6, 24, 20, '#746a78'); p.r(4, 6, 24, 2, '#8a8090'); p.r(4, 24, 24, 2, '#4e4652');
+    p.r(2, 4, 28, 1, '#2a2430'); p.r(2, 27, 28, 1, '#2a2430'); p.r(2, 4, 1, 24, '#2a2430'); p.r(29, 4, 1, 24, '#2a2430');
+    p.px(10, 12, '#5e5464'); p.px(20, 18, '#5e5464');
+  },
+  werkbank(p) {
+    p.r(2, 14, 60, 8, '#7a4a2a'); p.r(2, 14, 60, 2, '#a86d40'); p.r(4, 22, 4, 22, '#4a2c18'); p.r(56, 22, 4, 22, '#4a2c18');
+    p.r(8, 8, 8, 6, '#9aa0a8'); p.r(20, 10, 14, 3, '#c8a040'); p.circ(44, 10, 4, '#c8a040'); p.circ(44, 10, 1, '#5a4434'); p.r(50, 6, 2, 8, '#5a5a62');
+    p.r(6, 36, 52, 3, '#5e3820');
+  },
+  raureif(p, f) {
+    const g = (x, y) => { p.r(x, y, 3, 4, 'rgba(220,240,255,0.85)'); p.px(x - 1, y - 2, 'rgba(220,240,255,0.8)'); p.px(x + 1, y - 3, 'rgba(220,240,255,0.8)'); p.px(x + 3, y - 2, 'rgba(220,240,255,0.8)'); };
+    g(8, 14); g(19, 24);
+    if (f % 2) { p.px(12, 10, '#ffffff'); p.px(24, 19, '#ffffff'); } else { p.px(6, 20, '#ffffff'); p.px(22, 28, '#ffffff'); }
+  },
+});
+
 // ---- src/engine/paint_chars.js ----
 // ===== Figuren: Menschen 32×40, Hund 32×32 =====
 const LOOKS = {
@@ -964,6 +1322,18 @@ const LOOKS = {
     robe: '#3a4f22', robeD: '#283816', robeL: '#55702e', trim: '#d08a26', eye: '#4a6a3a' },
   pit: { hair: '#5a3a22', hairD: '#3a2414', hairL: '#7a5232', long: false, messy: true, skin: '#f0c8a8', skinD: '#d8a684',
     robe: '#425a26', robeD: '#2e4018', robeL: '#5c7834', trim: '#e09a2c', eye: '#3a2a1e' },
+  federleicht: { hair: '#ece6da', hairD: '#c8c0b0', hairL: '#ffffff', long: false, messy: true, skin: '#f2cdb0', skinD: '#dca888',
+    robe: '#34468a', robeD: '#243266', robeL: '#4a60aa', trim: '#e8c050', eye: '#3a5a8a', hat: '#34468a', hatBand: '#e8c050' },
+  pendel: { hair: '#9a9aa2', hairD: '#76767e', hairL: '#c0c0c8', long: false, glasses: '#c8a040', beard: '#b4b4bc', skin: '#eec8a8', skinD: '#d6a482',
+    robe: '#5a3a22', robeD: '#3e2614', robeL: '#7a5232', trim: '#c8a040', eye: '#3a2a1e' },
+  leisetritt: { hair: '#aaa2ac', hairD: '#847c88', hairL: '#d0c8d4', long: false, bun: true, glasses: '#7a5a8a', skin: '#f0caae', skinD: '#d8a888',
+    robe: '#56285e', robeD: '#3c1a42', robeL: '#74407c', trim: '#e8dcc8', eye: '#3a2a1e' },
+  knarz: { hair: '#7a6a5a', hairD: '#5a4a3a', hairL: '#9a8a7a', bald: true, beard: '#8a7a6a', skin: '#e8b898', skinD: '#cc9878',
+    robe: '#4a4038', robeD: '#342c26', robeL: '#62564a', trim: '#8a6a3a', eye: '#3a2a1e' },
+  sternwald: { hair: '#dcdcec', hairD: '#b0b0c4', hairL: '#ffffff', long: true, skin: '#f0caae', skinD: '#d8a888',
+    robe: '#2a2458', robeD: '#1c1840', robeL: '#3c3478', trim: '#c8c0e0', eye: '#4a4a8a', hat: '#2a2458', hatBand: '#c8c0e0', hatStar: true },
+  uhrmeister: { hair: '#8a6a2a', hairD: '#5a4418', hairL: '#c8a040', bald: true, metal: true, skin: '#c8a040', skinD: '#8a6a2a',
+    robe: '#6a5434', robeD: '#4a3a20', robeL: '#8a7044', trim: '#e8c050', eye: '#ff7a2a' },
   lotte: { hair: '#3a2418', hairD: '#24140c', hairL: '#5a3a26', long: true, curls: true, skin: '#f2cdb0', skinD: '#dca888',
     robe: '#22747a', robeD: '#16545a', robeL: '#3a9aa0', trim: '#eef0f4', eye: '#3a2a1e' },
 };
@@ -1016,16 +1386,19 @@ function drawHuman(L, dir, fr) {
     for (let x = 10; x < 23; x += 3) p.r(x, 6, 1, 12, L.hairD);
     p.r(12, 4, 5, 2, L.hairL);
   } else if (dir === 'down') {
-    p.ell(16, 8, 8, 5, L.hair); p.r(8, 7, 16, 4, L.hair);
-    p.r(8, 9, 3, 6, L.hair); p.r(21, 9, 3, 6, L.hair);
+    if (L.bald) { p.ell(16, 8, 7, 4, L.skin); p.r(8, 10, 3, 5, L.hair); p.r(21, 10, 3, 5, L.hair); if (L.metal) { p.ell(16, 7, 7, 4, '#d8b050'); p.r(15, 2, 2, 3, '#e8c050'); p.r(9, 11, 14, 1, '#8a6a2a'); } }
+    else { p.ell(16, 8, 8, 5, L.hair); p.r(8, 7, 16, 4, L.hair);
+    p.r(8, 9, 3, 6, L.hair); p.r(21, 9, 3, 6, L.hair); }
     if (L.messy) { p.r(12, 2, 2, 2, L.hair); p.r(18, 3, 2, 2, L.hair); p.r(9, 11, 2, 2, L.hair); }
-    p.r(11, 10, 10, 1, L.hairD); p.r(12, 4, 6, 2, L.hairL);
+    if (!L.bald) { p.r(11, 10, 10, 1, L.hairD); p.r(12, 4, 6, 2, L.hairL); }
     if (L.curls) for (let x = 8; x < 25; x += 3) p.r(x, 11 + (x % 2), 2, 2, L.hairD);
     // Gesicht
     p.r(12, 13, 2, 2, '#2a1a14'); p.r(18, 13, 2, 2, '#2a1a14'); p.px(12, 13, '#ffffff'); p.px(18, 13, '#ffffff');
     p.px(13, 14, L.eye); p.px(19, 14, L.eye);
     p.r(10, 16, 2, 1, '#f0a090'); p.r(20, 16, 2, 1, '#f0a090');
     p.r(15, 17, 3, 1, '#b86a5a');
+    if (L.metal) { p.r(12, 13, 2, 2, L.eye); p.r(18, 13, 2, 2, L.eye); p.r(13, 17, 6, 1, '#5a4418'); }
+    if (L.beard) { p.r(11, 16, 10, 4, L.beard); p.r(12, 20, 8, 2, L.beard); p.r(14, 22, 4, 1, L.beard); p.r(15, 17, 3, 1, shade(L.beard, -0.3)); }
     if (L.glasses) {
       const g = L.glasses;
       p.r(10, 12, 5, 1, g); p.r(10, 15, 5, 1, g); p.r(10, 12, 1, 4, g); p.r(14, 12, 1, 4, g);
@@ -1036,12 +1409,26 @@ function drawHuman(L, dir, fr) {
     // Seitenansicht (für rechts gemalt, links wird gespiegelt)
     p.ell(15, 8, 8, 5, L.hair); p.r(8, 7, 13, 6, L.hair); p.r(8, 10, 6, 7, L.hair);
     if (L.messy) { p.r(12, 2, 2, 2, L.hair); p.r(17, 3, 2, 2, L.hair); }
-    p.r(11, 4, 6, 2, L.hairL); p.r(9, 13, 4, 2, L.hairD);
+    if (L.bald) { p.ell(15, 8, 7, 4, L.skin); p.r(8, 10, 5, 5, L.hair); if (L.metal) p.ell(15, 7, 7, 4, '#d8b050'); }
+    else { p.r(11, 4, 6, 2, L.hairL); p.r(9, 13, 4, 2, L.hairD); }
     if (L.curls) for (let y = 9; y < 20; y += 3) p.r(8, y, 2, 2, L.hairD);
     p.r(13, 12, 2, 3, L.skinD); // Ohr
     p.r(20, 13, 2, 2, '#2a1a14'); p.px(21, 13, '#ffffff');
     p.r(23, 15, 1, 2, L.skinD); p.r(19, 16, 2, 1, '#f0a090'); p.r(20, 18, 2, 1, '#b86a5a');
+    if (L.beard) { p.r(17, 16, 7, 5, L.beard); p.r(18, 21, 5, 2, L.beard); }
+    if (L.metal) p.r(20, 13, 2, 2, L.eye);
     if (L.glasses) { const g = L.glasses; p.r(19, 12, 4, 1, g); p.r(19, 15, 4, 1, g); p.r(19, 12, 1, 4, g); p.r(22, 12, 1, 4, g); p.r(14, 13, 5, 1, g); }
+  }
+  if (L.bun && dir !== 'down') p.circ(side ? 10 : 16, 4, 3, L.hair);
+  if (L.bun && dir === 'down') { p.circ(16, 2, 3, L.hair); p.px(15, 1, L.hairL); }
+  if (L.beard && dir === 'up') { p.r(10, 17, 2, 3, L.beard); p.r(20, 17, 2, 3, L.beard); }
+  // Spitzhut der Lehrkräfte
+  if (L.hat) {
+    const hx = side ? (dir === 'right' ? 15 : 17) : 16;
+    p.r(hx - 10, 6, 20, 3, L.hat); p.r(hx - 10, 6, 20, 1, shade(L.hat, 0.2));
+    p.r(hx - 6, 3, 12, 3, L.hat); p.r(hx - 4, 1, 8, 2, L.hat); p.r(hx - 2 + (side ? 2 : 1), 0, 3, 1, L.hat);
+    p.r(hx - 6, 5, 12, 1, L.hatBand);
+    if (L.hatStar) { p.px(hx + 2, 3, '#ffe890'); p.px(hx + 1, 3, '#fff8d0'); }
   }
   if (dir === 'left') {
     const m = mkCanvas(32, 40), g = m.getContext('2d'); g.translate(32, 0); g.scale(-1, 1); g.drawImage(c, 0, 0);
@@ -1105,12 +1492,31 @@ function drawDog(dir, fr, pose) {
   return c;
 }
 
+// Pimpernell: zerzauste Eule mit schiefem Blick
+function drawOwl(dir, fr) {
+  const c = mkCanvas(32, 32), p = Pen(c.getContext('2d'));
+  const flap = fr === 1;
+  p.ell(16, 20, 8, 9, '#8a6a4a'); p.ell(16, 22, 5, 6, '#dcc4a2');
+  for (let y = 18; y < 28; y += 3) for (let x = 13; x < 20; x += 3) p.px(x + (y % 2), y, '#a88a66');
+  p.r(flap ? 4 : 7, flap ? 13 : 17, 4, 9, '#6e5236'); p.r(flap ? 24 : 21, flap ? 13 : 17, 4, 9, '#6e5236');
+  if (dir !== 'up') {
+    p.circ(12, 15, 4, '#f4ead8'); p.circ(20, 15, 4, '#f4ead8');
+    p.r(13, 14, 2, 2, '#1a1210'); p.r(18, 16, 2, 2, '#1a1210'); // schielt verwirrt
+    p.r(15, 18, 2, 3, '#e09a2c');
+  } else { p.ell(16, 16, 7, 5, '#7a5c3e'); }
+  p.r(9, 9, 3, 4, '#6e5236'); p.r(20, 9, 3, 4, '#6e5236'); p.px(9, 8, '#6e5236'); p.px(22, 8, '#6e5236');
+  p.r(14, 9, 2, 2, '#a88a66'); p.r(17, 8, 1, 3, '#a88a66'); // zerzauste Federn
+  p.r(12, 29, 3, 2, '#e09a2c'); p.r(17, 29, 3, 2, '#e09a2c');
+  outline(c, '#2a1a12');
+  return c;
+}
+
 // Sprite-Speicher: SPR.get('charly', 'down', 0, pose)
 const SPR = {
   cache: {},
   get(key, dir, fr, pose) {
     const k = key + dir + fr + (pose || '');
-    if (!this.cache[k]) this.cache[k] = key === 'diego' ? drawDog(dir, fr, pose) : drawHuman(LOOKS[key], dir, fr);
+    if (!this.cache[k]) this.cache[k] = key === 'diego' ? drawDog(dir, fr, pose) : key === 'pimpernell' ? drawOwl(dir, fr) : drawHuman(LOOKS[key], dir, fr);
     return this.cache[k];
   },
 };
@@ -1229,6 +1635,12 @@ const AU = {
     });
   },
 
+  note(n) { if (!this.ctx || !this.on || this.failed) return; const f = noteFreq(n); if (f) this.tone('glocke', f, this.ctx.currentTime + 0.01, 1.2, 0.3, this.sfxBus); },
+  tick(dir) {
+    if (!this.ctx || !this.on || this.failed) return;
+    const t = this.ctx.currentTime + 0.01, f = { up: 'G5', right: 'E5', down: 'C5', left: 'A4' }[dir];
+    this.noiseBurst(t, 0.05, 0.4, 3200, 3); this.tone('glocke', noteFreq(f), t, 1, 0.28, this.sfxBus);
+  },
   // --- Geräusche ---
   sfx(name) {
     if (!this.ctx || !this.on || this.failed) return;
@@ -1245,6 +1657,11 @@ const AU = {
       case 'piep': this.tone('sine', 1900, t, 0.06, 0.12, B); this.tone('sine', 2300, t + 0.1, 0.06, 0.12, B); break;
       case 'schnarch': this.noiseBurst(t, 0.8, 0.25, 300, 0.8); break;
       case 'tuerchen': [523, 659, 784, 1046, 1318].forEach((f, i) => this.tone('glocke', f, t + i * 0.12, 1.2, 0.2, B)); break;
+      case 'jaul': { const o = this.ctx.createOscillator(), g = this.ctx.createGain(); o.type = 'sawtooth'; o.frequency.setValueAtTime(520, t); o.frequency.linearRampToValueAtTime(760, t + 0.3); o.frequency.linearRampToValueAtTime(480, t + 0.9);
+        g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.08, t + 0.08); g.gain.exponentialRampToValueAtTime(0.0001, t + 1); o.connect(g); g.connect(B); o.start(t); o.stop(t + 1.05); break; }
+      case 'zauber': [1046, 1568, 2093, 2637].forEach((f, i) => this.tone('spieluhr', f, t + i * 0.06, 0.6, 0.16, B)); this.noiseBurst(t, 0.5, 0.15, 6000, 1); break;
+      case 'stein': this.noiseBurst(t, 0.6, 0.5, 220, 0.7); this.tone('sine', 70, t, 0.5, 0.3, B); break;
+      case 'zahnrad': for (let i = 0; i < 6; i++) this.noiseBurst(t + i * 0.08, 0.04, 0.35, 2800, 4); break;
       case 'stoss': this.tone('sine', 120, t, 0.06, 0.12, B); break;
     }
   },
@@ -1355,10 +1772,10 @@ const R = {
     return (this.bgCache[mid] = c);
   },
   objImg(o, f) {
-    const t = objType(o), k = o.type + ':' + (o.seed || 0) + ':' + f;
+    const t = objType(o), k = o.type + ':' + (o.seed || 0) + ':' + (o.v || '') + ':' + f;
     if (!this.objCache[k]) {
       const W = t.w * TILE, H = t.h * TILE + t.up, c = mkCanvas(W, H);
-      PAINT_OBJ[t.paint](Pen(c.getContext('2d')), f, srand(31 + (o.seed || 1) * 101), W, H);
+      PAINT_OBJ[t.paint](Pen(c.getContext('2d')), f, srand(31 + (o.seed || 1) * 101), W, H, o.v);
       this.objCache[k] = c;
     }
     return this.objCache[k];
@@ -1384,18 +1801,27 @@ const R = {
     this.paws(G, time);
     // Figuren und Möbel nach Tiefe sortiert
     const list = [];
-    objs.forEach(o => { const t = objType(o); if (!t.wall && !t.decal) list.push({ y: (o.y + t.h) * TILE, d: () => c.drawImage(this.objImg(o, this.objFrame(o, time)), o.x * TILE - cam.x, o.y * TILE - t.up - cam.y) }); });
-    visibleNpcs(m, ctx).forEach(n => list.push({ y: (n.y + 1) * TILE + 0.5, d: () => this.actor(n.char, n.x * TILE, n.y * TILE, n.dir, 0, n.pose, time) }));
+    objs.forEach(o => { const t = objType(o); if (!t.wall && !t.decal && !t.overlay) list.push({ y: (o.y + t.h) * TILE, d: () => c.drawImage(this.objImg(o, this.objFrame(o, time)), o.x * TILE - cam.x, o.y * TILE - t.up - cam.y) }); });
+    visibleNpcs(m, ctx).forEach(n => list.push({ y: (n.y + 1) * TILE + 0.5, d: () => this.actor(n.char, n.x * TILE, n.y * TILE - (n.lift || 0), n.dir, n.anim ? Math.floor(time * 2 + n.x) % 2 : 0, n.pose, time, n.lift) }));
     G.followers.forEach(f => { const p = G.renderPos(f); list.push({ y: p.y + TILE + 0.4, d: () => this.actor(f.char, p.x, p.y, f.dir, G.walkFrame(f), f.pose, time) }); });
     list.push({ y: pp.y + TILE + 0.6, d: () => this.actor('charly', pp.x, pp.y, G.player.dir, G.walkFrame(G.player), null, time) });
     list.sort((a, b) => a.y - b.y).forEach(e => e.d());
+    objs.forEach(o => { const t = objType(o); if (t.overlay) c.drawImage(this.objImg(o, this.objFrame(o, time)), o.x * TILE - cam.x, o.y * TILE - t.up - cam.y); });
+    // Rätsel-Vorführung: das gerade klingende Objekt leuchtet
+    objs.forEach(o => {
+      if (!G.demoVal(o)) return;
+      const t = objType(o), x = o.x * TILE + t.w * 16 - cam.x, y = o.y * TILE - t.up / 2 - cam.y;
+      const g = c.createRadialGradient(x, y, 0, x, y, 34); g.addColorStop(0, 'rgba(255,230,140,0.75)'); g.addColorStop(1, 'rgba(255,230,140,0)');
+      c.fillStyle = g; c.fillRect(x - 34, y - 34, 68, 68);
+    });
     this.particles(G, m, objs, time);
     this.lights(G, m, objs, pp, time);
   },
-  actor(key, x, y, dir, fr, pose, time) {
+  actor(key, x, y, dir, fr, pose, time, lift) {
     const c = this.ctx, cx = x - this.cam.x, cy = y - this.cam.y;
     c.fillStyle = 'rgba(20,8,4,0.28)';
-    c.beginPath(); c.ellipse(cx + 16, cy + 29, key === 'diego' ? 11 : 9, 3, 0, 0, 6.283); c.fill();
+    if (!lift) { c.beginPath(); c.ellipse(cx + 16, cy + 29, key === 'diego' ? 11 : 9, 3, 0, 0, 6.283); c.fill(); }
+    if (key === 'pimpernell') { c.drawImage(SPR.get(key, dir, fr, pose), cx, cy - 2); return; }
     if (key === 'diego') {
       c.drawImage(SPR.get('diego', dir, fr, pose), cx, cy - 2);
       if (pose === 'schlaf') this.zzz(cx + 22, cy - 6, time);
@@ -1438,13 +1864,14 @@ const R = {
       if (o.type !== 'kamin' || Math.random() > 0.12) return;
       this.parts.push({ x: o.x * TILE + 36 + Math.random() * 24, y: o.y * TILE + 60, vx: (Math.random() - 0.5) * 8, vy: -18 - Math.random() * 14, life: 1.2 + Math.random(), t: 0, col: Math.random() < 0.5 ? '#ffd36a' : '#ff8a2a', mid: G.mapId });
     });
+    if (kind === 'schnee') for (let i = 0; i < 2; i++) if (Math.random() < 0.6) this.parts.push({ x: this.cam.x + Math.random() * (VIEW_W + 60) - 30, y: this.cam.y - 4, vx: -3 + Math.random() * 6, vy: 30 + Math.random() * 22, life: 12, t: 0, col: '#eef4ff', mid: G.mapId, big: Math.random() < 0.3 });
     if (kind === 'staub' && Math.random() < 0.06) this.parts.push({ x: this.cam.x + Math.random() * VIEW_W, y: this.cam.y + Math.random() * VIEW_H, vx: (Math.random() - 0.5) * 4, vy: -2 - Math.random() * 3, life: 4, t: 0, col: '#d8d0e8', mid: G.mapId, soft: 1 });
     const dt = 1 / 60;
     this.parts = this.parts.filter(p => (p.t += dt) < p.life && p.mid === G.mapId);
     this.parts.forEach(p => {
       p.x += p.vx * dt; p.y += p.vy * dt; p.vx += (Math.random() - 0.5) * 2;
       c.globalAlpha = (1 - p.t / p.life) * (p.soft ? 0.5 : 1); c.fillStyle = p.col;
-      c.fillRect(Math.round(p.x - this.cam.x), Math.round(p.y - this.cam.y), 1, 1);
+      c.fillRect(Math.round(p.x - this.cam.x), Math.round(p.y - this.cam.y), p.big ? 2 : 1, p.big ? 2 : 1);
     });
     c.globalAlpha = 1;
   },
@@ -1757,7 +2184,9 @@ const UI = {
     const head = G.day > 0 ? 'Heute: ' + G.day + '. Dezember' : 'Noch ' + G.daysLeft() + ' Tage bis zum 1. Dezember';
     R.text(head, VIEW_W - 34, 40, { size: 12, align: 'right', color: '#c8b898' });
     const lines = [];
-    const ids = questIds().filter(id => DATA.quests[id].day <= G.day).reverse();
+    const all = questIds().filter(id => DATA.quests[id].day <= G.day);
+    const neben = all.filter(id => DATA.quests[id].neben && (G.save.done.indexOf(id) < 0) && DATA.quests[id].steps.some(st => stepCount(st, G.save.flags) > 0));
+    const ids = all.filter(id => !DATA.quests[id].neben).reverse().concat(neben);
     if (!ids.length) {
       lines.push(['Das erste Türchen öffnet sich am 1. Dezember.', '#f4ead8', 600]);
       lines.push(['Bis dahin: Schau dich im Gemeinschaftsraum um, weck Diego', '#c8b898', 500]);
@@ -1765,12 +2194,13 @@ const UI = {
     }
     ids.forEach(id => {
       const q = DATA.quests[id], done = G.save.done.indexOf(id) >= 0;
-      lines.push(['Türchen ' + q.day + ' · ' + q.title + (done ? '  ✓' : ''), done ? '#9ab070' : '#ffd36a', 700]);
+      lines.push([(q.neben ? 'Nebenaufgabe · ' : 'Türchen ' + q.day + ' · ') + q.title + (done ? '  ✓' : ''), done ? '#9ab070' : (q.neben ? '#c8d8a0' : '#ffd36a'), 700]);
       if (done) return;
       let shownCurrent = false;
       q.steps.forEach(st => {
-        if (G.save.flags[st.flag]) lines.push(['  ✓ ' + st.text, '#8a8070', 500]);
-        else if (!shownCurrent) { shownCurrent = true; R.wrap(st.text, 400, 13, 600).forEach((l, i) => lines.push([(i ? '     ' : '  ▸ ') + l, '#f4ead8', 600])); }
+        const txt = st.text.replace('{n}', String(stepCount(st, G.save.flags)));
+        if (stepDone(st, G.save.flags)) lines.push(['  ✓ ' + txt, '#8a8070', 500]);
+        else if (!shownCurrent) { shownCurrent = true; R.wrap(txt, 400, 13, 600).forEach((l, i) => lines.push([(i ? '     ' : '  ▸ ') + l, '#f4ead8', 600])); }
       });
       if (q.teilweise && !shownCurrent) lines.push(['  Fortsetzung folgt …', '#c8b898', 500]);
       lines.push(['', '', 400]);
@@ -1779,7 +2209,9 @@ const UI = {
     const maxRows = 12; this.scroll = clamp(this.scroll, 0, Math.max(0, lines.length - maxRows));
     lines.slice(this.scroll, this.scroll + maxRows).forEach(([t, col, wgt], i) => R.text(t, 34, 74 + i * 20, { size: 13, color: col, weight: wgt }));
     c.fillStyle = 'rgba(224,154,44,0.4)'; c.fillRect(34, VIEW_H - 54, VIEW_W - 68, 1);
-    R.text('🐾 Geheimnisse gefunden: ' + found + ' von ' + total + '      Fragmente: ' + G.save.fragments.length + ' von 24', 34, VIEW_H - 34, { size: 12, color: '#c8b898' });
+    const sp = ['luxa', 'clavis', 'restauro', 'advoco', 'flammula', 'levitas', 'custodia'].filter(z => G.save.flags['zauber_' + z]).map(z => z[0].toUpperCase() + z.slice(1));
+    R.text('🐾 Geheimnisse: ' + found + ' von ' + total + '    Fragmente: ' + G.save.fragments.length + ' von 24', 34, VIEW_H - 38, { size: 12, color: '#c8b898' });
+    R.text('✦ Zauber: ' + (sp.length ? sp.join(', ') : 'noch keine'), 34, VIEW_H - 22, { size: 12, color: '#c8b898' });
   },
   lied(G) {
     R.panel(16, 14, VIEW_W - 32, VIEW_H - 28);
@@ -1797,6 +2229,32 @@ const UI = {
       R.text(t, 50, 70 + i * 20, { size: 12, color: has ? '#f4ead8' : '#6a6070', weight: has ? 600 : 400, serif: has });
     });
     if (this.scroll + maxRows < rows.length) R.text('▼', VIEW_W - 40, VIEW_H - 26, { size: 11, color: '#ffd36a' });
+  },
+  // Takt-Rätsel: vier Glocken um ein Zifferblatt
+  mini(G, time) {
+    const M = G.mini; if (!M) return;
+    const c = R.ctx, cx = VIEW_W / 2, cy = 190;
+    c.fillStyle = 'rgba(8,4,12,0.72)'; c.fillRect(0, 0, VIEW_W, VIEW_H);
+    R.panel(96, 24, 320, 336);
+    R.text('Der Uhrmeister schlägt den Takt', cx, 54, { size: 16, weight: 700, align: 'center', color: '#ffd36a', serif: true });
+    R.text('Runde ' + (M.round + 1) + ' von ' + M.cfg.rounds.length, cx, 74, { size: 12, align: 'center', color: '#c8b898' });
+    const p = Pen(c);
+    p.circ(cx, cy, 46, '#c8a040'); p.circ(cx, cy, 42, '#f4ead8');
+    for (let i = 0; i < 12; i++) { const a = i / 12 * 6.283; p.r(cx + Math.cos(a) * 36 - 1, cy + Math.sin(a) * 36 - 1, 3, 3, '#3a2a1e'); }
+    const ang = time * 2.2; c.strokeStyle = '#3a2a1e'; c.lineWidth = 2; c.beginPath(); c.moveTo(cx, cy); c.lineTo(cx + Math.cos(ang) * 30, cy + Math.sin(ang) * 30); c.stroke(); c.lineWidth = 1;
+    const pos = { up: [cx, cy - 80], right: [cx + 92, cy], down: [cx, cy + 80], left: [cx - 92, cy] };
+    const col = { up: '#e09a2c', right: '#22747a', down: '#4f6b2a', left: '#7a4a8a' };
+    Object.keys(pos).forEach(d => {
+      const [x, y] = pos[d], on = M.lit === d;
+      if (on) { const g = c.createRadialGradient(x, y, 0, x, y, 34); g.addColorStop(0, 'rgba(255,230,140,0.8)'); g.addColorStop(1, 'rgba(255,230,140,0)'); c.fillStyle = g; c.fillRect(x - 34, y - 34, 68, 68); }
+      p.circ(x, y, 20, on ? '#fff2b0' : col[d]); p.circ(x, y, 16, on ? '#ffd36a' : shade(col[d], -0.25));
+      const arrow = { up: '▲', right: '▶', down: '▼', left: '◀' }[d];
+      R.text(arrow, x, y + 6, { size: 16, align: 'center', color: on ? '#3a2a1e' : '#f4ead8', weight: 700, shadow: false });
+    });
+    const msg = M.phase === 'show' ? 'Hör gut zu und merk dir die Schläge …' : M.phase === 'input' ? 'Jetzt du! Steuerkreuz: ' + M.pos + ' von ' + M.seq.length
+      : M.phase === 'ok' ? 'Richtig! Der Uhrmeister nickt.' : 'Daneben – er schlägt den Takt noch einmal.';
+    R.text(msg, cx, 318, { size: 13, align: 'center', color: M.phase === 'fail' ? '#ff9a7a' : '#f4ead8', weight: 600 });
+    R.text('B: aufgeben (später nochmal versuchen)', cx, 342, { size: 10, align: 'center', color: '#8a8070' });
   },
   banner(G, time) {
     const b = G.bannerMsg; if (!b) return;
@@ -1940,6 +2398,8 @@ const G = {
     if (this.fade) return this.updateFade(dt);
     if (DLG.open) { DLG.update(dt); this.moveTick(dt, false); return; }
     if (this.mode === 'menu') return this.updateMenu();
+    if (this.mode === 'mini') return this.updateMini(dt);
+    if (this.demo) this.updateDemo();
     if (this.mode === 'questlog' || this.mode === 'lied') {
       if (IN.take('up')) UI.scroll--; if (IN.take('down')) UI.scroll++;
       if (IN.take('a') || IN.take('b') || IN.take('menu')) { AU.sfx('zurueck'); this.mode = 'menu'; }
@@ -2014,12 +2474,63 @@ const G = {
     let id = t.dialog;
     if (Array.isArray(id)) { const opts = id.filter(x => x !== this.lastTalk[id.join()]); id = pickOne(opts.length ? opts : id); this.lastTalk[t.dialog.join()] = id; }
     if (t.sound) AU.sfx(t.sound);
-    const apply = () => this.applyAction(t);
+    if (t.seq) return this.seqPress(t.seq, t.val);
+    const apply = () => {
+      this.applyAction(t);
+      if (t.demo) this.demo = { id: t.demo, t0: this.time, played: -1 };
+      if (t.minigame) this.startMini(t.minigame, () => this.runTalk(t.win));
+    };
     if (id) this.say(id, apply); else apply();
+  },
+  // --- Reihenfolge-Rätsel (z. B. singende Kerzen) ---
+  seqPress(id, val) {
+    const P = DATA.puzzles[id], f = this.save.flags, n = P.order.filter(v => f[id + '_' + v]).length;
+    const note = P.notes[val - 1];
+    if (f[id + '_' + val]) { AU.note(note); return; }
+    if (P.order[n] === val) {
+      f[id + '_' + val] = true; AU.note(note);
+      if (n + 1 === P.order.length) this.runTalk(P.win); else this.persist();
+    } else {
+      P.order.forEach(v => { delete f[id + '_' + v]; });
+      AU.sfx(P.failSound || 'jaul');
+      this.runTalk(P.fail);
+    }
+  },
+  // --- Takt-Minispiel (Uhrmeister): Schläge merken und nachmachen ---
+  startMini(cfg, onWin) {
+    const dirs = ['up', 'right', 'down', 'left'], seq = [];
+    for (let i = 0; i < cfg.rounds[0]; i++) seq.push(pickOne(dirs));
+    this.mini = { cfg, onWin, round: 0, seq, phase: 'show', t: -0.6, idx: -1, pos: 0, lit: null, litT: 0 };
+    this.mode = 'mini';
+  },
+  updateMini(dt) {
+    const M = this.mini, dirs = ['up', 'right', 'down', 'left'];
+    M.t += dt; M.litT -= dt; if (M.litT <= 0) M.lit = null;
+    if (IN.take('b') || IN.take('menu')) { this.mini = null; this.mode = 'play'; this.say('takt_abbruch'); return; }
+    if (M.phase === 'show') {
+      const i = Math.floor(M.t / 0.62);
+      if (i > M.idx && i < M.seq.length && M.t >= 0) { M.idx = i; M.lit = M.seq[i]; M.litT = 0.42; AU.tick(M.seq[i]); }
+      if (M.t > M.seq.length * 0.62 + 0.2) { M.phase = 'input'; M.pos = 0; }
+      IN.clear();
+    } else if (M.phase === 'input') {
+      const d = dirs.find(k => IN.take(k));
+      if (!d) return;
+      M.lit = d; M.litT = 0.25; AU.tick(d);
+      if (d !== M.seq[M.pos]) { M.phase = 'fail'; M.t = 0; AU.sfx('jaul'); return; }
+      M.pos++;
+      if (M.pos >= M.seq.length) { M.phase = 'ok'; M.t = 0; AU.sfx('spur'); }
+    } else if (M.phase === 'fail' && M.t > 1.4) { M.phase = 'show'; M.t = -0.3; M.idx = -1; }
+    else if (M.phase === 'ok' && M.t > 1.1) {
+      M.round++;
+      if (M.round >= M.cfg.rounds.length) { const cb = M.onWin; this.mini = null; this.mode = 'play'; cb(); return; }
+      while (M.seq.length < M.cfg.rounds[M.round]) M.seq.push(pickOne(dirs));
+      M.phase = 'show'; M.t = -0.3; M.idx = -1;
+    }
   },
   applyAction(t) {
     const s = this.save;
     (t.set || []).forEach(f => { s.flags[f] = true; });
+    (t.unset || []).forEach(f => { delete s.flags[f]; });
     if (t.join && s.followers.indexOf(t.join) < 0) {
       s.followers.push(t.join);
       const m = DATA.maps[this.mapId], n = (m.npcs || []).find(n => n.char === t.join);
@@ -2029,9 +2540,23 @@ const G = {
     }
     if (t.leave) { s.followers = s.followers.filter(c => c !== t.leave); this.followers = this.followers.filter(f => f.char !== t.leave); }
     const neu = updateQuests(s, this.day);
-    neu.forEach(id => this.queue.push(() => { AU.sfx('fund'); this.banner('Winterfragment ' + DATA.quests[id].day + ' gefunden!');
+    neu.forEach(id => this.queue.push(() => {
+      if (DATA.quests[id].neben) { AU.sfx('fund'); this.banner('Nebenaufgabe erledigt: ' + DATA.quests[id].title); this.next(); return; }
+      AU.sfx('tuerchen'); this.banner('Winterfragment ' + DATA.quests[id].day + ' gefunden!');
       DLG.show([['', 'Ein eisblauer Splitter leuchtet auf. Darin klingt eine Zeile des Phönixlieds:'], ['', '„' + DATA.quests[id].fragment + '“']], () => this.next()); }));
     this.persist();
+  },
+
+  // Vorführung eines Rätsels: Töne nacheinander, passende Objekte leuchten
+  updateDemo() {
+    const D = this.demo, P = DATA.puzzles[D.id], i = Math.floor((this.time - D.t0) / 0.75);
+    if (i !== D.played && i < P.order.length) { D.played = i; AU.note(P.notes[P.order[i] - 1]); }
+    if (i >= P.order.length + 1) this.demo = null;
+  },
+  demoVal(o) {
+    const D = this.demo; if (!D || o.seq !== D.id) return false;
+    const i = Math.floor((this.time - D.t0) / 0.75), P = DATA.puzzles[D.id];
+    return i >= 0 && i < P.order.length && P.order[i] === o.seqVal;
   },
 
   // --- Diegos Schnüffeln ---
@@ -2128,6 +2653,7 @@ const G = {
     if (this.mode === 'menu') UI.list('Menü', this.menuOptions(), time);
     if (this.mode === 'questlog') UI.questlog(this);
     if (this.mode === 'lied') UI.lied(this);
+    if (this.mode === 'mini') UI.mini(this, time);
     if (this.fade) { R.ctx.fillStyle = 'rgba(8,4,10,' + (1 - Math.abs(this.fade.t - 0.5) * 2).toFixed(3) + ')'; R.ctx.fillRect(0, 0, VIEW_W, VIEW_H); }
     UI.toastDraw(dt);
   },
@@ -2151,7 +2677,7 @@ function showSoundHint() {
 function selfCheck() {
   Object.keys(DATA.tiles).forEach(k => { if (!PAINT_TILE[DATA.tiles[k].paint]) console.error('Kachel-Maler fehlt: ' + DATA.tiles[k].paint); });
   Object.keys(DATA.objects).forEach(k => { if (!PAINT_OBJ[DATA.objects[k].paint]) console.error('Objekt-Maler fehlt: ' + DATA.objects[k].paint); });
-  Object.keys(DATA.characters).forEach(k => { const s = DATA.characters[k].sprite; if (s && s !== 'diego' && !LOOKS[s]) console.error('Figur fehlt: ' + s); });
+  Object.keys(DATA.characters).forEach(k => { const s = DATA.characters[k].sprite; if (s && s !== 'diego' && s !== 'pimpernell' && !LOOKS[s]) console.error('Figur fehlt: ' + s); });
 }
 function boot() {
   selfCheck();
@@ -2162,9 +2688,12 @@ function boot() {
     window.__wp = () => ({
       mode: G.mode, map: G.mapId, hasSave: !!G.save, flags: G.save ? Object.assign({}, G.save.flags) : {},
       pos: G.player ? { x: G.player.x, y: G.player.y, dir: G.player.dir } : null, trail: !!G.trail,
-      followers: G.followers.map(f => ({ char: f.char, x: f.x, y: f.y })), dialog: DLG.open,
+      followers: G.followers.map(f => ({ char: f.char, x: f.x, y: f.y })), dialog: DLG.open, done: G.save ? G.save.done.slice() : [], fragments: G.save ? G.save.fragments.length : 0,
     });
     window.__face = d => { G.player.dir = d; };
+    window.__go = (mid, x, y, d) => { G.trail = null; G.enterMap(mid, x, y, d); };
+    window.__flags = o => { Object.assign(G.save.flags, o); if (o.diego_dabei && G.save.followers.indexOf('diego') < 0) G.save.followers.push('diego'); G.enterMap(G.mapId, G.player.x, G.player.y, G.player.dir); };
+    window.__mini = () => (G.mini ? { phase: G.mini.phase, seq: G.mini.seq.slice(), round: G.mini.round } : null);
     window.__teleport = (x, y, d) => { G.enterMap(G.mapId, x, y, d); };
   }
   let hinted = false;

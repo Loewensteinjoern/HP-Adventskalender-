@@ -1,86 +1,1096 @@
 {
   "intro": [
-    ["", "Løvestein, Ende November. Über dem Schloss fällt der erste richtige Schnee."],
-    ["", "Im Gemeinschaftsraum des Hauses Bernfuchs knistert das Kaminfeuer."],
-    ["joern", "Charly, schau mal raus! Bis morgen früh ist alles weiß."],
-    ["joern", "Und Diego hat sich schon in sein Körbchen vor dem Kamin gerollt. Der weiß genau, wo es am gemütlichsten ist."],
-    ["", "Steuerkreuz: laufen. A: sprechen und untersuchen. B: Diego schnüffeln lassen. ☰ oben rechts: Menü und Questlog."]
+    [
+      "",
+      "Løvestein, Ende November. Über dem Schloss fällt der erste richtige Schnee."
+    ],
+    [
+      "",
+      "Im Gemeinschaftsraum des Hauses Bernfuchs knistert das Kaminfeuer."
+    ],
+    [
+      "joern",
+      "Charly, schau mal raus! Bis morgen früh ist alles weiß."
+    ],
+    [
+      "joern",
+      "Und Diego hat sich schon in sein Körbchen vor dem Kamin gerollt. Der weiß genau, wo es am gemütlichsten ist."
+    ],
+    [
+      "",
+      "Steuerkreuz: laufen. A: sprechen und untersuchen. B: Diego schnüffeln lassen. ☰ oben rechts: Menü und Questlog."
+    ]
   ],
   "q01_start": [
-    ["", "1. Dezember. Über Nacht ist Løvestein unter einer dicken Schneedecke verschwunden."],
-    ["joern", "Charly … riechst du das auch? Wie Glut und Schnee gleichzeitig."],
-    ["", "Am Rand des Kamins glitzert Raureif. Mitten in der Wärme."],
-    ["joern", "Das ist doch nicht normal. Vielleicht findet Diego heraus, was da los ist."]
+    [
+      "",
+      "1. Dezember. Über Nacht ist Løvestein unter einer dicken Schneedecke verschwunden."
+    ],
+    [
+      "joern",
+      "Charly … riechst du das auch? Wie Glut und Schnee gleichzeitig."
+    ],
+    [
+      "",
+      "Am Rand des Kamins glitzert Raureif. Mitten in der Wärme."
+    ],
+    [
+      "joern",
+      "Das ist doch nicht normal. Vielleicht findet Diego heraus, was da los ist."
+    ]
   ],
   "diego_wecken": [
-    ["", "Diego schnarcht leise. Charly krault ihn hinter den Ohren."],
-    ["diego", "Wuff?"],
-    ["", "Diego streckt sich, gähnt ausgiebig – und weicht Charly ab jetzt nicht mehr von der Seite."],
-    ["", "Tipp: Drück B, dann schnüffelt Diego nach Geheimnissen in der Nähe. Goldene Pfotenspuren zeigen den Weg."]
+    [
+      "",
+      "Diego schnarcht leise. Charly krault ihn hinter den Ohren."
+    ],
+    [
+      "diego",
+      "Wuff?"
+    ],
+    [
+      "",
+      "Diego streckt sich, gähnt ausgiebig – und weicht Charly ab jetzt nicht mehr von der Seite."
+    ],
+    [
+      "",
+      "Tipp: Drück B, dann schnüffelt Diego nach Geheimnissen in der Nähe. Goldene Pfotenspuren zeigen den Weg."
+    ]
   ],
-  "diego_1": [["", "Diego wedelt so heftig, dass sein ganzer Hintern mitwackelt."]],
-  "diego_2": [["", "Diego schaut dich an, als hätte er seit Stunden nichts gegessen. Hat er aber."]],
-  "diego_3": [["diego", "Wuff!"], ["", "Diego stupst dich mit der Nase an. Schnüffeln? (Taste B)"]],
-  "diego_kein_geruch": [["", "Diego schnüffelt eifrig am Boden … aber hier riecht nichts Besonderes."]],
-  "diego_nicht_da": [["", "Diego ist gerade nicht bei dir. Vielleicht schläft er noch im Körbchen am Kamin?"]],
-
-  "joern_vor1": [["joern", "Noch {tage} Tage, dann beginnt der Advent. Ich hab das Gefühl, dieses Jahr passiert hier etwas Besonderes."]],
-  "joern_vor2": [["joern", "Ich hab Frieda vorhin beim Laufrad-Marathon zugeschaut. Die ist fitter als ich."]],
-  "joern_vor3": [["joern", "Weißt du, was das Beste am Winter in Løvestein ist? Dass wir ihn zusammen erleben."]],
-  "joern_1": [["joern", "Wenn du mich brauchst: Ich bin direkt hinter dir. Wie immer."]],
-  "joern_2": [["joern", "Noch eine Tasse Kakao, und ich schlafe vor dem Kamin ein. Neben Diego."]],
-  "joern_3": [["joern", "Hörst du das? Das Schloss knarrt, als würde es sich im Schlaf umdrehen."]],
-  "joern_q01_tipp": [["joern", "Der Raureif am Kamin lässt mir keine Ruhe. Diego hat die beste Nase im ganzen Schloss – lass ihn mal schnüffeln."]],
+  "diego_1": [
+    [
+      "",
+      "Diego wedelt so heftig, dass sein ganzer Hintern mitwackelt."
+    ]
+  ],
+  "diego_2": [
+    [
+      "",
+      "Diego schaut dich an, als hätte er seit Stunden nichts gegessen. Hat er aber."
+    ]
+  ],
+  "diego_3": [
+    [
+      "diego",
+      "Wuff!"
+    ],
+    [
+      "",
+      "Diego stupst dich mit der Nase an. Schnüffeln? (Taste B)"
+    ]
+  ],
+  "diego_kein_geruch": [
+    [
+      "",
+      "Diego schnüffelt eifrig am Boden … aber hier riecht nichts Besonderes."
+    ]
+  ],
+  "diego_nicht_da": [
+    [
+      "",
+      "Diego ist gerade nicht bei dir. Vielleicht schläft er noch im Körbchen am Kamin?"
+    ]
+  ],
+  "joern_vor1": [
+    [
+      "joern",
+      "Noch {tage} Tage, dann beginnt der Advent. Ich hab das Gefühl, dieses Jahr passiert hier etwas Besonderes."
+    ]
+  ],
+  "joern_vor2": [
+    [
+      "joern",
+      "Ich hab Frieda vorhin beim Laufrad-Marathon zugeschaut. Die ist fitter als ich."
+    ]
+  ],
+  "joern_vor3": [
+    [
+      "joern",
+      "Weißt du, was das Beste am Winter in Løvestein ist? Dass wir ihn zusammen erleben."
+    ]
+  ],
+  "joern_1": [
+    [
+      "joern",
+      "Wenn du mich brauchst: Ich bin direkt hinter dir. Wie immer."
+    ]
+  ],
+  "joern_2": [
+    [
+      "joern",
+      "Noch eine Tasse Kakao, und ich schlafe vor dem Kamin ein. Neben Diego."
+    ]
+  ],
+  "joern_3": [
+    [
+      "joern",
+      "Hörst du das? Das Schloss knarrt, als würde es sich im Schlaf umdrehen."
+    ]
+  ],
+  "joern_q01_tipp": [
+    [
+      "joern",
+      "Der Raureif am Kamin lässt mir keine Ruhe. Diego hat die beste Nase im ganzen Schloss – lass ihn mal schnüffeln."
+    ]
+  ],
   "q01_joern": [
-    ["joern", "Eine Feder? Die ist ja … warm. Mitten im Winter."],
-    ["joern", "Schau, sie glimmt wie Glut. So einen Vogel gibt es hier doch gar nicht."],
-    ["", "An der Feder hängen feine Raureif-Kristalle. Sie glitzern in Richtung Tür."],
-    ["joern", "Lotte Silberfeder weiß bestimmt, was das ist. Sie sitzt sicher wieder in der Großen Halle über ihren Büchern."]
+    [
+      "joern",
+      "Eine Feder? Die ist ja … warm. Mitten im Winter."
+    ],
+    [
+      "joern",
+      "Schau, sie glimmt wie Glut. So einen Vogel gibt es hier doch gar nicht."
+    ],
+    [
+      "",
+      "An der Feder hängen feine Raureif-Kristalle. Sie glitzern in Richtung Tür."
+    ],
+    [
+      "joern",
+      "Lotte Silberfeder weiß bestimmt, was das ist. Sie sitzt sicher wieder in der Großen Halle über ihren Büchern."
+    ]
   ],
-  "q01_joern_danach": [["joern", "Die Raureif-Spur führt hinaus in den Gang. Komm, wir folgen ihr!"]],
-
+  "q01_joern_danach": [
+    [
+      "joern",
+      "Die Raureif-Spur führt durch die Tür in den Kellergang und die Treppe hinauf. Komm, wir folgen ihr!"
+    ]
+  ],
   "q01_feder_fund": [
-    ["", "Diego bellt den Kamin an. Hinter einem losen Ziegel steckt … eine Feder!"],
-    ["", "Sie schimmert golden-weiß und fühlt sich warm an, obwohl ringsum Raureif glitzert."],
-    ["", "Charly hat die Winterfeder gefunden."]
+    [
+      "",
+      "Diego bellt den Kamin an. Hinter einem losen Ziegel steckt … eine Feder!"
+    ],
+    [
+      "",
+      "Sie schimmert golden-weiß und fühlt sich warm an, obwohl ringsum Raureif glitzert."
+    ],
+    [
+      "",
+      "Charly hat die Winterfeder gefunden."
+    ]
   ],
   "geheim_zimtstern": [
-    ["", "Hinter dem Farn liegt ein Zimtstern – noch ganz knusprig!"],
-    ["", "Diego bekommt die Hälfte. Mindestens."]
+    [
+      "",
+      "Hinter dem Farn liegt ein Zimtstern – noch ganz knusprig!"
+    ],
+    [
+      "",
+      "Diego bekommt die Hälfte. Mindestens."
+    ]
   ],
   "geheim_notiz": [
-    ["", "Hinter einem losen Stein steckt ein vergilbter Zettel:"],
-    ["", "„Wer das hier findet, hat einen sehr guten Hund. – Ein Schüler aus Bernfuchs, vor langer, langer Zeit.“"]
+    [
+      "",
+      "Hinter einem losen Stein steckt ein vergilbter Zettel:"
+    ],
+    [
+      "",
+      "„Wer das hier findet, hat einen sehr guten Hund. – Ein Schüler aus Bernfuchs, vor langer, langer Zeit.“"
+    ]
   ],
-
-  "pit_1": [["pit", "Hey Charly! Ich lese gerade „Wintermagie für Anfänger“. Kapitel eins: Nie die Zunge an einen Eiszapfen halten."]],
-  "pit_2": [["pit", "Hast du das auch gemerkt? Seit heute Nacht flackern alle Kerzen im Schloss so komisch."]],
-
+  "pit_1": [
+    [
+      "pit",
+      "Hey Charly! Ich lese gerade „Wintermagie für Anfänger“. Kapitel eins: Nie die Zunge an einen Eiszapfen halten."
+    ]
+  ],
+  "pit_2": [
+    [
+      "pit",
+      "Hast du das auch gemerkt? Seit heute Nacht flackern alle Kerzen im Schloss so komisch."
+    ]
+  ],
   "frieda": [
-    ["", "Frieda rennt in ihrem Laufrad, als gäbe es kein Morgen."],
-    ["frieda", "Piep!"],
-    ["", "Sie stopft sich die Backen voll und schaut dich mit glänzenden Knopfaugen an."]
+    [
+      "",
+      "Frieda rennt in ihrem Laufrad, als gäbe es kein Morgen."
+    ],
+    [
+      "frieda",
+      "Piep!"
+    ],
+    [
+      "",
+      "Sie stopft sich die Backen voll und schaut dich mit glänzenden Knopfaugen an."
+    ]
   ],
-  "kamin": [["", "Das Feuer knistert. Es riecht nach Tannenzapfen und ein bisschen nach Zimt."]],
-  "kamin_q01": [["", "Am Rand des Kamins glitzert Raureif – direkt neben den Flammen. Diego könnte schnüffeln (Taste B)."]],
-  "fenster": [["", "Draußen tanzen dicke Schneeflocken. In der Ferne glitzert der Spiegelsee im Mondlicht."]],
-  "regal_1": [["", "„Hundert Arten, Tee zu kochen“, „Rätsel für lange Winterabende“ … und ganz hinten ein Buch, das leise summt."]],
-  "regal_2": [["", "„Moosgrün und Bernstein – Die Geschichte des Hauses Bernfuchs“. Auf dem Rücken klebt ein Hundehaar."]],
-  "banner": [["", "Das Banner des Hauses Bernfuchs: ein Fuchs auf Moosgrün und Bernstein. Darunter steht: „Treu und warm.“"]],
-  "wanduhr": [["", "Die Wanduhr tickt gemütlich. Ihr Pendel schwingt im Takt des Kaminfeuers."]],
-  "tannenbaum": [["", "Ein kleiner Tannenbaum mit Strohsternen. Jemand hat einen Hundekeks als Schmuck aufgehängt. Diego hat ihn schon im Blick."]],
-  "sofa": [["", "Das gemütlichste Sofa im ganzen Schloss. Leider ist Diego der gleichen Meinung."]],
-  "tisch": [["", "Ein Adventskranz aus Tannenzweigen. Daneben dampfen zwei Tassen Kakao – eine mit extra viel Sahne."]],
-  "sessel": [["", "Ein weicher Lesesessel. Die Delle im Polster hat genau Charlys Form."]],
-  "lampe": [["", "Die Stehlampe verbreitet warmes, honiggelbes Licht."]],
-  "kommode": [["", "In der Kommode: Wollsocken, Strickmützen und eine Dose Hundekekse. Diego sitzt sofort daneben."]],
-  "buecher": [["", "Ein wackeliger Bücherstapel. Ganz oben: „Pfotenkunde für Fortgeschrittene“."]],
-  "pflanze": [["", "Eine Zimmerpflanze. Sie hat sich zum Kamin gedreht, um es warm zu haben."]],
-
-  "ottokar": [["ottokar", "Chrrr … pfffh … chrrr …"], ["", "Sir Ottokar der Schnarcher schläft in seinem Goldrahmen. Wie immer."]],
-  "ruestung": [["", "Eine alte Ritterrüstung. Als Charly vorbeigeht, quietscht das Visier ganz leise."]],
-  "bank": [["", "Eine Holzbank. In die Lehne hat jemand einen kleinen Fuchs geschnitzt."]],
-  "wandkerze": [["", "Eine Kerze in einem eisernen Halter. Die Flamme neigt sich zur Treppe hin, als wehe von oben ein kalter Wind."]],
-  "treppe_vor": [["", "Die Treppe hinauf zum Schlosskern. Oben ist es noch still – ab dem 1. Dezember geht es hier weiter."]],
-  "treppe_bald": [["", "Ein kalter Luftzug weht von oben herab. Die Treppe ist noch zugeschneit. Hier geht es bald weiter."]]
+  "kamin": [
+    [
+      "",
+      "Das Feuer knistert. Es riecht nach Tannenzapfen und ein bisschen nach Zimt."
+    ]
+  ],
+  "kamin_q01": [
+    [
+      "",
+      "Am Rand des Kamins glitzert Raureif – direkt neben den Flammen. Diego könnte schnüffeln (Taste B)."
+    ]
+  ],
+  "fenster": [
+    [
+      "",
+      "Draußen tanzen dicke Schneeflocken. In der Ferne glitzert der Spiegelsee im Mondlicht."
+    ]
+  ],
+  "regal_1": [
+    [
+      "",
+      "„Hundert Arten, Tee zu kochen“, „Rätsel für lange Winterabende“ … und ganz hinten ein Buch, das leise summt."
+    ]
+  ],
+  "regal_2": [
+    [
+      "",
+      "„Moosgrün und Bernstein – Die Geschichte des Hauses Bernfuchs“. Auf dem Rücken klebt ein Hundehaar."
+    ]
+  ],
+  "banner": [
+    [
+      "",
+      "Das Banner des Hauses Bernfuchs: ein Fuchs auf Moosgrün und Bernstein. Darunter steht: „Treu und warm.“"
+    ]
+  ],
+  "wanduhr": [
+    [
+      "",
+      "Die Wanduhr tickt gemütlich. Ihr Pendel schwingt im Takt des Kaminfeuers."
+    ]
+  ],
+  "tannenbaum": [
+    [
+      "",
+      "Ein kleiner Tannenbaum mit Strohsternen. Jemand hat einen Hundekeks als Schmuck aufgehängt. Diego hat ihn schon im Blick."
+    ]
+  ],
+  "sofa": [
+    [
+      "",
+      "Das gemütlichste Sofa im ganzen Schloss. Leider ist Diego der gleichen Meinung."
+    ]
+  ],
+  "tisch": [
+    [
+      "",
+      "Ein Adventskranz aus Tannenzweigen. Daneben dampfen zwei Tassen Kakao – eine mit extra viel Sahne."
+    ]
+  ],
+  "sessel": [
+    [
+      "",
+      "Ein weicher Lesesessel. Die Delle im Polster hat genau Charlys Form."
+    ]
+  ],
+  "lampe": [
+    [
+      "",
+      "Die Stehlampe verbreitet warmes, honiggelbes Licht."
+    ]
+  ],
+  "kommode": [
+    [
+      "",
+      "In der Kommode: Wollsocken, Strickmützen und eine Dose Hundekekse. Diego sitzt sofort daneben."
+    ]
+  ],
+  "buecher": [
+    [
+      "",
+      "Ein wackeliger Bücherstapel. Ganz oben: „Pfotenkunde für Fortgeschrittene“."
+    ]
+  ],
+  "pflanze": [
+    [
+      "",
+      "Eine Zimmerpflanze. Sie hat sich zum Kamin gedreht, um es warm zu haben."
+    ]
+  ],
+  "ottokar": [
+    [
+      "ottokar",
+      "Chrrr … pfffh … chrrr …"
+    ],
+    [
+      "",
+      "Sir Ottokar der Schnarcher schläft in seinem Goldrahmen. Wie immer."
+    ]
+  ],
+  "ruestung": [
+    [
+      "",
+      "Eine alte Ritterrüstung. Als Charly vorbeigeht, quietscht das Visier ganz leise."
+    ]
+  ],
+  "bank": [
+    [
+      "",
+      "Eine Holzbank. In die Lehne hat jemand einen kleinen Fuchs geschnitzt."
+    ]
+  ],
+  "wandkerze": [
+    [
+      "",
+      "Eine Kerze in einem eisernen Halter. Die Flamme neigt sich zur Treppe hin, als wehe von oben ein kalter Wind."
+    ]
+  ],
+  "treppe_vor": [
+    [
+      "",
+      "Die Treppe hinauf zum Schlosskern. Oben ist es noch still – ab dem 1. Dezember geht es hier weiter."
+    ]
+  ],
+  "treppe_bald": [
+    [
+      "",
+      "Ein kalter Luftzug weht von oben herab. Die Treppe ist noch zugeschneit. Hier geht es bald weiter."
+    ]
+  ],
+  "q01_lotte": [
+    [
+      "lotte",
+      "Charly! Was hast du denn da … Ist das etwa eine Feder?"
+    ],
+    [
+      "lotte",
+      "Golden, warm und mit Raureif … Das hab ich schon mal gesehen. In einem ganz alten Buch über Winterwesen."
+    ],
+    [
+      "lotte",
+      "Da stand: Wenn eine Winterfeder auftaucht, erwacht eine alte Legende. Die vom Winterphönix."
+    ],
+    [
+      "joern",
+      "Ein Phönix? Im Winter? Ich dachte, die mögen es eher warm."
+    ],
+    [
+      "lotte",
+      "Genau das ist ja das Rätsel. Ich suche heute Abend in der Bibliothek weiter. Pass gut auf die Feder auf!"
+    ],
+    [
+      "",
+      "Als Charly die Feder hochhält, löst sich ein eisblauer Splitter aus dem Raureif …"
+    ]
+  ],
+  "lotte_q01_frueh": [
+    [
+      "lotte",
+      "Guten Morgen, Charly! Draußen liegt so viel Schnee, dass Knarz seit Sonnenaufgang schippt."
+    ]
+  ],
+  "lotte_q02": [
+    [
+      "lotte",
+      "Hörst du die Kerzen? Die singen so schief, dass mir die Ohren klingeln."
+    ],
+    [
+      "lotte",
+      "Prof. Federleicht steht links neben dem Lehrertisch. Er weiß bestimmt Rat."
+    ]
+  ],
+  "lotte_q03": [
+    [
+      "lotte",
+      "Eine Eule ohne Gedächtnis? Frau Leisetritt in der Bibliothek kennt jede Feder und jeden Tintenfleck im Schloss. Frag sie mal."
+    ]
+  ],
+  "lotte_q04": [
+    [
+      "lotte",
+      "Die Turmuhr hat heute Nacht dreizehnmal geschlagen. Rückwärts! Prof. Pendel ist ganz außer sich."
+    ]
+  ],
+  "lotte_1": [
+    [
+      "lotte",
+      "Ich hab drei Bücher über Phönixe gefunden. In allen fehlt genau das Kapitel über den Winter. Merkwürdig, oder?"
+    ]
+  ],
+  "lotte_2": [
+    [
+      "lotte",
+      "Diego hat mir vorhin ein Lesezeichen geklaut. Ich glaube, er wollte nur helfen."
+    ]
+  ],
+  "q02_start": [
+    [
+      "",
+      "2. Dezember. Beim Frühstück in der Großen Halle singen die schwebenden Kerzen."
+    ],
+    [
+      "",
+      "Leider schief. Sehr schief."
+    ],
+    [
+      "joern",
+      "Das klingt wie ich unter der Dusche. Vielleicht weiß Prof. Federleicht, was los ist."
+    ]
+  ],
+  "q02_federleicht": [
+    [
+      "federleicht",
+      "Ah, Charly! Hörst du das? Meine Kerzen haben ihre Melodie vergessen."
+    ],
+    [
+      "federleicht",
+      "Kerzen erinnern sich nur, wenn man sie in der richtigen Reihenfolge entzündet. Dafür brauchst du den Lichtzauber."
+    ],
+    [
+      "federleicht",
+      "Hand locker, Blick zur Flamme – und dann sanft: „Luxa!“"
+    ],
+    [
+      "",
+      "Ein warmes Licht tanzt über Charlys Finger. Sie hat den Zauber Luxa gelernt!"
+    ],
+    [
+      "federleicht",
+      "Wunderbar! Die Spieluhr rechts neben dem Lehrertisch kennt die richtige Melodie. Hör gut hin – und schau, welche Kerze mitleuchtet."
+    ]
+  ],
+  "federleicht_tipp": [
+    [
+      "federleicht",
+      "Die Spieluhr spielt die Melodie, so oft du willst. Achte darauf, welche Kerze bei welchem Ton aufleuchtet."
+    ]
+  ],
+  "federleicht_danke": [
+    [
+      "federleicht",
+      "Hörst du das? Sie singen wieder richtig! Ein Hoch auf Charly und ihr feines Gehör."
+    ]
+  ],
+  "federleicht_1": [
+    [
+      "federleicht",
+      "Ich unterrichte Zauberkunst. Mein Lieblingszauber? Der, der Kakao warm hält."
+    ]
+  ],
+  "spieluhr_q02": [
+    [
+      "",
+      "Charly zieht die Spieluhr auf. Vier Töne erklingen – und bei jedem leuchtet eine der Kerzen auf."
+    ],
+    [
+      "joern",
+      "Merk dir die Reihenfolge. Ich hab sie schon wieder vergessen."
+    ]
+  ],
+  "spieluhr_danach": [
+    [
+      "",
+      "Die Spieluhr spielt, und alle vier Kerzen singen mit. Diesmal klingt es wunderschön."
+    ]
+  ],
+  "spieluhr": [
+    [
+      "",
+      "Eine kleine Spieluhr aus Walnussholz. Sie spielt vier helle Töne."
+    ]
+  ],
+  "kerze_ohne_luxa": [
+    [
+      "",
+      "Die Kerze schwebt in der Luft und summt leise. Um sie anzuzünden, bräuchte man einen Lichtzauber."
+    ]
+  ],
+  "kerzen_falsch": [
+    [
+      "",
+      "Diego jault schief mit. Die Kerzen erlöschen mit einem beleidigten Zischen."
+    ],
+    [
+      "",
+      "Noch einmal von vorn! Die Spieluhr hilft beim Erinnern."
+    ]
+  ],
+  "q02_geschafft": [
+    [
+      "",
+      "Die vierte Kerze flammt auf – und plötzlich singen alle vier zusammen, klar und warm."
+    ],
+    [
+      "",
+      "In ihrem Licht glitzert etwas in der Luft: ein eisblauer Splitter schwebt herab."
+    ],
+    [
+      "federleicht",
+      "Bravo, Charly! So schön haben sie seit Jahren nicht gesungen."
+    ]
+  ],
+  "q03_start": [
+    [
+      "",
+      "3. Dezember. Mitten in der Nacht klopft es ans Fenster des Gemeinschaftsraums."
+    ],
+    [
+      "",
+      "Eine zerzauste Eule mit einer Briefkapsel am Bein flattert vorbei – und dann weiter Richtung Eulenturm."
+    ],
+    [
+      "joern",
+      "Die sah aber verwirrt aus. Wollen wir nachsehen? Der Eulenturm liegt am Innenhof."
+    ]
+  ],
+  "q03_eule": [
+    [
+      "pimpernell",
+      "Schuhu? Wer … wer bist du? Und wer bin ich? Ach ja. Pimpernell. Glaube ich."
+    ],
+    [
+      "pimpernell",
+      "Ich habe einen Brief. Einen wichtigen! Aber ich weiß nicht mehr, für wen. Oder von wem. Oder warum."
+    ],
+    [
+      "pimpernell",
+      "Ich erinnere mich nur an drei Dinge: rotes Siegelwachs … ein rotes Band … und einen Tintenklecks."
+    ],
+    [
+      "joern",
+      "Dann suchen wir diese drei Dinge. Vielleicht kommt die Erinnerung dann zurück."
+    ]
+  ],
+  "pimpernell_warten": [
+    [
+      "pimpernell",
+      "Siegelwachs, rotes Band, Tintenfass … Hast du schon alles? Ich hab vergessen, ob ich schon gefragt habe."
+    ]
+  ],
+  "q03_erinnert": [
+    [
+      "",
+      "Charly legt Siegelwachs, Band und Tintenfass vor Pimpernell."
+    ],
+    [
+      "pimpernell",
+      "Schuhu! Jetzt weiß ich es wieder! Der Brief ist für … für dich, Charly! Für die, die die Winterfeder gefunden hat."
+    ],
+    [
+      "pimpernell",
+      "Aber die Kapsel ist verschlossen. Ein alter Schlosszauber. Prof. Pendel kennt sich mit allem aus, was tickt und klickt."
+    ]
+  ],
+  "pimpernell_kapsel": [
+    [
+      "pimpernell",
+      "Die Kapsel klemmt. Prof. Pendel im Uhrenturm kennt sich mit Schlössern aus. Schuhu."
+    ]
+  ],
+  "pimpernell_danke": [
+    [
+      "pimpernell",
+      "Ich weiß noch alles! Fast alles. Na ja, das Wichtigste. Danke, Charly."
+    ]
+  ],
+  "pimpernell_1": [
+    [
+      "pimpernell",
+      "Schuhu? Kennen wir uns? Du kommst mir bekannt vor. Oder ist das der Hund?"
+    ]
+  ],
+  "q03_siegel": [
+    [
+      "",
+      "Diego kratzt an einer Mauerritze. Darin klebt ein Klumpen rotes Siegelwachs!"
+    ],
+    [
+      "",
+      "Charly hat das Siegelwachs gefunden."
+    ]
+  ],
+  "q03_band": [
+    [
+      "",
+      "Charly pflückt das rote Band aus den verschneiten Zweigen. Es ist mit kleinen Federn bestickt."
+    ],
+    [
+      "",
+      "Charly hat das rote Band gefunden."
+    ]
+  ],
+  "q03_leisetritt": [
+    [
+      "leisetritt",
+      "Psst! Ein Tintenfass für eine Eule? Ach, Pimpernell! Die schreibt seit Jahren mit genau diesem hier."
+    ],
+    [
+      "leisetritt",
+      "Nimm es nur mit. Aber kein Klecks auf meine Bücher, verstanden?"
+    ],
+    [
+      "",
+      "Charly hat das Tintenfass bekommen."
+    ]
+  ],
+  "q03_pendel": [
+    [
+      "pendel",
+      "Eine Briefkapsel mit Schlosszauber? Wie aufregend. Das ist ganz alte Handwerkskunst."
+    ],
+    [
+      "pendel",
+      "Jedes Schloss hört auf einen Zauber: „Clavis.“ Man muss nur freundlich fragen. Schlösser sind empfindlich."
+    ],
+    [
+      "",
+      "Charly flüstert: „Clavis!“ – Klick. Die Kapsel springt auf. Sie hat den Zauber Clavis gelernt!"
+    ],
+    [
+      "",
+      "Im Brief steht in altmodischer Schrift: „Wer die Feder findet, trage die Botschaft weiter. Der Winter erinnert sich.“"
+    ]
+  ],
+  "q04_start": [
+    [
+      "",
+      "4. Dezember. Heute Nacht hat die Turmuhr dreizehnmal geschlagen. Rückwärts."
+    ],
+    [
+      "joern",
+      "Dreizehnmal? Und rückwärts? Das will ich sehen. Der Uhrenturm ist rechts vom Schlosskern."
+    ]
+  ],
+  "q04_pendel": [
+    [
+      "pendel",
+      "Charly! Hörst du das Ticken? Es tickt falsch herum! Ein Zahnrad fehlt – das große aus Messing."
+    ],
+    [
+      "pendel",
+      "Bevor du es einsetzt, brauchst du den Reparaturzauber. „Restauro!“ Und dabei ganz ruhig an das Ganze denken."
+    ],
+    [
+      "",
+      "Ein feines Klicken geht durch Charlys Fingerspitzen. Sie hat den Zauber Restauro gelernt!"
+    ],
+    [
+      "pendel",
+      "Das Zahnrad kann nicht weit sein. Irgendjemand hat es versteckt … Vielleicht findet eine gute Nase die Spur."
+    ]
+  ],
+  "pendel_tipp_zahnrad": [
+    [
+      "pendel",
+      "Das Zahnrad riecht nach Öl und Messing. Ein Hund würde das sofort merken. Nur so ein Gedanke."
+    ]
+  ],
+  "pendel_tipp_einsetzen": [
+    [
+      "pendel",
+      "Du hast es! Setz es ins Uhrwerk in der Mitte ein. Und dann: Restauro!"
+    ]
+  ],
+  "pendel_tipp_uhrmeister": [
+    [
+      "pendel",
+      "Der Uhrmeister ist erwacht. Er prüft jeden, der an seiner Uhr arbeitet. Hör genau auf seinen Takt."
+    ]
+  ],
+  "pendel_danke": [
+    [
+      "pendel",
+      "Tick, tack, tick – in der richtigen Richtung! Ich könnte weinen vor Glück. Tu ich aber nicht. Fast nicht."
+    ]
+  ],
+  "pendel_1": [
+    [
+      "pendel",
+      "Ich bin Prof. Pendel, Zeitkunde. Wenn du irgendwann Zeit hast – das ist ein Witz für Fortgeschrittene."
+    ]
+  ],
+  "q04_geheimgang": [
+    [
+      "",
+      "Diego bellt eine Wand an. Ein Stein ist locker! Charly drückt dagegen …"
+    ],
+    [
+      "",
+      "Mit lautem Knirschen schiebt sich der Stein zur Seite. Dahinter: ein geheimer Gang!"
+    ],
+    [
+      "joern",
+      "Ein Geheimgang! Diego, du bist unbezahlbar."
+    ]
+  ],
+  "q04_zahnrad_fund": [
+    [
+      "",
+      "In der Nische liegt ein großes Zahnrad aus Messing. Es ist warm, als hätte es gerade noch getickt."
+    ],
+    [
+      "",
+      "Charly hat das Zahnrad gefunden."
+    ]
+  ],
+  "zahnrad": [
+    [
+      "",
+      "Ein glänzendes Zahnrad aus Messing."
+    ]
+  ],
+  "q04_einsetzen": [
+    [
+      "",
+      "Charly setzt das Zahnrad ein und flüstert: „Restauro!“"
+    ],
+    [
+      "",
+      "Die Räder greifen ineinander, das Uhrwerk ruckt – und die Messingfigur neben der Uhr hebt langsam den Kopf."
+    ],
+    [
+      "uhrmeister",
+      "TICK. TACK. WER. RÜHRT. MEINE. UHR. AN?"
+    ]
+  ],
+  "uhrwerk_luecke": [
+    [
+      "",
+      "Im Uhrwerk klafft eine Lücke. Hier fehlt eindeutig ein großes Zahnrad."
+    ]
+  ],
+  "uhrwerk_kaputt": [
+    [
+      "",
+      "Das Uhrwerk ruckelt und knarzt. Irgendetwas stimmt hier nicht."
+    ]
+  ],
+  "uhrwerk_laeuft": [
+    [
+      "",
+      "Die Zahnräder drehen sich ruhig und gleichmäßig. Tick, tack."
+    ]
+  ],
+  "uhrmeister_erwacht": [
+    [
+      "uhrmeister",
+      "NUR. WER. DEN. TAKT. HÄLT. DARF. DIE. UHR. STELLEN."
+    ],
+    [
+      "uhrmeister",
+      "ICH. SCHLAGE. DU. FOLGST."
+    ],
+    [
+      "",
+      "Merk dir, welche Glocke der Uhrmeister anschlägt, und schlag sie in derselben Reihenfolge mit dem Steuerkreuz nach."
+    ]
+  ],
+  "uhrmeister_besiegt": [
+    [
+      "uhrmeister",
+      "TAKT. GEHALTEN. DU. BIST. WÜRDIG."
+    ],
+    [
+      "",
+      "Der Uhrmeister dreht die Zeiger mit einem Ruck in die richtige Richtung. Die Turmuhr schlägt – vorwärts."
+    ],
+    [
+      "",
+      "Aus dem Zifferblatt rieselt ein eisblauer Splitter."
+    ]
+  ],
+  "uhrmeister_ruhig": [
+    [
+      "uhrmeister",
+      "TICK. TACK. ALLES. IN. ORDNUNG."
+    ]
+  ],
+  "uhrmeister_still": [
+    [
+      "",
+      "Eine Ritterfigur aus Messing. Sie steht ganz still, nur ihre Augen glimmen ein bisschen."
+    ]
+  ],
+  "takt_abbruch": [
+    [
+      "",
+      "Charly tritt einen Schritt zurück. Der Uhrmeister wartet geduldig. Sprich ihn an, wenn du es noch einmal versuchen willst."
+    ]
+  ],
+  "knarz_auftrag": [
+    [
+      "knarz",
+      "Grmpf. Hast du meinen Schlüsselbund gesehen? Groß, rostig, klimpert."
+    ],
+    [
+      "knarz",
+      "Muss mir beim Schneeschippen im Innenhof aus der Tasche gefallen sein. Jetzt liegt er irgendwo unter dem Schnee."
+    ],
+    [
+      "joern",
+      "Diego findet doch sonst auch jeden Keks. Vielleicht auch Schlüssel?"
+    ]
+  ],
+  "knarz_warten": [
+    [
+      "knarz",
+      "Ohne Schlüssel komm ich nicht mal an meine eigene Teekanne. Grmpf."
+    ]
+  ],
+  "knarz_schluessel_fund": [
+    [
+      "",
+      "Diego buddelt im Schnee wie ein Weltmeister – und zieht einen klimpernden Schlüsselbund heraus!"
+    ]
+  ],
+  "knarz_danke": [
+    [
+      "knarz",
+      "Mein Schlüsselbund! Grmpf … ich meine: Danke. Wirklich."
+    ],
+    [
+      "knarz",
+      "Für dich und den Hund. Ein Lebkuchen. Den Hund erst später, ja?"
+    ],
+    [
+      "",
+      "Diego hat den Lebkuchen trotzdem schon im Blick."
+    ]
+  ],
+  "knarz_1": [
+    [
+      "knarz",
+      "Schnee schippen, Kerzen putzen, Rüstungen polieren. Grmpf. Ich liebe diesen Job."
+    ]
+  ],
+  "knarz_2": [
+    [
+      "knarz",
+      "Wenn die Rüstungen nachts quietschen, ist das normal. Glaube ich."
+    ]
+  ],
+  "sternwald_1": [
+    [
+      "sternwald",
+      "Willkommen, Charly. Løvestein ist in diesem Winter … wacher als sonst. Halte die Augen offen."
+    ]
+  ],
+  "sternwald_2": [
+    [
+      "sternwald",
+      "Die Turmuhr schlägt wieder richtig. Ich habe gehört, wer dahintersteckt. Gut gemacht."
+    ]
+  ],
+  "torbogen": [
+    [
+      "",
+      "Ein Torbogen mit einer frischen Tannengirlande. Darüber das Wappen von Løvestein."
+    ]
+  ],
+  "banner_bernfuchs": [
+    [
+      "",
+      "Haus Bernfuchs: Moosgrün und Bernstein. „Treu und warm.“"
+    ]
+  ],
+  "banner_eisvogel": [
+    [
+      "",
+      "Haus Eisvogel: Türkis und Perlweiß. „Klar wie Wasser.“"
+    ]
+  ],
+  "banner_tannenhirsch": [
+    [
+      "",
+      "Haus Tannenhirsch: Tannengrün und Kupfer. „Mutig durch jeden Wald.“"
+    ]
+  ],
+  "banner_sternbaer": [
+    [
+      "",
+      "Haus Sternbär: Pflaume und Silber. „Geduld bringt Sterne.“"
+    ]
+  ],
+  "saeule": [
+    [
+      "",
+      "Eine Säule aus hellem Stein, umwickelt mit Tannengrün und einer roten Schleife."
+    ]
+  ],
+  "ruestung2": [
+    [
+      "",
+      "Diese Rüstung trägt einen Schal. Knarz behauptet, er war das nicht."
+    ]
+  ],
+  "tannenbaum_gross": [
+    [
+      "",
+      "Ein riesiger Tannenbaum mit roten Kugeln und hunderten Lichtern. Er duftet nach Wald und Zimt."
+    ]
+  ],
+  "fenster_halle": [
+    [
+      "",
+      "Hinter dem hohen Fenster wirbelt der Schnee. Im Glas spiegeln sich die schwebenden Kerzen."
+    ]
+  ],
+  "lehrertisch": [
+    [
+      "",
+      "Der Lehrertisch. Auf Prof. Federleichts Platz liegt ein Stapel Notenblätter."
+    ]
+  ],
+  "tisch_bernfuchs": [
+    [
+      "",
+      "Der Tisch des Hauses Bernfuchs. Hier gibt es immer den besten Apfelkuchen. Zufall? Sicher nicht."
+    ]
+  ],
+  "tisch_eisvogel": [
+    [
+      "",
+      "Der Tisch des Hauses Eisvogel. Lotte hat ein Buch neben ihren Teller gelegt. Natürlich."
+    ]
+  ],
+  "tisch_tannenhirsch": [
+    [
+      "",
+      "Der Tisch des Hauses Tannenhirsch. Jemand hat Tannenzapfen zu einer kleinen Burg gestapelt."
+    ]
+  ],
+  "tisch_sternbaer": [
+    [
+      "",
+      "Der Tisch des Hauses Sternbär. Die Servietten sind zu Sternen gefaltet."
+    ]
+  ],
+  "regal_bib1": [
+    [
+      "",
+      "„Die Kunst des leisen Umblätterns“ von O. Leisetritt. Signiert."
+    ]
+  ],
+  "regal_bib2": [
+    [
+      "",
+      "„Winterwesen und wo sie überwintern“. Das Kapitel über den Phönix wurde herausgerissen."
+    ]
+  ],
+  "regal_bib3": [
+    [
+      "",
+      "„Zahnräder, Zeiger und Zauber“. Jemand hat mit Bleistift „Pendel war hier“ hineingeschrieben."
+    ]
+  ],
+  "regal_bib4": [
+    [
+      "",
+      "Ganz oben steht ein Buch, das sich weigert, herausgenommen zu werden. Es brummt."
+    ]
+  ],
+  "pult": [
+    [
+      "",
+      "Frau Leisetritts Pult. Alles liegt exakt im rechten Winkel. Sogar die Krümel."
+    ]
+  ],
+  "mauseloch": [
+    [
+      "",
+      "Ein kleines Loch in der Wand. Es riecht nach Sonnenblumenkernen und altem Pergament."
+    ]
+  ],
+  "globus": [
+    [
+      "",
+      "Ein Globus mit Løvestein in der Mitte. Ganz im Norden ist ein kleiner Vogel eingraviert."
+    ]
+  ],
+  "lesetisch": [
+    [
+      "",
+      "Ein Lesetisch mit aufgeschlagenen Büchern und einer Kerze, die nie herunterbrennt."
+    ]
+  ],
+  "leisetritt_1": [
+    [
+      "leisetritt",
+      "Psssst! Hier wird geflüstert. Auch Hunde flüstern hier. Nicht wahr, Diego?"
+    ]
+  ],
+  "leisetritt_2": [
+    [
+      "leisetritt",
+      "Bücher kommen nach dem Lesen zurück ins Regal. Mit dem Rücken nach vorne. Immer."
+    ]
+  ],
+  "laterne": [
+    [
+      "",
+      "Eine Laterne mit Tannenzweig. Ihr Licht malt goldene Kreise in den Schnee."
+    ]
+  ],
+  "brunnen": [
+    [
+      "",
+      "Der Brunnen ist zugefroren. Im Eis glitzern Münzen von Wünschen aus vielen Wintern."
+    ]
+  ],
+  "tanne": [
+    [
+      "",
+      "Eine Tanne unter einer dicken Schneedecke. Ein Rotkehlchen guckt kurz heraus."
+    ]
+  ],
+  "schneemann": [
+    [
+      "",
+      "Ein Schneemann mit Bernfuchs-Schal. Pit behauptet, er sähe ihm ähnlich."
+    ]
+  ],
+  "baum_band": [
+    [
+      "",
+      "In den kahlen Zweigen flattert ein rotes Band."
+    ]
+  ],
+  "baum_kahl": [
+    [
+      "",
+      "Ein kahler Baum voller Schneehäubchen."
+    ]
+  ],
+  "fenster_eule": [
+    [
+      "",
+      "Vom Eulenturm aus sieht man weit über den verschneiten Raunwald."
+    ]
+  ],
+  "stange": [
+    [
+      "",
+      "Auf der Stange sitzen Schuleulen. Eine zwinkert, eine schläft, eine tut beides gleichzeitig."
+    ]
+  ],
+  "stange_leer": [
+    [
+      "",
+      "Eine leere Sitzstange. Hier sitzt wohl Pimpernell – wenn sie sich daran erinnert."
+    ]
+  ],
+  "zifferblatt": [
+    [
+      "",
+      "Das große Zifferblatt von innen. Die Zeiger laufen … rückwärts."
+    ]
+  ],
+  "zifferblatt_ok": [
+    [
+      "",
+      "Das große Zifferblatt. Die Zeiger laufen wieder vorwärts. Tick, tack."
+    ]
+  ],
+  "werkbank": [
+    [
+      "",
+      "Prof. Pendels Werkbank: Schräubchen, Federn, ein halbes Butterbrot."
+    ]
+  ],
+  "loser_stein": [
+    [
+      "",
+      "Eine Steinwand. Einer der Steine sitzt ein bisschen schief."
+    ]
+  ]
 }

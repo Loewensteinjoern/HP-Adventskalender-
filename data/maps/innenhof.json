@@ -1,0 +1,266 @@
+{
+ "name": "Innenhof",
+ "music": "hof",
+ "ambient": {
+  "dark": 0.32,
+  "tint": "20,30,80",
+  "particles": "schnee"
+ },
+ "tiles": [
+  "YYYYYYYYYYYYYYYYYYYYYY",
+  "YYYYYYYYYYYYYYYYYYYYYY",
+  "YYYYYYYYYYOOYYYYYYOYYY",
+  "YnnnnnnnnnwwnnnnnnwnnY",
+  "YnnnnnnnnnwwnnnnnnwnnY",
+  "YnnnnnnnnnwwwwwwwwwnnY",
+  "YnnnnnnnnnwwnnnnnnnnnY",
+  "YnnnnnnnnnwwnnnnnnnnnY",
+  "YnnnnnnnnnwwnnnnnnnnnY",
+  "YnnnnnnnnnwwnnnnnnnnnY",
+  "YnnnnnnnnnwwnnnnnnnnnY",
+  "YnnnnnnnnnwwnnnnnnnnnY",
+  "YnnnnnnnnnwwnnnnnnnnnY",
+  "YnnnnnnnnnwwnnnnnnnnnY",
+  "YnnnnnnnnnwwnnnnnnnnnY",
+  "YYYYYYYYYYYYYYYYYYYYYY"
+ ],
+ "objects": [
+  {
+   "type": "fenster_hoch",
+   "x": 2,
+   "y": 0,
+   "v": "aussen"
+  },
+  {
+   "type": "fenster_hoch",
+   "x": 6,
+   "y": 0,
+   "v": "aussen"
+  },
+  {
+   "type": "fenster_hoch",
+   "x": 13,
+   "y": 0,
+   "v": "aussen"
+  },
+  {
+   "type": "fenster_hoch",
+   "x": 15,
+   "y": 0,
+   "v": "aussen"
+  },
+  {
+   "type": "laterne",
+   "x": 8,
+   "y": 4,
+   "talk": [
+    {
+     "dialog": "laterne"
+    }
+   ]
+  },
+  {
+   "type": "laterne",
+   "x": 13,
+   "y": 4,
+   "talk": [
+    {
+     "dialog": "laterne"
+    }
+   ]
+  },
+  {
+   "type": "laterne",
+   "x": 8,
+   "y": 10,
+   "talk": [
+    {
+     "dialog": "laterne"
+    }
+   ]
+  },
+  {
+   "type": "laterne",
+   "x": 13,
+   "y": 10,
+   "talk": [
+    {
+     "dialog": "laterne"
+    }
+   ]
+  },
+  {
+   "type": "brunnen_eis",
+   "x": 14,
+   "y": 8,
+   "talk": [
+    {
+     "dialog": "brunnen"
+    }
+   ]
+  },
+  {
+   "type": "tanne",
+   "x": 2,
+   "y": 4,
+   "talk": [
+    {
+     "dialog": "tanne"
+    }
+   ]
+  },
+  {
+   "type": "tanne",
+   "x": 5,
+   "y": 7,
+   "talk": [
+    {
+     "dialog": "tanne"
+    }
+   ]
+  },
+  {
+   "type": "tanne",
+   "x": 3,
+   "y": 12,
+   "talk": [
+    {
+     "dialog": "tanne"
+    }
+   ]
+  },
+  {
+   "type": "tanne",
+   "x": 19,
+   "y": 9,
+   "talk": [
+    {
+     "dialog": "tanne"
+    }
+   ]
+  },
+  {
+   "type": "tanne",
+   "x": 20,
+   "y": 13,
+   "talk": [
+    {
+     "dialog": "tanne"
+    }
+   ]
+  },
+  {
+   "type": "tanne",
+   "x": 17,
+   "y": 12,
+   "talk": [
+    {
+     "dialog": "tanne"
+    }
+   ]
+  },
+  {
+   "type": "schneemann",
+   "x": 6,
+   "y": 12,
+   "talk": [
+    {
+     "dialog": "schneemann"
+    }
+   ]
+  },
+  {
+   "type": "baum_kahl",
+   "x": 17,
+   "y": 7,
+   "v": "band",
+   "if": [
+    "!flag:q03_band"
+   ],
+   "talk": [
+    {
+     "if": [
+      "quest:Q03",
+      "flag:q03_eule"
+     ],
+     "dialog": "q03_band",
+     "set": [
+      "q03_band"
+     ],
+     "sound": "fund"
+    },
+    {
+     "dialog": "baum_band"
+    }
+   ]
+  },
+  {
+   "type": "baum_kahl",
+   "x": 17,
+   "y": 7,
+   "if": [
+    "flag:q03_band"
+   ],
+   "talk": [
+    {
+     "dialog": "baum_kahl"
+    }
+   ]
+  },
+  {
+   "type": "bank",
+   "x": 1,
+   "y": 9,
+   "talk": [
+    {
+     "dialog": "bank"
+    }
+   ]
+  }
+ ],
+ "secrets": [
+  {
+   "id": "schluessel",
+   "x": 4,
+   "y": 6,
+   "count": false,
+   "if": [
+    "flag:knarz_auftrag",
+    "!flag:knarz_schluessel"
+   ],
+   "found": {
+    "dialog": "knarz_schluessel_fund",
+    "set": [
+     "knarz_schluessel"
+    ],
+    "sound": "fund"
+   }
+  }
+ ],
+ "doors": [
+  {
+   "x": 10,
+   "y": 2,
+   "to": "schlosskern",
+   "tx": 10,
+   "ty": 13,
+   "dir": "up"
+  },
+  {
+   "x": 11,
+   "y": 2,
+   "to": "schlosskern",
+   "tx": 11,
+   "ty": 13,
+   "dir": "up"
+  },
+  {
+   "x": 18,
+   "y": 2,
+   "to": "eulenturm",
+   "tx": 5,
+   "ty": 8,
+   "dir": "up"
+  }
+ ]
+}

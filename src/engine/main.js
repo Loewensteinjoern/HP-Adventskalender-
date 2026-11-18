@@ -15,7 +15,7 @@ function showSoundHint() {
 function selfCheck() {
   Object.keys(DATA.tiles).forEach(k => { if (!PAINT_TILE[DATA.tiles[k].paint]) console.error('Kachel-Maler fehlt: ' + DATA.tiles[k].paint); });
   Object.keys(DATA.objects).forEach(k => { if (!PAINT_OBJ[DATA.objects[k].paint]) console.error('Objekt-Maler fehlt: ' + DATA.objects[k].paint); });
-  Object.keys(DATA.characters).forEach(k => { const s = DATA.characters[k].sprite; if (s && s !== 'diego' && !LOOKS[s]) console.error('Figur fehlt: ' + s); });
+  Object.keys(DATA.characters).forEach(k => { const s = DATA.characters[k].sprite; if (s && s !== 'diego' && s !== 'pimpernell' && !LOOKS[s]) console.error('Figur fehlt: ' + s); });
 }
 function boot() {
   selfCheck();
@@ -26,9 +26,12 @@ function boot() {
     window.__wp = () => ({
       mode: G.mode, map: G.mapId, hasSave: !!G.save, flags: G.save ? Object.assign({}, G.save.flags) : {},
       pos: G.player ? { x: G.player.x, y: G.player.y, dir: G.player.dir } : null, trail: !!G.trail,
-      followers: G.followers.map(f => ({ char: f.char, x: f.x, y: f.y })), dialog: DLG.open,
+      followers: G.followers.map(f => ({ char: f.char, x: f.x, y: f.y })), dialog: DLG.open, done: G.save ? G.save.done.slice() : [], fragments: G.save ? G.save.fragments.length : 0,
     });
     window.__face = d => { G.player.dir = d; };
+    window.__go = (mid, x, y, d) => { G.trail = null; G.enterMap(mid, x, y, d); };
+    window.__flags = o => { Object.assign(G.save.flags, o); if (o.diego_dabei && G.save.followers.indexOf('diego') < 0) G.save.followers.push('diego'); G.enterMap(G.mapId, G.player.x, G.player.y, G.player.dir); };
+    window.__mini = () => (G.mini ? { phase: G.mini.phase, seq: G.mini.seq.slice(), round: G.mini.round } : null);
     window.__teleport = (x, y, d) => { G.enterMap(G.mapId, x, y, d); };
   }
   let hinted = false;

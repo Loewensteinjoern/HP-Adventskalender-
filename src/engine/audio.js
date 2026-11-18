@@ -111,6 +111,12 @@ const AU = {
     });
   },
 
+  note(n) { if (!this.ctx || !this.on || this.failed) return; const f = noteFreq(n); if (f) this.tone('glocke', f, this.ctx.currentTime + 0.01, 1.2, 0.3, this.sfxBus); },
+  tick(dir) {
+    if (!this.ctx || !this.on || this.failed) return;
+    const t = this.ctx.currentTime + 0.01, f = { up: 'G5', right: 'E5', down: 'C5', left: 'A4' }[dir];
+    this.noiseBurst(t, 0.05, 0.4, 3200, 3); this.tone('glocke', noteFreq(f), t, 1, 0.28, this.sfxBus);
+  },
   // --- Geräusche ---
   sfx(name) {
     if (!this.ctx || !this.on || this.failed) return;
@@ -127,6 +133,11 @@ const AU = {
       case 'piep': this.tone('sine', 1900, t, 0.06, 0.12, B); this.tone('sine', 2300, t + 0.1, 0.06, 0.12, B); break;
       case 'schnarch': this.noiseBurst(t, 0.8, 0.25, 300, 0.8); break;
       case 'tuerchen': [523, 659, 784, 1046, 1318].forEach((f, i) => this.tone('glocke', f, t + i * 0.12, 1.2, 0.2, B)); break;
+      case 'jaul': { const o = this.ctx.createOscillator(), g = this.ctx.createGain(); o.type = 'sawtooth'; o.frequency.setValueAtTime(520, t); o.frequency.linearRampToValueAtTime(760, t + 0.3); o.frequency.linearRampToValueAtTime(480, t + 0.9);
+        g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.08, t + 0.08); g.gain.exponentialRampToValueAtTime(0.0001, t + 1); o.connect(g); g.connect(B); o.start(t); o.stop(t + 1.05); break; }
+      case 'zauber': [1046, 1568, 2093, 2637].forEach((f, i) => this.tone('spieluhr', f, t + i * 0.06, 0.6, 0.16, B)); this.noiseBurst(t, 0.5, 0.15, 6000, 1); break;
+      case 'stein': this.noiseBurst(t, 0.6, 0.5, 220, 0.7); this.tone('sine', 70, t, 0.5, 0.3, B); break;
+      case 'zahnrad': for (let i = 0; i < 6; i++) this.noiseBurst(t + i * 0.08, 0.04, 0.35, 2800, 4); break;
       case 'stoss': this.tone('sine', 120, t, 0.06, 0.12, B); break;
     }
   },

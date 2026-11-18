@@ -207,7 +207,9 @@ const UI = {
     const head = G.day > 0 ? 'Heute: ' + G.day + '. Dezember' : 'Noch ' + G.daysLeft() + ' Tage bis zum 1. Dezember';
     R.text(head, VIEW_W - 34, 40, { size: 12, align: 'right', color: '#c8b898' });
     const lines = [];
-    const ids = questIds().filter(id => DATA.quests[id].day <= G.day).reverse();
+    const all = questIds().filter(id => DATA.quests[id].day <= G.day);
+    const neben = all.filter(id => DATA.quests[id].neben && (G.save.done.indexOf(id) < 0) && DATA.quests[id].steps.some(st => stepCount(st, G.save.flags) > 0));
+    const ids = all.filter(id => !DATA.quests[id].neben).reverse().concat(neben);
     if (!ids.length) {
       lines.push(['Das erste Türchen öffnet sich am 1. Dezember.', '#f4ead8', 600]);
       lines.push(['Bis dahin: Schau dich im Gemeinschaftsraum um, weck Diego', '#c8b898', 500]);
@@ -215,12 +217,13 @@ const UI = {
     }
     ids.forEach(id => {
       const q = DATA.quests[id], done = G.save.done.indexOf(id) >= 0;
-      lines.push(['Türchen ' + q.day + ' · ' + q.title + (done ? '  ✓' : ''), done ? '#9ab070' : '#ffd36a', 700]);
+      lines.push([(q.neben ? 'Nebenaufgabe · ' : 'Türchen ' + q.day + ' · ') + q.title + (done ? '  ✓' : ''), done ? '#9ab070' : (q.neben ? '#c8d8a0' : '#ffd36a'), 700]);
       if (done) return;
       let shownCurrent = false;
       q.steps.forEach(st => {
-        if (G.save.flags[st.flag]) lines.push(['  ✓ ' + st.text, '#8a8070', 500]);
-        else if (!shownCurrent) { shownCurrent = true; R.wrap(st.text, 400, 13, 600).forEach((l, i) => lines.push([(i ? '     ' : '  ▸ ') + l, '#f4ead8', 600])); }
+        const txt = st.text.replace('{n}', String(stepCount(st, G.save.flags)));
+        if (stepDone(st, G.save.flags)) lines.push(['  ✓ ' + txt, '#8a8070', 500]);
+        else if (!shownCurrent) { shownCurrent = true; R.wrap(txt, 400, 13, 600).forEach((l, i) => lines.push([(i ? '     ' : '  ▸ ') + l, '#f4ead8', 600])); }
       });
       if (q.teilweise && !shownCurrent) lines.push(['  Fortsetzung folgt …', '#c8b898', 500]);
       lines.push(['', '', 400]);
@@ -229,7 +232,9 @@ const UI = {
     const maxRows = 12; this.scroll = clamp(this.scroll, 0, Math.max(0, lines.length - maxRows));
     lines.slice(this.scroll, this.scroll + maxRows).forEach(([t, col, wgt], i) => R.text(t, 34, 74 + i * 20, { size: 13, color: col, weight: wgt }));
     c.fillStyle = 'rgba(224,154,44,0.4)'; c.fillRect(34, VIEW_H - 54, VIEW_W - 68, 1);
-    R.text('🐾 Geheimnisse gefunden: ' + found + ' von ' + total + '      Fragmente: ' + G.save.fragments.length + ' von 24', 34, VIEW_H - 34, { size: 12, color: '#c8b898' });
+    const sp = ['luxa', 'clavis', 'restauro', 'advoco', 'flammula', 'levitas', 'custodia'].filter(z => G.save.flags['zauber_' + z]).map(z => z[0].toUpperCase() + z.slice(1));
+    R.text('🐾 Geheimnisse: ' + found + ' von ' + total + '    Fragmente: ' + G.save.fragments.length + ' von 24', 34, VIEW_H - 38, { size: 12, color: '#c8b898' });
+    R.text('✦ Zauber: ' + (sp.length ? sp.join(', ') : 'noch keine'), 34, VIEW_H - 22, { size: 12, color: '#c8b898' });
   },
   lied(G) {
     R.panel(16, 14, VIEW_W - 32, VIEW_H - 28);
@@ -247,6 +252,32 @@ const UI = {
       R.text(t, 50, 70 + i * 20, { size: 12, color: has ? '#f4ead8' : '#6a6070', weight: has ? 600 : 400, serif: has });
     });
     if (this.scroll + maxRows < rows.length) R.text('▼', VIEW_W - 40, VIEW_H - 26, { size: 11, color: '#ffd36a' });
+  },
+  // Takt-Rätsel: vier Glocken um ein Zifferblatt
+  mini(G, time) {
+    const M = G.mini; if (!M) return;
+    const c = R.ctx, cx = VIEW_W / 2, cy = 190;
+    c.fillStyle = 'rgba(8,4,12,0.72)'; c.fillRect(0, 0, VIEW_W, VIEW_H);
+    R.panel(96, 24, 320, 336);
+    R.text('Der Uhrmeister schlägt den Takt', cx, 54, { size: 16, weight: 700, align: 'center', color: '#ffd36a', serif: true });
+    R.text('Runde ' + (M.round + 1) + ' von ' + M.cfg.rounds.length, cx, 74, { size: 12, align: 'center', color: '#c8b898' });
+    const p = Pen(c);
+    p.circ(cx, cy, 46, '#c8a040'); p.circ(cx, cy, 42, '#f4ead8');
+    for (let i = 0; i < 12; i++) { const a = i / 12 * 6.283; p.r(cx + Math.cos(a) * 36 - 1, cy + Math.sin(a) * 36 - 1, 3, 3, '#3a2a1e'); }
+    const ang = time * 2.2; c.strokeStyle = '#3a2a1e'; c.lineWidth = 2; c.beginPath(); c.moveTo(cx, cy); c.lineTo(cx + Math.cos(ang) * 30, cy + Math.sin(ang) * 30); c.stroke(); c.lineWidth = 1;
+    const pos = { up: [cx, cy - 80], right: [cx + 92, cy], down: [cx, cy + 80], left: [cx - 92, cy] };
+    const col = { up: '#e09a2c', right: '#22747a', down: '#4f6b2a', left: '#7a4a8a' };
+    Object.keys(pos).forEach(d => {
+      const [x, y] = pos[d], on = M.lit === d;
+      if (on) { const g = c.createRadialGradient(x, y, 0, x, y, 34); g.addColorStop(0, 'rgba(255,230,140,0.8)'); g.addColorStop(1, 'rgba(255,230,140,0)'); c.fillStyle = g; c.fillRect(x - 34, y - 34, 68, 68); }
+      p.circ(x, y, 20, on ? '#fff2b0' : col[d]); p.circ(x, y, 16, on ? '#ffd36a' : shade(col[d], -0.25));
+      const arrow = { up: '▲', right: '▶', down: '▼', left: '◀' }[d];
+      R.text(arrow, x, y + 6, { size: 16, align: 'center', color: on ? '#3a2a1e' : '#f4ead8', weight: 700, shadow: false });
+    });
+    const msg = M.phase === 'show' ? 'Hör gut zu und merk dir die Schläge …' : M.phase === 'input' ? 'Jetzt du! Steuerkreuz: ' + M.pos + ' von ' + M.seq.length
+      : M.phase === 'ok' ? 'Richtig! Der Uhrmeister nickt.' : 'Daneben – er schlägt den Takt noch einmal.';
+    R.text(msg, cx, 318, { size: 13, align: 'center', color: M.phase === 'fail' ? '#ff9a7a' : '#f4ead8', weight: 600 });
+    R.text('B: aufgeben (später nochmal versuchen)', cx, 342, { size: 10, align: 'center', color: '#8a8070' });
   },
   banner(G, time) {
     const b = G.bannerMsg; if (!b) return;

@@ -1,12 +1,13 @@
 # STATUS
 
 ## Stand (18.11.2026)
-- **Stufe 1 abgeschlossen.** Look von Jörn freigegeben (18.11.). Titelbild: Schloss mit runden Türmen, Schneedächern, Wimpeln, Lichterketten; Auswahl nebeneinander im Schnee.
-- Motor fertig: Steuerung (Touch + Tastatur), Kollision, Begleiter folgen, Kartenwechsel mit Überblendung, Dialogbox, Questlog, Phönixlied-Seite, Speichern (automatisch + Sicherung), Export/Import-Code, Freischaltung Europe/Berlin, Testmodus `?testtag=N`, Musik/Töne per Web Audio, Licht und Funken.
-- Stilprobe: Bernfuchs-Gemeinschaftsraum (Galerie, Kamin, Frieda im Laufrad, Tannenbaum) + Kellergang mit Sir Ottokar. Figuren: Charly, Jörn, Pit, Diego (Lotte vorbereitet).
-- Q01 teilweise: Diego wecken → Schnüffeln → Feder → Jörn. Schritt 4 (Große Halle, Lotte) folgt in Stufe 2; Treppe im Kellergang ist bis dahin „zugeschneit“.
-- Geheimnisse: Zimtstern (Gemeinschaftsraum), Notiz (Kellergang).
-- Tests: `npm run check` → Build mit Datenprüfung, 36 Kern-Tests (Freischaltung, Migration, Sicherung, Export), Rauchtest im Headless-Browser (iPad, iPhone quer/hoch).
+- **Stufe 2 gebaut** (Version 0.2), wartet auf Jörns iPad-Test.
+- Neue Gebiete: Schlosskern (Drehkreuz), Große Halle, Bibliothek, Innenhof (Schnee), Eulenturm, Uhrenturm. Kellertreppe öffnet sich ab 1.12.
+- Quests Q01–Q04 vollständig spielbar, je ein Winterfragment. Nebenaufgabe „Knarz’ Schlüsselbund“ (ab Tag 1).
+- Neue Mechaniken: Reihenfolge-Rätsel mit Vorführung (Kerzen, `data/puzzles.json`), Takt-Minispiel (Uhrmeister), Geheimgang über Flag (loser Stein), mehrteilige Quest-Schritte (`flags` + `{n}`), Nebenquests (`neben: true`), Zauber als Flags `zauber_*` (Anzeige im Questlog).
+- Neue Figuren: Federleicht, Pendel, Leisetritt, Knarz, Sternwald, Uhrmeister, Eule Pimpernell. Musik: schloss, halle, hof, turm.
+- Tests: `npm run check` = Build mit Datenprüfung, 36 Kern-Tests, Rauchtest Stufe 1, Quest-Durchlauf Q01–Q04 + Nebenaufgabe (alle grün).
+- Look und Grafikmaß von Jörn freigegeben (18.11.).
 
 ## Entscheidungen
 - Siehe `CLAUDE.md`, Weltlexikon und Bauauftrag (`plan/STARTPAKET.md`).
@@ -25,4 +26,4 @@
 2. iPhone quer: Bild ist wegen der Höhe nur 2-fach skaliert (klein, aber spielbar).
 
 ## Nächster Schritt
-Stufe 2 (bis 29.11.): Schlosskern, Große Halle, Bibliothek, Innenhof; Q01 fertig, Q02–Q04; erste Nebenquests; Musik ausbauen; Homescreen-App prüfen.
+Stufe 3 (bis 30.11.): Generalprobe auf iPad und iPhone, Abnahme mit Sicherheits-Check. Danach Stufe 4: Q05 (Sternenuhr, Frieda) ff., Friedas Körner als Nebenquest.

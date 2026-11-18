@@ -1,0 +1,27 @@
+{
+  "kerzen": {
+    "order": [
+      2,
+      4,
+      1,
+      3
+    ],
+    "notes": [
+      "C5",
+      "E5",
+      "G5",
+      "C6"
+    ],
+    "win": {
+      "dialog": "q02_geschafft",
+      "set": [
+        "q02_kerzen"
+      ],
+      "sound": "fund"
+    },
+    "fail": {
+      "dialog": "kerzen_falsch"
+    },
+    "failSound": "jaul"
+  }
+}

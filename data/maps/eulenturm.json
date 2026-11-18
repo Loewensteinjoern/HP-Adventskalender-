@@ -1,0 +1,164 @@
+{
+ "name": "Eulenturm",
+ "music": "hof",
+ "ambient": {
+  "dark": 0.5,
+  "tint": "20,20,50",
+  "particles": "staub"
+ },
+ "tiles": [
+  "TTTTTTTTTTTT",
+  "TXXXXXXXXXXT",
+  "TXXXXXXXXXXT",
+  "TzzzzzzzzzzT",
+  "TzzzzzzzzzzT",
+  "TzzzzzzzzzzT",
+  "TzzzzzzzzzzT",
+  "TzzzzzzzzzzT",
+  "TzzzzzzzzzzT",
+  "TTTTTdTTTTTT"
+ ],
+ "objects": [
+  {
+   "type": "fenster",
+   "x": 4,
+   "y": 2,
+   "talk": [
+    {
+     "dialog": "fenster_eule"
+    }
+   ]
+  },
+  {
+   "type": "wandkerze",
+   "x": 3,
+   "y": 2,
+   "talk": [
+    {
+     "dialog": "wandkerze"
+    }
+   ]
+  },
+  {
+   "type": "wandkerze",
+   "x": 7,
+   "y": 2,
+   "talk": [
+    {
+     "dialog": "wandkerze"
+    }
+   ]
+  },
+  {
+   "type": "stange",
+   "x": 1,
+   "y": 3,
+   "talk": [
+    {
+     "dialog": "stange"
+    }
+   ]
+  },
+  {
+   "type": "stange",
+   "x": 8,
+   "y": 3,
+   "seed": 2,
+   "talk": [
+    {
+     "dialog": "stange"
+    }
+   ]
+  },
+  {
+   "type": "stange",
+   "x": 1,
+   "y": 6,
+   "seed": 3,
+   "talk": [
+    {
+     "dialog": "stange"
+    }
+   ]
+  },
+  {
+   "type": "stange",
+   "x": 8,
+   "y": 6,
+   "v": "leer",
+   "talk": [
+    {
+     "dialog": "stange_leer"
+    }
+   ]
+  }
+ ],
+ "npcs": [
+  {
+   "char": "pimpernell",
+   "x": 5,
+   "y": 4,
+   "dir": "down",
+   "anim": true,
+   "talk": [
+    {
+     "if": [
+      "quest:Q03",
+      "!flag:q03_eule"
+     ],
+     "dialog": "q03_eule",
+     "set": [
+      "q03_eule"
+     ],
+     "sound": "piep"
+    },
+    {
+     "if": [
+      "quest:Q03",
+      "flag:q03_siegel",
+      "flag:q03_band",
+      "flag:q03_tinte",
+      "!flag:q03_erinnert"
+     ],
+     "dialog": "q03_erinnert",
+     "set": [
+      "q03_erinnert"
+     ],
+     "sound": "fund"
+    },
+    {
+     "if": [
+      "quest:Q03",
+      "!flag:q03_erinnert"
+     ],
+     "dialog": "pimpernell_warten"
+    },
+    {
+     "if": [
+      "quest:Q03"
+     ],
+     "dialog": "pimpernell_kapsel"
+    },
+    {
+     "if": [
+      "done:Q03"
+     ],
+     "dialog": "pimpernell_danke"
+    },
+    {
+     "dialog": "pimpernell_1"
+    }
+   ]
+  }
+ ],
+ "doors": [
+  {
+   "x": 5,
+   "y": 9,
+   "to": "innenhof",
+   "tx": 18,
+   "ty": 3,
+   "dir": "down"
+  }
+ ]
+}

@@ -46,10 +46,10 @@ const R = {
     return (this.bgCache[mid] = c);
   },
   objImg(o, f) {
-    const t = objType(o), k = o.type + ':' + (o.seed || 0) + ':' + f;
+    const t = objType(o), k = o.type + ':' + (o.seed || 0) + ':' + (o.v || '') + ':' + f;
     if (!this.objCache[k]) {
       const W = t.w * TILE, H = t.h * TILE + t.up, c = mkCanvas(W, H);
-      PAINT_OBJ[t.paint](Pen(c.getContext('2d')), f, srand(31 + (o.seed || 1) * 101), W, H);
+      PAINT_OBJ[t.paint](Pen(c.getContext('2d')), f, srand(31 + (o.seed || 1) * 101), W, H, o.v);
       this.objCache[k] = c;
     }
     return this.objCache[k];
@@ -75,18 +75,27 @@ const R = {
     this.paws(G, time);
     // Figuren und Möbel nach Tiefe sortiert
     const list = [];
-    objs.forEach(o => { const t = objType(o); if (!t.wall && !t.decal) list.push({ y: (o.y + t.h) * TILE, d: () => c.drawImage(this.objImg(o, this.objFrame(o, time)), o.x * TILE - cam.x, o.y * TILE - t.up - cam.y) }); });
-    visibleNpcs(m, ctx).forEach(n => list.push({ y: (n.y + 1) * TILE + 0.5, d: () => this.actor(n.char, n.x * TILE, n.y * TILE, n.dir, 0, n.pose, time) }));
+    objs.forEach(o => { const t = objType(o); if (!t.wall && !t.decal && !t.overlay) list.push({ y: (o.y + t.h) * TILE, d: () => c.drawImage(this.objImg(o, this.objFrame(o, time)), o.x * TILE - cam.x, o.y * TILE - t.up - cam.y) }); });
+    visibleNpcs(m, ctx).forEach(n => list.push({ y: (n.y + 1) * TILE + 0.5, d: () => this.actor(n.char, n.x * TILE, n.y * TILE - (n.lift || 0), n.dir, n.anim ? Math.floor(time * 2 + n.x) % 2 : 0, n.pose, time, n.lift) }));
     G.followers.forEach(f => { const p = G.renderPos(f); list.push({ y: p.y + TILE + 0.4, d: () => this.actor(f.char, p.x, p.y, f.dir, G.walkFrame(f), f.pose, time) }); });
     list.push({ y: pp.y + TILE + 0.6, d: () => this.actor('charly', pp.x, pp.y, G.player.dir, G.walkFrame(G.player), null, time) });
     list.sort((a, b) => a.y - b.y).forEach(e => e.d());
+    objs.forEach(o => { const t = objType(o); if (t.overlay) c.drawImage(this.objImg(o, this.objFrame(o, time)), o.x * TILE - cam.x, o.y * TILE - t.up - cam.y); });
+    // Rätsel-Vorführung: das gerade klingende Objekt leuchtet
+    objs.forEach(o => {
+      if (!G.demoVal(o)) return;
+      const t = objType(o), x = o.x * TILE + t.w * 16 - cam.x, y = o.y * TILE - t.up / 2 - cam.y;
+      const g = c.createRadialGradient(x, y, 0, x, y, 34); g.addColorStop(0, 'rgba(255,230,140,0.75)'); g.addColorStop(1, 'rgba(255,230,140,0)');
+      c.fillStyle = g; c.fillRect(x - 34, y - 34, 68, 68);
+    });
     this.particles(G, m, objs, time);
     this.lights(G, m, objs, pp, time);
   },
-  actor(key, x, y, dir, fr, pose, time) {
+  actor(key, x, y, dir, fr, pose, time, lift) {
     const c = this.ctx, cx = x - this.cam.x, cy = y - this.cam.y;
     c.fillStyle = 'rgba(20,8,4,0.28)';
-    c.beginPath(); c.ellipse(cx + 16, cy + 29, key === 'diego' ? 11 : 9, 3, 0, 0, 6.283); c.fill();
+    if (!lift) { c.beginPath(); c.ellipse(cx + 16, cy + 29, key === 'diego' ? 11 : 9, 3, 0, 0, 6.283); c.fill(); }
+    if (key === 'pimpernell') { c.drawImage(SPR.get(key, dir, fr, pose), cx, cy - 2); return; }
     if (key === 'diego') {
       c.drawImage(SPR.get('diego', dir, fr, pose), cx, cy - 2);
       if (pose === 'schlaf') this.zzz(cx + 22, cy - 6, time);
@@ -129,13 +138,14 @@ const R = {
       if (o.type !== 'kamin' || Math.random() > 0.12) return;
       this.parts.push({ x: o.x * TILE + 36 + Math.random() * 24, y: o.y * TILE + 60, vx: (Math.random() - 0.5) * 8, vy: -18 - Math.random() * 14, life: 1.2 + Math.random(), t: 0, col: Math.random() < 0.5 ? '#ffd36a' : '#ff8a2a', mid: G.mapId });
     });
+    if (kind === 'schnee') for (let i = 0; i < 2; i++) if (Math.random() < 0.6) this.parts.push({ x: this.cam.x + Math.random() * (VIEW_W + 60) - 30, y: this.cam.y - 4, vx: -3 + Math.random() * 6, vy: 30 + Math.random() * 22, life: 12, t: 0, col: '#eef4ff', mid: G.mapId, big: Math.random() < 0.3 });
     if (kind === 'staub' && Math.random() < 0.06) this.parts.push({ x: this.cam.x + Math.random() * VIEW_W, y: this.cam.y + Math.random() * VIEW_H, vx: (Math.random() - 0.5) * 4, vy: -2 - Math.random() * 3, life: 4, t: 0, col: '#d8d0e8', mid: G.mapId, soft: 1 });
     const dt = 1 / 60;
     this.parts = this.parts.filter(p => (p.t += dt) < p.life && p.mid === G.mapId);
     this.parts.forEach(p => {
       p.x += p.vx * dt; p.y += p.vy * dt; p.vx += (Math.random() - 0.5) * 2;
       c.globalAlpha = (1 - p.t / p.life) * (p.soft ? 0.5 : 1); c.fillStyle = p.col;
-      c.fillRect(Math.round(p.x - this.cam.x), Math.round(p.y - this.cam.y), 1, 1);
+      c.fillRect(Math.round(p.x - this.cam.x), Math.round(p.y - this.cam.y), p.big ? 2 : 1, p.big ? 2 : 1);
     });
     c.globalAlpha = 1;
   },

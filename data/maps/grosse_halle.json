@@ -1,0 +1,533 @@
+{
+ "name": "Große Halle",
+ "music": "halle",
+ "ambient": {
+  "dark": 0.34,
+  "tint": "30,20,50",
+  "particles": "staub"
+ },
+ "tiles": [
+  "TTTTTTTTTTTTTTTTTTTTTTTT",
+  "TKKKKKKKKKKKKKKKKKKKKKKT",
+  "TKKKKKKKKKKKKKKKKKKKKKKT",
+  "TMMMMMMMMMMRRMMMMMMMMMMT",
+  "TMMMMMMMMMMRRMMMMMMMMMMT",
+  "TMMMMMMMMMMRRMMMMMMMMMMT",
+  "TMMMMMMMMMMRRMMMMMMMMMMT",
+  "TMMMMMMMMMMRRMMMMMMMMMMT",
+  "TMMMMMMMMMMRRMMMMMMMMMMT",
+  "TMMMMMMMMMMRRMMMMMMMMMMT",
+  "TMMMMMMMMMMRRMMMMMMMMMMT",
+  "TMMMMMMMMMMRRMMMMMMMMMMT",
+  "TMMMMMMMMMMRRMMMMMMMMMMT",
+  "TMMMMMMMMMMRRMMMMMMMMMMT",
+  "TMMMMMMMMMMRRMMMMMMMMMMT",
+  "TTTTTTTTTTTddTTTTTTTTTTT"
+ ],
+ "objects": [
+  {
+   "type": "fenster_hoch",
+   "x": 2,
+   "y": 1,
+   "talk": [
+    {
+     "dialog": "fenster_halle"
+    }
+   ]
+  },
+  {
+   "type": "fenster_hoch",
+   "x": 6,
+   "y": 1,
+   "talk": [
+    {
+     "dialog": "fenster_halle"
+    }
+   ]
+  },
+  {
+   "type": "fenster_hoch",
+   "x": 16,
+   "y": 1,
+   "talk": [
+    {
+     "dialog": "fenster_halle"
+    }
+   ]
+  },
+  {
+   "type": "fenster_hoch",
+   "x": 20,
+   "y": 1,
+   "talk": [
+    {
+     "dialog": "fenster_halle"
+    }
+   ]
+  },
+  {
+   "type": "banner_haus",
+   "x": 4,
+   "y": 1,
+   "v": "bernfuchs",
+   "talk": [
+    {
+     "dialog": "banner_bernfuchs"
+    }
+   ]
+  },
+  {
+   "type": "banner_haus",
+   "x": 9,
+   "y": 1,
+   "v": "eisvogel",
+   "talk": [
+    {
+     "dialog": "banner_eisvogel"
+    }
+   ]
+  },
+  {
+   "type": "banner_haus",
+   "x": 14,
+   "y": 1,
+   "v": "tannenhirsch",
+   "talk": [
+    {
+     "dialog": "banner_tannenhirsch"
+    }
+   ]
+  },
+  {
+   "type": "banner_haus",
+   "x": 19,
+   "y": 1,
+   "v": "sternbaer",
+   "talk": [
+    {
+     "dialog": "banner_sternbaer"
+    }
+   ]
+  },
+  {
+   "type": "girlande",
+   "x": 11,
+   "y": 1
+  },
+  {
+   "type": "lehrertisch",
+   "x": 8,
+   "y": 4,
+   "talk": [
+    {
+     "dialog": "lehrertisch"
+    }
+   ]
+  },
+  {
+   "type": "spieluhr",
+   "x": 16,
+   "y": 4,
+   "talk": [
+    {
+     "if": [
+      "quest:Q02",
+      "flag:zauber_luxa",
+      "!flag:q02_kerzen"
+     ],
+     "dialog": "spieluhr_q02",
+     "set": [
+      "q02_melodie"
+     ],
+     "demo": "kerzen"
+    },
+    {
+     "if": [
+      "flag:q02_kerzen"
+     ],
+     "dialog": "spieluhr_danach",
+     "demo": "kerzen"
+    },
+    {
+     "dialog": "spieluhr",
+     "demo": "kerzen"
+    }
+   ]
+  },
+  {
+   "type": "tannenbaum_gross",
+   "x": 1,
+   "y": 3,
+   "talk": [
+    {
+     "dialog": "tannenbaum_gross"
+    }
+   ]
+  },
+  {
+   "type": "tannenbaum_gross",
+   "x": 21,
+   "y": 3,
+   "talk": [
+    {
+     "dialog": "tannenbaum_gross"
+    }
+   ]
+  },
+  {
+   "type": "langtisch",
+   "x": 2,
+   "y": 7,
+   "v": "bernfuchs",
+   "talk": [
+    {
+     "dialog": "tisch_bernfuchs"
+    }
+   ]
+  },
+  {
+   "type": "langtisch",
+   "x": 15,
+   "y": 7,
+   "v": "eisvogel",
+   "talk": [
+    {
+     "dialog": "tisch_eisvogel"
+    }
+   ]
+  },
+  {
+   "type": "langtisch",
+   "x": 2,
+   "y": 11,
+   "v": "tannenhirsch",
+   "talk": [
+    {
+     "dialog": "tisch_tannenhirsch"
+    }
+   ]
+  },
+  {
+   "type": "langtisch",
+   "x": 15,
+   "y": 11,
+   "v": "sternbaer",
+   "talk": [
+    {
+     "dialog": "tisch_sternbaer"
+    }
+   ]
+  },
+  {
+   "type": "kerzen_schwebend",
+   "x": 4,
+   "y": 5
+  },
+  {
+   "type": "kerzen_schwebend",
+   "x": 10,
+   "y": 6
+  },
+  {
+   "type": "kerzen_schwebend",
+   "x": 17,
+   "y": 5
+  },
+  {
+   "type": "kerzen_schwebend",
+   "x": 4,
+   "y": 13
+  },
+  {
+   "type": "kerzen_schwebend",
+   "x": 17,
+   "y": 13
+  },
+  {
+   "type": "kerzen_schwebend",
+   "x": 10,
+   "y": 10
+  },
+  {
+   "type": "singkerze",
+   "v": "aus",
+   "x": 5,
+   "y": 9,
+   "seq": "kerzen",
+   "seqVal": 1,
+   "if": [
+    "!flag:kerzen_1"
+   ],
+   "talk": [
+    {
+     "if": [
+      "flag:zauber_luxa"
+     ],
+     "seq": "kerzen",
+     "val": 1
+    },
+    {
+     "dialog": "kerze_ohne_luxa"
+    }
+   ]
+  },
+  {
+   "type": "singkerze_an",
+   "v": "an",
+   "x": 5,
+   "y": 9,
+   "seq": "kerzen",
+   "seqVal": 1,
+   "if": [
+    "flag:kerzen_1"
+   ],
+   "talk": [
+    {
+     "seq": "kerzen",
+     "val": 1
+    }
+   ]
+  },
+  {
+   "type": "singkerze",
+   "v": "aus",
+   "x": 9,
+   "y": 9,
+   "seq": "kerzen",
+   "seqVal": 2,
+   "if": [
+    "!flag:kerzen_2"
+   ],
+   "talk": [
+    {
+     "if": [
+      "flag:zauber_luxa"
+     ],
+     "seq": "kerzen",
+     "val": 2
+    },
+    {
+     "dialog": "kerze_ohne_luxa"
+    }
+   ]
+  },
+  {
+   "type": "singkerze_an",
+   "v": "an",
+   "x": 9,
+   "y": 9,
+   "seq": "kerzen",
+   "seqVal": 2,
+   "if": [
+    "flag:kerzen_2"
+   ],
+   "talk": [
+    {
+     "seq": "kerzen",
+     "val": 2
+    }
+   ]
+  },
+  {
+   "type": "singkerze",
+   "v": "aus",
+   "x": 14,
+   "y": 9,
+   "seq": "kerzen",
+   "seqVal": 3,
+   "if": [
+    "!flag:kerzen_3"
+   ],
+   "talk": [
+    {
+     "if": [
+      "flag:zauber_luxa"
+     ],
+     "seq": "kerzen",
+     "val": 3
+    },
+    {
+     "dialog": "kerze_ohne_luxa"
+    }
+   ]
+  },
+  {
+   "type": "singkerze_an",
+   "v": "an",
+   "x": 14,
+   "y": 9,
+   "seq": "kerzen",
+   "seqVal": 3,
+   "if": [
+    "flag:kerzen_3"
+   ],
+   "talk": [
+    {
+     "seq": "kerzen",
+     "val": 3
+    }
+   ]
+  },
+  {
+   "type": "singkerze",
+   "v": "aus",
+   "x": 18,
+   "y": 9,
+   "seq": "kerzen",
+   "seqVal": 4,
+   "if": [
+    "!flag:kerzen_4"
+   ],
+   "talk": [
+    {
+     "if": [
+      "flag:zauber_luxa"
+     ],
+     "seq": "kerzen",
+     "val": 4
+    },
+    {
+     "dialog": "kerze_ohne_luxa"
+    }
+   ]
+  },
+  {
+   "type": "singkerze_an",
+   "v": "an",
+   "x": 18,
+   "y": 9,
+   "seq": "kerzen",
+   "seqVal": 4,
+   "if": [
+    "flag:kerzen_4"
+   ],
+   "talk": [
+    {
+     "seq": "kerzen",
+     "val": 4
+    }
+   ]
+  }
+ ],
+ "npcs": [
+  {
+   "char": "lotte",
+   "x": 17,
+   "y": 8,
+   "dir": "down",
+   "talk": [
+    {
+     "if": [
+      "quest:Q01",
+      "flag:q01_joern",
+      "!flag:q01_lotte"
+     ],
+     "dialog": "q01_lotte",
+     "set": [
+      "q01_lotte"
+     ]
+    },
+    {
+     "if": [
+      "quest:Q01"
+     ],
+     "dialog": "lotte_q01_frueh"
+    },
+    {
+     "if": [
+      "quest:Q02"
+     ],
+     "dialog": "lotte_q02"
+    },
+    {
+     "if": [
+      "quest:Q03"
+     ],
+     "dialog": "lotte_q03"
+    },
+    {
+     "if": [
+      "quest:Q04"
+     ],
+     "dialog": "lotte_q04"
+    },
+    {
+     "dialog": [
+      "lotte_1",
+      "lotte_2"
+     ]
+    }
+   ]
+  },
+  {
+   "char": "federleicht",
+   "x": 7,
+   "y": 4,
+   "dir": "down",
+   "talk": [
+    {
+     "if": [
+      "quest:Q02",
+      "!flag:zauber_luxa"
+     ],
+     "dialog": "q02_federleicht",
+     "set": [
+      "zauber_luxa"
+     ],
+     "sound": "zauber"
+    },
+    {
+     "if": [
+      "quest:Q02",
+      "!flag:q02_kerzen"
+     ],
+     "dialog": "federleicht_tipp"
+    },
+    {
+     "if": [
+      "done:Q02"
+     ],
+     "dialog": "federleicht_danke"
+    },
+    {
+     "dialog": "federleicht_1"
+    }
+   ]
+  },
+  {
+   "char": "sternwald",
+   "x": 12,
+   "y": 3,
+   "dir": "down",
+   "talk": [
+    {
+     "if": [
+      "done:Q04"
+     ],
+     "dialog": "sternwald_2"
+    },
+    {
+     "dialog": "sternwald_1"
+    }
+   ]
+  }
+ ],
+ "doors": [
+  {
+   "x": 11,
+   "y": 15,
+   "to": "schlosskern",
+   "tx": 10,
+   "ty": 3,
+   "dir": "down"
+  },
+  {
+   "x": 12,
+   "y": 15,
+   "to": "schlosskern",
+   "tx": 11,
+   "ty": 3,
+   "dir": "down"
+  }
+ ]
+}

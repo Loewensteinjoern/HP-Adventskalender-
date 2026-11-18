@@ -1,0 +1,281 @@
+{
+ "name": "Bibliothek",
+ "music": "schloss",
+ "ambient": {
+  "dark": 0.5,
+  "tint": "30,18,40",
+  "particles": "staub"
+ },
+ "tiles": [
+  "TTTTTTTTTTTTTTTTTTTT",
+  "TWWWWWWWWWWWWWWWWWWT",
+  "TWWWWWWWWWWWWWWWWWWT",
+  "T..................T",
+  "T..................T",
+  "T..................T",
+  "T..................T",
+  "T..................>",
+  "T..................T",
+  "T..................T",
+  "T..................T",
+  "T..................T",
+  "T..................T",
+  "TTTTTTTTTTTTTTTTTTTT"
+ ],
+ "objects": [
+  {
+   "type": "regal_hoch",
+   "x": 1,
+   "y": 3,
+   "seed": 11,
+   "talk": [
+    {
+     "dialog": "regal_bib1"
+    }
+   ]
+  },
+  {
+   "type": "regal_hoch",
+   "x": 3,
+   "y": 3,
+   "seed": 12,
+   "talk": [
+    {
+     "dialog": "regal_bib2"
+    }
+   ]
+  },
+  {
+   "type": "regal_hoch",
+   "x": 5,
+   "y": 3,
+   "seed": 13,
+   "talk": [
+    {
+     "dialog": "regal_bib3"
+    }
+   ]
+  },
+  {
+   "type": "regal_hoch",
+   "x": 13,
+   "y": 3,
+   "seed": 14,
+   "talk": [
+    {
+     "dialog": "regal_bib1"
+    }
+   ]
+  },
+  {
+   "type": "regal_hoch",
+   "x": 15,
+   "y": 3,
+   "seed": 15,
+   "talk": [
+    {
+     "dialog": "regal_bib4"
+    }
+   ]
+  },
+  {
+   "type": "fenster",
+   "x": 7,
+   "y": 2,
+   "talk": [
+    {
+     "dialog": "fenster"
+    }
+   ]
+  },
+  {
+   "type": "fenster",
+   "x": 11,
+   "y": 2,
+   "talk": [
+    {
+     "dialog": "fenster"
+    }
+   ]
+  },
+  {
+   "type": "pult",
+   "x": 9,
+   "y": 4,
+   "talk": [
+    {
+     "dialog": "pult"
+    }
+   ]
+  },
+  {
+   "type": "mauseloch",
+   "x": 17,
+   "y": 2,
+   "talk": [
+    {
+     "dialog": "mauseloch"
+    }
+   ]
+  },
+  {
+   "type": "globus",
+   "x": 17,
+   "y": 4,
+   "talk": [
+    {
+     "dialog": "globus"
+    }
+   ]
+  },
+  {
+   "type": "regal_hoch",
+   "x": 2,
+   "y": 7,
+   "seed": 16,
+   "talk": [
+    {
+     "dialog": "regal_bib2"
+    }
+   ]
+  },
+  {
+   "type": "regal_hoch",
+   "x": 4,
+   "y": 7,
+   "seed": 17,
+   "talk": [
+    {
+     "dialog": "regal_bib3"
+    }
+   ]
+  },
+  {
+   "type": "regal_hoch",
+   "x": 2,
+   "y": 10,
+   "seed": 18,
+   "talk": [
+    {
+     "dialog": "regal_bib4"
+    }
+   ]
+  },
+  {
+   "type": "regal_hoch",
+   "x": 4,
+   "y": 10,
+   "seed": 19,
+   "talk": [
+    {
+     "dialog": "regal_bib1"
+    }
+   ]
+  },
+  {
+   "type": "regal_hoch",
+   "x": 13,
+   "y": 7,
+   "seed": 20,
+   "talk": [
+    {
+     "dialog": "regal_bib2"
+    }
+   ]
+  },
+  {
+   "type": "regal_hoch",
+   "x": 15,
+   "y": 10,
+   "seed": 21,
+   "talk": [
+    {
+     "dialog": "regal_bib3"
+    }
+   ]
+  },
+  {
+   "type": "lesetisch",
+   "x": 8,
+   "y": 8,
+   "talk": [
+    {
+     "dialog": "lesetisch"
+    }
+   ]
+  },
+  {
+   "type": "lesetisch",
+   "x": 8,
+   "y": 11,
+   "talk": [
+    {
+     "dialog": "lesetisch"
+    }
+   ]
+  },
+  {
+   "type": "stehlampe",
+   "x": 12,
+   "y": 10,
+   "talk": [
+    {
+     "dialog": "lampe"
+    }
+   ]
+  },
+  {
+   "type": "sessel",
+   "x": 17,
+   "y": 11,
+   "talk": [
+    {
+     "dialog": "sessel"
+    }
+   ]
+  },
+  {
+   "type": "kerzen_schwebend",
+   "x": 7,
+   "y": 5
+  }
+ ],
+ "npcs": [
+  {
+   "char": "leisetritt",
+   "x": 11,
+   "y": 4,
+   "dir": "down",
+   "talk": [
+    {
+     "if": [
+      "quest:Q03",
+      "flag:q03_eule",
+      "!flag:q03_tinte"
+     ],
+     "dialog": "q03_leisetritt",
+     "set": [
+      "q03_tinte"
+     ],
+     "sound": "fund"
+    },
+    {
+     "dialog": [
+      "leisetritt_1",
+      "leisetritt_2"
+     ]
+    }
+   ]
+  }
+ ],
+ "doors": [
+  {
+   "x": 19,
+   "y": 7,
+   "to": "schlosskern",
+   "tx": 1,
+   "ty": 8,
+   "dir": "right"
+  }
+ ]
+}
