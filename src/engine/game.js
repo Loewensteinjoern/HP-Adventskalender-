@@ -213,7 +213,7 @@ const G = {
     const o = [];
     if (this.save) o.push({ id: 'weiter', label: 'Weiterspielen' });
     o.push({ id: 'neu', label: this.save ? 'Neues Spiel' : 'Spiel beginnen' });
-    o.push({ id: 'laden', label: 'Spielstand-Code eingeben' });
+    o.push({ id: 'laden', label: 'Code eingeben' });
     return o;
   },
   updateTitle() {

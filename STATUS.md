@@ -1,7 +1,7 @@
 # STATUS
 
 ## Stand (18.11.2026)
-- **Stufe 1 gebaut, wartet auf Jörns iPad-Test** (Look und Steuerung, Freigabe Grafikmaß).
+- **Stufe 1 abgeschlossen.** Look von Jörn freigegeben (18.11.). Titelbild: Schloss mit runden Türmen, Schneedächern, Wimpeln, Lichterketten; Auswahl nebeneinander im Schnee.
 - Motor fertig: Steuerung (Touch + Tastatur), Kollision, Begleiter folgen, Kartenwechsel mit Überblendung, Dialogbox, Questlog, Phönixlied-Seite, Speichern (automatisch + Sicherung), Export/Import-Code, Freischaltung Europe/Berlin, Testmodus `?testtag=N`, Musik/Töne per Web Audio, Licht und Funken.
 - Stilprobe: Bernfuchs-Gemeinschaftsraum (Galerie, Kamin, Frieda im Laufrad, Tannenbaum) + Kellergang mit Sir Ottokar. Figuren: Charly, Jörn, Pit, Diego (Lotte vorbereitet).
 - Q01 teilweise: Diego wecken → Schnüffeln → Feder → Jörn. Schritt 4 (Große Halle, Lotte) folgt in Stufe 2; Treppe im Kellergang ist bis dahin „zugeschneit“.
@@ -10,7 +10,7 @@
 
 ## Entscheidungen
 - Siehe `CLAUDE.md`, Weltlexikon und Bauauftrag (`plan/STARTPAKET.md`).
-- Grafikmaß wie geplant umgesetzt: 512×384, Kachel 32, Figur 32×40, ganzzahlig skaliert (iPad quer: 3-fach). **Freigabe durch Jörn offen.**
+- Grafikmaß wie geplant umgesetzt: 512×384, Kachel 32, Figur 32×40, ganzzahlig skaliert (iPad quer: 3-fach). **Von Jörn freigegeben (18.11.).**
 - Tasten: A = sprechen/untersuchen, B = Diego schnüffeln lassen, ☰ = Menü. Kein Schritt-Geräusch.
 - Spielstand: `winterphoenix_save` + `_backup` (vorheriger gültiger Stand) + `_defekt` (unlesbarer Stand wird aufgehoben, nie gelöscht). Migrationskette `MIGRATIONS` in `src/core/save.js`.
 - Quest-Schritte hängen an Flags; `"teilweise": true` erlaubt Quests, deren Rest erst später gebaut wird (Build warnt).
@@ -22,8 +22,7 @@
 
 ## Offene Punkte
 1. **Jörn: iPad-Test.** Repo ist öffentlich, `main` = `startpaket` (18.11.). Pages muss Jörn einschalten (Settings → Pages → main, /docs). Adresse: https://loewensteinjoern.github.io/HP-Adventskalender-/
-2. Freigabe Grafikmaß und Look.
-3. iPhone quer: Bild ist wegen der Höhe nur 2-fach skaliert (klein, aber spielbar).
+2. iPhone quer: Bild ist wegen der Höhe nur 2-fach skaliert (klein, aber spielbar).
 
 ## Nächster Schritt
 Stufe 2 (bis 29.11.): Schlosskern, Große Halle, Bibliothek, Innenhof; Q01 fertig, Q02–Q04; erste Nebenquests; Musik ausbauen; Homescreen-App prüfen.

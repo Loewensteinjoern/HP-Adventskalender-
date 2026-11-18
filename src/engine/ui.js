@@ -33,19 +33,7 @@ const UI = {
     this.stars.forEach(([x, y, k]) => { c.globalAlpha = 0.4 + 0.6 * Math.abs(Math.sin(time * (0.5 + k) + k * 9)); c.fillStyle = '#eef4ff'; c.fillRect(x | 0, y | 0, 1, 1); });
     c.globalAlpha = 1;
     const mg = c.createRadialGradient(430, 58, 0, 430, 58, 50); mg.addColorStop(0, 'rgba(244,240,208,0.18)'); mg.addColorStop(1, 'rgba(244,240,208,0)'); c.fillStyle = mg; c.fillRect(380, 8, 100, 100); p.circ(430, 58, 16, '#f4f0d0'); p.circ(436, 54, 14, '#e8e4c4');
-    // Schloss Løvestein
-    const towers = [[40, 30, 130, 1], [70, 60, 100, 0], [130, 24, 165, 1], [154, 90, 110, 0], [244, 28, 150, 1], [272, 70, 95, 0], [342, 22, 135, 1], [364, 70, 90, 0], [434, 26, 120, 1]];
-    let wi = 0;
-    towers.forEach(([x, w, h, roof]) => {
-      const top = 300 - h; p.r(x, top, w, h, '#151228');
-      if (roof) for (let i = 0; i < w / 2 + 6; i++) p.r(x + w / 2 - i, top - (w / 2 + 6) * 1.4 + i * 1.4, i * 2, 2, '#1c1834');
-      else for (let xx = x; xx < x + w; xx += 8) p.r(xx, top - 5, 5, 5, '#151228');
-      for (let yy = top + 12; yy < 290; yy += 18) for (let xx = x + 6; xx < x + w - 6; xx += 14) {
-        const k = this.windows[wi++ % this.windows.length]; if (k[0] < 0.45) continue;
-        c.fillStyle = k[1] < 0.5 ? '#ffcf6a' : '#f0a040'; c.globalAlpha = 0.7 + 0.3 * Math.sin(time * 2 + k[2] * 20); c.fillRect(xx, yy, 3, 5);
-      }
-      c.globalAlpha = 1;
-    });
+    this.castle(time);
     p.r(0, 296, VIEW_W, 88, '#d8e4f4'); p.r(0, 296, VIEW_W, 3, '#eef4ff');
     for (let x = 0; x < VIEW_W; x += 23) p.ell(x, 298, 14, 4, '#eef4ff');
     // Phönix
@@ -57,17 +45,128 @@ const UI = {
     R.text('Die Reise zum', VIEW_W / 2, 112, { size: 18, serif: true, align: 'center', color: '#e8dcc4', weight: 400 });
     R.text('Winterphönix', VIEW_W / 2, 150, { size: 40, serif: true, align: 'center', color: '#ffd36a', weight: 700, shadowCol: '#7a3a10' });
     this.snowfall(time);
-    // Auswahl
+    // Auswahl nebeneinander im Schnee, damit das Schloss frei bleibt
+    c.font = '700 14px ' + R.FONT;
+    const ws = opts.map(o => c.measureText(o.label).width + 26), gap = 10, tot = ws.reduce((x, y) => x + y, 0) + gap * (opts.length - 1);
+    let ox = (VIEW_W - tot) / 2;
     opts.forEach((o, i) => {
-      const y = 196 + i * 26, on = i === this.sel;
-      if (on) { c.fillStyle = 'rgba(20,14,30,0.7)'; c.fillRect(VIEW_W / 2 - 110, y - 17, 220, 24); c.fillStyle = '#e09a2c'; c.fillRect(VIEW_W / 2 - 110, y - 17, 3, 24); }
-      R.text((on ? '▸ ' : '') + o.label, VIEW_W / 2, y, { size: 16, align: 'center', color: on ? '#ffd36a' : '#f4ead8', weight: on ? 700 : 500 });
+      const on = i === this.sel, w = ws[i];
+      c.fillStyle = on ? '#2a1e40' : 'rgba(42,30,64,0.12)'; c.fillRect(ox, 309, w, 24);
+      if (on) { c.fillStyle = '#e09a2c'; c.fillRect(ox, 309, w, 2); c.fillRect(ox, 331, w, 2); }
+      R.text(o.label, ox + w / 2, 326, { size: 14, align: 'center', weight: on ? 700 : 600, color: on ? '#ffd36a' : '#3a2a50', shadow: on });
+      ox += w + gap;
     });
     const info = G.day > 0 ? 'Heute ist der ' + G.day + '. Dezember – Türchen ' + G.day + ' ist offen.' : 'Noch ' + G.daysLeft() + (G.daysLeft() === 1 ? ' Tag' : ' Tage') + ' bis zum ersten Türchen.';
-    R.text(info, VIEW_W / 2, 330, { size: 12, align: 'center', color: '#3a2a50', weight: 600, shadow: false });
-    R.text(WATERMARK, VIEW_W / 2, 366, { size: 8, align: 'center', color: '#5a5070', weight: 500, shadow: false });
-    R.text('Version ' + DATA.welt.version, VIEW_W / 2, 378, { size: 7, align: 'center', color: '#7a7090', weight: 500, shadow: false });
+    R.text(info, VIEW_W / 2, 352, { size: 12, align: 'center', color: '#3a2a50', weight: 600, shadow: false });
+    R.text(WATERMARK, VIEW_W / 2, 369, { size: 8, align: 'center', color: '#5a5070', weight: 500, shadow: false });
+    R.text('Version ' + DATA.welt.version, VIEW_W / 2, 380, { size: 7, align: 'center', color: '#7a7090', weight: 500, shadow: false });
     this.testBadge(G);
+  },
+  // --- Schloss Løvestein: runde Türme, Schneedächer, Wimpel, Lichterketten ---
+  castleImg: null, castleWin: null, castleTips: null,
+  buildCastle() {
+    const c = mkCanvas(VIEW_W, 300), p = Pen(c.getContext('2d')), R = srand(42), win = [], tips = [], chainPts = [];
+    const BODY = ['#110d22', '#16122a', '#1c1734', '#221c40', '#272048', '#221c40', '#19142e'];
+    const roofC = ['#2a1a40', '#3a2458', '#4a2e6a'];
+    const wall = (x, w, top) => {
+      p.r(x, top, w, 300 - top, '#18132c');
+      for (let xx = x; xx < x + w; xx += 9) { p.r(xx, top - 6, 6, 6, '#18132c'); p.r(xx, top - 7, 6, 2, '#e8f0fc'); }
+      p.r(x, top, w, 2, '#d8e4f4');
+      for (let yy = top + 8; yy < 290; yy += 9) for (let xx = x + 2 + ((yy / 9) % 2) * 6; xx < x + w - 4; xx += 12) p.r(xx, yy, 6, 1, '#120e22');
+    };
+    // Rundturm: Zylinder mit Schattierung, Kegeldach mit Schnee, Fenster, Wimpel
+    const tower = (cx, w, h, roofH, opt) => {
+      opt = opt || {}; const base = opt.base || 300, top = base - h, x0 = Math.round(cx - w / 2);
+      for (let i = 0; i < w; i++) { const t = i / (w - 1), k = Math.min(BODY.length - 1, Math.floor(Math.sin(t * Math.PI) * (BODY.length - 1) * 0.9 + t * 2)); p.r(x0 + i, top, 1, h, BODY[k]); }
+      for (let yy = top + 7; yy < base - 2; yy += 8) for (let i = ((yy / 8) % 2) * 5; i < w; i += 10) p.r(x0 + i, yy, 1, 4, 'rgba(0,0,0,0.25)');
+      // Erker-Kranz unter dem Dach
+      for (let i = -2; i < w + 2; i += 4) { p.r(x0 + i, top - 2, 3, 5, '#1c1634'); p.px(x0 + i + 1, top + 3, '#120e22'); }
+      // Kegeldach
+      const brim = w + 8;
+      for (let r = 0; r < roofH; r++) {
+        const ww = Math.max(1, Math.round(brim * (r + 1) / roofH)), xx = Math.round(cx - ww / 2), y = top - roofH + r;
+        p.r(xx, y, ww, 1, roofC[1]); p.r(xx, y, Math.max(1, Math.round(ww * 0.3)), 1, roofC[0]); p.r(xx + Math.round(ww * 0.62), y, Math.max(1, Math.round(ww * 0.2)), 1, roofC[2]);
+        if (r < roofH * 0.35 || (r % 5 === 0 && R() < 0.6)) { p.r(xx + 1, y, Math.max(1, ww - 2), 1, r < roofH * 0.35 ? '#e8f0fc' : '#c8d4ec'); }
+      }
+      for (let i = 0; i < brim; i += 3) p.r(Math.round(cx - brim / 2) + i, top - 1, 2, 2 + ((i * 7) % 3), '#e8f0fc');
+      tips.push([cx, top - roofH, opt.flag || '#e09a2c', R() * 6]);
+      if (opt.chain) chainPts.push([cx, top, w]);
+      // Fenster: Bogenfenster in Etagen, oben ein Rundfenster
+      p.circ(cx, top + 9, 3, '#0e0a1c'); win.push([cx - 1, top + 8, 3, 3, R()]);
+      for (let yy = top + 20; yy < base - 14; yy += 22) {
+        const n = w > 34 ? 2 : 1;
+        for (let k = 0; k < n; k++) {
+          const wx = n === 1 ? cx - 2 : cx - w / 4 + k * w / 2 - 2;
+          p.r(wx - 1, yy - 1, 6, 9, '#0e0a1c'); p.r(wx, yy - 2, 4, 1, '#0e0a1c');
+          if (R() < 0.7) win.push([wx, yy, 4, 7, R()]);
+        }
+      }
+      if (opt.balkon) { const by = top + opt.balkon; p.r(x0 - 4, by, w + 8, 3, '#2e2652'); for (let i = -3; i < w + 4; i += 3) p.r(x0 + i, by - 4, 1, 4, '#2e2652'); p.r(x0 - 4, by - 5, w + 8, 1, '#3a3060'); p.r(x0 - 4, by - 6, w + 8, 1, '#e8f0fc'); }
+    };
+    // Hintere Mauern
+    wall(60, 400, 250);
+    wall(200, 112, 234);
+    // Torbogen mit warmem Licht
+    p.ell(256, 272, 14, 14, '#0e0a1c'); p.r(242, 272, 28, 28, '#0e0a1c');
+    win.push([245, 272, 22, 26, 0.5, 'tor']);
+    // Türme von hinten nach vorn
+    tower(208, 26, 90, 26, { base: 292, flag: '#4f6b2a', chain: 1 });
+    tower(304, 26, 96, 28, { base: 292, flag: '#22747a', chain: 1 });
+    tower(256, 40, 92, 30, { base: 292, balkon: 30, flag: '#e09a2c', chain: 1 });
+    tower(150, 32, 84, 28, { flag: '#b8322a', chain: 1 });
+    tower(362, 34, 90, 30, { flag: '#7a4a8a', chain: 1 });
+    tower(86, 40, 110, 38, { balkon: 30, flag: '#e09a2c', chain: 1 });
+    tower(426, 36, 98, 34, { flag: '#4f6b2a', chain: 1 });
+    // kleine Ecktürmchen
+    tower(110, 14, 22, 14, { base: 246, flag: '#e8c050' });
+    tower(402, 14, 20, 12, { base: 262, flag: '#e8c050' });
+    tower(40, 20, 56, 20, { flag: '#22747a' });
+    tower(476, 20, 64, 22, { flag: '#b8322a' });
+    // Schornstein auf der Mauer
+    p.r(326, 222, 8, 12, '#18132c'); p.r(325, 220, 10, 3, '#e8f0fc');
+    this.chimney = [330, 216];
+    this.chains = chainPts.sort((u, v) => u[0] - v[0]);
+    this.castleImg = c; this.castleWin = win; this.castleTips = tips;
+  },
+  castle(time) {
+    if (!this.castleImg) this.buildCastle();
+    const c = R.ctx;
+    c.drawImage(this.castleImg, 0, 0);
+    // Fenster flackern warm
+    this.castleWin.forEach(([x, y, w, h, k, kind]) => {
+      if (kind === 'tor') { const g = c.createLinearGradient(0, y, 0, y + h); g.addColorStop(0, 'rgba(255,190,90,0.15)'); g.addColorStop(1, 'rgba(255,170,70,0.75)'); c.fillStyle = g; c.fillRect(x, y, w, h); return; }
+      c.globalAlpha = 0.75 + 0.25 * Math.sin(time * (1.5 + k) + k * 30);
+      c.fillStyle = k < 0.5 ? '#ffcf6a' : '#f0a040'; c.fillRect(x, y, w, h);
+      c.fillStyle = 'rgba(255,240,190,0.9)'; c.fillRect(x, y, 1, Math.min(2, h));
+    });
+    c.globalAlpha = 1;
+    // Wimpel im Wind
+    this.castleTips.forEach(([x, y, col, ph]) => {
+      c.fillStyle = '#c8c0d8'; c.fillRect(x, y - 9, 1, 10);
+      const wv = Math.sin(time * 4 + ph);
+      c.fillStyle = col;
+      for (let i = 0; i < 7; i++) { const hh = Math.max(1, 4 - Math.floor(i / 2)); c.fillRect(x + 1 + i, y - 9 + Math.round(Math.sin(time * 5 + ph + i * 0.7) * (i / 4)) + (wv > 0 && i > 3 ? 1 : 0), 1, hh); }
+    });
+    // Lichterketten zwischen den Türmen
+    const chains = [];
+    for (let i = 0; i + 1 < this.chains.length; i++) { const [a1, t1, w1] = this.chains[i], [a2, t2, w2] = this.chains[i + 1]; chains.push([a1 + w1 / 2, t1 + 10, a2 - w2 / 2, t2 + 10]); }
+    const cols = ['#ff5a4a', '#ffd36a', '#6ab0ff', '#7ae08a', '#ff9ad0'];
+    chains.forEach(([x1, y1, x2, y2], ci) => {
+      for (let i = 0; i <= 10; i++) {
+        const t = i / 10, x = Math.round(x1 + (x2 - x1) * t), y = Math.round(y1 + (y2 - y1) * t + Math.sin(t * Math.PI) * 10);
+        if (x2 - x1 < 4) continue;
+        c.fillStyle = 'rgba(40,30,60,0.9)'; c.fillRect(x, y, 1, 1);
+        if (i % 2 === 0) { c.globalAlpha = 0.6 + 0.4 * Math.sin(time * 3 + i + ci * 2); c.fillStyle = cols[(i / 2 + ci) % cols.length]; c.fillRect(x - 1, y + 1, 2, 2); c.globalAlpha = 1; }
+      }
+    });
+    // Rauch aus dem Schornstein
+    const [sx, sy] = this.chimney;
+    for (let i = 0; i < 6; i++) {
+      const k = ((time * 0.35) + i / 6) % 1;
+      c.globalAlpha = 0.35 * (1 - k); c.fillStyle = '#b8b0c8';
+      const r = 2 + k * 6; c.beginPath(); c.arc(sx + Math.sin(k * 5 + i) * 4 + k * 10, sy - k * 50, r, 0, 6.283); c.fill();
+    }
+    c.globalAlpha = 1;
   },
   snowfall(time) {
     const c = R.ctx; c.fillStyle = '#eef4ff';
@@ -94,8 +193,8 @@ const UI = {
   },
   // Auf/Ab wählen, A bestätigen, B/Menü zurück. Gibt Index, -1 (zurück) oder null zurück
   navigate(n) {
-    if (IN.take('up')) { this.sel = (this.sel + n - 1) % n; AU.sfx('menue'); }
-    if (IN.take('down')) { this.sel = (this.sel + 1) % n; AU.sfx('menue'); }
+    if (IN.take('up') || IN.take('left')) { this.sel = (this.sel + n - 1) % n; AU.sfx('menue'); }
+    if (IN.take('down') || IN.take('right')) { this.sel = (this.sel + 1) % n; AU.sfx('menue'); }
     if (IN.take('a')) { AU.sfx('menue'); return this.sel; }
     if (IN.take('b') || IN.take('menu')) { AU.sfx('zurueck'); return -1; }
     return null;
