@@ -67,10 +67,13 @@ Object.assign(PAINT_TILE, {
   },
   // Tiefer Schnee: höhere Verwehungen, blaue Schatten – hier kann es Überfälle geben
   tiefschnee(p, R) {
-    p.r(0, 0, 32, 32, '#d6e2f2');
-    for (let i = 0; i < 3; i++) { const x = (R() * 26) | 0, y = 4 + ((R() * 22) | 0); p.ell(x + 4, y + 2, 7, 3, '#eef4ff'); p.r(x - 2, y + 4, 12, 1, '#b4c4dc'); }
-    for (let i = 0; i < 8; i++) p.px((R() * 32) | 0, (R() * 32) | 0, R() < 0.5 ? '#bccce4' : '#ffffff');
-    if (R() < 0.4) { const x = (R() * 26) | 0, y = (R() * 26) | 0; p.r(x, y, 1, 4, '#8a9ab8'); p.px(x - 1, y, '#8a9ab8'); p.px(x + 1, y + 1, '#8a9ab8'); }
+    p.r(0, 0, 32, 32, '#b8c8e2');
+    // hohe Schneewehen mit kräftigen blauen Schatten
+    [[2, 6], [16, 2], [9, 17], [22, 18], [0, 27], [18, 28]].forEach(([x, y]) => {
+      const dx = (R() * 4) | 0;
+      p.ell(x + 7 + dx, y + 4, 8, 4, '#8ea4c8'); p.ell(x + 6 + dx, y + 2, 7, 3, '#eef4ff'); p.r(x + 3 + dx, y + 1, 5, 1, '#ffffff');
+    });
+    for (let i = 0; i < 6; i++) p.px((R() * 32) | 0, (R() * 32) | 0, '#ffffff');
   },
   weg_schnee(p, R, nb) {
     p.r(0, 0, 32, 32, '#6a6470');
@@ -447,9 +450,13 @@ Object.assign(PAINT_OBJ, {
   // Probekampf: zitternder Schneehaufen mit Glitzern
   schneehaufen_zitter(p, f) {
     const dx = [0, 1, 0, -1][f % 4];
-    p.ell(16 + dx, 32, 13, 6, '#cfd9ec'); p.ell(16 + dx, 30, 11, 7, '#eef4ff'); p.ell(13 + dx, 27, 6, 4, '#ffffff');
-    p.r(19 + dx, 26, 2, 2, '#1a2a4a'); p.px(19 + dx, 26, '#ffffff');
-    if (f % 2) { p.px(6, 20, '#ffffff'); p.px(26, 23, '#cfeaff'); } else { p.px(9, 24, '#cfeaff'); p.px(24, 19, '#ffffff'); }
+    p.ell(16, 33, 15, 5, '#5a6e96');
+    p.ell(16 + dx, 30, 14, 9, '#8ea4c8'); p.ell(15 + dx, 28, 12, 8, '#eef4ff'); p.ell(12 + dx, 24, 6, 4, '#ffffff');
+    // zwei leuchtende Äuglein schauen heraus
+    p.r(17 + dx, 26, 2, 2, '#1a2a4a'); p.r(21 + dx, 26, 2, 2, '#1a2a4a'); p.px(17 + dx, 26, '#9cf0ff'); p.px(21 + dx, 26, '#9cf0ff');
+    // Glitzer
+    const g = f % 2 ? [[4, 14], [27, 18], [14, 10]] : [[8, 18], [24, 12], [29, 24]];
+    g.forEach(([x, y]) => { p.px(x, y, '#ffffff'); p.px(x - 1, y, '#bfe8ff'); p.px(x + 1, y, '#bfe8ff'); p.px(x, y - 1, '#bfe8ff'); p.px(x, y + 1, '#bfe8ff'); });
   },
   schneehaufen(p) {
     p.ell(16, 30, 13, 6, '#cfd9ec'); p.ell(16, 28, 11, 6, '#eef4ff'); p.ell(13, 25, 6, 4, '#ffffff');

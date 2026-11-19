@@ -640,7 +640,7 @@
     "paint": "schneehaufen_zitter",
     "w": 1,
     "h": 1,
-    "up": 4,
+    "up": 8,
     "solid": true,
     "frames": 4,
     "fps": 6
