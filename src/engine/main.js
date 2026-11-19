@@ -46,6 +46,7 @@ function boot() {
     window.__pos = (x, y, d) => { const p = G.player; p.x = p.fx = x; p.y = p.fy = y; p.dir = d; p.moving = false; };
     window.__guideFrage = () => G.guideFrage();
     window.__szene = id => SZ.start(id);
+    window.__figurBild = () => { const cv = mkCanvas(6 * 36, 44), g = cv.getContext('2d'); ['down', 'left', 'right', 'up'].forEach((d, i) => g.drawImage(SPR.get('raureif', d, 0), i * 36, 2)); g.drawImage(SZ.schattenBild('right', 1), 4 * 36, 2); g.drawImage(SPR.get('charly', 'down', 0), 5 * 36, 2); return cv.toDataURL(); };
     window.__fx = () => SZ.fxList.some(f => f.art === 'schatten');
     window.__stationen = () => DATA.fuehrung.stationen;
     window.__tuerOk = to => G.tourTuerOk(DATA.maps[G.mapId].doors.find(d => d.to === to));

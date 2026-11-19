@@ -30,6 +30,9 @@ const LOOKS = {
     robe: '#3e5624', robeD: '#2c3f18', robeL: '#5a7432', trim: '#e09a2c', eye: '#2a1a12' },
   wurzelgruen: { hair: '#9a4a2a', hairD: '#6a2e18', hairL: '#c8704a', long: false, bun: true, skin: '#f2cdb0', skinD: '#dca888',
     robe: '#4a6a2a', robeD: '#34501c', robeL: '#62863a', trim: '#e09a2c', eye: '#4a6a3a', hat: '#3e5a22', hatBand: '#e09a2c' },
+  // Raureif, der Winterkönig: blass, silberweißes Haar, Eiskrone, nachtblauer Umhang mit Frostsaum, lange Finger
+  raureif: { hair: '#e4ecf8', hairD: '#a8b8d4', hairL: '#ffffff', long: true, skin: '#c8d8ec', skinD: '#9cb0cc',
+    robe: '#1a2448', robeD: '#0e1430', robeL: '#2c3a6a', trim: '#9ad0ff', eye: '#5ab8ff', krone: true, krallen: true, kalt: true },
   lotte: { hair: '#3a2418', hairD: '#24140c', hairL: '#5a3a26', long: true, curls: true, skin: '#f2cdb0', skinD: '#dca888',
     robe: '#22747a', robeD: '#16545a', robeL: '#3a9aa0', trim: '#eef0f4', eye: '#3a2a1e' },
 };
@@ -59,8 +62,10 @@ function drawHuman(L, dir, fr) {
     p.r(6, 22 + sw, 3, 10, L.robeD); p.r(23, 22 - sw, 3, 10, L.robeD);
     p.r(6, 22 + sw, 1, 10, L.robeL); p.r(25, 22 - sw, 1, 10, L.robeL);
     p.r(6, 32 + sw, 3, 2, L.skin); p.r(23, 32 - sw, 3, 2, L.skin);
+    if (L.krallen) { [6, 8].forEach(x => { p.r(x, 34 + sw, 1, 3, L.skinD); p.r(x + 17, 34 - sw, 1, 3, L.skinD); }); p.r(7, 34 + sw, 1, 2, L.skinD); p.r(24, 34 - sw, 1, 2, L.skinD); }
   } else {
     p.r(14 + step, 23, 4, 10, L.robeD); p.r(14 + step, 23, 1, 10, L.robeL); p.r(14 + step, 33, 4, 2, L.skin);
+    if (L.krallen) { p.r(15 + step, 35, 1, 3, L.skinD); p.r(17 + step, 35, 1, 3, L.skinD); }
   }
   // Schal in Hausfarben
   p.r(10, 19, 12, 3, L.trim); p.r(10, 21, 12, 1, shade(L.trim, -0.25));
@@ -91,8 +96,9 @@ function drawHuman(L, dir, fr) {
     // Gesicht
     p.r(12, 13, 2, 2, '#2a1a14'); p.r(18, 13, 2, 2, '#2a1a14'); p.px(12, 13, '#ffffff'); p.px(18, 13, '#ffffff');
     p.px(13, 14, L.eye); p.px(19, 14, L.eye);
-    p.r(10, 16, 2, 1, '#f0a090'); p.r(20, 16, 2, 1, '#f0a090');
-    p.r(15, 17, 3, 1, '#b86a5a');
+    if (L.kalt) { p.r(12, 13, 2, 2, L.eye); p.r(18, 13, 2, 2, L.eye); p.px(12, 13, '#e8f6ff'); p.px(18, 13, '#e8f6ff'); p.r(11, 12, 3, 1, L.hairD); p.r(18, 12, 3, 1, L.hairD); p.r(14, 17, 4, 1, L.skinD); p.r(11, 15, 1, 2, L.skinD); p.r(20, 15, 1, 2, L.skinD); }
+    else { p.r(10, 16, 2, 1, '#f0a090'); p.r(20, 16, 2, 1, '#f0a090');
+    p.r(15, 17, 3, 1, '#b86a5a'); }
     if (L.metal) { p.r(12, 13, 2, 2, L.eye); p.r(18, 13, 2, 2, L.eye); p.r(13, 17, 6, 1, '#5a4418'); }
     if (L.beard) { p.r(11, 16, 10, 4, L.beard); p.r(12, 20, 8, 2, L.beard); p.r(14, 22, 4, 1, L.beard); p.r(15, 17, 3, 1, shade(L.beard, -0.3)); }
     if (L.glasses) {
@@ -110,7 +116,9 @@ function drawHuman(L, dir, fr) {
     if (L.curls) for (let y = 9; y < 20; y += 3) p.r(8, y, 2, 2, L.hairD);
     p.r(13, 12, 2, 3, L.skinD); // Ohr
     p.r(20, 13, 2, 2, '#2a1a14'); p.px(21, 13, '#ffffff');
-    p.r(23, 15, 1, 2, L.skinD); p.r(19, 16, 2, 1, '#f0a090'); p.r(20, 18, 2, 1, '#b86a5a');
+    p.r(23, 15, 1, 2, L.skinD);
+    if (L.kalt) { p.r(20, 13, 2, 2, L.eye); p.r(19, 12, 3, 1, L.hairD); p.r(20, 18, 2, 1, L.skinD); }
+    else { p.r(19, 16, 2, 1, '#f0a090'); p.r(20, 18, 2, 1, '#b86a5a'); }
     if (L.beard) { p.r(17, 16, 7, 5, L.beard); p.r(18, 21, 5, 2, L.beard); }
     if (L.metal) p.r(20, 13, 2, 2, L.eye);
     if (L.glasses) { const g = L.glasses; p.r(19, 12, 4, 1, g); p.r(19, 15, 4, 1, g); p.r(19, 12, 1, 4, g); p.r(22, 12, 1, 4, g); p.r(14, 13, 5, 1, g); }
@@ -118,6 +126,13 @@ function drawHuman(L, dir, fr) {
   if (L.bun && dir !== 'down') p.circ(side ? 10 : 16, 4, 3, L.hair);
   if (L.bun && dir === 'down') { p.circ(16, 2, 3, L.hair); p.px(15, 1, L.hairL); }
   if (L.beard && dir === 'up') { p.r(10, 17, 2, 3, L.beard); p.r(20, 17, 2, 3, L.beard); }
+  // Krone aus Eis (Raureif)
+  if (L.krone) {
+    const kx = side ? (dir === 'right' ? 15 : 17) : 16;
+    p.r(kx - 7, 4, 14, 2, '#7ab8e8'); p.r(kx - 7, 4, 14, 1, '#cfe8ff');
+    [-6, -3, 0, 3, 6].forEach((d, i) => { const hgt = i === 2 ? 5 : i % 2 ? 3 : 4; p.r(kx + d - 1, 4 - hgt, 2, hgt, '#cfe8ff'); p.px(kx + d - 1, 4 - hgt, '#ffffff'); });
+    p.px(kx, 5, '#5ab8ff');
+  }
   // Spitzhut der Lehrkräfte
   if (L.hat) {
     const hx = side ? (dir === 'right' ? 15 : 17) : 16;

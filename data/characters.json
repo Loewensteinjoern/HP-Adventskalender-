@@ -289,5 +289,9 @@
    "Nicht trödeln, ihr zwei!",
    "Herrlich, dieser Schnee."
   ]
+ },
+ "raureif": {
+  "name": "Raureif",
+  "sprite": "raureif"
  }
 }

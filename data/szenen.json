@@ -546,7 +546,7 @@
     "art": "schatten",
     "x": 12.5,
     "x2": 19,
-    "y": 1.4,
+    "y": 3.1,
     "zeit": 0.9,
     "warten": true
    }
@@ -562,7 +562,7 @@
     "art": "schatten",
     "x": 19,
     "x2": 13,
-    "y": 1.4,
+    "y": 3.1,
     "zeit": 0.6,
     "warten": true
    }

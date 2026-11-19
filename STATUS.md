@@ -46,6 +46,8 @@
 
 - **Version 0.10 (Wunsch Jörn, 19.11.): Haken Tag 0 unheimlicher.** Nacht deutlich dunkler, Kerzen flackern stark und gehen kurz fast aus (`fx: flackern`), Eisschauer ziehen durch den Raum (`fx: eiswind`, Geräusch `eiswind`), neues Musikstück `frost` (langsam, tief, Herzschlag, schiefe Glocken), ein Schatten mit Eiskrone huscht zweimal am Tor vorbei (`fx: schatten`, Geräusch `wusch`), erst dann leuchtet die Raureif-Hand auf (Objekt mit `leuchtet: true` wird über der Dunkelheit gezeichnet). In Szenen keine zufälligen Sprechblasen mehr. Diese Effekte stehen für alle späteren Haken bereit.
 
+- **Raureif als Spielfigur (Jörn, 19.11.):** `raureif` in `characters.json`, Pixelfigur 32×40 wie alle anderen (`LOOKS.raureif`: silberweißes Haar, Eiskrone, nachtblauer Umhang mit Frostkragen, lange Finger, kaltes Gesicht mit leuchtenden Augen; neue Merkmale `krone`, `krallen`, `kalt`). Der Schatten im Haken ist dieselbe Figur, dunkel eingefärbt, Krone hell. Für spätere Auftritte direkt als NPC nutzbar.
+
 ## Entscheidungen
 - Siehe `CLAUDE.md`, Weltlexikon und Bauauftrag (`plan/STARTPAKET.md`).
 - Grafikmaß wie geplant umgesetzt: 512×384, Kachel 32, Figur 32×40, ganzzahlig skaliert (iPad quer: 3-fach). **Von Jörn freigegeben (18.11.).**
