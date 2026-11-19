@@ -44,6 +44,8 @@
 
 - **Version 0.9 (Wunsch Jörn, 19.11.): Schlosskarte als echter Grundriss.** Jeder Raum in wahrer Größe (Kachel für Kachel: Wände, Boden, Läufer, Schnee, Möbel), Türen golden an ihrer echten Stelle, Tintenweg zur Gegentür, Charly als Punkt an ihrer genauen Position. Lage der Räume in `data/karte.json` (`x`,`y` in Kacheln), Datenprüfung meldet Überlappungen. **Neue Räume brauchen dort eine Lage**, die zu ihren Türen passt. Die Pergament-Optik (Rand, Kompass, Siegel) bleibt.
 
+- **Version 0.10 (Wunsch Jörn, 19.11.): Haken Tag 0 unheimlicher.** Nacht deutlich dunkler, Kerzen flackern stark und gehen kurz fast aus (`fx: flackern`), Eisschauer ziehen durch den Raum (`fx: eiswind`, Geräusch `eiswind`), neues Musikstück `frost` (langsam, tief, Herzschlag, schiefe Glocken), ein Schatten mit Eiskrone huscht zweimal am Tor vorbei (`fx: schatten`, Geräusch `wusch`), erst dann leuchtet die Raureif-Hand auf (Objekt mit `leuchtet: true` wird über der Dunkelheit gezeichnet). In Szenen keine zufälligen Sprechblasen mehr. Diese Effekte stehen für alle späteren Haken bereit.
+
 ## Entscheidungen
 - Siehe `CLAUDE.md`, Weltlexikon und Bauauftrag (`plan/STARTPAKET.md`).
 - Grafikmaß wie geplant umgesetzt: 512×384, Kachel 32, Figur 32×40, ganzzahlig skaliert (iPad quer: 3-fach). **Von Jörn freigegeben (18.11.).**

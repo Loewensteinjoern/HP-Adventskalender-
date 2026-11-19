@@ -112,6 +112,11 @@ const R = {
     });
     this.particles(G, m, objs, time);
     this.lights(G, m, objs, pp, time);
+    // Leuchtende Objekte (z. B. Raureif-Hand) über der Dunkelheit noch einmal zeichnen
+    objs.forEach(o => { if (o.leuchtet) draw(o, this.objFrame(o, time)); });
+    // Eisschauer leuchten über der Dunkelheit
+    this.parts.forEach(p => { if (!p.streak) return; c.globalAlpha = (1 - p.t / p.life) * 0.85; c.fillStyle = p.col; c.fillRect(Math.round(p.x - this.cam.x), Math.round(p.y - this.cam.y), 7, 1); c.fillRect(Math.round(p.x - this.cam.x) + 7, Math.round(p.y - this.cam.y), 3, 1); });
+    c.globalAlpha = 1;
     this.bubble(G, time);
   },
   // Kleine Sprechblase über einer Figur
@@ -191,6 +196,7 @@ const R = {
     this.parts.forEach(p => {
       p.x += p.vx * dt; p.y += p.vy * dt; p.vx += (Math.random() - 0.5) * 2;
       c.globalAlpha = (1 - p.t / p.life) * (p.soft ? 0.5 : 1); c.fillStyle = p.col;
+      if (p.streak) return;
       c.fillRect(Math.round(p.x - this.cam.x), Math.round(p.y - this.cam.y), p.big ? 2 : 1, p.big ? 2 : 1);
     });
     c.globalAlpha = 1;
@@ -202,12 +208,15 @@ const R = {
     const srcs = [];
     objs.forEach(o => {
       const t = objType(o); if (!t.light) return;
-      const fl = t.light.flicker ? 1 + Math.sin(time * 9 + o.x) * 0.04 + Math.sin(time * 23 + o.y) * 0.03 : 1;
+      let fl = t.light.flicker ? 1 + Math.sin(time * 9 + o.x) * 0.04 + Math.sin(time * 23 + o.y) * 0.03 : 1;
+      // Unheimliche Szene: Lichter zucken, gehen kurz fast aus
+      if (SZ.flackern()) { const n = Math.sin(time * 13 + o.x * 7) * Math.sin(time * 5.3 + o.y * 3); fl *= n > 0.75 ? 0.15 : 0.6 + 0.4 * Math.abs(Math.sin(time * 17 + o.x)); }
       srcs.push({ x: o.x * TILE + t.light.x - this.cam.x, y: o.y * TILE - t.up + t.light.y - this.cam.y + t.up, r: t.light.r * fl, col: t.light.col });
     });
     if (!G.hidePlayer) srcs.push({ x: pp.x + 16 - this.cam.x, y: pp.y + 12 - this.cam.y, r: 70, col: '255,220,180', soft: true });
     L.globalCompositeOperation = 'source-over'; L.clearRect(0, 0, VIEW_W, VIEW_H);
-    L.fillStyle = G.nacht ? 'rgba(8,12,40,0.72)' : 'rgba(' + (amb.tint || '20,10,30') + ',' + (amb.dark || 0.4) + ')'; L.fillRect(0, 0, VIEW_W, VIEW_H);
+    if (G.nacht) srcs.forEach(q => { q.r *= 0.62; });
+    L.fillStyle = G.nacht ? 'rgba(4,6,24,0.9)' : 'rgba(' + (amb.tint || '20,10,30') + ',' + (amb.dark || 0.4) + ')'; L.fillRect(0, 0, VIEW_W, VIEW_H);
     L.globalCompositeOperation = 'destination-out';
     srcs.forEach(s => {
       const g = L.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.r);

@@ -95,7 +95,7 @@ async function run() {
 
   // Musik: nicht übersteuert, keine Knackser, hörbar
   await page.goto(FILE + '?testtag=1'); await page.waitForTimeout(300);
-  for (const song of ['kamin', 'titel', 'flur', 'schloss', 'halle', 'hof', 'turm', 'kampf']) {
+  for (const song of ['kamin', 'titel', 'flur', 'schloss', 'halle', 'hof', 'turm', 'kampf', 'frost']) {
     const r = await page.evaluate(n => window.__audioCheck(n), song);
     if (r.peak > 0.95) errors.push('Musik ' + song + ' übersteuert (Spitze ' + r.peak.toFixed(2) + ')');
     if (r.jump > 0.08) errors.push('Musik ' + song + ' knackt (Sprung ' + r.jump.toFixed(3) + ')');

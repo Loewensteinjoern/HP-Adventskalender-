@@ -236,6 +236,8 @@ const AU = {
       case 'mut': [392, 523, 659, 784].forEach((f, i) => this.tone('glocke', f, t + i * 0.08, 0.9, 0.14, B)); break;
       case 'puff': this.noiseBurst(t, 0.4, 0.3, 2400, 0.7); [1568, 1318].forEach((f, i) => this.tone('spieluhr', f, t + i * 0.08, 0.4, 0.12, B)); break;
       case 'kalt': [659, 587, 523, 440].forEach((f, i) => this.tone('glocke', f, t + i * 0.18, 1.2, 0.14, B)); break;
+      case 'wusch': [900, 520, 260].forEach((f, i) => this.noiseBurst(t + i * 0.09, 0.22, 0.32, f, 1.2)); this.tone('sine', 110, t, 0.45, 0.12, B); break;
+      case 'eiswind': this.noiseBurst(t, 2.2, 0.22, 5200, 0.6); this.noiseBurst(t + 0.3, 1.6, 0.16, 2600, 0.8); [2637, 2489, 3136].forEach((f, i) => this.tone('glocke', f, t + 0.2 + i * 0.35, 1.2, 0.05, B)); break;
       case 'sieg': [523, 659, 784, 1046, 784, 1046].forEach((f, i) => this.tone('glocke', f, t + i * 0.11, 1, 0.18, B)); break;
     }
   },

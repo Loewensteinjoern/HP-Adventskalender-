@@ -46,6 +46,7 @@ function boot() {
     window.__pos = (x, y, d) => { const p = G.player; p.x = p.fx = x; p.y = p.fy = y; p.dir = d; p.moving = false; };
     window.__guideFrage = () => G.guideFrage();
     window.__szene = id => SZ.start(id);
+    window.__fx = () => SZ.fxList.some(f => f.art === 'schatten');
     window.__stationen = () => DATA.fuehrung.stationen;
     window.__tuerOk = to => G.tourTuerOk(DATA.maps[G.mapId].doors.find(d => d.to === to));
     window.__npcs = () => visibleNpcs(DATA.maps[G.mapId], G.ctx()).map(n => n.char);

@@ -114,6 +114,7 @@ const SZ = {
       if (f.art === 'funken') for (let i = 0; i < 3; i++) R.parts.push({ x: X + (Math.random() - 0.5) * W, y: Y + (Math.random() - 0.5) * 24, vx: (Math.random() - 0.5) * 50, vy: -20 - Math.random() * 40, life: 0.9, t: 0, col: pickOne(['#ffd36a', '#ff8a2a', '#fff2b0']), mid: G.mapId, big: true });
       if (f.art === 'tropfen' && Math.random() < 0.7) R.parts.push({ x: X - W / 2 + Math.random() * W, y: Y - 20 + Math.random() * 30, vx: 0, vy: 40 + Math.random() * 30, life: 0.8, t: 0, col: '#9ad0ff', mid: G.mapId });
       if (f.art === 'schnee') for (let i = 0; i < 3; i++) R.parts.push({ x: X - W / 2 + Math.random() * W, y: Y, vx: (Math.random() - 0.5) * 30, vy: 30 + Math.random() * 50, life: 2.2, t: 0, col: '#eef4ff', mid: G.mapId, big: Math.random() < 0.4 });
+      if (f.art === 'eiswind') for (let i = 0; i < 4; i++) R.parts.push({ x: R.cam.x - 10, y: R.cam.y + Math.random() * VIEW_H, vx: 200 + Math.random() * 160, vy: (Math.random() - 0.3) * 30, life: 3, t: 0, col: pickOne(['#cfe8ff', '#eef8ff', '#9ad0ff']), mid: G.mapId, streak: true });
       if (f.art === 'frost' && Math.random() < 0.5) R.parts.push({ x: X + (Math.random() - 0.5) * W, y: Y + (Math.random() - 0.5) * 30, vx: (Math.random() - 0.5) * 6, vy: -4, life: 1.6, t: 0, col: '#cfe8ff', mid: G.mapId, soft: 1 });
     });
   },
@@ -127,10 +128,36 @@ const SZ = {
       g.addColorStop(0, 'rgba(255,214,140,' + (0.32 * k).toFixed(3) + ')'); g.addColorStop(1, 'rgba(255,214,140,0)');
       c.fillStyle = g; c.fillRect(0, 0, VIEW_W, VIEW_H);
     });
+    // Schatten mit Eiskrone huscht vorbei (mit Nachzieh-Spur)
+    this.fxList.forEach(f => {
+      if (f.art !== 'schatten' || f.mid !== G.mapId) return;
+      const k = clamp((time - f.t0) / (f.bis - f.t0), 0, 1);
+      for (let j = 3; j >= 0; j--) {
+        const kk = clamp(k - j * 0.06, 0, 1), x = (f.x + (f.x2 - f.x) * kk) * TILE - R.cam.x, y = f.y * TILE - R.cam.y;
+        this.schatten(c, x, y, j ? 0.18 / j : 0.85, f.x2 > f.x ? 1 : -1, time);
+      }
+    });
     const h = Math.round(this.balken * 34);
     if (h > 0) { c.fillStyle = '#000'; c.fillRect(0, 0, VIEW_W, h); c.fillRect(0, VIEW_H - h, VIEW_W, h); }
   },
 
+  schatten(c, x, y, a, dir, time) {
+    c.globalAlpha = a; c.fillStyle = '#060814'; c.shadowColor = 'rgba(150,200,255,0.9)'; c.shadowBlur = 5;
+    c.beginPath(); c.ellipse(x, y, 7, 8, 0, 0, 6.283); c.fill();                         // Kopf
+    c.beginPath(); c.moveTo(x - 6, y + 6); c.lineTo(x + 6, y + 6); c.lineTo(x + 16, y + 62); c.lineTo(x - 16, y + 62); c.closePath(); c.fill(); // Umhang
+    for (let i = -16; i < 16; i += 4) { c.beginPath(); c.moveTo(x + i, y + 61); c.lineTo(x + i + 2, y + 68 + ((i + Math.floor(time * 20)) % 3)); c.lineTo(x + i + 4, y + 61); c.fill(); }
+    c.save(); c.translate(x, y); c.scale(dir, 1);                                          // ausgestreckter Arm mit langen Fingern
+    c.fillRect(4, 16, 18, 3); for (let i = 0; i < 4; i++) c.fillRect(21, 14 + i * 2, 9 - Math.abs(i - 1.5) * 2, 1);
+    c.restore(); c.shadowBlur = 0;
+    // Krone aus Eis, kalt glitzernd
+    c.fillStyle = 'rgba(190,225,255,' + (a * 1.1).toFixed(2) + ')';
+    c.fillRect(x - 7, y - 8, 14, 2);
+    [-6, -3, 0, 3, 6].forEach((d, i) => c.fillRect(x + d - 1, y - 13 + (i % 2) * 2, 2, 5 - (i % 2) * 2));
+    c.fillStyle = 'rgba(255,255,255,' + a.toFixed(2) + ')'; c.fillRect(x - 1, y - 13, 2, 1);
+    c.fillStyle = 'rgba(150,200,255,' + (a * 0.9).toFixed(2) + ')'; c.fillRect(x - 3, y - 1, 2, 1); c.fillRect(x + 2, y - 1, 2, 1); // Augen
+    c.globalAlpha = 1;
+  },
+  flackern() { return this.fxList.some(f => f.art === 'flackern' && f.mid === G.mapId); },
   // Haken: andere Karte zeigen, ohne dass Charly dorthin geht
   ortZeigen(o) {
     if (!G.ortAlt) G.ortAlt = { mapId: G.mapId };

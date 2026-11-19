@@ -264,7 +264,8 @@
    "id": "hand",
    "if": [
     "flag:hand_da"
-   ]
+   ],
+   "leuchtet": true
   },
   {
    "type": "banner_haus",

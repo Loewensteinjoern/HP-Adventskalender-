@@ -581,7 +581,7 @@ const G = {
     // Sprechblasen
     this.bubbleCd = (this.bubbleCd || 3) - dt;
     if (this.bubble && this.time - this.bubble.t0 > 3.2) this.bubble = null;
-    if (this.bubbleCd <= 0 && !this.bubble) {
+    if (this.bubbleCd <= 0 && !this.bubble && this.mode !== 'szene') {
       this.bubbleCd = 3.5 + Math.random() * 5;
       const pool = list.filter(n => (DATA.characters[n.char].blasen || []).length).map(n => ({ e: n, ch: n.char }))
         .concat(this.followers.filter(f => (DATA.characters[f.char].blasen || []).length).map(f => ({ e: f, ch: f.char })));
