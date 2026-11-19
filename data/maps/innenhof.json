@@ -348,13 +348,14 @@
    {
     "g": "wicht1",
     "ab": 7,
-    "w": 2
+    "w": 2,
+    "stufe": 3
    },
    {
     "g": "wicht_pixie",
     "ab": 8,
     "w": 1,
-    "stufe": 3
+    "stufe": 8
    }
   ]
  }

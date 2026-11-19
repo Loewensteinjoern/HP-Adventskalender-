@@ -63,7 +63,7 @@
     },
     "frostwicht": {
       "name": "Frostwicht",
-      "kraft": 6,
+      "kraft": 14,
       "angriff": [
         2,
         2,
@@ -84,7 +84,7 @@
       "frieren": 0.3,
       "frost": "{name} pustet einen eisigen Hauch – Charly ist im Eis gefangen! Sie muss eine Runde aussetzen.",
       "betaeubt": "Er muss erst wieder zusammenfrieren.",
-      "ep": 6
+      "ep": 9
     }
   },
   "gruppen": {
