@@ -43,6 +43,29 @@ const SHOTS = process.argv[2] || null;
     errors.push('Menüpunkt nicht erreichbar: ' + art);
   };
 
+  // Kämpft klug bis zum Ende: Kakao bei Kälte, Kochen wenn leer, sonst passender Zauber, sonst Schneeball
+  const kaempfe = async (fotos) => {
+    for (let r = 0; r < 40; r++) {
+      const k = await bisMenue(); if (!k) return;
+      const ok = a => k.ok[k.aktionen.indexOf(a)];
+      const t = k.gegner.findIndex(g => g.kraft > 0), z = k.schwaeche[t];
+      let art = 'schneeball';
+      if (k.waerme <= 4 && ok('kakao')) art = 'kakao';
+      else if (k.kakao === 0 && ok('kochen')) art = 'kochen';
+      else if (k.eingefroren) art = 'bellen';
+      else if (ok('zaubern') && k.zauber.indexOf(z) >= 0) art = 'zaubern';
+      else if (ok('kakao') && k.energie < 2) art = 'kakao';
+      await nav(art); await key('Enter', 1, 200);
+      if (art === 'zaubern') {
+        for (let i = 0; i < 6 && (await kb()).zauber[(await kb()).zsel] !== z; i++) await key('ArrowDown', 1, 90);
+        await key('Enter', 1, 200);
+        if (fotos && r === 0) { await wait(250); await shot(fotos + '_zauber'); }
+      }
+      const k2 = await kb();
+      if (k2 && k2.phase === 'ziel') { if (fotos) await shot(fotos + '_ziel'); for (let i = 0; i < 3 && (await kb()).ziel !== t; i++) await key('ArrowRight', 1, 90); await key('Enter', 1, 200); }
+    }
+  };
+
   // 1) Probekampf am zitternden Schneehaufen im Innenhof
   await go('innenhof', 17, 10, 'right'); await shot('40_innenhof_tiefschnee');
   await key('Enter', 1, 200); await drain(); await wait(1400);
@@ -51,11 +74,11 @@ const SHOTS = process.argv[2] || null;
   else {
     await shot('41_kampf_menue');
     if (k.gegner[0].id !== 'schneepixie') errors.push('Probekampf: falscher Gegner');
-    if (k.aktionen.join() !== 'zaubern,schneeball,kakao,mut,bellen,schnueffeln,flucht') errors.push('Kampfaktionen: ' + k.aktionen.join());
+    if (k.aktionen.join() !== 'zaubern,schneeball,kakao,kochen,mut,bellen,schnueffeln,flucht') errors.push('Kampfaktionen: ' + k.aktionen.join());
     await nav('schnueffeln'); await key('Enter', 1, 400); await shot('42_schnueffeln');
     k = await bisMenue();
-    await nav('zaubern'); await key('Enter', 1, 200); await shot('43_zauberwahl');
-    await key('Enter', 1, 500); await shot('44_luxa');
+    await nav('zaubern'); await key('Enter', 1, 200); await shot('43_zauberwahl'); await key('x', 1, 150);
+    await kaempfe('44_probe');
     for (let i = 0; i < 40 && (await kb()); i++) { await key('Enter', 1, 150); }
     await wait(400); await drain(); await wait(300);
     const s = await st();
@@ -115,20 +138,10 @@ const SHOTS = process.argv[2] || null;
   k = await bisMenue(); await shot('49_frostwicht');
   if (!k || k.gegner[0].id !== 'frostwicht') errors.push('Frostwicht-Kampf startet nicht');
   else {
-    // Flammula auf den Frostwicht (Ziel wählen)
-    for (let r = 0; r < 6 && (await kb()) && !(await kb()).ende; r++) {
-      k = await bisMenue(); if (!k) break;
-      const t = k.gegner.findIndex(g => g.kraft > 0), z = k.gegner[t].id === 'frostwicht' ? 'flammula' : 'luxa';
-      await nav('zaubern'); await key('Enter', 1, 150);
-      for (let i = 0; i < 6 && (await kb()).zauber[(await kb()).zsel] !== z; i++) await key('ArrowDown', 1, 90);
-      await key('Enter', 1, 200);
-      const k2 = await kb();
-      if (k2 && k2.phase === 'ziel') { if (r === 0) await shot('50_ziel'); for (let i = 0; i < 3 && (await kb()).ziel !== t; i++) await key('ArrowRight', 1, 90); await key('Enter', 1, 200); }
-      if (r === 0) { await wait(500); await shot('51_flammula'); }
-    }
+    await kaempfe('50_frostwicht');
     for (let i = 0; i < 30 && (await kb()); i++) await key('Enter', 1, 150);
     await drain();
-    if (!((await st()).flags.siege >= 1)) errors.push('Frostwicht-Kampf nicht gewonnen');
+    { const s9 = await st(); if (s9.mode !== 'play' || (!(s9.flags.siege >= 1) && s9.waerme !== 10)) errors.push('Frostwicht-Kampf endet nicht sauber'); }
   }
 
   // 5) Schlosskarte im Menü

@@ -87,38 +87,58 @@ ok(w2.save.waerme === 12 && w2.save.glut.length === 3 && w2.save.warm === null &
 
 // --- Kampf ---
 let seed = 7; const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+const nie = () => 0.999, kann = (F, a) => C.kampfAktionen(F).find(x => x.art === a).ok;
 ok(C.waermeMax({ glut: [] }) === 10 && C.waermeMax({ glut: ['a', 'b', 'c'] }) === 12, 'Drei Glutsplitter: mehr Wärme');
+ok(C.newSave(0).kakao === 3 && C.newSave(0).energie === 6 && gut.save.kakao === 3, 'Spielstand: Kakao und Energie (auch für alte Stände)');
 let F = C.kampfNeu('pixie1', { zauber: ['luxa'] });
-C.kampfZug(F, { art: 'zauber', z: 'luxa', ziel: 0 }, rnd);
-ok(F.ende === 'sieg', 'Luxa besiegt die Schneepixie sofort');
-F = C.kampfNeu('wicht1', { zauber: ['luxa', 'flammula'] });
-C.kampfZug(F, { art: 'zauber', z: 'flammula', ziel: 0 }, rnd);
-ok(!F.ende && F.waerme === 10 && F.gegner[0].aus === 0, 'Flammula trifft den Frostwicht, der setzt danach aus');
-C.kampfZug(F, { art: 'zauber', z: 'flammula', ziel: 0 }, rnd);
-ok(F.ende === 'sieg', 'Zweimal Flammula: Frostwicht geschmolzen');
+C.kampfZug(F, { art: 'zauber', z: 'luxa', ziel: 0 }, nie);
+ok(!F.ende && F.gegner[0].kraft === 1 && F.energie === 4, 'Luxa: 2 Schaden, kostet 2 Energie');
+C.kampfZug(F, { art: 'zauber', z: 'luxa', ziel: 0 }, nie);
+ok(F.ende === 'sieg', 'Zweimal Luxa besiegt die Schneepixie');
+F = C.kampfNeu('wicht1', { zauber: ['flammula'], energie: 1 });
+ok(!kann(F, 'zaubern') && kann(F, 'schneeball') && kann(F, 'kakao') && kann(F, 'bellen'), 'Ohne Energie: kein Zauber, aber Schneeball, Kakao und Diego');
+C.kampfZug(F, { art: 'kakao' }, nie);
+ok(F.kakao === 2 && F.energie === 3 && kann(F, 'zaubern'), 'Kakao gibt Energie zurück und wird verbraucht');
+F = C.kampfNeu('wicht1', { kakao: 0 });
+ok(!kann(F, 'kakao') && kann(F, 'kochen'), 'Kakao alle: nur noch kochen');
+C.kampfZug(F, { art: 'kochen' }, nie);
+ok(!kann(F, 'kakao') && !kann(F, 'kochen') && !kann(F, 'mut'), 'Jörn kocht: Kakao und Mut gehen solange nicht');
+C.kampfZug(F, { art: 'bellen', ziel: 0 }, nie); ok(F.kakao === 0, 'Kakao nach 2 Runden noch nicht fertig');
+C.kampfZug(F, { art: 'bellen', ziel: 0 }, nie); ok(F.kakao === 2 && kann(F, 'kakao'), 'Nach 3 Runden: 2 Kakao mehr');
+F = C.kampfNeu('wicht1', {});
+C.kampfZug(F, { art: 'mut' }, () => 0.01);
+ok(F.eingefroren && !kann(F, 'schneeball') && kann(F, 'kakao') && kann(F, 'bellen'), 'Frost-Angriff: Charly setzt aus, Jörn und Diego können handeln');
+ok(C.kampfZug(F, { art: 'schneeball', ziel: 0 }, nie)[0].nix && F.runde === 2, 'Eingefroren: Charlys Aktion wird abgelehnt');
+C.kampfZug(F, { art: 'bellen', ziel: 0 }, nie); ok(!F.eingefroren, 'Nach einer Runde taut Charly wieder auf');
 F = C.kampfNeu('probe', {});
 const evF = C.kampfZug(F, { art: 'flucht' }, rnd);
 ok(!F.ende && evF.length === 1, 'Probekampf: kein Weglaufen');
 F = C.kampfNeu('pixie2', { waerme: 1 });
 for (let i = 0; i < 20 && !F.ende; i++) C.kampfZug(F, { art: 'schnueffeln' }, rnd);
 ok(F.ende === 'kalt' && F.waerme === 0, 'Bei 0 Wärme endet der Kampf (danach Aufwachen im Warmen)');
-F = C.kampfNeu('pixie2', {});
-C.kampfZug(F, { art: 'bellen', ziel: 1 }, rnd);
-ok(F.gegner[1].aus === 0 && F.waerme >= 8, 'Bellen: Gegner setzt eine Runde aus');
-// Jeder Kampf ist auch ohne passenden Zauber lösbar, mit Zauber schnell
-Object.keys(D.kampf.gruppen).forEach(g => {
-  let win = 0, slow = 0;
-  for (let i = 0; i < 300; i++) {
-    const f = C.kampfNeu(g, {}); let n = 0;
-    while (!f.ende && n < 60) { n++; const t = C.kampfLebend(f)[0]; C.kampfZug(f, f.waerme <= 4 ? { art: 'kakao' } : { art: 'schneeball', ziel: t.nr }, rnd); }
-    if (f.ende === 'sieg') win++;
-    const k = C.kampfNeu(g, { zauber: Object.keys(D.zauber) }); let m = 0;
-    while (!k.ende && m < 10) { m++; const t = C.kampfLebend(k)[0]; C.kampfZug(k, { art: 'zauber', z: D.kampf.gegner[t.id].schwaeche, ziel: t.nr }, rnd); }
-    if (k.ende !== 'sieg' || m > 4) slow++;
+// Schwierigkeit: klug gespielt fast immer gewinnbar, aber nicht in einer Runde; Probekampf auch ohne Zauber
+const spiel = (g, klug) => {
+  const f = C.kampfNeu(g, { zauber: klug ? Object.keys(D.zauber) : [] }); let n = 0;
+  while (!f.ende && n < 60) {
+    n++; const t = C.kampfLebend(f)[0]; let a;
+    if (f.waerme <= 4 && kann(f, 'kakao')) a = { art: 'kakao' };
+    else if (f.kakao === 0 && kann(f, 'kochen')) a = { art: 'kochen' };
+    else if (f.eingefroren) a = { art: 'bellen', ziel: t.nr };
+    else if (klug && kann(f, 'zaubern')) a = { art: 'zauber', z: D.kampf.gegner[t.id].schwaeche, ziel: t.nr };
+    else if (klug && kann(f, 'kakao') && f.energie < 2) a = { art: 'kakao' };
+    else a = { art: 'schneeball', ziel: t.nr };
+    C.kampfZug(f, a, rnd);
   }
-  ok(win === 300, 'Kampf ' + g + ': nur mit Schneebällen und Kakao immer gewinnbar (' + win + '/300)');
-  ok(slow === 0, 'Kampf ' + g + ': mit dem richtigen Zauber in höchstens 4 Runden gewonnen');
+  return { sieg: f.ende === 'sieg', n };
+};
+Object.keys(D.kampf.gruppen).forEach(g => {
+  let win = 0, kurz = 0;
+  for (let i = 0; i < 400; i++) { const r = spiel(g, true); if (r.sieg) win++; if (r.n < 2) kurz++; }
+  ok(win >= 360, 'Kampf ' + g + ': klug gespielt fast immer gewinnbar (' + win + '/400)');
+  ok(kurz === 0, 'Kampf ' + g + ': nie in einer Runde vorbei');
 });
+let pw = 0; for (let i = 0; i < 400; i++) if (spiel('probe', false).sieg) pw++;
+ok(pw >= 380, 'Probekampf auch ohne Zauber fast immer gewinnbar (' + pw + '/400)');
 const K = { gruppen: [{ g: 'pixie1', ab: 2 }, { g: 'wicht1', ab: 7 }] };
 ok([0.1, 0.5, 0.99].every(r => C.kampfGruppeWaehlen(K, 3, () => r) === 'pixie1') && C.kampfGruppeWaehlen(K, 1, () => 0.5) === null, 'Zufallskampf: nur Gegner, die schon dran sind');
 // Regel aus dem Fahrplan wird geprüft: Frostwicht vor Flammula ist ein Fehler

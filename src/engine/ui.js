@@ -321,13 +321,17 @@ const UI = {
   // --- Wärme-Anzeige draußen (oder wenn Charly noch kalt ist) ---
   waermeHud(G) {
     const s = G.save, m = DATA.maps[G.mapId], max = waermeMax(s);
-    if (!m.kampf && s.waerme >= max) return;
-    const c = R.ctx, x = VIEW_W - 112, y = 6, w = 80, v = clamp(s.waerme, 0, max);
-    c.fillStyle = 'rgba(20,12,24,0.75)'; c.fillRect(x - 4, y, 110, 18);
-    R.text('🔥', x, y + 14, { size: 11, shadow: false });
-    c.fillStyle = '#2a2440'; c.fillRect(x + 18, y + 5, w, 8);
-    c.fillStyle = v / max <= 0.3 ? '#9cc0f0' : '#ff8a2a'; c.fillRect(x + 18, y + 5, Math.round(w * v / max), 8);
-    c.fillStyle = 'rgba(255,255,255,0.35)'; c.fillRect(x + 18, y + 5, Math.round(w * v / max), 1);
+    if (!m.kampf && s.waerme >= max && s.energie >= ENERGIE_MAX) return;
+    const c = R.ctx, x = VIEW_W - 150, y = 4, w = 70;
+    c.fillStyle = 'rgba(20,12,24,0.78)'; c.fillRect(x - 4, y, 150, 30);
+    const bar = (yy, v, mx, col, icon) => {
+      R.text(icon, x, yy + 9, { size: 9, shadow: false });
+      c.fillStyle = '#2a2440'; c.fillRect(x + 14, yy + 2, w, 7);
+      c.fillStyle = col; c.fillRect(x + 14, yy + 2, Math.round(w * clamp(v, 0, mx) / mx), 7);
+    };
+    bar(y + 3, s.waerme, max, s.waerme / max <= 0.3 ? '#9cc0f0' : '#ff8a2a', '🔥');
+    bar(y + 16, s.energie, ENERGIE_MAX, '#7a9af0', '✦');
+    R.text('☕ ' + s.kakao, x + 92, y + 20, { size: 11, weight: 700, color: '#e8c8a0' });
   },
   // --- Schlosskarte: besuchte Orte, Wege dazwischen, unbekannte Nachbarn als „?“ ---
   karte(G, time) {

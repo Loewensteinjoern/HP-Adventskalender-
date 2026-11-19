@@ -74,7 +74,7 @@ const G = {
     const s = this.save;
     if (s.besucht.indexOf(mid) < 0) s.besucht.push(mid);
     // Drinnen (ohne Kämpfe) ist es warm: Wärme voll, Ort merken für das Aufwachen nach einer Niederlage
-    if (!m.kampf) { s.waerme = waermeMax(s); s.warm = { map: mid, x, y, dir }; }
+    if (!m.kampf) { s.waerme = waermeMax(s); s.energie = ENERGIE_MAX; s.warm = { map: mid, x, y, dir }; }
     this.kampfSchritte = 0; this.alarm = null;
     AU.playMusic(m.music);
   },
@@ -163,17 +163,17 @@ const G = {
     const s = this.save;
     this.mode = 'kampf'; this.bubble = null; this.trail = null;
     AU.sfx('kampf'); AU.playMusic('kampf');
-    KB.start(gruppe, { max: waermeMax(s), waerme: s.waerme, zauber: this.spells(), diego: s.followers.indexOf('diego') >= 0, joern: s.followers.indexOf('joern') >= 0 },
+    KB.start(gruppe, { max: waermeMax(s), waerme: s.waerme, energie: s.energie, kakao: s.kakao, zauber: this.spells(), diego: s.followers.indexOf('diego') >= 0, joern: s.followers.indexOf('joern') >= 0 },
       (ende, F) => this.endFight(ende, F, talk));
   },
   endFight(ende, F, talk) {
     const s = this.save, m = DATA.maps[this.mapId];
     this.mode = 'play'; this.kampfSchritte = 0;
-    s.waerme = Math.max(1, F.waerme);
+    s.waerme = Math.max(1, F.waerme); s.energie = F.energie; s.kakao = F.kakao;
     if (ende === 'kalt') {
       // Kein Game Over: Charly wacht am letzten warmen Ort auf
       const w = s.warm || DATA.welt.start;
-      s.waerme = waermeMax(s);
+      s.waerme = waermeMax(s); s.energie = ENERGIE_MAX;
       this.fade = { t: 0, door: { to: w.map, tx: w.x, ty: w.y, dir: w.dir || 'down' }, done: false };
       this.queue.push(() => this.say('kampf_aufwachen'));
       setTimeout(() => { if (!DLG.open) this.next(); }, 700);

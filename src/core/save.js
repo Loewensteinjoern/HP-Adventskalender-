@@ -8,7 +8,7 @@ function newSave(now) {
     map: s.map, x: s.x, y: s.y, dir: s.dir,
     flags: {}, done: [], fragments: [], secrets: [],
     followers: ['joern'], seenDay: 0, playMs: 0,
-    waerme: WAERME_GRUND, warm: null, besucht: [s.map], glut: [],
+    waerme: WAERME_GRUND, energie: ENERGIE_MAX, kakao: KAKAO_START, warm: null, besucht: [s.map], glut: [],
   };
 }
 
@@ -67,6 +67,8 @@ function migrateSave(raw) {
   out.glut = strList(d.glut);
   out.besucht = strList(d.besucht).filter(k => DATA.maps[k]);
   out.waerme = isNum(d.waerme) ? clamp(Math.round(d.waerme), 1, waermeMax(out)) : waermeMax(out);
+  out.energie = isNum(d.energie) ? clamp(Math.round(d.energie), 0, ENERGIE_MAX) : ENERGIE_MAX;
+  out.kakao = isNum(d.kakao) ? clamp(Math.round(d.kakao), 0, KAKAO_MAX) : KAKAO_START;
   const w = d.warm, wm = isObj(w) && typeof w.map === 'string' && DATA.maps[w.map];
   out.warm = wm && isNum(w.x) && isNum(w.y) && !tileSolid(wm, w.x, w.y) && DIRS[w.dir] ? { map: w.map, x: w.x, y: w.y, dir: w.dir } : null;
   // Position: unbekannte Karte oder Wand -> sicher zum Start, Fortschritt bleibt

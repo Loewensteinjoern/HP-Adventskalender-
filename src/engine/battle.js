@@ -57,11 +57,12 @@ const FOES = { schneepixie: drawPixie, frostwicht: drawWicht };
 const FOE_SPR = { cache: {}, get(id, fr) { const k = id + fr; return this.cache[k] || (this.cache[k] = FOES[id](fr)); } };
 
 const SPELL_COL = { luxa: '255,244,190', flammula: '255,140,50', clavis: '200,180,255', restauro: '160,230,160', advoco: '180,220,255', levitas: '230,210,255', custodia: '255,220,120', phoenix: '255,180,80' };
-const AKT_ICON = { zaubern: '✦', schneeball: '❄', kakao: '☕', mut: '♥', bellen: '🐾', schnueffeln: '🐾', flucht: '↩' };
+const AKT_ICON = { zaubern: '✦', schneeball: '❄', kakao: '☕', kochen: '🔥', mut: '♥', bellen: '🐾', schnueffeln: '🐾', flucht: '↩' };
 const AKT_INFO = {
-  zaubern: 'Charly zaubert. Der richtige Zauber wirkt besonders stark.',
+  zaubern: 'Charly zaubert (kostet 2 Energie). Der richtige Zauber wirkt besonders stark.',
   schneeball: 'Charly wirft einen Schneeball (schwach, aber immer möglich).',
-  kakao: 'Jörn reicht heißen Kakao: Charly bekommt Wärme zurück.',
+  kakao: 'Jörn reicht heißen Kakao: Wärme und Energie kommen zurück.',
+  kochen: 'Jörn kocht am Feuer neuen Kakao: dauert 3 Runden, dann 2 Becher mehr.',
   mut: 'Jörn spricht Mut zu: Die nächsten Angriffe tun weniger weh.',
   bellen: 'Diego bellt einen Gegner an – der setzt eine Runde aus.',
   schnueffeln: 'Diego schnüffelt und verrät die Schwächen der Gegner.',
@@ -75,7 +76,7 @@ const KB = {
     this.F = kampfNeu(gruppe, opt);
     this.onEnd = onEnd; this.phase = 'intro'; this.t = 0; this.sel = 0; this.evs = []; this.ev = null; this.pend = null; this.shake = 0;
     this.vis = this.F.gegner.map(e => ({ kraft: e.kraft, alpha: 1, gone: false, erkannt: false }));
-    this.visW = this.F.waerme; this.visMut = 0;
+    this.visW = this.F.waerme; this.visMut = 0; this.visE = this.F.energie; this.visK = this.F.kakao; this.visKochen = false; this.visFrost = false;
   },
   akts() { return kampfAktionen(this.F); },
   lebend() { return this.F.gegner.filter((e, i) => !this.vis[i].gone && e.kraft > 0); },
@@ -93,7 +94,7 @@ const KB = {
       IN.take('b'); IN.take('menu');
       if (IN.take('a')) {
         const a = A[this.sel];
-        if (!a.ok) { AU.sfx('stoss'); this.hint = { text: a.art === 'flucht' ? DATA.kampf.texte.keine_flucht : 'Charly kennt noch keinen Zauber.', t0: this.t }; return; }
+        if (!a.ok) { AU.sfx('stoss'); this.hint = { text: a.warum, t0: this.t }; return; }
         AU.sfx('menue');
         if (a.art === 'zaubern') { this.phase = 'zauber'; this.zsel = Math.max(0, F.zauber.indexOf(G.lastSpell)); return; }
         this.wahl({ art: a.art });
@@ -141,7 +142,7 @@ const KB = {
     akt.ziel = L.length ? L[0].nr : 0; this.ausfuehren(akt);
   },
   ausfuehren(akt) {
-    this.evs = kampfZug(this.F, akt); this.phase = 'ev'; this.naechstesEv();
+    this.visFrost = false; this.evs = kampfZug(this.F, akt); this.phase = 'ev'; this.naechstesEv();
   },
   naechstesEv() {
     // Abgeschlossenes Ereignis endgültig übernehmen
@@ -150,17 +151,24 @@ const KB = {
     this.ev = this.evs.shift() || null; this.evT = 0;
     if (!this.ev) {
       if (this.F.ende) { this.phase = 'ende'; this.endT = this.t; if (this.F.ende === 'sieg') AU.sfx('sieg'); return; }
-      this.phase = 'menu'; if (this.sel >= this.akts().length) this.sel = 0; return;
+      this.visFrost = this.F.eingefroren; this.visKochen = this.F.kochen > 0;
+      this.phase = 'menu'; if (this.sel >= this.akts().length) this.sel = 0;
+      // Eingefroren: Auswahl gleich auf Jörn springen
+      const A = this.akts(); if (!A[this.sel].ok) { const i = A.findIndex(a => a.ok); if (i >= 0) this.sel = i; }
+      return;
     }
     const e = this.ev, v = e.ziel !== undefined ? this.vis[e.ziel] : null;
     // Anzeige nachziehen und Geräusch
     if (e.dmg) v.kraft = Math.max(0, v.kraft - e.dmg);
     if (e.fx === 'schnueffeln') v.erkannt = true;
-    if (e.fx && e.fx.indexOf('zauber_') === 0) { AU.sfx('zauber'); if (!e.vorbei && e.dmg >= DATA.kampf.regeln.zauberSchaden) v.erkannt = true; }
+    if (e.fx && e.fx.indexOf('zauber_') === 0) { this.visE = Math.max(0, this.visE - DATA.kampf.regeln.zauberKosten); AU.sfx('zauber'); if (!e.vorbei && e.dmg >= DATA.kampf.regeln.zauberSchaden) v.erkannt = true; }
     if (e.fx === 'schneeball') AU.sfx('schneeball');
     if (e.dmg) setTimeout(() => AU.sfx('treffer'), 450);
+    if (e.frost) { this.visFrost = true; setTimeout(() => AU.sfx('kalt'), 400); }
+    if (e.fx === 'kochen') { this.visKochen = true; AU.sfx('kochen'); }
+    if (e.fx === 'kakao_fertig') { this.visKochen = false; this.visK += e.kakaoPlus; AU.sfx('kakao'); }
     if (e.fx === 'angriff') { this.visW = Math.max(0, this.visW - e.schaden); AU.sfx(e.schaden ? 'autsch' : 'stoss'); if (e.schaden) this.shake = 0.35; }
-    if (e.fx === 'kakao') { this.visW += e.heil; AU.sfx('kakao'); }
+    if (e.fx === 'kakao') { this.visW += e.heil; this.visE += e.energie; this.visK--; AU.sfx('kakao'); }
     if (e.fx === 'mut') AU.sfx('mut');
     if (e.fx === 'bellen') AU.sfx('wuff');
     if (e.fx === 'schnueffeln') AU.sfx('schnueffeln');
@@ -216,14 +224,24 @@ const KB = {
       const dog = q.k === 'diego', w = 64, h = dog ? 64 : 80;
       let x = q.x - flucht, y = q.y - h + (dog ? 4 : 2);
       const aktiv = e && e.wer === q.k && this.evT < 0.5;
+      if (q.k === 'joern' && this.visKochen) { y += 10; this.feuer(q.x + 2, q.y + 6, time); }
       if (aktiv) y -= Math.round(Math.sin(this.evT / 0.5 * Math.PI) * 6);
       c.fillStyle = 'rgba(40,50,90,0.25)'; c.beginPath(); c.ellipse(q.x - flucht + 32, q.y, dog ? 22 : 18, 5, 0, 0, 6.283); c.fill();
       const pose = dog && e && e.fx === 'schnueffeln' ? 'schnueffeln' : null;
       const fr = this.phase === 'menu' && q.k === 'charly' ? 0 : (aktiv ? 1 : 0);
       c.drawImage(SPR.get(q.k, 'right', fr, pose), x, y, w, h);
+      if (q.k === 'charly') this.stab(x, y, time);
       // Charly getroffen: kurz eisblau
       if (q.k === 'charly' && e && e.fx === 'angriff' && e.schaden && this.evT > 0.45 && this.evT < 0.85) { c.globalAlpha = 0.45; c.fillStyle = '#9cd8ff'; c.fillRect(x + 18, y + 14, 28, 62); c.globalAlpha = 1; }
     });
+    // Eingefroren: Charly steckt in einem Eisblock
+    if (this.visFrost) {
+      const x = ch.x - flucht + 12, y = ch.y - 80;
+      c.globalAlpha = 0.38; c.fillStyle = '#bfe8ff'; c.fillRect(x, y, 42, 80); c.globalAlpha = 0.9;
+      c.fillStyle = '#ffffff'; c.fillRect(x, y, 42, 2); c.fillRect(x, y, 2, 80); c.fillRect(x + 6, y + 8, 2, 14); c.fillRect(x + 30, y + 40, 2, 10);
+      c.fillStyle = '#7ab8e8'; c.fillRect(x + 40, y, 2, 80); c.fillRect(x, y + 78, 42, 2); c.globalAlpha = 1;
+      R.text('❄', x + 21, y - 4, { size: 14, align: 'center', color: '#bfe8ff' });
+    }
     // Schutzschimmer durch Jörns Mut
     if (this.visMut > 0 || (e && e.fx === 'mut')) {
       const a = e && e.fx === 'mut' ? Math.min(1, this.evT * 2) : 0.5;
@@ -289,8 +307,42 @@ const KB = {
       c.beginPath(); c.moveTo(VIEW_W / 2, VIEW_H / 2); c.arc(VIEW_W / 2, VIEW_H / 2, r, ang, ang + 0.26 * a + 0.02); c.fill();
     }
   },
+  // Zauberstab in Charlys Hand; beim Zaubern erhoben, Funken sprühen aus der Spitze
+  stabSpitze() {
+    const e = this.ev, hebt = this.phase === 'zauber' || this.phase === 'ziel' && this.pend && this.pend.art === 'zauber' || (e && e.fx && e.fx.indexOf('zauber_') === 0 && this.evT < 0.9);
+    const ch = this.partyPos().find(q => q.k === 'charly'), hx = ch.x + 50, hy = ch.y - 34;
+    return { hx, hy, x: hx + (hebt ? 14 : 20), y: hy - (hebt ? 30 : 14), hebt };
+  },
+  stab(x0, y0, time) {
+    const c = R.ctx, S = this.stabSpitze(), p = Pen(c);
+    if (this.visFrost) return;
+    // Stab: dunkles Holz mit hellem Griff
+    p.line(S.hx - 1, S.hy + 1, S.x - 1, S.y + 1, '#2a160c'); p.line(S.hx, S.hy, S.x, S.y, '#6a3e22'); p.line(S.hx + 1, S.hy, S.x + 1, S.y, '#8a5632'); p.line(S.hx + 1, S.hy - 1, S.x + 1, S.y - 1, '#a86d40');
+    // Hand
+    p.r(S.hx - 3, S.hy - 2, 6, 6, '#3a2a1e'); p.r(S.hx - 2, S.hy - 1, 4, 4, '#f6d2b6'); p.r(S.hx - 2, S.hy + 2, 4, 1, '#e2ae8e');
+    // Glimmen an der Spitze
+    const gl = S.hebt ? 1 : 0.35 + 0.15 * Math.sin(time * 4);
+    const g = c.createRadialGradient(S.x, S.y, 0, S.x, S.y, S.hebt ? 12 : 6); g.addColorStop(0, 'rgba(255,244,190,' + gl + ')'); g.addColorStop(1, 'rgba(255,244,190,0)');
+    c.fillStyle = g; c.fillRect(S.x - 12, S.y - 12, 24, 24); p.r(S.x - 1, S.y - 1, 2, 2, '#fffbe8');
+    if (S.hebt) for (let i = 0; i < 8; i++) {
+      const k = ((time * 1.6) + i / 8) % 1, a = i * 2.4 + time;
+      c.globalAlpha = 1 - k; c.fillStyle = i % 2 ? '#ffd36a' : '#ffffff';
+      c.fillRect(S.x + Math.cos(a) * k * 16, S.y + Math.sin(a) * k * 16 - k * 6, 2, 2);
+    }
+    c.globalAlpha = 1;
+  },
+  // Lagerfeuer mit Kanne, an dem Jörn Kakao kocht
+  feuer(x, y, time) {
+    const c = R.ctx, p = Pen(c);
+    p.r(x - 12, y - 2, 24, 4, '#5a3420'); p.r(x - 10, y - 4, 20, 3, '#7a4a2a');
+    for (let i = 0; i < 6; i++) { const h = 6 + ((Math.sin(time * 12 + i * 2) + 1) * 4 | 0); p.r(x - 8 + i * 3, y - 4 - h, 3, h, i % 2 ? '#ff8a2a' : '#ffd36a'); }
+    p.r(x - 7, y - 26, 14, 10, '#6a6a7a'); p.r(x - 7, y - 26, 14, 2, '#9a9aaa'); p.r(x + 7, y - 24, 4, 2, '#6a6a7a'); p.r(x - 9, y - 30, 18, 1, '#3a3a44');
+    for (let i = 0; i < 3; i++) { const k = (time * 0.7 + i / 3) % 1; c.globalAlpha = 0.6 * (1 - k); c.fillStyle = '#ffffff'; c.fillRect(x - 3 + i * 3 + Math.sin(k * 6) * 2, y - 30 - k * 18, 2, 3); }
+    c.globalAlpha = 1;
+    const g = c.createRadialGradient(x, y - 6, 0, x, y - 6, 34); g.addColorStop(0, 'rgba(255,170,80,0.35)'); g.addColorStop(1, 'rgba(255,170,80,0)'); c.fillStyle = g; c.fillRect(x - 34, y - 40, 68, 68);
+  },
   effekt(e, k, time, ch) {
-    const c = R.ctx, hx = ch.x + 50, hy = ch.y - 52;
+    const c = R.ctx, S = this.stabSpitze(), hx = S.x, hy = S.y;
     const ziel = e.ziel !== undefined ? this.foePos(e.ziel) : null;
     const tx = ziel ? ziel.x + 32 + (e.vorbei ? 0 : 0) : 0, ty = ziel ? ziel.y - 44 - (this.F.gegner[e.ziel] && this.F.gegner[e.ziel].id === 'schneepixie' ? 14 : 0) : 0;
     if (e.fx === 'schneeball' && k < 1) {
@@ -325,6 +377,8 @@ const KB = {
       for (let i = 0; i < 3; i++) { c.globalAlpha = 0.6; c.fillStyle = '#ffffff'; c.fillRect(x + 2 + i * 3, y - 4 - ((this.evT * 14 + i * 4) % 10), 1, 3); c.globalAlpha = 1; }
       if (e.heil) R.text('+' + e.heil, x + 26, y + 2 - this.evT * 14, { size: 14, weight: 700, color: '#ffb060' });
     }
+    if (e.fx === 'kakao_fertig') { const j = this.partyPos().find(q => q.k === 'joern'); if (j) R.text('+' + e.kakaoPlus + ' ☕', j.x + 32, j.y - 90 - this.evT * 14, { size: 14, weight: 700, color: '#ffb060', align: 'center' }); }
+    if (e.fx === 'kakao' && e.energie) R.text('+' + e.energie + ' ✦', ch.x + 66, ch.y - 80 - this.evT * 14, { size: 13, weight: 700, color: '#9cd8ff' });
     if (e.fx === 'bellen') {
       const d = this.partyPos().find(q => q.k === 'diego');
       if (d) R.text('WUFF!', d.x + 46 + Math.sin(this.evT * 30) * 2, d.y - 62, { size: 14, weight: 700, color: '#fff2b0', align: 'center' });
@@ -336,16 +390,22 @@ const KB = {
   leiste(time) {
     const c = R.ctx, F = this.F, x0 = 6, y0 = 270;
     R.panel(x0, y0, VIEW_W - 12, VIEW_H - y0 - 6, 0.95);
-    // Wärme
-    R.text('Charly', 20, y0 + 22, { size: 13, weight: 700, color: '#ffd36a' });
-    const w = 150, fx = 20, fy = y0 + 32, v = clamp(this.visW, 0, F.max);
-    c.fillStyle = '#2a2440'; c.fillRect(fx, fy, w, 12);
-    const fw = Math.round(w * v / F.max), gr = c.createLinearGradient(fx, 0, fx + w, 0); gr.addColorStop(0, '#e0442a'); gr.addColorStop(0.6, '#ff8a2a'); gr.addColorStop(1, '#ffd36a');
-    c.fillStyle = v / F.max <= 0.3 ? '#9cc0f0' : gr; c.fillRect(fx, fy, fw, 12);
-    c.fillStyle = 'rgba(255,255,255,0.35)'; c.fillRect(fx, fy, fw, 2);
-    R.text('🔥 Wärme ' + v + ' / ' + F.max, fx, fy + 28, { size: 12, weight: 700, color: v / F.max <= 0.3 ? '#9cd8ff' : '#f4ead8' });
-    if (this.visMut > 0) R.text('♥ Jörns Mut schützt', fx, fy + 46, { size: 11, weight: 600, color: '#ffd36a' });
-    if (v / F.max <= 0.3 && F.joern && this.phase === 'menu') R.text('Kalt! Jörns Kakao hilft.', fx, fy + 64, { size: 11, weight: 600, color: '#9cd8ff' });
+    // Wärme und Energie
+    R.text('Charly', 20, y0 + 18, { size: 13, weight: 700, color: '#ffd36a' });
+    if (F.joern) R.text('☕ Kakao: ' + this.visK, 178, y0 + 18, { size: 11, weight: 700, color: this.visK ? '#e8c8a0' : '#8a7070', align: 'right' });
+    const bar = (y, v, max, col, leer, label) => {
+      const w = 158, fx = 20; v = clamp(v, 0, max);
+      c.fillStyle = '#2a2440'; c.fillRect(fx, y, w, 9);
+      c.fillStyle = v / max <= 0.3 ? leer : col; c.fillRect(fx, y, Math.round(w * v / max), 9);
+      c.fillStyle = 'rgba(255,255,255,0.35)'; c.fillRect(fx, y, Math.round(w * v / max), 2);
+      R.text(label + ' ' + v + ' / ' + max, fx, y + 22, { size: 11, weight: 700, color: v / max <= 0.3 ? leer : '#f4ead8' });
+    };
+    const gr = c.createLinearGradient(20, 0, 178, 0); gr.addColorStop(0, '#e0442a'); gr.addColorStop(0.6, '#ff8a2a'); gr.addColorStop(1, '#ffd36a');
+    bar(y0 + 26, this.visW, F.max, gr, '#9cc0f0', '🔥 Wärme');
+    const gb = c.createLinearGradient(20, 0, 178, 0); gb.addColorStop(0, '#4a5ad8'); gb.addColorStop(1, '#9cd8ff');
+    bar(y0 + 60, this.visE, F.emax, gb, '#b090e0', '✦ Energie');
+    const st = this.visFrost ? ['❄ Charly ist eingefroren!', '#9cd8ff'] : this.visKochen ? ['🔥 Jörn kocht Kakao …', '#ffb060'] : this.visMut > 0 ? ['♥ Jörns Mut schützt', '#ffd36a'] : null;
+    if (st) R.text(st[0], 20, y0 + 100, { size: 11, weight: 700, color: st[1] });
     c.fillStyle = 'rgba(224,154,44,0.4)'; c.fillRect(190, y0 + 10, 1, VIEW_H - y0 - 26);
     const rx = 202, rw = VIEW_W - rx - 16;
     if (this.phase === 'menu') {

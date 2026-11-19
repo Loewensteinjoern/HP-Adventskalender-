@@ -212,6 +212,7 @@ const AU = {
       case 'schneeball': this.noiseBurst(t, 0.25, 0.25, 1800, 0.8); break;
       case 'treffer': this.noiseBurst(t, 0.12, 0.45, 700, 1.5); this.tone('sine', 220, t, 0.12, 0.15, B); break;
       case 'autsch': this.noiseBurst(t, 0.3, 0.3, 5200, 2); this.tone('sine', 520, t, 0.25, 0.1, B); this.tone('sine', 390, t + 0.1, 0.25, 0.1, B); break;
+      case 'kochen': this.noiseBurst(t, 0.8, 0.2, 900, 0.5); for (let i = 0; i < 5; i++) this.noiseBurst(t + 0.15 + i * 0.12, 0.05, 0.25, 3000, 3); break;
       case 'kakao': [523, 659, 784].forEach((f, i) => this.tone('spieluhr', f, t + i * 0.1, 0.6, 0.16, B)); break;
       case 'mut': [392, 523, 659, 784].forEach((f, i) => this.tone('glocke', f, t + i * 0.08, 0.9, 0.14, B)); break;
       case 'puff': this.noiseBurst(t, 0.4, 0.3, 2400, 0.7); [1568, 1318].forEach((f, i) => this.tone('spieluhr', f, t + i * 0.08, 0.4, 0.12, B)); break;

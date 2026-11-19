@@ -118,12 +118,23 @@ const R = {
   },
   actor(key, x, y, dir, fr, pose, time, lift) {
     const c = this.ctx, cx = x - this.cam.x, cy = y - this.cam.y;
+    // Im tiefen Schnee versinken die Figuren bis zur Hälfte
+    const m = typeof G !== 'undefined' && G.mapId ? DATA.maps[G.mapId] : null;
+    const tief = !lift && m && (DATA.tiles[tileChar(m, Math.round(x / TILE), Math.round(y / TILE))] || {}).kampf;
     c.fillStyle = 'rgba(20,8,4,0.28)';
-    if (!lift) { c.beginPath(); c.ellipse(cx + 16, cy + 29, key === 'diego' ? 11 : 9, 3, 0, 0, 6.283); c.fill(); }
-    if (ANIMALS[key]) {
-      c.drawImage(SPR.get(key, dir, fr, pose), cx, cy - 2);
-      if (pose === 'schlaf') this.zzz(cx + 22, cy - 6, time);
-    } else c.drawImage(SPR.get(key, dir, fr), cx, cy - 10);
+    if (!lift && !tief) { c.beginPath(); c.ellipse(cx + 16, cy + 29, key === 'diego' ? 11 : 9, 3, 0, 0, 6.283); c.fill(); }
+    const img = ANIMALS[key] ? SPR.get(key, dir, fr, pose) : SPR.get(key, dir, fr), top = ANIMALS[key] ? cy - 2 : cy - 10;
+    if (tief) {
+      const cut = ANIMALS[key] ? cy + 21 : cy + 19;
+      c.save(); c.beginPath(); c.rect(cx - 4, top - 4, 40, cut - top + 4); c.clip();
+      c.drawImage(img, cx, top); c.restore();
+      // Schneewall um die Figur
+      const wob = Math.round(Math.sin(time * 6 + x) * 1);
+      c.fillStyle = '#8ea4c8'; c.beginPath(); c.ellipse(cx + 16, cut + 3, 15, 5, 0, 0, 6.283); c.fill();
+      c.fillStyle = '#eef4ff'; c.beginPath(); c.ellipse(cx + 16, cut + 1, 14, 4, 0, 0, 6.283); c.fill();
+      c.fillStyle = '#ffffff'; c.fillRect(cx + 6 + wob, cut - 2, 5, 2); c.fillRect(cx + 20 - wob, cut - 1, 6, 2);
+    } else c.drawImage(img, cx, top);
+    if (ANIMALS[key] && pose === 'schlaf') this.zzz(cx + 22, cy - 6, time);
   },
   zzz(x, y, time) {
     const c = this.ctx, k = (time * 0.8) % 1;
