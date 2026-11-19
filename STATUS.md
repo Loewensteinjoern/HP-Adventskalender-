@@ -57,6 +57,7 @@
 - Auslieferung wie Anatomie-3d (Pages + Manifest + Apple-Icons), ohne Service Worker, Pages aus `/docs`.
 
 ## Offene Punkte
+0. **Version 0.9 liegt auf `main` (19.11., Freigabe Jörn)** – vorher zeigte Pages noch 0.6 (Kellertreppe vor 1.12. zu). Neue Stände ab jetzt nur nach Jörns Freigabe nach `main`.
 0. **Jörn: Prolog testen** (ca. 15 Min.): Startlink mit `?testtag=0` → „Spiel beginnen“. Mit `?testtag=2` → „Test: Tag 2“ springt direkt zu Tag 2.
 1. **Jörn:** Satz für die Gravur der Spieluhr (wird erst in Q24 gebraucht).
 2. **Jörn: iPad-Test.** Repo ist öffentlich, `main` = `startpaket` (18.11.). Pages muss Jörn einschalten (Settings → Pages → main, /docs). Adresse: https://loewensteinjoern.github.io/HP-Adventskalender-/
