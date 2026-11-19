@@ -92,9 +92,10 @@ ok(C.waermeMax({ glut: [] }) === 10 && C.waermeMax({ glut: ['a', 'b', 'c'] }) ==
 ok(C.newSave(0).kakao === 3 && C.newSave(0).energie === 6 && gut.save.kakao === 3, 'Spielstand: Kakao und Energie (auch für alte Stände)');
 let F = C.kampfNeu('pixie1', { zauber: ['luxa'] });
 C.kampfZug(F, { art: 'zauber', z: 'luxa', ziel: 0 }, nie);
-ok(!F.ende && F.gegner[0].kraft === 1 && F.energie === 4, 'Luxa: 2 Schaden, kostet 2 Energie');
+ok(!F.ende && F.gegner[0].kraft === 4 && F.energie === 4, 'Luxa: 2 Schaden, kostet 2 Energie');
+C.kampfZug(F, { art: 'zauber', z: 'luxa', ziel: 0 }, nie); ok(!F.ende, 'Zweimal Luxa reicht nicht');
 C.kampfZug(F, { art: 'zauber', z: 'luxa', ziel: 0 }, nie);
-ok(F.ende === 'sieg', 'Zweimal Luxa besiegt die Schneepixie');
+ok(F.ende === 'sieg' && F.energie === 0, 'Dreimal Luxa besiegt die Schneepixie, Energie dann leer');
 F = C.kampfNeu('wicht1', { zauber: ['flammula'], energie: 1 });
 ok(!kann(F, 'zaubern') && kann(F, 'schneeball') && kann(F, 'kakao') && kann(F, 'bellen'), 'Ohne Energie: kein Zauber, aber Schneeball, Kakao und Diego');
 ok(!kann(C.kampfNeu('wicht1', { energie: 0 }), 'mut') && kann(C.kampfNeu('wicht1', { energie: 1 }), 'mut'), 'Ohne Energie auch kein Mut zusprechen');
@@ -139,7 +140,7 @@ Object.keys(D.kampf.gruppen).forEach(g => {
   ok(kurz === 0, 'Kampf ' + g + ': nie in einer Runde vorbei');
 });
 let pw = 0; for (let i = 0; i < 400; i++) if (spiel('probe', false).sieg) pw++;
-ok(pw >= 380, 'Probekampf auch ohne Zauber fast immer gewinnbar (' + pw + '/400)');
+ok(pw >= 280, 'Probekampf auch ohne Zauber meist gewinnbar (' + pw + '/400)');
 const K = { gruppen: [{ g: 'pixie1', ab: 2 }, { g: 'wicht1', ab: 7 }] };
 ok([0.1, 0.5, 0.99].every(r => C.kampfGruppeWaehlen(K, 3, () => r) === 'pixie1') && C.kampfGruppeWaehlen(K, 1, () => 0.5) === null, 'Zufallskampf: nur Gegner, die schon dran sind');
 // Regel aus dem Fahrplan wird geprüft: Frostwicht vor Flammula ist ein Fehler

@@ -109,6 +109,25 @@ const AU = {
       const lp = c.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 1400; o.connect(lp); o2.connect(lp); o3.connect(lp); o.disconnect(g); lp.connect(g);
       g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(vol * 0.45, t + Math.min(0.6, dur * 0.3)); g.gain.setValueAtTime(vol * 0.45, t + dur * 0.8); g.gain.linearRampToValueAtTime(0, t + dur * 1.1);
       [o, o2, o3].forEach(x => { x.start(t); x.stop(t + dur * 1.15); });
+    } else if (type === 'blech') {
+      // Horn: Sägezahn und Rechteck durch weichen Filter, schwillt an, leichtes Vibrato
+      o.type = 'sawtooth'; const o2 = c.createOscillator(); o2.type = 'square'; o2.frequency.value = f; o2.detune.value = 6; const g2 = c.createGain(); g2.gain.value = 0.35; o2.connect(g2);
+      const lp = c.createBiquadFilter(); lp.type = 'lowpass'; lp.Q.value = 0.7; lp.frequency.setValueAtTime(700, t); lp.frequency.linearRampToValueAtTime(1900, t + 0.08); lp.frequency.setTargetAtTime(1200, t + 0.1, 0.3);
+      o.disconnect(g); o.connect(lp); g2.connect(lp); lp.connect(g);
+      const lfo = c.createOscillator(), lg = c.createGain(); lfo.frequency.value = 5.2; lg.gain.value = f * 0.006; lfo.connect(lg); lg.connect(o.frequency); lg.connect(o2.frequency);
+      g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(vol * 0.5, t + 0.05); g.gain.setValueAtTime(vol * 0.5, t + dur * 0.85); g.gain.linearRampToValueAtTime(0, t + dur + 0.08);
+      [o, o2, lfo].forEach(x => { x.start(t); x.stop(t + dur + 0.12); });
+    } else if (type === 'pauke') {
+      // Pauke: tiefer Ton, der schnell abfällt
+      o.type = 'sine'; o.frequency.setValueAtTime(f * 1.6, t); o.frequency.exponentialRampToValueAtTime(f, t + 0.06);
+      const o2 = c.createOscillator(); o2.type = 'triangle'; o2.frequency.value = f * 2.3; const g2 = c.createGain(); g2.gain.setValueAtTime(0.25, t); g2.gain.exponentialRampToValueAtTime(0.001, t + 0.12); o2.connect(g2); g2.connect(g);
+      g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(vol, t + 0.006); g.gain.setTargetAtTime(0, t + 0.02, 0.18);
+      o.start(t); o.stop(t + 1); o2.start(t); o2.stop(t + 0.2);
+    } else if (type === 'zupf') {
+      // gezupfte Streicher: kurz und federnd
+      o.type = 'triangle'; const lp = c.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 2200; o.disconnect(g); o.connect(lp); lp.connect(g);
+      g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(vol, t + 0.006); g.gain.setTargetAtTime(0, t + 0.01, 0.09);
+      o.start(t); o.stop(t + 0.6);
     } else {
       o.type = type;
       g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + 0.005); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
