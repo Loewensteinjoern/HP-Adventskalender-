@@ -65,12 +65,19 @@ Object.assign(PAINT_TILE, {
     for (let i = 0; i < 2; i++) { const x = (R() * 28) | 0, y = (R() * 28) | 0; p.r(x, y, 4, 1, '#cfd9ec'); }
     if (R() < 0.3) p.px((R() * 32) | 0, (R() * 32) | 0, '#ffffff');
   },
+  // Tiefer Schnee: höhere Verwehungen, blaue Schatten – hier kann es Überfälle geben
+  tiefschnee(p, R) {
+    p.r(0, 0, 32, 32, '#d6e2f2');
+    for (let i = 0; i < 3; i++) { const x = (R() * 26) | 0, y = 4 + ((R() * 22) | 0); p.ell(x + 4, y + 2, 7, 3, '#eef4ff'); p.r(x - 2, y + 4, 12, 1, '#b4c4dc'); }
+    for (let i = 0; i < 8; i++) p.px((R() * 32) | 0, (R() * 32) | 0, R() < 0.5 ? '#bccce4' : '#ffffff');
+    if (R() < 0.4) { const x = (R() * 26) | 0, y = (R() * 26) | 0; p.r(x, y, 1, 4, '#8a9ab8'); p.px(x - 1, y, '#8a9ab8'); p.px(x + 1, y + 1, '#8a9ab8'); }
+  },
   weg_schnee(p, R, nb) {
     p.r(0, 0, 32, 32, '#6a6470');
     for (let y = 0; y < 32; y += 8) for (let x = ((y / 8) % 2) * 5 - 5; x < 32; x += 10) {
       const c = ['#8a8290', '#7e7686', '#948c9a'][(R() * 3) | 0]; p.r(x + 1, y + 1, 8, 6, c); p.r(x + 1, y + 1, 8, 1, shade(c, 0.2));
     }
-    const sn = ch => ch === 'n';
+    const sn = ch => ch === 'n' || ch === 'N';
     if (sn(nb.left)) for (let y = 0; y < 32; y += 4) p.r(0, y, 3 + ((R() * 4) | 0), 4, '#e2eaf6');
     if (sn(nb.right)) for (let y = 0; y < 32; y += 4) { const w = 3 + ((R() * 4) | 0); p.r(32 - w, y, w, 4, '#e2eaf6'); }
     for (let i = 0; i < 4; i++) p.r((R() * 28) | 0, (R() * 30) | 0, 3, 2, '#dfe7f4');
@@ -436,6 +443,13 @@ Object.assign(PAINT_OBJ, {
   },
   federn(p) {
     [[8, 12, '#a88a66'], [22, 20, '#d8d0c0'], [14, 26, '#8a8a92']].forEach(([x, y, c]) => { p.line(x, y, x + 5, y - 4, c); p.px(x + 1, y - 2, c); p.px(x + 3, y - 1, c); p.px(x + 2, y - 3, c); });
+  },
+  // Probekampf: zitternder Schneehaufen mit Glitzern
+  schneehaufen_zitter(p, f) {
+    const dx = [0, 1, 0, -1][f % 4];
+    p.ell(16 + dx, 32, 13, 6, '#cfd9ec'); p.ell(16 + dx, 30, 11, 7, '#eef4ff'); p.ell(13 + dx, 27, 6, 4, '#ffffff');
+    p.r(19 + dx, 26, 2, 2, '#1a2a4a'); p.px(19 + dx, 26, '#ffffff');
+    if (f % 2) { p.px(6, 20, '#ffffff'); p.px(26, 23, '#cfeaff'); } else { p.px(9, 24, '#cfeaff'); p.px(24, 19, '#ffffff'); }
   },
   schneehaufen(p) {
     p.ell(16, 30, 13, 6, '#cfd9ec'); p.ell(16, 28, 11, 6, '#eef4ff'); p.ell(13, 25, 6, 4, '#ffffff');

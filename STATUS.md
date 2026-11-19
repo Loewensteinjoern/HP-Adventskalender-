@@ -1,8 +1,19 @@
 # STATUS
 
-## Stand (18.11.2026)
+## Stand (19.11.2026)
 - **S1 erledigt:** `plan/STORY_BIBEL_V2.md` geschrieben (nur Planung, kein Code) – **von Jörn freigegeben (19.11.)**. Inhalt: Raureif braucht Charly (Wendung Woche 2) und wird am Ende erlöst; Jörns Geheimnis = Spieluhr mit Nordwind-Melodie und Gravur (löst Phase 3 des Raureif-Kampfs); Haken für alle 24 Tage; 14 Nebenquests; Diego-Geheimnisse je Gebiet; Kampfwerte und Gegnertabelle; gereimtes Phönixlied (24 Zeilen, setzt sich im Questlog zusammen); Haken als Zwischenszenen mit Kinobalken (Jörn, 19.11.). Neu (Jörn, 19.11.): **Prolog Tag 0** (Begrüßungsfest, Hauslaternen, Führung mit Prof. Wurzelgrün, zugefrorenes Haupttor, Tutorial) und **Tagesablauf am Kamin** (morgens Start, abends „Tag beenden“, unsichtbares Mitspeichern bleibt). Fahrplan: neue Sitzung S2b (25.11.), S3 jetzt 27.11.
-- **Stufe 2 gebaut** (Version 0.2), wartet auf Jörns iPad-Test.
+- **S2 gebaut (Version 0.3): Kampfsystem + Schlosskarte.**
+  - Kampfbildschirm: rundenbasiert, eine Wahl pro Runde für Charly (Zaubern, Schneeball), Jörn (Kakao +4 Wärme, Mut = Schutz 2 Runden) oder Diego (Bellen = Gegner setzt aus, Schnüffeln = Schwäche zeigen), Zurückziehen. Danach handeln die Gegner. Ziel wählen bei mehreren Gegnern.
+  - Gegner `data/kampf.json`: Schneepixie (Kraft 2, weicht aus, Schwäche Luxa), Frostwicht (Kraft 5, Schwäche Flammula). Richtiger Zauber = 3 Schaden + Gegner setzt aus. Gruppen: probe, pixie1, pixie2, wicht1, wicht_pixie.
+  - Wärme statt Lebenspunkten (10, je 3 Glutsplitter +2). Anzeige oben rechts draußen. Drinnen (Karten ohne `kampf`) sofort voll, der Ort wird als „warmer Ort“ gemerkt. Bei 0 Wärme: Aufwachen dort, volle Wärme, Dialog `kampf_aufwachen` – kein Game Over.
+  - Innenhof: Tiefschnee (Kachel `N`, `kampf: true`) rechts unten und am rechten Rand. Probekampf am zitternden Schneehaufen (ab Luxa, Mats gibt den Hinweis, Jörn erklärt beim ersten Mal). Danach Überfälle im Tiefschnee (`kampf` in der Karte: Chance 9 %, 5 Schritte Schonung; Pixies ab Tag 2/3, Frostwicht ab 7/8). Diego knurrt vorher.
+  - Glutsplitter-Mechanik (`glut` als Aktion, `save.glut`), erster Splitter als Diego-Geheimnis im Innenhof.
+  - Schlosskarte im Menü (2. Punkt): besuchte Orte, Übergänge als Punkte, unbekannte Nachbarn als „?“, „Du bist hier“. Lage in `data/karte.json`.
+  - Spielstand v2 (Migration v1→v2: Wärme, warmer Ort, besuchte Orte, Glutsplitter).
+  - Datenprüfung neu: Gegner nur ab dem Lerntag seines Schwäche-Zaubers (`tag` in `zauber.json`, auch gegen die Quest geprüft), jeder Ort auf der Karte, Kampf-Karten brauchen Tiefschnee.
+  - Musik `kampf`, Geräusche knurren, Schneeball, Treffer, Kakao, Mut, Sieg …
+  - Tests: 58 Kern-Tests (u. a. jeder Kampf nur mit Schneeball+Kakao gewinnbar, mit richtigem Zauber ≤ 4 Runden), neuer Rauchtest `tests/smoke_kampf.js`.
+- Stufe 2 (Version 0.2) wartet weiter auf Jörns iPad-Test.
 - Neue Gebiete: Schlosskern (Drehkreuz), Große Halle, Bibliothek, Innenhof (Schnee), Eulenturm, Uhrenturm. Kellertreppe öffnet sich ab 1.12.
 - Quests Q01–Q04 vollständig spielbar, je ein Winterfragment. Nebenaufgabe „Knarz’ Schlüsselbund“ (ab Tag 1).
 - Neue Mechaniken: Reihenfolge-Rätsel mit Vorführung (Kerzen, `data/puzzles.json`), Takt-Minispiel (Uhrmeister), Geheimgang über Flag (loser Stein), mehrteilige Quest-Schritte (`flags` + `{n}`), Nebenquests (`neben: true`), Zauber als Flags `zauber_*` (Anzeige im Questlog).
@@ -33,5 +44,8 @@
 2. **Jörn: iPad-Test.** Repo ist öffentlich, `main` = `startpaket` (18.11.). Pages muss Jörn einschalten (Settings → Pages → main, /docs). Adresse: https://loewensteinjoern.github.io/HP-Adventskalender-/
 3. iPhone quer: Bild ist wegen der Höhe nur 2-fach skaliert (klein, aber spielbar).
 
+4. **Jörn: 1–2 Kämpfe spielen** (zu leicht/schwer?). Testlink: `?testtag=2`, Q02 bis Luxa spielen, dann im Innenhof zum zitternden Schneehaufen rechts unten. Frostwicht erst ab `?testtag=7` + Flammula (kommt in Q06).
+5. Kampfwerte: S2 hat eigene Werte (richtiger Zauber = 3 Schaden + Aussetzen, Pixie Kraft 2, Wicht Kraft 5, Mut 2 Runden). Diese gelten; Story-Bibel V2 Abschnitt 8 ist nur der Rahmen. Feinschliff nach Jörns Probekämpfen.
+
 ## Nächster Schritt
-**S2 Kampfsystem + Schlosskarte** (bis 23.11.) nach `plan/FAHRPLAN.md` und `plan/STORY_BIBEL_V2.md` Abschnitt 8 und 9. Danach S2b Prolog Tag 0 + Tagesablauf, S3 Q01–Q04 neu erzählt, S4 Q05–Q07, S5 Generalprobe 30.11.
+**S1 und S2 sind erledigt.** Nächste Sitzung: **S2b Prolog Tag 0 + Tagesablauf am Kamin** (bis 25.11., `plan/FAHRPLAN.md` und `plan/STORY_BIBEL_V2.md` Abschnitt 5 „Tag 0“ und 5.0). Danach S3 Q01–Q04 neu erzählt (27.11.), S4 Q05–Q07, S5 Generalprobe 30.11.

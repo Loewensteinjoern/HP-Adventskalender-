@@ -318,6 +318,61 @@ const UI = {
     R.text(this.toastMsg, VIEW_W / 2, VIEW_H - 24, { size: 12, align: 'center' }); c.globalAlpha = 1;
   },
 
+  // --- Wärme-Anzeige draußen (oder wenn Charly noch kalt ist) ---
+  waermeHud(G) {
+    const s = G.save, m = DATA.maps[G.mapId], max = waermeMax(s);
+    if (!m.kampf && s.waerme >= max) return;
+    const c = R.ctx, x = VIEW_W - 112, y = 6, w = 80, v = clamp(s.waerme, 0, max);
+    c.fillStyle = 'rgba(20,12,24,0.75)'; c.fillRect(x - 4, y, 110, 18);
+    R.text('🔥', x, y + 14, { size: 11, shadow: false });
+    c.fillStyle = '#2a2440'; c.fillRect(x + 18, y + 5, w, 8);
+    c.fillStyle = v / max <= 0.3 ? '#9cc0f0' : '#ff8a2a'; c.fillRect(x + 18, y + 5, Math.round(w * v / max), 8);
+    c.fillStyle = 'rgba(255,255,255,0.35)'; c.fillRect(x + 18, y + 5, Math.round(w * v / max), 1);
+  },
+  // --- Schlosskarte: besuchte Orte, Wege dazwischen, unbekannte Nachbarn als „?“ ---
+  karte(G, time) {
+    const c = R.ctx, K = DATA.karte.orte, seen = G.save.besucht, p = Pen(c);
+    c.fillStyle = 'rgba(10,6,14,0.85)'; c.fillRect(0, 0, VIEW_W, VIEW_H);
+    R.panel(16, 14, VIEW_W - 32, VIEW_H - 28);
+    R.text(DATA.karte.titel, 34, 42, { size: 18, weight: 700, serif: true, color: '#ffd36a' });
+    R.text(seen.length + ' von ' + Object.keys(K).length + ' Orten entdeckt', VIEW_W - 34, 40, { size: 11, align: 'right', color: '#c8b898' });
+    const known = id => seen.indexOf(id) >= 0;
+    const edges = {}, show = {};
+    Object.keys(DATA.maps).forEach(a => (DATA.maps[a].doors || []).forEach(d => {
+      if (!K[a] || !K[d.to] || a === d.to) return;
+      const k = [a, d.to].sort().join('|');
+      if (known(a) || known(d.to)) { edges[k] = [a, d.to]; show[a] = true; show[d.to] = true; }
+    }));
+    seen.forEach(id => { show[id] = true; });
+    // Wege
+    Object.values(edges).forEach(([a, b]) => {
+      const A = K[a], B = K[b], both = known(a) && known(b);
+      c.strokeStyle = both ? 'rgba(232,192,80,0.7)' : 'rgba(200,184,152,0.35)'; c.lineWidth = both ? 2 : 1;
+      c.setLineDash(both ? [] : [3, 3]); c.beginPath(); c.moveTo(A.x, A.y); c.lineTo(B.x, B.y); c.stroke();
+    });
+    c.setLineDash([]); c.lineWidth = 1;
+    // Orte
+    Object.keys(show).forEach(id => {
+      const o = K[id], k = known(id), cur = id === G.mapId, name = o.kurz || DATA.maps[id].name;
+      if (o.weg) {
+        p.circ(o.x, o.y, 5, k ? (o.draussen ? '#9cc0f0' : '#b0a08a') : '#4a4050'); p.circ(o.x, o.y, 3, k ? (o.draussen ? '#d8e8ff' : '#e8dcc4') : '#5a5060');
+        if (k) R.text(name, o.x, o.y + 16, { size: 8, align: 'center', weight: 600, color: '#a89878' });
+      } else {
+        c.font = '700 11px ' + R.FONT; const label = k ? (o.draussen ? '❄ ' : '') + name : '?', w = Math.max(30, c.measureText(label).width + 16), h = 22;
+        c.fillStyle = !k ? '#2a2430' : o.draussen ? '#24345a' : '#3a2a44'; c.fillRect(o.x - w / 2, o.y - h / 2, w, h);
+        c.fillStyle = !k ? '#5a5060' : o.draussen ? '#9cc0f0' : '#e09a2c';
+        c.fillRect(o.x - w / 2, o.y - h / 2, w, 1); c.fillRect(o.x - w / 2, o.y + h / 2 - 1, w, 1); c.fillRect(o.x - w / 2, o.y - h / 2, 1, h); c.fillRect(o.x + w / 2 - 1, o.y - h / 2, 1, h);
+        R.text(label, o.x, o.y + 4, { size: 11, align: 'center', weight: 700, color: k ? '#f4ead8' : '#8a8090' });
+      }
+      if (cur) {
+        const a = 0.5 + 0.5 * Math.sin(time * 5);
+        c.globalAlpha = a; c.strokeStyle = '#ffd36a'; c.lineWidth = 2; c.beginPath(); c.arc(o.x, o.y, o.weg ? 10 : 18, 0, 6.283); c.stroke(); c.lineWidth = 1; c.globalAlpha = 1;
+        R.text('★ Du bist hier', o.x, o.y - (o.weg ? 14 : 18), { size: 10, align: 'center', weight: 700, color: '#ffd36a' });
+      }
+    });
+    R.text('▢ Raum   ● Übergang   ❄ draußen: Vorsicht im tiefen Schnee   ? noch unbekannt', VIEW_W / 2, VIEW_H - 24, { size: 10, align: 'center', color: '#c8b898' });
+  },
+
   // --- Code-Fenster (HTML, weil Text kopiert/eingefügt werden muss) ---
   codePanel(mode, code, onLoad, onClose) {
     this.closePanel();

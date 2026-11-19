@@ -41,7 +41,7 @@ const gut = C.migrateSave(JSON.parse(fx('save_v1_gut.json')));
 ok(gut && gut.save.x === 5 && gut.save.flags.q01_feder === true && gut.save.secrets[0] === 'zimtstern', 'Guter v1-Stand bleibt unverändert');
 ok(gut.save.zukunftsfeld && gut.save.zukunftsfeld.bleibt === 'erhalten', 'Unbekannte Felder bleiben erhalten');
 const alt = C.migrateSave(JSON.parse(fx('save_v0_alt.json')));
-ok(alt && alt.save.v === 1 && alt.save.map === 'kellergang' && alt.save.x === 3 && alt.save.flags.diego_dabei, 'v0 wird nach v1 migriert');
+ok(alt && alt.save.v === 2 && alt.save.map === 'kellergang' && alt.save.x === 3 && alt.save.flags.diego_dabei, 'v0 wird über v1 nach v2 migriert');
 const schief = C.migrateSave(JSON.parse(fx('save_v1_schief.json')));
 ok(schief && schief.save.map === D.welt.start.map && schief.save.flags.ok === true && !('boese<script>' in schief.save.flags), 'Schiefer Stand wird repariert, nicht verworfen');
 ok(schief.save.followers.indexOf('drache') < 0 && schief.save.followers[0] === 'joern' && schief.save.seenDay === 24, 'Begleiter und Tage werden bereinigt');
@@ -79,6 +79,53 @@ ok(C.exportCode({ v: 1, flags: { ä: 1 }, name: 'Løvestein ö' }).length > 10, 
 // --- Quests ---
 const q = C.newSave(0); Object.assign(q.flags, { diego_dabei: true, q01_feder: true, q01_joern: true });
 ok(C.updateQuests(q, 1).length === 0, 'Teilweise gebaute Quest wird nicht vorzeitig abgeschlossen');
+
+// --- Spielstand v2 (Stufe S2): Wärme, Karte, Glutsplitter ---
+ok(gut.save.v === 2 && gut.save.waerme === 10 && gut.save.besucht.indexOf(gut.save.map) >= 0 && gut.save.glut.length === 0 && gut.save.warm === null, 'v1-Stand bekommt Wärme, Karte und Glutsplitter dazu');
+const w2 = C.migrateSave({ v: 2, map: 'innenhof', x: 5, y: 8, waerme: 99, glut: ['a', 'b', 'c', 7], warm: { map: 'gibtsnicht', x: 1, y: 1, dir: 'up' }, besucht: ['innenhof', 'quatsch'] });
+ok(w2.save.waerme === 12 && w2.save.glut.length === 3 && w2.save.warm === null && w2.save.besucht.join() === 'innenhof', 'v2-Stand wird bereinigt (Wärme gedeckelt, unbekannte Orte raus)');
+
+// --- Kampf ---
+let seed = 7; const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+ok(C.waermeMax({ glut: [] }) === 10 && C.waermeMax({ glut: ['a', 'b', 'c'] }) === 12, 'Drei Glutsplitter: mehr Wärme');
+let F = C.kampfNeu('pixie1', { zauber: ['luxa'] });
+C.kampfZug(F, { art: 'zauber', z: 'luxa', ziel: 0 }, rnd);
+ok(F.ende === 'sieg', 'Luxa besiegt die Schneepixie sofort');
+F = C.kampfNeu('wicht1', { zauber: ['luxa', 'flammula'] });
+C.kampfZug(F, { art: 'zauber', z: 'flammula', ziel: 0 }, rnd);
+ok(!F.ende && F.waerme === 10 && F.gegner[0].aus === 0, 'Flammula trifft den Frostwicht, der setzt danach aus');
+C.kampfZug(F, { art: 'zauber', z: 'flammula', ziel: 0 }, rnd);
+ok(F.ende === 'sieg', 'Zweimal Flammula: Frostwicht geschmolzen');
+F = C.kampfNeu('probe', {});
+const evF = C.kampfZug(F, { art: 'flucht' }, rnd);
+ok(!F.ende && evF.length === 1, 'Probekampf: kein Weglaufen');
+F = C.kampfNeu('pixie2', { waerme: 1 });
+for (let i = 0; i < 20 && !F.ende; i++) C.kampfZug(F, { art: 'schnueffeln' }, rnd);
+ok(F.ende === 'kalt' && F.waerme === 0, 'Bei 0 Wärme endet der Kampf (danach Aufwachen im Warmen)');
+F = C.kampfNeu('pixie2', {});
+C.kampfZug(F, { art: 'bellen', ziel: 1 }, rnd);
+ok(F.gegner[1].aus === 0 && F.waerme >= 8, 'Bellen: Gegner setzt eine Runde aus');
+// Jeder Kampf ist auch ohne passenden Zauber lösbar, mit Zauber schnell
+Object.keys(D.kampf.gruppen).forEach(g => {
+  let win = 0, slow = 0;
+  for (let i = 0; i < 300; i++) {
+    const f = C.kampfNeu(g, {}); let n = 0;
+    while (!f.ende && n < 60) { n++; const t = C.kampfLebend(f)[0]; C.kampfZug(f, f.waerme <= 4 ? { art: 'kakao' } : { art: 'schneeball', ziel: t.nr }, rnd); }
+    if (f.ende === 'sieg') win++;
+    const k = C.kampfNeu(g, { zauber: Object.keys(D.zauber) }); let m = 0;
+    while (!k.ende && m < 10) { m++; const t = C.kampfLebend(k)[0]; C.kampfZug(k, { art: 'zauber', z: D.kampf.gegner[t.id].schwaeche, ziel: t.nr }, rnd); }
+    if (k.ende !== 'sieg' || m > 4) slow++;
+  }
+  ok(win === 300, 'Kampf ' + g + ': nur mit Schneebällen und Kakao immer gewinnbar (' + win + '/300)');
+  ok(slow === 0, 'Kampf ' + g + ': mit dem richtigen Zauber in höchstens 4 Runden gewonnen');
+});
+const K = { gruppen: [{ g: 'pixie1', ab: 2 }, { g: 'wicht1', ab: 7 }] };
+ok([0.1, 0.5, 0.99].every(r => C.kampfGruppeWaehlen(K, 3, () => r) === 'pixie1') && C.kampfGruppeWaehlen(K, 1, () => 0.5) === null, 'Zufallskampf: nur Gegner, die schon dran sind');
+// Regel aus dem Fahrplan wird geprüft: Frostwicht vor Flammula ist ein Fehler
+const D2 = JSON.parse(JSON.stringify(D)); D2.maps.innenhof.kampf.gruppen.push({ g: 'wicht1', ab: 2 });
+ok(loadCore(D2).validateData().errors.some(e => /Frostwicht taucht ab Tag 2 auf/.test(e)), 'Datenprüfung meldet Gegner, deren Zauber noch nicht gelernt werden kann');
+const D3 = JSON.parse(JSON.stringify(D)); delete D3.karte.orte.innenhof;
+ok(loadCore(D3).validateData().errors.some(e => /Schlosskarte/.test(e)), 'Datenprüfung: jeder Ort steht auf der Schlosskarte');
 
 console.log((fails ? '✗ ' + fails + ' von ' : '✓ alle ') + count + ' Tests' + (fails ? ' fehlgeschlagen' : ' bestanden'));
 v.warnings.forEach(w => console.log('  Hinweis: ' + w));

@@ -2,41 +2,49 @@
   "luxa": {
     "name": "Luxa",
     "wirkung": "Licht",
-    "falsch": "Ein warmes Licht tanzt über Charlys Finger – aber hier passiert nichts."
+    "falsch": "Ein warmes Licht tanzt über Charlys Finger – aber hier passiert nichts.",
+    "tag": 2
   },
   "clavis": {
     "name": "Clavis",
     "wirkung": "Öffnen",
-    "falsch": "Klick! … Hier gibt es nichts aufzuschließen."
+    "falsch": "Klick! … Hier gibt es nichts aufzuschließen.",
+    "tag": 3
   },
   "restauro": {
     "name": "Restauro",
     "wirkung": "Reparieren",
-    "falsch": "Es surrt und klickt – aber hier ist nichts kaputt."
+    "falsch": "Es surrt und klickt – aber hier ist nichts kaputt.",
+    "tag": 4
   },
   "advoco": {
     "name": "Advoco",
     "wirkung": "Heranholen",
-    "falsch": "Ein Windhauch zieht vorbei. Nichts kommt angeflogen."
+    "falsch": "Ein Windhauch zieht vorbei. Nichts kommt angeflogen.",
+    "tag": 8
   },
   "levitas": {
     "name": "Levitas",
     "wirkung": "Schweben",
-    "falsch": "Für einen Moment wackelt alles – dann bleibt es, wo es ist."
+    "falsch": "Für einen Moment wackelt alles – dann bleibt es, wo es ist.",
+    "tag": 9
   },
   "flammula": {
     "name": "Flammula",
     "wirkung": "Feuer",
-    "falsch": "Ein Funke springt – und verglüht. Hier braucht es kein Feuer."
+    "falsch": "Ein Funke springt – und verglüht. Hier braucht es kein Feuer.",
+    "tag": 6
   },
   "custodia": {
     "name": "Custodia",
     "wirkung": "Schutz",
-    "falsch": "Ein schimmernder Schild erscheint und löst sich wieder auf."
+    "falsch": "Ein schimmernder Schild erscheint und löst sich wieder auf.",
+    "tag": 12
   },
   "phoenix": {
     "name": "Phoenix Hiemis",
     "wirkung": "Phönixfeuer",
-    "falsch": "Ein Hauch von goldener Glut – noch ist nicht die Zeit dafür."
+    "falsch": "Ein Hauch von goldener Glut – noch ist nicht die Zeit dafür.",
+    "tag": 22
   }
 }

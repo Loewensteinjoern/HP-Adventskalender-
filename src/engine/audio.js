@@ -207,6 +207,16 @@ const AU = {
       case 'stein': this.noiseBurst(t, 0.6, 0.5, 220, 0.7); this.tone('sine', 70, t, 0.5, 0.3, B); break;
       case 'zahnrad': for (let i = 0; i < 6; i++) this.noiseBurst(t + i * 0.08, 0.04, 0.35, 2800, 4); break;
       case 'stoss': this.tone('sine', 120, t, 0.06, 0.12, B); break;
+      case 'knurren': for (let i = 0; i < 3; i++) this.noiseBurst(t + i * 0.16, 0.18, 0.35, 160, 1.2); this.tone('sawtooth', 70, t, 0.5, 0.05, B); break;
+      case 'kampf': this.noiseBurst(t, 0.6, 0.3, 4000, 0.6); [988, 784, 659, 523].forEach((f, i) => this.tone('glocke', f, t + i * 0.07, 0.6, 0.14, B)); break;
+      case 'schneeball': this.noiseBurst(t, 0.25, 0.25, 1800, 0.8); break;
+      case 'treffer': this.noiseBurst(t, 0.12, 0.45, 700, 1.5); this.tone('sine', 220, t, 0.12, 0.15, B); break;
+      case 'autsch': this.noiseBurst(t, 0.3, 0.3, 5200, 2); this.tone('sine', 520, t, 0.25, 0.1, B); this.tone('sine', 390, t + 0.1, 0.25, 0.1, B); break;
+      case 'kakao': [523, 659, 784].forEach((f, i) => this.tone('spieluhr', f, t + i * 0.1, 0.6, 0.16, B)); break;
+      case 'mut': [392, 523, 659, 784].forEach((f, i) => this.tone('glocke', f, t + i * 0.08, 0.9, 0.14, B)); break;
+      case 'puff': this.noiseBurst(t, 0.4, 0.3, 2400, 0.7); [1568, 1318].forEach((f, i) => this.tone('spieluhr', f, t + i * 0.08, 0.4, 0.12, B)); break;
+      case 'kalt': [659, 587, 523, 440].forEach((f, i) => this.tone('glocke', f, t + i * 0.18, 1.2, 0.14, B)); break;
+      case 'sieg': [523, 659, 784, 1046, 784, 1046].forEach((f, i) => this.tone('glocke', f, t + i * 0.11, 1, 0.18, B)); break;
     }
   },
 };

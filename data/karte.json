@@ -1,0 +1,18 @@
+{
+  "titel": "Schloss Løvestein",
+  "orte": {
+    "grosse_halle": { "x": 256, "y": 62, "kurz": "Große Halle" },
+    "vorhalle": { "x": 256, "y": 112, "weg": true },
+    "schlosskern": { "x": 256, "y": 172, "kurz": "Schlosskern" },
+    "treppenhaus": { "x": 168, "y": 172, "weg": true, "kurz": "Treppenhaus" },
+    "bibliothek": { "x": 82, "y": 132, "kurz": "Bibliothek" },
+    "wendeltreppe": { "x": 350, "y": 136, "weg": true },
+    "uhrenturm": { "x": 434, "y": 86, "kurz": "Uhrenturm" },
+    "kellergang": { "x": 176, "y": 240, "weg": true },
+    "gemeinschaftsraum": { "x": 88, "y": 282, "kurz": "Bernfuchs-Raum" },
+    "arkadengang": { "x": 330, "y": 236, "weg": true },
+    "innenhof": { "x": 404, "y": 296, "kurz": "Innenhof", "draussen": true },
+    "eulenstiege": { "x": 472, "y": 236, "weg": true, "draussen": true },
+    "eulenturm": { "x": 440, "y": 176, "kurz": "Eulenturm" }
+  }
+}

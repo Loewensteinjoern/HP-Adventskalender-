@@ -56,7 +56,7 @@ const G = {
       if (q.start && q.day <= this.day && s.done.indexOf(id) < 0 && !s.flags['start_' + id])
         this.queue.push(() => { s.flags['start_' + id] = true; this.say(q.start); });
     });
-    if (!DLG.open) this.next();
+    if (!DLG.open && this.mode !== 'kampf') this.next();
   },
   next() { const f = this.queue.shift(); if (f) f(); },
   banner(text) { this.bannerMsg = { text, t0: this.time }; },
@@ -71,6 +71,11 @@ const G = {
       if (!blockedAt(m, nx, ny, this.ctx()) && !doorAt(m, nx, ny)) { bx = nx; by = ny; }
       return { char: ch, x: bx, y: by, fx: bx, fy: by, dir, t: 1, moving: false, par: 0, pose: null };
     });
+    const s = this.save;
+    if (s.besucht.indexOf(mid) < 0) s.besucht.push(mid);
+    // Drinnen (ohne Kämpfe) ist es warm: Wärme voll, Ort merken für das Aufwachen nach einer Niederlage
+    if (!m.kampf) { s.waerme = waermeMax(s); s.warm = { map: mid, x, y, dir }; }
+    this.kampfSchritte = 0; this.alarm = null;
     AU.playMusic(m.music);
   },
 
@@ -91,9 +96,11 @@ const G = {
     if (this.mode === 'menu') return this.updateMenu();
     if (this.mode === 'mini') return this.updateMini(dt);
     if (this.mode === 'zauber') return this.updateSpell();
+    if (this.mode === 'kampf') return KB.update(dt);
+    if (this.alarm) { this.alarm.t -= dt; this.moveTick(dt, false); if (this.alarm.t <= 0) { const g = this.alarm.g; this.alarm = null; this.startFight(g, null); } return; }
     if (this.demo) this.updateDemo();
     this.updateNpcs(dt);
-    if (this.mode === 'questlog' || this.mode === 'lied') {
+    if (this.mode === 'questlog' || this.mode === 'lied' || this.mode === 'karte') {
       if (IN.take('up')) UI.scroll--; if (IN.take('down')) UI.scroll++;
       if (IN.take('a') || IN.take('b') || IN.take('menu')) { AU.sfx('zurueck'); this.mode = 'menu'; }
       return;
@@ -133,7 +140,49 @@ const G = {
   onArrive() {
     const m = DATA.maps[this.mapId], d = doorAt(m, this.player.x, this.player.y);
     if (d) { AU.sfx('tuer'); this.fade = { t: 0, door: d, done: false }; return true; }
-    return false;
+    return this.checkEncounter(m);
+  },
+  // --- Kämpfe: plötzliche Überfälle im tiefen Schnee ---
+  checkEncounter(m) {
+    const K = m.kampf, p = this.player;
+    if (!K || !condsOk(K.if, this.ctx()) || !(DATA.tiles[tileChar(m, p.x, p.y)] || {}).kampf) return false;
+    this.kampfSchritte = (this.kampfSchritte || 0) + 1;
+    const chance = this.kampfTest !== undefined ? this.kampfTest : K.chance;
+    if (this.kampfSchritte <= (K.schonung || 0) && this.kampfTest === undefined) return false;
+    if (Math.random() >= chance) return false;
+    const g = kampfGruppeWaehlen(K, this.day);
+    if (!g) return false;
+    // Diego spürt die Gefahr zuerst
+    const d = this.followers.find(f => f.char === 'diego');
+    AU.sfx('knurren');
+    if (d) { d.dir = p.dir; this.bubble = { e: d, text: 'Grrr …!', t0: this.time }; }
+    this.alarm = { t: d ? 0.9 : 0.4, g };
+    return true;
+  },
+  startFight(gruppe, talk) {
+    const s = this.save;
+    this.mode = 'kampf'; this.bubble = null; this.trail = null;
+    AU.sfx('kampf'); AU.playMusic('kampf');
+    KB.start(gruppe, { max: waermeMax(s), waerme: s.waerme, zauber: this.spells(), diego: s.followers.indexOf('diego') >= 0, joern: s.followers.indexOf('joern') >= 0 },
+      (ende, F) => this.endFight(ende, F, talk));
+  },
+  endFight(ende, F, talk) {
+    const s = this.save, m = DATA.maps[this.mapId];
+    this.mode = 'play'; this.kampfSchritte = 0;
+    s.waerme = Math.max(1, F.waerme);
+    if (ende === 'kalt') {
+      // Kein Game Over: Charly wacht am letzten warmen Ort auf
+      const w = s.warm || DATA.welt.start;
+      s.waerme = waermeMax(s);
+      this.fade = { t: 0, door: { to: w.map, tx: w.x, ty: w.y, dir: w.dir || 'down' }, done: false };
+      this.queue.push(() => this.say('kampf_aufwachen'));
+      setTimeout(() => { if (!DLG.open) this.next(); }, 700);
+      this.persist(); return;
+    }
+    AU.playMusic(m.music);
+    if (ende === 'sieg') { s.flags.siege = (s.flags.siege || 0) + 1; if (talk && talk.win) this.runTalk(talk.win); }
+    this.persist();
+    if (!DLG.open) this.next();
   },
   updateFade(dt) {
     const f = this.fade; f.t += dt / 0.5;
@@ -180,6 +229,7 @@ const G = {
       this.applyAction(t);
       if (t.demo) this.demo = { id: t.demo, t0: this.time, played: -1 };
       if (t.minigame) this.startMini(t.minigame, () => this.runTalk(t.win));
+      if (t.kampf) this.startFight(t.kampf, t);
     };
     if (id) this.say(id, apply); else apply();
   },
@@ -253,6 +303,11 @@ const G = {
       const last = this.followers[this.followers.length - 1] || this.player;
       const at = n || last;
       this.followers.push({ char: t.join, x: at.x, y: at.y, fx: at.x, fy: at.y, dir: 'down', t: 1, moving: false, par: 0, pose: null });
+    }
+    if (t.glut && s.glut.indexOf(t.glut) < 0) {
+      const vor = waermeMax(s); s.glut.push(t.glut); const nach = waermeMax(s);
+      s.waerme = Math.min(nach, s.waerme + (nach - vor));
+      this.banner(nach > vor ? 'Charly ist wärmer geworden! Wärme ' + nach : 'Glutsplitter ' + s.glut.length + ' – noch ' + (3 - s.glut.length % 3) + ' bis zu mehr Wärme');
     }
     if (t.leave) { s.followers = s.followers.filter(c => c !== t.leave); this.followers = this.followers.filter(f => f.char !== t.leave); }
     const neu = updateQuests(s, this.day);
@@ -368,7 +423,7 @@ const G = {
   },
   menuOptions() {
     return [
-      { id: 'log', label: 'Questlog' }, { id: 'lied', label: 'Phönixlied' },
+      { id: 'log', label: 'Questlog' }, { id: 'karte', label: 'Schlosskarte' }, { id: 'lied', label: 'Phönixlied' },
       { id: 'export', label: 'Spielstand sichern (Code)' }, { id: 'import', label: 'Spielstand-Code eingeben' },
       { id: 'ton', label: 'Ton: ' + (AU.on ? 'an' : 'aus') }, { id: 'titel', label: 'Zum Titelbild' }, { id: 'zurueck', label: 'Weiterspielen' },
     ];
@@ -379,7 +434,7 @@ const G = {
     if (r < 0) { this.mode = 'play'; return; }
     const id = opts[r].id;
     if (id === 'zurueck') this.mode = 'play';
-    else if (id === 'log' || id === 'lied') { this.mode = id === 'log' ? 'questlog' : 'lied'; UI.scroll = 0; }
+    else if (id === 'log' || id === 'lied' || id === 'karte') { this.mode = { log: 'questlog', lied: 'lied', karte: 'karte' }[id]; UI.scroll = 0; }
     else if (id === 'export') { this.persist(); UI.codePanel('export', exportCode(this.save)); }
     else if (id === 'import') this.openImport();
     else if (id === 'ton') { AU.unlock(); AU.setOn(!AU.on); updateSoundButton(); }
@@ -406,13 +461,15 @@ const G = {
       UI.toastDraw(dt);
       return;
     }
-    R.world(this, time);
+    if (this.mode === 'kampf') KB.draw(time);
+    else { R.world(this, time); UI.waermeHud(this); }
     UI.testBadge(this);
     UI.banner(this, time);
     DLG.draw(time);
     if (this.mode === 'menu') UI.list('Menü', this.menuOptions(), time);
     if (this.mode === 'questlog') UI.questlog(this);
     if (this.mode === 'lied') UI.lied(this);
+    if (this.mode === 'karte') UI.karte(this, time);
     if (this.mode === 'mini') UI.mini(this, time);
     if (this.mode === 'zauber') UI.list('Welchen Zauber wirkst du?', this.spells().map(z => ({ label: DATA.zauber[z].name + ' – ' + DATA.zauber[z].wirkung })).concat([{ label: 'Abbrechen' }]), time);
     if (this.fade) { R.ctx.fillStyle = 'rgba(8,4,10,' + (1 - Math.abs(this.fade.t - 0.5) * 2).toFixed(3) + ')'; R.ctx.fillRect(0, 0, VIEW_W, VIEW_H); }

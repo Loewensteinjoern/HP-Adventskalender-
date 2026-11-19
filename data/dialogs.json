@@ -1282,5 +1282,91 @@
       "",
       "Ein Schneehaufen. Diego möchte unbedingt hineinspringen."
     ]
+  ],
+  "mats_pixie": [
+    [
+      "mats",
+      "Charly! Da hinten im tiefen Schnee, beim Brunnen – der Schneehaufen hat gekichert! Ich schwör’s!"
+    ],
+    [
+      "mats",
+      "Seit heute Nacht ist es da draußen irgendwie … frostiger. Pass auf dich auf."
+    ]
+  ],
+  "probe_start": [
+    [
+      "",
+      "Der Schneehaufen zittert. Diego stellt das Fell auf und knurrt leise."
+    ],
+    [
+      "diego",
+      "Grrrrr …"
+    ],
+    [
+      "",
+      "Mit einem Kichern springt etwas Kleines, Glitzerndes heraus: eine Schneepixie!"
+    ],
+    [
+      "joern",
+      "Keine Angst, Charly – wir sind zu dritt. Du zauberst, ich halte dich warm, und Diego hilft auch mit."
+    ]
+  ],
+  "probe_sieg": [
+    [
+      "joern",
+      "Das war großartig! Hast du gemerkt? Licht mögen die gar nicht."
+    ],
+    [
+      "joern",
+      "Im tiefen Schnee am Rand lauern bestimmt noch mehr davon. Wenn dir kalt wird: einfach zurück ins Warme, da wärmst du dich sofort auf."
+    ],
+    [
+      "",
+      "Charly kann jetzt kämpfen. Im tiefen Schnee kann es plötzlich losgehen – Diego warnt vorher mit einem Knurren."
+    ]
+  ],
+  "kampf_tutorial": [
+    [
+      "joern",
+      "So geht’s: Du wählst in jeder Runde eine Sache – für dich, für mich oder für Diego."
+    ],
+    [
+      "joern",
+      "Jeder Gegner hat eine Schwäche. Lass Diego schnüffeln, dann weißt du, welcher Zauber am besten wirkt."
+    ],
+    [
+      "joern",
+      "Und wenn dir kalt wird: Ich hab heißen Kakao dabei."
+    ]
+  ],
+  "kampf_aufwachen": [
+    [
+      "",
+      "Alles wird still und kalt …"
+    ],
+    [
+      "",
+      "Als Charly die Augen öffnet, ist es wieder warm. Jörn hat ihr eine Decke umgelegt und reicht ihr einen Becher Kakao."
+    ],
+    [
+      "joern",
+      "Da bist du ja wieder. Wir versuchen es gleich nochmal – ganz in Ruhe."
+    ]
+  ],
+  "glut_fund": [
+    [
+      "",
+      "Diego scharrt im Schnee. Darunter glimmt etwas: ein winziger, warmer Glutsplitter!"
+    ],
+    [
+      "",
+      "Charly steckt ihn ein. Drei Glutsplitter machen sie spürbar wärmer."
+    ]
+  ],
+  "diego_knurrt": [
+    [
+      "diego",
+      "Grrrr …!"
+    ]
   ]
 }
