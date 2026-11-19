@@ -2,7 +2,8 @@
 const STEP_TIME = 0.17;
 
 const G = {
-  mode: 'title', save: null, key: SAVE_KEY, testDay: null, day: 0, storeOk: true,
+  mode: 'title', save: null, key: SAVE_KEY, testDay: null, day: 0, kalender: 0, storeOk: true,
+  guide: null, autoPath: null, objAlpha: {}, hidePlayer: false, nacht: false, ortAlt: null, frage: null, tuerHinweis: 0,
   mapId: null, player: null, followers: [], trail: null, revealed: {}, bannerMsg: null, fade: null,
   queue: [], lastTalk: {}, saveTimer: 0, dayTimer: 0, time: 0, sniffT: 0,
 
@@ -20,10 +21,17 @@ const G = {
     addEventListener('pagehide', () => this.persist());
     AU.playMusic('titel');
   },
+  // kalender = freigeschaltetes Türchen; day = Erzähltag (erst nach „Tag beenden“ und dem nächsten Morgen höher)
   refreshDay(announce) {
-    const old = this.day;
-    this.day = this.testDay !== null ? this.testDay : unlockedDay(new Date());
-    if (announce && this.mode !== 'title' && this.day > old) this.enterPlayEvents();
+    this.kalender = this.testDay !== null ? this.testDay : unlockedDay(new Date());
+    this.day = this.save ? Math.min(this.kalender, this.save.tag) : this.kalender;
+    if (announce && this.save && this.mode === 'play' && !DLG.open && !this.fade) this.neuerTagPruefen();
+  },
+  neuerTagPruefen() {
+    const s = this.save;
+    if (!s.flags.prolog_fertig || this.kalender <= s.tag) return;
+    if (s.tagEnde) return this.morgen();
+    if (this.tuerHinweis !== this.kalender) { this.tuerHinweis = this.kalender; this.banner('Türchen ' + this.kalender + ' ist offen – beende den Tag am Kamin'); AU.sfx('tuerchen'); }
   },
   daysLeft() { if (this.testDay === null) return daysUntilStart(new Date()); return this.testDay > 0 ? 0 : Math.max(1, daysUntilStart(new Date())); },
   ctx() { return { flags: this.save.flags, day: this.day, done: this.save.done, followers: this.save.followers }; },
@@ -36,30 +44,191 @@ const G = {
 
   // --- Start eines Spiels ---
   startGame(save, isNew) {
-    this.save = save;
-    this.mode = 'play'; this.revealed = {}; this.trail = null;
+    this.save = save; this.refreshDay();
+    this.mode = 'play'; this.revealed = {}; this.trail = null; this.guide = null; this.tuerHinweis = 0;
     this.enterMap(save.map, save.x, save.y, save.dir);
-    if (isNew) this.queue.push(() => this.say(DATA.welt.intro));
     this.enterPlayEvents();
     this.persist();
   },
-  // Neues Türchen und Start-Dialoge freigeschalteter Quests
+  // Neuer Morgen (falls fällig), Start-Dialoge freigeschalteter Quests, Prolog-Szenen
   enterPlayEvents() {
     const s = this.save;
-    if (this.day > s.seenDay) {
-      const q = questIds().map(id => DATA.quests[id]).find(q => q.day === this.day);
-      this.queue.push(() => { this.banner('Türchen ' + this.day + ' ist offen' + (q ? ': ' + q.title : '!')); AU.sfx('tuerchen'); this.next(); });
-      s.seenDay = this.day;
-    }
+    if (s.flags.prolog_fertig && s.tagEnde && this.kalender > s.tag) this.queue.push(() => this.morgen());
+    else this.questStarts();
+    if (s.wahl > 0) this.queue.push(() => this.stufeFrage());
+    if (this.autoSzenen()) return;
+    if (!DLG.open && this.mode === 'play') this.next();
+  },
+  questStarts() {
+    const s = this.save;
     questIds().forEach(id => {
       const q = DATA.quests[id];
       if (q.start && q.day <= this.day && s.done.indexOf(id) < 0 && !s.flags['start_' + id])
         this.queue.push(() => { s.flags['start_' + id] = true; this.say(q.start); });
     });
-    if (s.wahl > 0) this.queue.push(() => this.stufeFrage());
-    if (!DLG.open && this.mode !== 'kampf') this.next();
   },
-  next() { const f = this.queue.shift(); if (f) f(); },
+  next() { if (SZ.laeuft) return; const f = this.queue.shift(); if (f) f(); else this.autoSzenen(); },
+  // Szenen, die von selbst starten, sobald ihre Bedingung stimmt (Prolog)
+  autoSzenen() {
+    if (!this.save || this.mode !== 'play' || DLG.open || SZ.laeuft || this.fade) return false;
+    const a = (DATA.welt.auto || []).find(x => condsOk(x.if, this.ctx()));
+    if (!a) return false;
+    SZ.start(a.szene); return true;
+  },
+  szene(id, cb) { SZ.start(id, cb); },
+
+  // --- Tagesablauf am Kamin ---
+  questFuerTag(d) { const id = questIds().find(k => DATA.quests[k].day === d && !DATA.quests[k].neben); return id ? Object.assign({ id }, DATA.quests[id]) : null; },
+  tagesAufgabeFertig() {
+    const s = this.save;
+    if (s.tag === 0) return !!s.flags.prolog_tor;
+    const q = this.questFuerTag(s.tag);
+    return !q || s.done.indexOf(q.id) >= 0;
+  },
+  tagEndeFrage() {
+    const s = this.save;
+    if (s.tagEnde) return DLG.show([['joern', 'Für heute ist Schluss. ' + this.naechstesTuerchen()]], () => this.next());
+    if (!this.tagesAufgabeFertig()) return this.say(s.tag === 0 ? 'kamin_prolog_noch' : 'kamin_noch');
+    this.frageStellen(s.tag === 0 ? 'Den ersten Tag beenden?' : 'Türchen ' + s.tag + ' beenden?', ['Ja, gute Nacht', 'Noch nicht'], r => { if (r === 0) this.tagBeenden(); else this.next(); });
+  },
+  tagBeenden() {
+    const s = this.save, d = s.tag, q = this.questFuerTag(d);
+    SZ.start(d === 0 ? 'nacht_prolog' : 'nacht', () => {
+      s.tagEnde = true; if (d === 0) s.flags.prolog_fertig = true;
+      this.persist();
+      const haken = d === 0 ? DATA.welt.haken0 : q && q.haken;
+      const danach = () => this.morgenOderWarten();
+      const zeigeHaken = () => (haken && DATA.szenen[haken] ? SZ.start(haken, danach) : danach());
+      if (q && s.fragments.indexOf(q.id) >= 0) DLG.show([['', 'Heute neu im Phönixlied:'], ['', '„' + q.fragment + '“']], zeigeHaken);
+      else zeigeHaken();
+    });
+  },
+  morgenOderWarten() {
+    if (this.kalender > this.save.tag) return this.morgen();
+    DLG.show([['', this.naechstesTuerchen()]], () => this.next());
+  },
+  naechstesTuerchen() {
+    const s = this.save;
+    if (s.tag >= 24) return 'Alle Türchen sind offen. Frohe Weihnachten!';
+    if (this.testDay !== null) return 'Testmodus: Das nächste Türchen öffnet sich mit ?testtag=' + (s.tag + 1) + '.';
+    if (this.kalender === 0) { const n = daysUntilStart(new Date()); return 'Das erste Türchen öffnet sich in ' + n + (n === 1 ? ' Tag' : ' Tagen') + '. Bis dahin kannst du das Schloss weiter erkunden.'; }
+    const h = hoursUntilNextDay(new Date());
+    return 'Nächstes Türchen in ' + h + (h === 1 ? ' Stunde' : ' Stunden') + '. Du kannst noch weiter erkunden oder das Spiel schließen – alles ist gespeichert.';
+  },
+  morgen() {
+    const s = this.save;
+    s.tag = Math.min(24, s.tag + 1); s.tagEnde = false; s.seenDay = Math.max(s.seenDay, s.tag);
+    this.refreshDay(); this.tuerHinweis = 0; this.persist();
+    SZ.start('morgen', () => {
+      const q = this.questFuerTag(s.tag);
+      this.banner('Türchen ' + s.tag + ' ist offen' + (q ? ': ' + q.title : '!')); AU.sfx('tuerchen');
+      this.questStarts(); this.next();
+    });
+  },
+  frageStellen(titel, opts, cb) { this.frage = { titel, opts, cb }; this.mode = 'frage'; UI.sel = 0; },
+
+  // --- Führung mit Prof. Wurzelgrün ---
+  tourAktiv() { const f = this.save.flags; return !!f.prolog_fest && !f.prolog_tour && isNum(f.tour); },
+  tourStation() { return this.tourAktiv() ? DATA.fuehrung.stationen[this.save.flags.tour] || null : null; },
+  // Wurzelgrün übernimmt die Führung dort, wo sie als Figur gerade steht
+  tourStart() {
+    const n = this.npcByChar('wurzelgruen'), pos = n ? { x: n.x, y: n.y } : null;
+    this.save.flags.prolog_fest = true; this.save.flags.tour = 0;
+    this.guideSpawn(pos);
+  },
+  guideSpawn(start) {
+    this.guide = null;
+    const st = this.tourStation(); if (!st || st.map !== this.mapId) return;
+    const m = DATA.maps[this.mapId], p = this.player, ctx = this.ctx();
+    let pos = start || null;
+    if (!pos) {
+      const order = [p.dir].concat(Object.keys(DIRS).filter(d => d !== p.dir));
+      for (const d of order) { const x = p.x + DIRS[d][0], y = p.y + DIRS[d][1]; if (!blockedAt(m, x, y, ctx) && !doorAt(m, x, y) && !this.occupied(x, y)) { pos = { x, y }; break; } }
+    }
+    if (!pos) pos = { x: p.x, y: p.y };
+    const g = this.guide = { char: 'wurzelgruen', x: pos.x, y: pos.y, fx: pos.x, fy: pos.y, t: 1, moving: false, par: 0, dir: 'down', path: null, weg: false, cd: 3 };
+    g.dir = p.x > g.x ? 'right' : p.x < g.x ? 'left' : p.y < g.y ? 'up' : 'down';
+    if (st.dialog) this.queue.push(() => this.say(st.dialog, () => this.guideLos()));
+    else this.guideLos();
+  },
+  guideLos() {
+    const g = this.guide, st = this.tourStation(); if (!g || !st) return;
+    const m = DATA.maps[this.mapId], ctx = this.ctx();
+    let best = null;
+    const ziele = st.nach ? (m.doors || []).filter(d => d.to === st.nach) : [{ x: st.ziel[0], y: st.ziel[1] }];
+    ziele.forEach(z => { const path = findPath(m, { x: g.x, y: g.y }, z, ctx, 120); if (path && (!best || path.length < best.length)) best = path; });
+    if (!best) { g.path = []; return; }
+    g.tuer = st.nach && best.length > 1 ? best.pop() : null;
+    g.path = best.slice(1); g.dirEnde = st.dir || null;
+  },
+  guideUpdate(dt) {
+    const g = this.guide; if (!g || g.weg) return;
+    if (g.moving) { g.t += dt / (STEP_TIME * 1.4); if (g.t >= 1) { g.t = 1; g.moving = false; g.fx = g.x; g.fy = g.y; if (g.gehtRaus) g.weg = true; } return; }
+    const p = this.player;
+    if (g.path && g.path.length) {
+      const n = g.path[0];
+      if ((p.x === n.x && p.y === n.y) || this.followers.some(f => f.x === n.x && f.y === n.y)) { g.warte = (g.warte || 0) + dt; if (g.warte < 0.6) return; }
+      g.warte = 0; g.path.shift();
+      g.dir = n.x > g.x ? 'right' : n.x < g.x ? 'left' : n.y > g.y ? 'down' : 'up';
+      g.fx = g.x; g.fy = g.y; g.x = n.x; g.y = n.y; g.t = 0; g.moving = true; g.par ^= 1;
+      return;
+    }
+    if (!g.path) return;
+    const dist = Math.abs(p.x - g.x) + Math.abs(p.y - g.y);
+    if (g.tuer && dist <= 1 && this.mode === 'play' && !DLG.open) {
+      // Sie geht schon mal vor
+      g.dir = g.tuer.x > g.x ? 'right' : g.tuer.x < g.x ? 'left' : g.tuer.y > g.y ? 'down' : 'up';
+      g.fx = g.x; g.fy = g.y; g.x = g.tuer.x; g.y = g.tuer.y; g.t = 0; g.moving = true; g.gehtRaus = true;
+      return;
+    }
+    g.dir = g.dirEnde && dist > 3 ? g.dirEnde : (p.x > g.x ? 'right' : p.x < g.x ? 'left' : p.y < g.y ? 'up' : 'down');
+    g.cd -= dt;
+    if (g.cd <= 0 && dist > 3 && !this.bubble) { g.cd = 6; this.bubble = { e: g, text: g.tuer ? 'Hier entlang!' : pickOne(DATA.characters.wurzelgruen.blasen), t0: this.time }; }
+  },
+  // Während der Führung führt nur die richtige Tür weiter
+  tourTuerOk(d) {
+    const st = this.tourStation();
+    if (!st || st.map !== this.mapId || !this.guide || d.to === st.nach) return true;
+    const ziel = (DATA.maps[this.mapId].doors || []).find(x => x.to === st.nach);
+    if (this.guide.weg && ziel) { const path = findPath(DATA.maps[this.mapId], this.player, ziel, this.ctx(), 60); if (path) this.trail = { pts: path, target: { x: ziel.x, y: ziel.y }, t0: this.time }; }
+    else this.bubble = { e: this.guide, text: 'Hier entlang, bitte!', t0: this.time };
+    return false;
+  },
+  guideFrage() {
+    const st = this.tourStation(), letzte = this.save.flags.tour >= DATA.fuehrung.stationen.length - 1;
+    if (letzte) return this.say(st.hinweis || 'tour_hinweis');
+    this.frageStellen('Prof. Wurzelgrün', ['Weiter, ich folge Ihnen', 'Führung abkürzen'], r => {
+      if (r !== 1) return this.say('tour_weiter');
+      const A = DATA.fuehrung.abkuerzen;
+      this.save.flags.tour = DATA.fuehrung.stationen.length - 1; this.guide = null;
+      DLG.show(this.lines('tour_abkuerzen'), () => { this.fade = { t: 0, door: { to: A.map, tx: A.x, ty: A.y, dir: A.dir }, done: false }; });
+    });
+  },
+  // Figuren für Szenen
+  npcByChar(ch) { return visibleNpcs(DATA.maps[this.mapId], this.ctx()).find(n => n.char === ch) || null; },
+  npcWalk(n, to, dir) {
+    const m = DATA.maps[this.mapId];
+    if (n.hx === undefined) { n.hx = n.x; n.hy = n.y; n.fx = n.x; n.fy = n.y; n.t = 1; n.par = 0; n.cd = 1; }
+    const path = findPath(m, { x: n.x, y: n.y }, { x: to[0], y: to[1] }, this.ctx(), 80);
+    n.skript = true; n.endDir = dir || null;
+    if (path) n.path = path.slice(1);
+    else { n.x = n.fx = to[0]; n.y = n.fy = to[1]; n.path = []; }
+  },
+  walkPlayer(to, dir) {
+    const path = findPath(DATA.maps[this.mapId], this.player, { x: to[0], y: to[1] }, this.ctx(), 80);
+    this.autoPath = path ? path.slice(1) : []; this.autoDir = dir || null;
+  },
+  stepTo(nx, ny) {
+    const p = this.player;
+    p.dir = nx > p.x ? 'right' : nx < p.x ? 'left' : ny > p.y ? 'down' : 'up';
+    let px = p.x, py = p.y;
+    this.followers.forEach(f => {
+      const ox = f.x, oy = f.y;
+      if (ox !== px || oy !== py) { f.fx = ox; f.fy = oy; f.x = px; f.y = py; f.moving = true; f.t = 0; f.par ^= 1; f.dir = px > ox ? 'right' : px < ox ? 'left' : py > oy ? 'down' : 'up'; }
+      px = ox; py = oy;
+    });
+    p.fx = p.x; p.fy = p.y; p.x = nx; p.y = ny; p.moving = true; p.t = 0; p.par ^= 1;
+  },
   banner(text) { this.bannerMsg = { text, t0: this.time }; },
 
   enterMap(mid, x, y, dir) {
@@ -78,6 +247,7 @@ const G = {
     if (!m.kampf) { s.waerme = waermeMax(s); s.energie = ENERGIE_MAX; s.warm = { map: mid, x, y, dir }; }
     this.kampfSchritte = 0; this.alarm = null;
     AU.playMusic(m.music);
+    if (this.save.flags.prolog_fest && !this.save.flags.prolog_tour) this.guideSpawn(); else this.guide = null;
   },
 
   // --- Hilfen für die Darstellung ---
@@ -92,8 +262,19 @@ const G = {
     this.saveTimer += dt; if (this.saveTimer > 30) { this.saveTimer = 0; this.persist(); }
     this.dayTimer += dt; if (this.dayTimer > 60) { this.dayTimer = 0; this.refreshDay(true); }
     this.save.playMs += dt * 1000;
+    SZ.tick(dt);
     if (this.fade) return this.updateFade(dt);
+    if (this.mode === 'szene') {
+      this.updateNpcs(dt); this.guideUpdate(dt); this.moveTick(dt, false);
+      if (DLG.open) DLG.update(dt); else SZ.update(dt);
+      return;
+    }
     if (DLG.open) { DLG.update(dt); this.moveTick(dt, false); return; }
+    if (this.mode === 'frage') {
+      const r = UI.navigate(this.frage.opts.length);
+      if (r === null) return;
+      const f = this.frage; this.frage = null; this.mode = 'play'; f.cb(r); return;
+    }
     if (this.mode === 'menu') return this.updateMenu();
     if (this.mode === 'mini') return this.updateMini(dt);
     if (this.mode === 'zauber') return this.updateSpell();
@@ -101,8 +282,8 @@ const G = {
     if (this.mode === 'stufe') return this.updateStufe();
     if (this.alarm) { this.alarm.t -= dt; this.moveTick(dt, false); if (this.alarm.t <= 0) { const g = this.alarm.g; this.alarm = null; this.startFight(g, null); } return; }
     if (this.demo) this.updateDemo();
-    this.updateNpcs(dt);
-    if (this.mode === 'questlog' || this.mode === 'lied' || this.mode === 'karte') {
+    this.updateNpcs(dt); this.guideUpdate(dt);
+    if (this.mode === 'questlog' || this.mode === 'lied' || this.mode === 'karte' || this.mode === 'hilfe') {
       if (IN.take('up')) UI.scroll--; if (IN.take('down')) UI.scroll++;
       if (IN.take('a') || IN.take('b') || IN.take('menu')) { AU.sfx('zurueck'); this.mode = 'menu'; }
       return;
@@ -117,7 +298,12 @@ const G = {
     const all = [this.player].concat(this.followers);
     let arrived = false;
     all.forEach(e => { if (e.moving) { e.t += dt / STEP_TIME; if (e.t >= 1) { e.t = 1; e.moving = false; e.fx = e.x; e.fy = e.y; if (e === this.player) arrived = true; } } });
-    if (arrived && this.onArrive()) return;
+    if (arrived && this.mode !== 'szene' && this.onArrive()) return;
+    if (this.autoPath && !this.player.moving) {
+      if (this.autoPath.length) { const n = this.autoPath.shift(); this.stepTo(n.x, n.y); }
+      else { if (this.autoDir) this.player.dir = this.autoDir; this.autoPath = null; }
+      return;
+    }
     if (allowInput && !this.player.moving) { const d = IN.dir(); if (d) this.tryMove(d); }
   },
   tryMove(d) {
@@ -130,18 +316,17 @@ const G = {
       else if (sp && sp.bump) this.runTalk(pickTalk(sp.talk, ctx));
       return;
     }
-    // Begleiter rücken nach
-    let px = p.x, py = p.y;
-    this.followers.forEach(f => {
-      const ox = f.x, oy = f.y;
-      if (ox !== px || oy !== py) { f.fx = ox; f.fy = oy; f.x = px; f.y = py; f.moving = true; f.t = 0; f.par ^= 1; f.dir = px > ox ? 'right' : px < ox ? 'left' : py > oy ? 'down' : 'up'; }
-      px = ox; py = oy;
-    });
-    p.fx = p.x; p.fy = p.y; p.x = nx; p.y = ny; p.moving = true; p.t = 0; p.par ^= 1;
+    const tuer = doorAt(m, nx, ny);
+    if (tuer && this.tourAktiv() && !this.tourTuerOk(tuer)) return;
+    this.stepTo(nx, ny);
   },
   onArrive() {
     const m = DATA.maps[this.mapId], d = doorAt(m, this.player.x, this.player.y);
-    if (d) { AU.sfx('tuer'); this.fade = { t: 0, door: d, done: false }; return true; }
+    if (d) {
+      const st = this.tourStation();
+      if (st && st.map === this.mapId && d.to === st.nach) this.save.flags.tour++;
+      AU.sfx('tuer'); this.fade = { t: 0, door: d, done: false }; return true;
+    }
     return this.checkEncounter(m);
   },
   // --- Kämpfe: plötzliche Überfälle im tiefen Schnee ---
@@ -207,8 +392,12 @@ const G = {
   },
   updateFade(dt) {
     const f = this.fade; f.t += dt / 0.5;
-    if (f.t >= 0.5 && !f.done) { f.done = true; this.trail = null; this.enterMap(f.door.to, f.door.tx, f.door.ty, f.door.dir); this.persist(); }
-    if (f.t >= 1) this.fade = null;
+    if (f.t >= 0.5 && !f.done) {
+      f.done = true; this.trail = null;
+      if (f.door) { this.enterMap(f.door.to, f.door.tx, f.door.ty, f.door.dir); this.persist(); }
+      if (f.aktion) this.applyAction(f.aktion);
+    }
+    if (f.t >= 1) { this.fade = null; if (!DLG.open && this.mode === 'play') this.next(); }
     IN.clear();
   },
 
@@ -216,6 +405,8 @@ const G = {
   interact() {
     const p = this.player, m = DATA.maps[this.mapId], ctx = this.ctx();
     const tx = p.x + DIRS[p.dir][0], ty = p.y + DIRS[p.dir][1];
+    const g = this.guide;
+    if (g && !g.weg && g.x === tx && g.y === ty) { g.dir = { up: 'down', down: 'up', left: 'right', right: 'left' }[p.dir]; return this.guideFrage(); }
     const f = this.followers.find(e => e.x === tx && e.y === ty);
     if (f) { f.dir = { up: 'down', down: 'up', left: 'right', right: 'left' }[p.dir]; return this.runTalk(pickTalk(DATA.characters[f.char].talk, ctx)); }
     const n = npcAt(m, tx, ty, ctx);
@@ -229,7 +420,7 @@ const G = {
   },
   // Dialogtext mit Platzhaltern
   lines(id) {
-    return DATA.dialogs[id].map(([sp, tx]) => [sp, tx.replace(/\{tage\}/g, String(this.daysLeft())).replace(/\{tag\}/g, String(this.day))]);
+    return DATA.dialogs[id].map(([sp, tx, taste]) => [sp, tx.replace(/\{tage\}/g, String(this.daysLeft())).replace(/\{tag\}/g, String(this.day)), taste]);
   },
   say(id, cb) { DLG.show(this.lines(id), () => { if (cb) cb(); this.next(); }); },
   runTalk(t, cast) {
@@ -251,8 +442,11 @@ const G = {
       if (t.demo) this.demo = { id: t.demo, t0: this.time, played: -1 };
       if (t.minigame) this.startMini(t.minigame, () => this.runTalk(t.win));
       if (t.kampf) this.startFight(t.kampf, t);
+      if (t.szene) SZ.start(t.szene);
+      if (t.tagende) { this.tagEndeFrage(); return true; }
     };
-    if (id) this.say(id, apply); else apply();
+    if (id) this.say(id, apply);
+    else if (!apply() && !t.szene && !t.kampf && !t.minigame) this.next();
   },
   // --- Reihenfolge-Rätsel (z. B. singende Kerzen) ---
   seqPress(id, val) {
@@ -361,7 +555,18 @@ const G = {
     const m = DATA.maps[this.mapId], ctx = this.ctx(), list = visibleNpcs(m, ctx);
     list.forEach(n => {
       if (n.hx === undefined) { n.hx = n.x; n.hy = n.y; n.fx = n.x; n.fy = n.y; n.t = 1; n.par = 0; n.cd = 1 + Math.random() * 3; }
-      if (n.moving) { n.t += dt / (STEP_TIME * 2); if (n.t >= 1) { n.t = 1; n.moving = false; n.fx = n.x; n.fy = n.y; } return; }
+      if (n.moving) { n.t += dt / (STEP_TIME * (n.skript ? 1.3 : 2)); if (n.t >= 1) { n.t = 1; n.moving = false; n.fx = n.x; n.fy = n.y; } return; }
+      // Szenen: Figur läuft einen vorgegebenen Weg
+      if (n.skript) {
+        if (n.path && n.path.length) {
+          const q = n.path[0];
+          if (this.occupied(q.x, q.y) && n.path.length > 1) return;
+          n.path.shift(); if (this.occupied(q.x, q.y)) { n.path = []; return; }
+          n.dir = q.x > n.x ? 'right' : q.x < n.x ? 'left' : q.y > n.y ? 'down' : 'up';
+          n.fx = n.x; n.fy = n.y; n.x = q.x; n.y = q.y; n.t = 0; n.moving = true; n.par ^= 1;
+        } else if (n.endDir) { n.dir = n.endDir; n.endDir = null; }
+        return;
+      }
       if (n.pose === 'schlaf') return;
       n.cd -= dt; if (n.cd > 0) return;
       n.cd = 1.4 + Math.random() * 2.8;
@@ -425,6 +630,7 @@ const G = {
     const o = [];
     if (this.save) o.push({ id: 'weiter', label: 'Weiterspielen' });
     o.push({ id: 'neu', label: this.save ? 'Neues Spiel' : 'Spiel beginnen' });
+    if (this.testDay > 0) o.push({ id: 'sprung', label: 'Test: Tag ' + this.testDay });
     o.push({ id: 'laden', label: 'Code eingeben' });
     return o;
   },
@@ -441,10 +647,19 @@ const G = {
     if (id === 'weiter') this.startGame(this.save, false);
     else if (id === 'neu') { if (this.save) { this.confirm = true; UI.sel = 1; } else this.startGame(newSave(Date.now()), true); }
     else if (id === 'laden') this.openImport();
+    else if (id === 'sprung') this.startGame(this.testSprung(), false);
+  },
+  // Nur im Testmodus: Prolog überspringen, Morgen von Tag N beginnt sofort
+  testSprung() {
+    const s = newSave(Date.now());
+    PROLOG_FLAGS.forEach(k => { s.flags[k] = true; });
+    s.flags.diego_dabei = true; s.followers = ['joern', 'diego'];
+    s.tag = this.testDay - 1; s.tagEnde = true; s.seenDay = s.tag;
+    return s;
   },
   menuOptions() {
     return [
-      { id: 'log', label: 'Questlog' }, { id: 'karte', label: 'Schlosskarte' }, { id: 'lied', label: 'Phönixlied' },
+      { id: 'log', label: 'Questlog' }, { id: 'karte', label: 'Schlosskarte' }, { id: 'lied', label: 'Phönixlied' }, { id: 'hilfe', label: 'Hilfe' },
       { id: 'export', label: 'Spielstand sichern (Code)' }, { id: 'import', label: 'Spielstand-Code eingeben' },
       { id: 'ton', label: 'Ton: ' + (AU.on ? 'an' : 'aus') }, { id: 'titel', label: 'Zum Titelbild' }, { id: 'zurueck', label: 'Weiterspielen' },
     ];
@@ -455,11 +670,11 @@ const G = {
     if (r < 0) { this.mode = 'play'; return; }
     const id = opts[r].id;
     if (id === 'zurueck') this.mode = 'play';
-    else if (id === 'log' || id === 'lied' || id === 'karte') { this.mode = { log: 'questlog', lied: 'lied', karte: 'karte' }[id]; UI.scroll = 0; }
+    else if (id === 'log' || id === 'lied' || id === 'karte' || id === 'hilfe') { this.mode = { log: 'questlog', lied: 'lied', karte: 'karte', hilfe: 'hilfe' }[id]; UI.scroll = 0; }
     else if (id === 'export') { this.persist(); UI.codePanel('export', exportCode(this.save)); }
     else if (id === 'import') this.openImport();
     else if (id === 'ton') { AU.unlock(); AU.setOn(!AU.on); updateSoundButton(); }
-    else if (id === 'titel') { this.persist(); this.mode = 'title'; UI.sel = 0; AU.playMusic('titel'); }
+    else if (id === 'titel') { this.persist(); this.mode = 'title'; UI.sel = 0; this.guide = null; AU.playMusic('titel'); }
   },
   openImport() {
     UI.codePanel('import', '', txt => {
@@ -484,9 +699,12 @@ const G = {
     }
     if (this.mode === 'kampf') KB.draw(time);
     else { R.world(this, time); UI.waermeHud(this); }
+    SZ.draw(time);
     UI.testBadge(this);
     UI.banner(this, time);
     DLG.draw(time);
+    if (this.mode === 'frage') UI.list(this.frage.titel, this.frage.opts.map(label => ({ label })), time);
+    if (this.mode === 'hilfe') UI.hilfe(this);
     if (this.mode === 'menu') UI.list('Menü', this.menuOptions(), time);
     if (this.mode === 'questlog') UI.questlog(this);
     if (this.mode === 'lied') UI.lied(this);

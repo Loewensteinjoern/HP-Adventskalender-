@@ -16,7 +16,8 @@ const SHOTS = process.argv[2] || null;
   const key = async (k, n = 1, w = 110) => { for (let i = 0; i < n; i++) { await page.keyboard.down(k); await wait(35); await page.keyboard.up(k); await wait(w); } };
   const st = () => page.evaluate(() => window.__wp());
   const kb = () => page.evaluate(() => window.__kampf());
-  const drain = async () => { for (let i = 0; i < 80; i++) { const s = await st(); if (!s.dialog) { await wait(250); if (!(await st()).dialog) return; } await key('Enter', 1, 80); } };
+  const busy = s => s.dialog || s.mode === 'szene';
+  const drain = async () => { for (let i = 0; i < 160; i++) { const s = await st(); if (!busy(s)) { await wait(250); if (!busy(await st())) return; } await key('Enter', 1, 80); } };
   const go = (m, x, y, d) => page.evaluate(a => window.__go(...a), [m, x, y, d]);
   const flags = o => page.evaluate(f => window.__flags(f), o);
   const shot = async n => { if (SHOTS) await page.locator('#c').screenshot({ path: path.join(SHOTS, n + '.png') }); };
@@ -30,7 +31,7 @@ const SHOTS = process.argv[2] || null;
     return kb();
   };
   await page.goto(FILE + '?testtag=2'); await wait(500);
-  await key('Enter'); await wait(500); await drain(); await wait(300); await drain();
+  await key('ArrowRight'); await key('Enter'); await wait(500); await drain(); await wait(300); await drain();
   await flags({ diego_dabei: true, zauber_luxa: true });
 
   // Steuerkreuz-Navigation im Kampfmenü

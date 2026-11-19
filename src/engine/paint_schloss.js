@@ -472,3 +472,90 @@ Object.assign(PAINT_OBJ, {
     if (f % 2) { p.px(12, 10, '#ffffff'); p.px(24, 19, '#ffffff'); } else { p.px(6, 20, '#ffffff'); p.px(22, 28, '#ffffff'); }
   },
 });
+
+// ===== Prolog: Hauslaternen, Festgäste, Haupttor =====
+function hausTeile(v) { const [h, rest] = String(v || 'bernfuchs').split(':'); return { h, an: rest === 'an', luecken: rest && rest !== 'an' ? rest.split(',').map(Number) : [] }; }
+const GAST_HAAR = ['#3a2418', '#f0cf6a', '#1e1a22', '#c0542a', '#7a5232', '#e8cc78', '#5a3a22', '#2a2228'];
+const GAST_HAUT = ['#f6d2b6', '#f0c8a8', '#d8a882', '#c89070', '#f2cdb0', '#eec4a2'];
+
+Object.assign(PAINT_OBJ, {
+  hauslaterne(p, f, R, W, H, v) {
+    const T = hausTeile(v), c = HAUS[T.h] || HAUS.bernfuchs;
+    for (let y = 0; y < 30; y += 3) { p.r(15, y, 2, 2, '#6a5a4a'); p.px(15, y + 2, '#8a7a6a'); }
+    p.r(9, 28, 14, 3, '#5a4a3a'); p.r(11, 26, 10, 2, '#7a6a5a'); p.r(7, 31, 18, 2, c.b);
+    p.r(5, 33, 22, 25, '#3a2c22');
+    if (T.an) {
+      p.r(7, 35, 18, 21, '#ffc85a'); p.r(9, 37, 14, 17, '#ffe6a0');
+      p.r(14, 41 - (f % 2), 4, 9, '#ff9a2a'); p.r(15, 43 - (f % 2), 2, 6, '#fff2b0');
+    } else { p.r(7, 35, 18, 21, '#2a2430'); p.r(8, 36, 3, 18, '#3a3444'); }
+    wappen(p, T.h, 16, 47);
+    if (!T.an) { p.r(7, 35, 18, 21, 'rgba(20,16,28,0.45)'); }
+    p.r(5, 33, 22, 2, c.b); p.r(5, 56, 22, 2, c.b); p.r(5, 33, 2, 25, c.b); p.r(25, 33, 2, 25, c.b);
+    p.r(15, 33, 2, 25, 'rgba(40,30,20,0.5)');
+    p.r(11, 58, 10, 2, '#5a4a3a'); p.r(14, 60, 4, 2, c.b);
+  },
+  gaeste_hinten(p, f, R, W, H, v) {
+    const T = hausTeile(v), c = HAUS[T.h] || HAUS.bernfuchs;
+    for (let i = 0; i < 6; i++) {
+      if (T.luecken.indexOf(i) >= 0) continue;
+      const x = 16 + i * 32, hair = GAST_HAAR[Math.floor(R() * GAST_HAAR.length)], skin = GAST_HAUT[Math.floor(R() * GAST_HAUT.length)], b = (i + f) % 3 === 0 ? 1 : 0, lang = R() < 0.45;
+      p.ell(x, 34, 10, 9, '#2a2228'); p.r(x - 10, 34, 20, 6, '#2a2228'); p.r(x - 8, 26, 16, 3, c.b); p.r(x - 8, 28, 16, 1, c.a);
+      if (lang) { p.r(x - 7, 12 + b, 3, 14, hair); p.r(x + 4, 12 + b, 3, 14, hair); }
+      p.ell(x, 16 + b, 6, 6, skin); p.r(x - 5, 19 + b, 10, 3, skin);
+      p.ell(x, 11 + b, 7, 4, hair); p.r(x - 7, 11 + b, 3, 5, hair); p.r(x + 4, 11 + b, 3, 5, hair);
+      p.r(x - 3, 16 + b, 2, 2, '#2a1a14'); p.r(x + 2, 16 + b, 2, 2, '#2a1a14');
+      p.r(x - 1, 20 + b, 3, 1, '#b86a5a');
+      if (i % 2 === f % 2 && R() < 0.5) { p.r(x + 9, 22, 3, 6, skin); }
+    }
+  },
+  gaeste_vorn(p, f, R, W, H, v) {
+    const T = hausTeile(v), c = HAUS[T.h] || HAUS.bernfuchs;
+    for (let i = 0; i < 6; i++) {
+      if (T.luecken.indexOf(i) >= 0) continue;
+      const x = 16 + i * 32, hair = GAST_HAAR[Math.floor(R() * GAST_HAAR.length)], lang = R() < 0.45;
+      p.ell(x, 30, 11, 9, '#2a2228'); p.r(x - 11, 30, 22, 8, '#2a2228'); p.r(x - 11, 30, 2, 8, '#1c161c');
+      p.r(x - 9, 17, 18, 3, c.b); p.r(x - 9, 19, 18, 1, c.a);
+      p.ell(x, 10, 7, 7, hair); p.r(x - 6, 10, 12, 7, hair); if (lang) p.r(x - 6, 14, 12, 8, hair);
+      p.r(x - 3, 5, 4, 2, shade(hair, 0.25));
+    }
+  },
+  haupttor(p, f, R, W, H, v) {
+    // Steinrahmen
+    for (let y = 0; y < 64; y += 8) for (let x = (y / 8) % 2 ? 0 : 6; x < 128; x += 12) { p.r(x, y, 11, 7, '#8e8274'); p.r(x, y, 11, 1, '#b0a490'); }
+    p.ell(64, 22, 46, 26, '#5a5048'); p.r(18, 22, 92, 42, '#5a5048');
+    p.ell(64, 24, 42, 23, '#1a1218'); p.r(22, 24, 84, 40, '#1a1218');
+    if (v === 'offen') {
+      p.vgrad(22, 4, 84, 40, '#0e1430', '#3a4a7a', 6); p.ell(64, 24, 40, 20, '#141c40');
+      for (let i = 0; i < 30; i++) p.px(26 + ((i * 37) % 78), 6 + ((i * 23 + f * 5) % 40), '#eef4ff');
+      p.r(22, 44, 84, 20, '#d8e4f4'); p.r(22, 44, 84, 2, '#eef4ff'); for (let x = 24; x < 104; x += 9) p.ell(x, 45, 5, 2, '#ffffff');
+      p.r(22, 6, 8, 58, '#5e3820'); p.r(98, 6, 8, 58, '#5e3820'); p.r(22, 6, 3, 58, '#7a4a2a'); p.r(103, 6, 3, 58, '#4a2c18');
+      return;
+    }
+    // Torflügel aus Holz mit Eisenbändern
+    p.ell(64, 25, 40, 21, '#6a4228'); p.r(24, 25, 80, 39, '#6a4228');
+    for (let x = 26; x < 104; x += 8) p.r(x, 8, 1, 56, '#5a361e');
+    p.r(63, 4, 2, 60, '#3a2214');
+    [22, 40, 56].forEach(y => { p.r(24, y, 80, 3, '#3a3a40'); p.r(24, y, 80, 1, '#6a6a74'); for (let x = 28; x < 104; x += 10) p.px(x, y + 1, '#9a9aa4'); });
+    p.circ(56, 36, 4, '#3a3a40'); p.circ(56, 36, 2, '#1a1218'); p.circ(72, 36, 4, '#3a3a40'); p.circ(72, 36, 2, '#1a1218');
+    if (v === 'eis') {
+      p.ell(64, 25, 41, 22, 'rgba(150,200,250,0.72)'); p.r(23, 25, 82, 39, 'rgba(150,200,250,0.72)');
+      for (let i = 0; i < 9; i++) { const x = 30 + i * 9, h = 8 + (i % 3) * 5; for (let k = 0; k < h; k++) p.r(x - Math.floor((h - k) / 3), 60 - k * 1.6, Math.max(1, Math.floor((h - k) / 1.5)), 2, 'rgba(220,240,255,0.85)'); }
+      // Eisblumen in Kronenform
+      [[44, 28], [64, 18], [84, 28], [54, 46], [76, 46]].forEach(([x, y]) => {
+        p.r(x - 8, y + 4, 17, 2, '#eef8ff'); for (let k = -8; k <= 8; k += 4) { p.r(x + k, y - 3 + Math.abs(k) / 4, 1, 7 - Math.abs(k) / 4, '#eef8ff'); p.px(x + k, y - 4 + Math.abs(k) / 4, '#ffffff'); }
+      });
+      for (let i = 0; i < 20; i++) p.px(26 + ((i * 41) % 76), 8 + ((i * 29) % 54), '#ffffff');
+      p.r(18, 60, 92, 4, '#c8e0f8'); p.r(18, 60, 92, 1, '#ffffff');
+    }
+  },
+  frosthand(p) {
+    const C = 'rgba(220,240,255,0.92)', D = 'rgba(160,200,240,0.8)';
+    p.ell(32, 42, 10, 11, D); p.ell(32, 42, 8, 9, C);
+    [[-9, -1, 20], [-4, -3, 26], [1, -3, 28], [6, -2, 24]].forEach(([dx, sl, len]) => {
+      for (let k = 0; k < len; k++) { const x = 32 + dx + Math.round(sl * k / len); p.r(x, 33 - k, 2, 1, C); }
+      p.px(32 + dx + sl, 33 - len, '#ffffff');
+    });
+    for (let k = 0; k < 13; k++) p.r(23 - Math.round(k * 0.7), 44 - k, 2, 1, C);
+    for (let i = 0; i < 14; i++) { const a = i * 0.45, r = 13 + (i % 3) * 3; p.px(32 + Math.round(Math.cos(a) * r), 42 + Math.round(Math.sin(a) * r), D); }
+  },
+});

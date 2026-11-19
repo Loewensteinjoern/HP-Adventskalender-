@@ -7,16 +7,16 @@
   "particles": "staub"
  },
  "tiles": [
-  "TTTTTTTTTTTTTT",
-  "TKKKKKKKKKKKKT",
-  "TKKKKKOOKKKKKT",
-  "TMMMMMRRMMMMMT",
-  "TMMMMMRRMMMMMT",
-  "TMMMMMRRMMMMMT",
-  "TMMMMMRRMMMMMT",
-  "TMMMMMRRMMMMMT",
-  "TMMMMMRRMMMMMT",
-  "TTTTTTddTTTTTT"
+  "TTTTTTTTTTTTTTTTTTTT",
+  "TKKKKKKKKKKKKKKKKKKT",
+  "TKKKKKOOKKKKKKKKKKKT",
+  "TMMMMMRRMMMMMMMRRMMT",
+  "TMMMMMRRMMMMMMMRRMMT",
+  "TMMMMMRRMMMMMMMRRMMT",
+  "TMMMMMRRMMMMMMMRRMMT",
+  "TMMMMMRRMMMMMMMRRMMT",
+  "TMMMMMRRMMMMMMMRRMMT",
+  "TTTTTTddTTTTTTTTTTTT"
  ],
  "objects": [
   {
@@ -217,6 +217,91 @@
     "flag:q01_joern",
     "!flag:q01_lotte"
    ]
+  },
+  {
+   "type": "haupttor",
+   "x": 14,
+   "y": 1,
+   "if": [
+    "!flag:tor_offen"
+   ],
+   "talk": [
+    {
+     "if": [
+      "!flag:prolog_tor"
+     ],
+     "dialog": "haupttor_eis"
+    },
+    {
+     "dialog": "haupttor"
+    }
+   ]
+  },
+  {
+   "type": "haupttor",
+   "x": 14,
+   "y": 1,
+   "v": "offen",
+   "if": [
+    "flag:tor_offen"
+   ]
+  },
+  {
+   "type": "haupttor",
+   "x": 14,
+   "y": 1,
+   "v": "eis",
+   "id": "tor_eis",
+   "if": [
+    "!flag:prolog_tor",
+    "!flag:tor_eis_weg"
+   ]
+  },
+  {
+   "type": "frosthand",
+   "x": 15,
+   "y": 1,
+   "id": "hand",
+   "if": [
+    "flag:hand_da"
+   ]
+  },
+  {
+   "type": "banner_haus",
+   "x": 13,
+   "y": 1,
+   "v": "bernfuchs",
+   "talk": [
+    {
+     "dialog": "banner_bernfuchs"
+    }
+   ]
+  },
+  {
+   "type": "banner_haus",
+   "x": 18,
+   "y": 1,
+   "v": "eisvogel",
+   "talk": [
+    {
+     "dialog": "banner_eisvogel"
+    }
+   ]
+  },
+  {
+   "type": "ruestung",
+   "x": 18,
+   "y": 5
+  },
+  {
+   "type": "statue",
+   "x": 18,
+   "y": 8
+  },
+  {
+   "type": "kerzen_schwebend",
+   "x": 16,
+   "y": 6
   }
  ],
  "npcs": [
@@ -226,6 +311,71 @@
    "y": 6,
    "dir": "left",
    "wander": 3
+  },
+  {
+   "char": "sternwald",
+   "x": 16,
+   "y": 5,
+   "dir": "up",
+   "if": [
+    "flag:prolog_tour",
+    "!flag:prolog_tor"
+   ],
+   "talk": [
+    {
+     "dialog": "sternwald_tor"
+    }
+   ]
+  },
+  {
+   "char": "wurzelgruen",
+   "x": 13,
+   "y": 4,
+   "dir": "up",
+   "if": [
+    "flag:prolog_tour",
+    "!flag:prolog_tor"
+   ]
+  },
+  {
+   "char": "mats",
+   "x": 13,
+   "y": 6,
+   "dir": "up",
+   "if": [
+    "flag:prolog_tour",
+    "!flag:prolog_tor"
+   ]
+  },
+  {
+   "char": "juna",
+   "x": 17,
+   "y": 4,
+   "dir": "left",
+   "if": [
+    "flag:prolog_tour",
+    "!flag:prolog_tor"
+   ]
+  },
+  {
+   "char": "oskar",
+   "x": 17,
+   "y": 6,
+   "dir": "up",
+   "if": [
+    "flag:prolog_tour",
+    "!flag:prolog_tor"
+   ]
+  },
+  {
+   "char": "ida",
+   "x": 16,
+   "y": 7,
+   "dir": "up",
+   "if": [
+    "flag:prolog_tour",
+    "!flag:prolog_tor"
+   ]
   }
  ],
  "doors": [

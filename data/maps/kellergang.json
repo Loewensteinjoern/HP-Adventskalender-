@@ -103,7 +103,7 @@
    "y": 1,
    "bump": true,
    "if": [
-    "day<1"
+    "!flag:prolog_fest"
    ],
    "talk": [
     {
@@ -117,7 +117,7 @@
    "y": 1,
    "solid": false,
    "if": [
-    "day>=1"
+    "flag:prolog_fest"
    ]
   },
   {

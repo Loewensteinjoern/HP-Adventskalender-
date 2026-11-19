@@ -15,7 +15,8 @@ const SHOTS = process.argv[2] || null;
   const wait = ms => page.waitForTimeout(ms);
   const key = async (k, n = 1, w = 110) => { for (let i = 0; i < n; i++) { await page.keyboard.down(k); await wait(35); await page.keyboard.up(k); await wait(w); } };
   const st = () => page.evaluate(() => window.__wp());
-  const drain = async () => { for (let i = 0; i < 80; i++) { const s = await st(); if (!s.dialog) { await wait(250); if (!(await st()).dialog) return; } await key('Enter', 1, 80); } };
+  const busy = s => s.dialog || s.mode === 'szene';
+  const drain = async () => { for (let i = 0; i < 160; i++) { const s = await st(); if (!busy(s)) { await wait(250); if (!busy(await st())) return; } await key('Enter', 1, 80); } };
   const talk = async () => { await key('Enter', 1, 150); await drain(); };
   const go = (m, x, y, d) => page.evaluate(a => window.__go(...a), [m, x, y, d]);
   const flags = o => page.evaluate(f => window.__flags(f), o);
@@ -25,7 +26,7 @@ const SHOTS = process.argv[2] || null;
   const sniffAndFind = async () => { await key('x'); await wait(1300); if (!(await st()).trail) errors.push('Keine Spur beim Schnüffeln'); await talk(); };
 
   await page.goto(FILE + '?testtag=4'); await wait(500);
-  await key('Enter'); await wait(500); await drain(); await wait(300); await drain();
+  await key('ArrowRight'); await key('Enter'); await wait(500); await drain(); await wait(300); await drain();
   await flags({ diego_dabei: true, q01_feder: true, q01_joern: true });
 
   // Kartenwechsel über die geöffnete Kellertreppe

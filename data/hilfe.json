@@ -1,0 +1,46 @@
+[
+ {
+  "titel": "Laufen und Sprechen",
+  "text": "Mit dem Steuerkreuz links läufst du. Mit A sprichst du Leute an oder untersuchst Dinge, vor denen du stehst."
+ },
+ {
+  "titel": "Wege im Schloss",
+  "text": "Zwischen zwei Räumen liegt immer ein Gang, eine Treppe oder eine Halle. Geh einfach durch Türen und Durchgänge."
+ },
+ {
+  "titel": "Menü (☰)",
+  "text": "Oben rechts. Im Questlog steht, was als Nächstes zu tun ist. Dazu die Schlosskarte, das Phönixlied und diese Hilfe."
+ },
+ {
+  "titel": "Ton",
+  "text": "Oben rechts schaltest du die Musik an und aus. Hörst du gar nichts, ist vielleicht die Stummschaltung im Kontrollzentrum an."
+ },
+ {
+  "titel": "Diego schnüffeln lassen (B)",
+  "text": "Mit B schnüffelt Diego nach Geheimnissen in der Nähe. Goldene Pfotenspuren zeigen dir den Weg. Am Ziel drückst du A."
+ },
+ {
+  "titel": "Sammeln",
+  "text": "Glutsplitter, Schmuck und kleine Geheimnisse sind überall versteckt. Je drei Glutsplitter machen Charly dauerhaft wärmer. Im Questlog siehst du, was du schon gefunden hast."
+ },
+ {
+  "titel": "Zaubern",
+  "text": "Wo ein Zauber wirken kann, öffnet A das Zauberbuch. Nur der richtige Spruch wirkt. Neue Zauber lernst du im Lauf des Advents."
+ },
+ {
+  "titel": "Kämpfe",
+  "text": "Im tiefen Schnee lauern manchmal Wintergeister. Charly zaubert, Jörn hilft mit Kakao und Mut, Diego bellt oder schnüffelt. Verlieren ist nicht schlimm: Charly wacht am letzten warmen Ort wieder auf."
+ },
+ {
+  "titel": "Tagesablauf",
+  "text": "Jeder Tag beginnt morgens am Kamin im Gemeinschaftsraum. Ist die Aufgabe des Tages geschafft, drückst du A am Kamin und sagst Gute Nacht. Dann wartet das nächste Türchen."
+ },
+ {
+  "titel": "Speichern",
+  "text": "Das Spiel speichert von selbst, bei jedem Schritt. Du kannst jederzeit aufhören und machst genau dort weiter."
+ },
+ {
+  "titel": "Spielstand-Code",
+  "text": "Im Menü unter „Spielstand sichern (Code)“ bekommst du einen Code. Auf einem anderen Gerät gibst du ihn unter „Spielstand-Code eingeben“ ein."
+ }
+]

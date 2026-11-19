@@ -1,10 +1,48 @@
 {
-  "version": "0.6 · Frostwicht stärker",
-  "start": {
-    "map": "gemeinschaftsraum",
-    "x": 13,
-    "y": 4,
-    "dir": "left"
+ "version": "0.7 · Prolog und Tagesablauf",
+ "start": {
+  "map": "gemeinschaftsraum",
+  "x": 13,
+  "y": 4,
+  "dir": "left"
+ },
+ "prologStart": {
+  "map": "grosse_halle",
+  "x": 11,
+  "y": 14,
+  "dir": "up"
+ },
+ "prolog": {
+  "title": "Ankunft in Løvestein",
+  "steps": [
+   {
+    "flag": "prolog_joern",
+    "text": "Begrüßungsfest in der Großen Halle."
+   },
+   {
+    "flag": "prolog_tour",
+    "text": "Folge Prof. Wurzelgrün durchs Schloss. Sprich sie an (A), wenn du die Führung abkürzen möchtest."
+   },
+   {
+    "flag": "prolog_tor",
+    "text": "Pit ist ganz aufgeregt – irgendwas ist mit dem Haupttor."
+   }
+  ]
+ },
+ "auto": [
+  {
+   "szene": "prolog_fest",
+   "if": [
+    "!flag:prolog_fest"
+   ]
   },
-  "intro": "intro"
+  {
+   "szene": "prolog_tor",
+   "if": [
+    "flag:prolog_tour",
+    "!flag:prolog_tor"
+   ]
+  }
+ ],
+ "haken0": "haken_0"
 }

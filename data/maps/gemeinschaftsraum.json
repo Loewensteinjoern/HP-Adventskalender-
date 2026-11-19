@@ -36,7 +36,7 @@
      "dialog": "kamin_q01"
     },
     {
-     "dialog": "kamin"
+     "tagende": true
     }
    ]
   },
@@ -301,6 +301,18 @@
    ],
    "talk": [
     {
+     "if": [
+      "!flag:prolog_tour"
+     ],
+     "dialog": "prolog_diego",
+     "set": [
+      "diego_dabei",
+      "prolog_tour"
+     ],
+     "join": "diego",
+     "sound": "wuff"
+    },
+    {
      "dialog": "diego_wecken",
      "set": [
       "diego_dabei"
@@ -330,6 +342,9 @@
     "down",
     "left",
     "right"
+   ],
+   "if": [
+    "flag:prolog_tor"
    ]
   },
   {
@@ -345,6 +360,26 @@
    "y": 10,
    "dir": "left",
    "pose": "schlaf"
+  },
+  {
+   "char": "pit",
+   "x": 17,
+   "y": 3,
+   "dir": "down",
+   "if": [
+    "flag:pit_kommt",
+    "!flag:prolog_tor"
+   ]
+  },
+  {
+   "char": "wurzelgruen",
+   "x": 11,
+   "y": 4,
+   "dir": "right",
+   "if": [
+    "flag:prolog_tour",
+    "!flag:prolog_tor"
+   ]
   }
  ],
  "secrets": [

@@ -2,12 +2,12 @@
 // Regel: Ein Update darf einen Spielstand nie löschen. Unbekannte Felder bleiben erhalten.
 
 function newSave(now) {
-  const s = DATA.welt.start;
+  const s = DATA.welt.prologStart || DATA.welt.start;
   return {
     v: SAVE_VERSION, created: now, updated: now,
     map: s.map, x: s.x, y: s.y, dir: s.dir,
     flags: {}, done: [], fragments: [], secrets: [],
-    followers: ['joern'], seenDay: 0, playMs: 0,
+    followers: [], seenDay: 0, playMs: 0, tag: 0, tagEnde: false,
     waerme: WAERME_GRUND, energie: ENERGIE_MAX, ep: 0, stufe: 1, kraft: 0, lp: 0, wahl: 0, kakao: KAKAO_START, warm: null, besucht: [s.map], glut: [],
   };
 }
@@ -29,7 +29,19 @@ const MIGRATIONS = {
     out.besucht = typeof d.map === 'string' ? [d.map] : [];
     return out;
   },
+  // v2 → v3 (S2b): Prolog und Tagesablauf. Alte Stände haben den Prolog nie gesehen – er gilt als gespielt.
+  // Erzähltag = zuletzt gesehenes Türchen; vor dem 1.12. ist Tag 0 schon beendet.
+  2: d => {
+    const out = Object.assign({}, d), f = Object.assign({}, isObj(d.flags) ? d.flags : {});
+    PROLOG_FLAGS.forEach(k => { f[k] = true; });
+    f.diego_dabei = f.diego_dabei || (Array.isArray(d.followers) && d.followers.indexOf('diego') >= 0);
+    out.flags = f;
+    const seen = isNum(d.seenDay) ? clamp(Math.round(d.seenDay), 0, 24) : 0;
+    out.tag = seen; out.tagEnde = seen === 0;
+    return out;
+  },
 };
+const PROLOG_FLAGS = ['prolog_fest', 'prolog_joern', 'prolog_tour', 'prolog_tor', 'prolog_fertig'];
 
 // Liefert {save, warnings} oder null, wenn gar nichts zu retten ist
 function migrateSave(raw) {
@@ -60,8 +72,11 @@ function migrateSave(raw) {
   out.done = strList(d.done);
   out.fragments = strList(d.fragments);
   out.secrets = strList(d.secrets);
-  out.followers = strList(d.followers).filter(f => DATA.characters[f]);
-  if (out.followers.indexOf('joern') < 0) out.followers.unshift('joern');
+  out.followers = strList(d.followers).filter(f => DATA.characters[f]).filter((f, i, a) => a.indexOf(f) === i);
+  // Jörn begleitet Charly, sobald er sich im Prolog angeschlossen hat
+  if (out.flags.prolog_joern && out.followers.indexOf('joern') < 0) out.followers.unshift('joern');
+  out.tag = isNum(d.tag) ? clamp(Math.round(d.tag), 0, 24) : 0;
+  out.tagEnde = d.tagEnde === true;
   out.seenDay = isNum(d.seenDay) ? clamp(d.seenDay, 0, 24) : 0;
   out.playMs = isNum(d.playMs) ? d.playMs : 0;
   out.glut = strList(d.glut);
@@ -79,7 +94,7 @@ function migrateSave(raw) {
   const posOk = m && isNum(d.x) && isNum(d.y) && d.x >= 0 && d.y >= 0 && d.y < m.tiles.length && d.x < m.tiles[0].length
     && !(DATA.tiles[m.tiles[d.y][d.x]] || {}).solid;
   if (posOk) { out.map = d.map; out.x = d.x; out.y = d.y; }
-  else { out.map = s.map; out.x = s.x; out.y = s.y; warnings.push('Position zurückgesetzt'); }
+  else { const st = out.flags.prolog_fest ? DATA.welt.start : (DATA.welt.prologStart || DATA.welt.start); out.map = st.map; out.x = st.x; out.y = st.y; warnings.push('Position zurückgesetzt'); }
   out.dir = DIRS[d.dir] ? d.dir : 'down';
   return { save: out, warnings };
 }

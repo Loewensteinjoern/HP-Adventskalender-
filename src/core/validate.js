@@ -28,6 +28,7 @@ function validateData() {
       checkAction(a.win, where + ' Sieg'); if (!a.win) E(where + ': Kampf ohne Sieg-Aktion');
     }
     if (a.glut) setFlags.add('glut_' + a.glut);
+    if (a.szene && !(DATA.szenen || {})[a.szene]) E(where + ': Szene „' + a.szene + '“ fehlt');
     if (a.minigame) { if (a.minigame.type !== 'takt' && a.minigame.type !== 'uhr') E(where + ': unbekanntes Minispiel'); if (a.minigame.type === 'uhr' && !(DATA.puzzles[a.minigame.raetsel] || {}).fragen) E(where + ': Uhr-Rätsel fehlt'); checkAction(a.win, where + ' Sieg'); if (!a.win) E(where + ': Minispiel ohne Sieg-Aktion'); }
   }
   // Regel aus dem Fahrplan: Ein Gegner darf erst auftauchen, wenn seine Schwäche als Zauber gelernt werden kann.
@@ -49,8 +50,9 @@ function validateData() {
   // Dialoge: Sprecher müssen existieren, Zeilen nicht zu lang
   Object.keys(dlg).forEach(id => {
     if (!Array.isArray(dlg[id]) || !dlg[id].length) return E('Dialog ' + id + ' ist leer');
-    dlg[id].forEach(([sp, tx], i) => {
+    dlg[id].forEach(([sp, tx, taste], i) => {
       if (sp && !chars[sp]) E('Dialog ' + id + '[' + i + ']: Sprecher „' + sp + '“ unbekannt');
+      if (taste !== undefined && ['a', 'b', 'menu', 'ton', 'dpad'].indexOf(taste) < 0) E('Dialog ' + id + '[' + i + ']: unbekannte Taste „' + taste + '“');
       if (typeof tx !== 'string' || !tx) E('Dialog ' + id + '[' + i + ']: Text fehlt');
       else if (tx.length > 190) Wn('Dialog ' + id + '[' + i + '] ist sehr lang (' + tx.length + ' Zeichen)');
     });
@@ -104,6 +106,53 @@ function validateData() {
       if (doorAt(t, d.tx, d.ty)) E(where + ': Tür ' + i + ' endet direkt auf einer Tür');
     });
   });
+
+  // Szenen (data/szenen.json)
+  const objIds = new Set(); Object.keys(maps).forEach(mid => (maps[mid].objects || []).forEach(o => { if (o.id) objIds.add(o.id); }));
+  const ARTEN = ['balken', 'kamera', 'ort', 'sag', 'warte', 'ton', 'note', 'musik', 'aktion', 'figur', 'spieler', 'blick', 'blase', 'einblenden', 'ausblenden', 'fx', 'gehe', 'schwarz', 'tour'];
+  const posOk = (mid, x, y) => maps[mid] && !tileSolid(maps[mid], x, y);
+  Object.keys(DATA.szenen || {}).forEach(id => {
+    const where = 'Szene ' + id;
+    if (!Array.isArray(DATA.szenen[id]) || !DATA.szenen[id].length) return E(where + ' ist leer');
+    DATA.szenen[id].forEach((st, i) => {
+      const w = where + ' Schritt ' + (i + 1), art = Object.keys(st).find(k => ARTEN.indexOf(k) >= 0);
+      if (!art) return E(w + ': unbekannte Art');
+      if (st.sag) checkDialogRef(st.sag, w);
+      if (st.aktion) checkAction(st.aktion, w);
+      if (st.schwarz) checkAction(st.schwarz, w);
+      if (st.figur && !chars[st.figur.char]) E(w + ': Figur „' + st.figur.char + '“ fehlt');
+      if (st.blase && !chars[st.blase.char]) E(w + ': Figur „' + st.blase.char + '“ fehlt');
+      if (st.gehe && !posOk(st.gehe.map, st.gehe.x, st.gehe.y)) E(w + ': Ziel ' + st.gehe.map + ' ungültig');
+      if (st.ort && !maps[st.ort.map]) E(w + ': Ort ' + st.ort.map + ' fehlt');
+      if (st.musik && !DATA.musik[st.musik]) E(w + ': Musik „' + st.musik + '“ fehlt');
+      const oid = st.einblenden || st.ausblenden;
+      if (oid) { if (!objIds.has(oid)) E(w + ': Objekt-id „' + oid + '“ gibt es auf keiner Karte'); setFlags.add(oid + (st.einblenden ? '_da' : '_weg')); }
+    });
+  });
+  (DATA.welt.auto || []).forEach(a => { if (!DATA.szenen[a.szene]) E('welt.auto: Szene „' + a.szene + '“ fehlt'); checkConds(a.if, 'welt.auto ' + a.szene); });
+  if (DATA.welt.haken0 && !DATA.szenen[DATA.welt.haken0]) E('Haken Tag 0 fehlt');
+  ['nacht', 'nacht_prolog', 'morgen'].forEach(k => { if (!DATA.szenen[k]) E('Szene „' + k + '“ fehlt (Tagesablauf)'); });
+  const ps = DATA.welt.prologStart;
+  if (ps && !posOk(ps.map, ps.x, ps.y)) E('Prolog-Start ungültig');
+  // Führung: jede Station führt durch eine echte Tür zur nächsten
+  const F = DATA.fuehrung;
+  if (F) {
+    F.stationen.forEach((st, i) => {
+      const w = 'Führung Station ' + i;
+      if (!maps[st.map]) return E(w + ': Karte ' + st.map + ' fehlt');
+      if (st.dialog) checkDialogRef(st.dialog, w);
+      if (st.hinweis) checkDialogRef(st.hinweis, w);
+      const nx = F.stationen[i + 1];
+      if (nx) {
+        if (!(maps[st.map].doors || []).some(d => d.to === st.nach)) E(w + ': keine Tür von ' + st.map + ' nach ' + st.nach);
+        if (nx.map !== st.nach) E(w + ': nächste Station liegt nicht in ' + st.nach);
+      } else if (!st.ziel || !posOk(st.map, st.ziel[0], st.ziel[1])) E(w + ': letzte Station braucht ein freies Ziel');
+    });
+    if (!posOk(F.abkuerzen.map, F.abkuerzen.x, F.abkuerzen.y)) E('Führung: Abkürzung endet in einer Wand');
+    if (F.stationen.length && F.stationen[F.stationen.length - 1].map !== F.abkuerzen.map) E('Führung: Abkürzung führt nicht zur letzten Station');
+  }
+  (DATA.welt.prolog ? DATA.welt.prolog.steps : []).forEach(st => { if (!/^prolog_/.test(st.flag)) E('Prolog-Schritt ' + st.flag + ': Flag muss mit prolog_ beginnen'); });
+  (DATA.hilfe || []).forEach((h, i) => { if (!h.titel || !h.text) E('Hilfe ' + i + ': Titel oder Text fehlt'); });
 
   // Rätsel (Reihenfolge)
   Object.keys(DATA.puzzles).forEach(id => {
@@ -162,6 +211,7 @@ function validateData() {
     if (!q.neben && !q.fragment) E('Quest ' + id + ': Fragment fehlt');
     if (!q.title || !Array.isArray(q.steps) || !q.steps.length) E('Quest ' + id + ': Titel oder Schritte fehlen');
     if (q.start) checkDialogRef(q.start, 'Quest ' + id);
+    if (q.haken && !DATA.szenen[q.haken]) E('Quest ' + id + ': Haken-Szene „' + q.haken + '“ fehlt');
     (q.steps || []).forEach(st => stepFlags(st).forEach(f => { const m = /^zauber_(\w+)$/.exec(f); if (m && DATA.zauber[m[1]] && DATA.zauber[m[1]].tag !== q.day) E('Quest ' + id + ': ' + DATA.zauber[m[1]].name + ' wird an Tag ' + q.day + ' gelernt, laut zauber.json aber an Tag ' + DATA.zauber[m[1]].tag); }));
     (q.steps || []).forEach((st, i) => stepFlags(st).forEach(f => {
       if (!setFlags.has(f)) {

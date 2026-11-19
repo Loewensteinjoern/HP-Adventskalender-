@@ -1,270 +1,293 @@
 {
-  "charly": {
-    "name": "Charly",
-    "sprite": "charly"
-  },
-  "joern": {
-    "name": "Jörn",
-    "sprite": "joern",
-    "talk": [
-      {
-        "if": [
-          "quest:Q01",
-          "flag:q01_feder",
-          "!flag:q01_joern"
-        ],
-        "dialog": "q01_joern",
-        "set": [
-          "q01_joern"
-        ],
-        "sound": "fund"
-      },
-      {
-        "if": [
-          "quest:Q01",
-          "flag:q01_joern"
-        ],
-        "dialog": "q01_joern_danach"
-      },
-      {
-        "if": [
-          "quest:Q01"
-        ],
-        "dialog": "joern_q01_tipp"
-      },
-      {
-        "if": [
-          "day<1"
-        ],
-        "dialog": [
-          "joern_vor1",
-          "joern_vor2",
-          "joern_vor3"
-        ]
-      },
-      {
-        "dialog": [
-          "joern_1",
-          "joern_2",
-          "joern_3"
-        ]
-      }
+ "charly": {
+  "name": "Charly",
+  "sprite": "charly"
+ },
+ "joern": {
+  "name": "Jörn",
+  "sprite": "joern",
+  "talk": [
+   {
+    "if": [
+     "quest:Q01",
+     "flag:q01_feder",
+     "!flag:q01_joern"
     ],
-    "blasen": [
-      "Schön hier.",
-      "Riechst du den Zimt?",
-      "Ich bin direkt hinter dir."
-    ]
-  },
-  "diego": {
-    "name": "Diego",
-    "sprite": "diego",
-    "talk": [
-      {
-        "dialog": [
-          "diego_1",
-          "diego_2",
-          "diego_3"
-        ]
-      }
+    "dialog": "q01_joern",
+    "set": [
+     "q01_joern"
     ],
-    "blasen": [
-      "Wuff!",
-      "*schnüffel*",
-      "Wuff wuff!"
-    ]
-  },
-  "frieda": {
-    "name": "Frieda"
-  },
-  "pit": {
-    "name": "Pit Honigwabe",
-    "sprite": "pit",
-    "blasen": [
-      "Nur noch eine Seite!",
-      "Kapitel zwei …"
-    ]
-  },
-  "ottokar": {
-    "name": "Sir Ottokar der Schnarcher"
-  },
-  "lotte": {
-    "name": "Lotte Silberfeder",
-    "sprite": "lotte",
-    "blasen": [
-      "Hmm, interessant …",
-      "Wo war ich stehen geblieben?"
-    ]
-  },
-  "federleicht": {
-    "name": "Prof. Fridolin Federleicht",
-    "sprite": "federleicht",
-    "blasen": [
-      "La la laaa …",
-      "Luxa, Luxa …"
-    ]
-  },
-  "pendel": {
-    "name": "Prof. Kasimir Pendel",
-    "sprite": "pendel",
-    "blasen": [
-      "Tick … tack …",
-      "Wo ist mein Schraubenzieher?"
-    ]
-  },
-  "leisetritt": {
-    "name": "Frau Ottilie Leisetritt",
-    "sprite": "leisetritt",
-    "blasen": [
-      "Psssst!",
-      "Rücken nach vorne!"
-    ]
-  },
-  "knarz": {
-    "name": "Hausmeister Ignaz Knarz",
-    "sprite": "knarz",
-    "blasen": [
-      "Grmpf.",
-      "Schon wieder Schnee …",
-      "Wer hat hier getropft?"
-    ]
-  },
-  "sternwald": {
-    "name": "Direktorin Adelheid Sternwald",
-    "sprite": "sternwald",
-    "blasen": [
-      "Was für ein Winter."
-    ]
-  },
-  "uhrmeister": {
-    "name": "Der Uhrmeister",
-    "sprite": "uhrmeister"
-  },
-  "pimpernell": {
-    "name": "Pimpernell",
-    "sprite": "pimpernell",
-    "blasen": [
-      "Schuhu?",
-      "Wer bin ich nochmal?"
-    ]
-  },
-  "mats": {
-    "name": "Mats Eichenlaub",
-    "sprite": "mats",
-    "blasen": [
-      "Schneeballschlacht später?",
-      "Brrr!",
-      "Hast du Diego gesehen?"
+    "sound": "fund"
+   },
+   {
+    "if": [
+     "quest:Q01",
+     "flag:q01_joern"
     ],
-    "talk": [
-      {
-        "if": [
-          "flag:zauber_luxa",
-          "!flag:kampf_probe"
-        ],
-        "dialog": "mats_pixie"
-      },
-      {
-        "dialog": [
-          "mats_1",
-          "mats_2"
-        ]
-      }
-    ]
-  },
-  "oskar": {
-    "name": "Oskar Rindenmoos",
-    "sprite": "oskar",
-    "blasen": [
-      "Der Schneemann braucht eine Nase!",
-      "Wo ist mein Handschuh?"
+    "dialog": "q01_joern_danach"
+   },
+   {
+    "if": [
+     "quest:Q01"
     ],
-    "talk": [
-      {
-        "dialog": [
-          "oskar_1",
-          "oskar_2"
-        ]
-      }
-    ]
-  },
-  "juna": {
-    "name": "Juna Nachtblau",
-    "sprite": "juna",
-    "blasen": [
-      "Die Sterne stehen heute komisch.",
-      "Ich schreib nach Hause."
+    "dialog": "joern_q01_tipp"
+   },
+   {
+    "if": [
+     "day<1"
     ],
-    "talk": [
-      {
-        "dialog": [
-          "juna_1",
-          "juna_2"
-        ]
-      }
+    "dialog": [
+     "joern_vor1",
+     "joern_vor2",
+     "joern_vor3"
     ]
-  },
-  "ida": {
-    "name": "Ida Muschelweiß",
-    "sprite": "ida",
-    "blasen": [
-      "Psst, ich lerne.",
-      "Wo ist mein Lesezeichen?"
+   },
+   {
+    "dialog": [
+     "joern_1",
+     "joern_2",
+     "joern_3"
+    ]
+   }
+  ],
+  "blasen": [
+   "Schön hier.",
+   "Riechst du den Zimt?",
+   "Ich bin direkt hinter dir."
+  ]
+ },
+ "diego": {
+  "name": "Diego",
+  "sprite": "diego",
+  "talk": [
+   {
+    "dialog": [
+     "diego_1",
+     "diego_2",
+     "diego_3"
+    ]
+   }
+  ],
+  "blasen": [
+   "Wuff!",
+   "*schnüffel*",
+   "Wuff wuff!"
+  ]
+ },
+ "frieda": {
+  "name": "Frieda"
+ },
+ "pit": {
+  "name": "Pit Honigwabe",
+  "sprite": "pit",
+  "blasen": [
+   "Nur noch eine Seite!",
+   "Kapitel zwei …"
+  ]
+ },
+ "ottokar": {
+  "name": "Sir Ottokar der Schnarcher"
+ },
+ "lotte": {
+  "name": "Lotte Silberfeder",
+  "sprite": "lotte",
+  "blasen": [
+   "Hmm, interessant …",
+   "Wo war ich stehen geblieben?"
+  ]
+ },
+ "federleicht": {
+  "name": "Prof. Fridolin Federleicht",
+  "sprite": "federleicht",
+  "blasen": [
+   "La la laaa …",
+   "Luxa, Luxa …"
+  ]
+ },
+ "pendel": {
+  "name": "Prof. Kasimir Pendel",
+  "sprite": "pendel",
+  "blasen": [
+   "Tick … tack …",
+   "Wo ist mein Schraubenzieher?"
+  ]
+ },
+ "leisetritt": {
+  "name": "Frau Ottilie Leisetritt",
+  "sprite": "leisetritt",
+  "blasen": [
+   "Psssst!",
+   "Rücken nach vorne!"
+  ]
+ },
+ "knarz": {
+  "name": "Hausmeister Ignaz Knarz",
+  "sprite": "knarz",
+  "blasen": [
+   "Grmpf.",
+   "Schon wieder Schnee …",
+   "Wer hat hier getropft?"
+  ]
+ },
+ "sternwald": {
+  "name": "Direktorin Adelheid Sternwald",
+  "sprite": "sternwald",
+  "blasen": [
+   "Was für ein Winter."
+  ]
+ },
+ "uhrmeister": {
+  "name": "Der Uhrmeister",
+  "sprite": "uhrmeister"
+ },
+ "pimpernell": {
+  "name": "Pimpernell",
+  "sprite": "pimpernell",
+  "blasen": [
+   "Schuhu?",
+   "Wer bin ich nochmal?"
+  ]
+ },
+ "mats": {
+  "name": "Mats Eichenlaub",
+  "sprite": "mats",
+  "blasen": [
+   "Schneeballschlacht später?",
+   "Brrr!",
+   "Hast du Diego gesehen?"
+  ],
+  "talk": [
+   {
+    "if": [
+     "flag:zauber_luxa",
+     "!flag:kampf_probe"
     ],
-    "talk": [
-      {
-        "dialog": [
-          "ida_1",
-          "ida_2"
-        ]
-      }
+    "dialog": "mats_pixie"
+   },
+   {
+    "dialog": [
+     "mats_1",
+     "mats_2"
     ]
-  },
-  "finn": {
-    "name": "Finn Haselnuss",
-    "sprite": "finn",
-    "blasen": [
-      "Zimtsterne! Wo?",
-      "Ich hab Hunger.",
-      "Noch 3 Kekse …"
+   }
+  ]
+ },
+ "oskar": {
+  "name": "Oskar Rindenmoos",
+  "sprite": "oskar",
+  "blasen": [
+   "Der Schneemann braucht eine Nase!",
+   "Wo ist mein Handschuh?"
+  ],
+  "talk": [
+   {
+    "dialog": [
+     "oskar_1",
+     "oskar_2"
+    ]
+   }
+  ]
+ },
+ "juna": {
+  "name": "Juna Nachtblau",
+  "sprite": "juna",
+  "blasen": [
+   "Die Sterne stehen heute komisch.",
+   "Ich schreib nach Hause."
+  ],
+  "talk": [
+   {
+    "dialog": [
+     "juna_1",
+     "juna_2"
+    ]
+   }
+  ]
+ },
+ "ida": {
+  "name": "Ida Muschelweiß",
+  "sprite": "ida",
+  "blasen": [
+   "Psst, ich lerne.",
+   "Wo ist mein Lesezeichen?"
+  ],
+  "talk": [
+   {
+    "dialog": [
+     "ida_1",
+     "ida_2"
+    ]
+   }
+  ]
+ },
+ "finn": {
+  "name": "Finn Haselnuss",
+  "sprite": "finn",
+  "blasen": [
+   "Zimtsterne! Wo?",
+   "Ich hab Hunger.",
+   "Noch 3 Kekse …"
+  ],
+  "talk": [
+   {
+    "dialog": [
+     "finn_1",
+     "finn_2"
+    ]
+   }
+  ]
+ },
+ "kater": {
+  "name": "Kater Zimt",
+  "sprite": "kater",
+  "blasen": [
+   "Miau.",
+   "Schnurrr …"
+  ],
+  "talk": [
+   {
+    "dialog": [
+     "kater_1",
+     "kater_2"
     ],
-    "talk": [
-      {
-        "dialog": [
-          "finn_1",
-          "finn_2"
-        ]
-      }
-    ]
-  },
-  "kater": {
-    "name": "Kater Zimt",
-    "sprite": "kater",
-    "blasen": [
-      "Miau.",
-      "Schnurrr …"
+    "sound": "piep"
+   }
+  ]
+ },
+ "rotkehlchen": {
+  "name": "Rotkehlchen",
+  "sprite": "rotkehlchen",
+  "blasen": [
+   "Piep!",
+   "Tschilp!"
+  ],
+  "talk": [
+   {
+    "dialog": "rotkehlchen"
+   }
+  ]
+ },
+ "wurzelgruen": {
+  "name": "Prof. Wilma Wurzelgrün",
+  "sprite": "wurzelgruen",
+  "talk": [
+   {
+    "if": [
+     "flag:prolog_tor"
     ],
-    "talk": [
-      {
-        "dialog": [
-          "kater_1",
-          "kater_2"
-        ],
-        "sound": "piep"
-      }
+    "dialog": [
+     "wurzelgruen_1",
+     "wurzelgruen_2"
     ]
-  },
-  "rotkehlchen": {
-    "name": "Rotkehlchen",
-    "sprite": "rotkehlchen",
-    "blasen": [
-      "Piep!",
-      "Tschilp!"
-    ],
-    "talk": [
-      {
-        "dialog": "rotkehlchen"
-      }
-    ]
-  }
+   },
+   {
+    "dialog": "wurzelgruen_tor"
+   }
+  ],
+  "blasen": [
+   "Hier entlang!",
+   "Nicht trödeln, ihr zwei!",
+   "Herrlich, dieser Schnee."
+  ]
+ }
 }

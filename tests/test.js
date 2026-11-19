@@ -41,7 +41,7 @@ const gut = C.migrateSave(JSON.parse(fx('save_v1_gut.json')));
 ok(gut && gut.save.x === 5 && gut.save.flags.q01_feder === true && gut.save.secrets[0] === 'zimtstern', 'Guter v1-Stand bleibt unverändert');
 ok(gut.save.zukunftsfeld && gut.save.zukunftsfeld.bleibt === 'erhalten', 'Unbekannte Felder bleiben erhalten');
 const alt = C.migrateSave(JSON.parse(fx('save_v0_alt.json')));
-ok(alt && alt.save.v === 2 && alt.save.map === 'kellergang' && alt.save.x === 3 && alt.save.flags.diego_dabei, 'v0 wird über v1 nach v2 migriert');
+ok(alt && alt.save.v === 3 && alt.save.map === 'kellergang' && alt.save.x === 3 && alt.save.flags.diego_dabei, 'v0 wird über v1 und v2 nach v3 migriert');
 const schief = C.migrateSave(JSON.parse(fx('save_v1_schief.json')));
 ok(schief && schief.save.map === D.welt.start.map && schief.save.flags.ok === true && !('boese<script>' in schief.save.flags), 'Schiefer Stand wird repariert, nicht verworfen');
 ok(schief.save.followers.indexOf('drache') < 0 && schief.save.followers[0] === 'joern' && schief.save.seenDay === 24, 'Begleiter und Tage werden bereinigt');
@@ -81,7 +81,7 @@ const q = C.newSave(0); Object.assign(q.flags, { diego_dabei: true, q01_feder: t
 ok(C.updateQuests(q, 1).length === 0, 'Teilweise gebaute Quest wird nicht vorzeitig abgeschlossen');
 
 // --- Spielstand v2 (Stufe S2): Wärme, Karte, Glutsplitter ---
-ok(gut.save.v === 2 && gut.save.waerme === 10 && gut.save.besucht.indexOf(gut.save.map) >= 0 && gut.save.glut.length === 0 && gut.save.warm === null, 'v1-Stand bekommt Wärme, Karte und Glutsplitter dazu');
+ok(gut.save.v === 3 && gut.save.waerme === 10 && gut.save.besucht.indexOf(gut.save.map) >= 0 && gut.save.glut.length === 0 && gut.save.warm === null, 'v1-Stand bekommt Wärme, Karte und Glutsplitter dazu');
 const w2 = C.migrateSave({ v: 2, map: 'innenhof', x: 5, y: 8, waerme: 99, glut: ['a', 'b', 'c', 7], warm: { map: 'gibtsnicht', x: 1, y: 1, dir: 'up' }, besucht: ['innenhof', 'quatsch'] });
 ok(w2.save.waerme === 12 && w2.save.glut.length === 3 && w2.save.warm === null && w2.save.besucht.join() === 'innenhof', 'v2-Stand wird bereinigt (Wärme gedeckelt, unbekannte Orte raus)');
 
@@ -165,6 +165,30 @@ const D2 = JSON.parse(JSON.stringify(D)); D2.maps.innenhof.kampf.gruppen.push({ 
 ok(loadCore(D2).validateData().errors.some(e => /Frostwicht taucht ab Tag 2 auf/.test(e)), 'Datenprüfung meldet Gegner, deren Zauber noch nicht gelernt werden kann');
 const D3 = JSON.parse(JSON.stringify(D)); delete D3.karte.orte.innenhof;
 ok(loadCore(D3).validateData().errors.some(e => /Schlosskarte/.test(e)), 'Datenprüfung: jeder Ort steht auf der Schlosskarte');
+
+// --- S2b: Prolog und Tagesablauf ---
+const n0 = C.newSave(0);
+ok(n0.map === D.welt.prologStart.map && n0.followers.length === 0 && n0.tag === 0 && n0.tagEnde === false, 'Neues Spiel beginnt mit dem Prolog in der Großen Halle, Jörn kommt erst dort dazu');
+const v2 = C.migrateSave(JSON.parse(fx('save_v2_gut.json'))).save;
+ok(v2.v === 3 && C.PROLOG_FLAGS.every(f => v2.flags[f] === true) && v2.tag === 2 && v2.tagEnde === false, 'v2-Stand: Prolog gilt als gespielt, Erzähltag = zuletzt gesehenes Türchen');
+ok(v2.map === 'innenhof' && v2.x === 6 && v2.stufe === 2 && v2.kakao === 2 && v2.done[0] === 'Q01' && v2.followers.join() === 'joern,diego' && v2.glut[0] === 'innenhof', 'v2-Stand: Fortschritt, Position, Stufe und Begleiter bleiben erhalten');
+const v2vor = C.migrateSave(Object.assign(JSON.parse(fx('save_v2_gut.json')), { seenDay: 0 })).save;
+ok(v2vor.tag === 0 && v2vor.tagEnde === true, 'v2-Stand vor dem 1.12.: Tag 0 ist schon beendet, am 1.12. kommt der Morgen');
+const mitten = C.migrateSave({ v: 3, map: 'vorhalle', x: 6, y: 4, flags: { prolog_fest: true, tour: 2 }, followers: [], tag: 0 }).save;
+ok(mitten.followers.length === 0 && mitten.flags.tour === 2 && mitten.tag === 0, 'Mitten im Prolog: Führung bleibt, Jörn wird nicht vorzeitig angehängt');
+ok(C.migrateSave({ v: 3, map: 'vorhalle', x: 6, y: 4, flags: { prolog_joern: true }, followers: [], tag: 99, tagEnde: 'ja' }).save.followers[0] === 'joern', 'Nach dem Fest ist Jörn immer dabei');
+ok(C.migrateSave({ v: 3, map: 'vorhalle', x: 6, y: 4, tag: 99, tagEnde: 'ja' }).save.tag === 24 && C.migrateSave({ v: 3, map: 'x', tagEnde: 'ja' }).save.tagEnde === false, 'Tag und Tagesende werden bereinigt');
+ok(C.migrateSave({ v: 3, map: 'nirgends', x: 1, y: 1 }).save.map === D.welt.prologStart.map && C.migrateSave({ v: 3, map: 'nirgends', flags: { prolog_fest: true } }).save.map === D.welt.start.map, 'Kaputte Position: vor dem Prolog in die Halle, danach zum Kamin');
+ok(C.hoursUntilNextDay(new Date('2026-12-03T22:30:00Z')) === 1 && C.hoursUntilNextDay(new Date('2026-12-03T23:00:00Z')) === 24 && C.hoursUntilNextDay(new Date('2026-12-03T10:00:00Z')) === 13, 'Stunden bis zum nächsten Türchen (Berlin)');
+// Führung: Datenprüfung meldet Lücken
+const D4 = JSON.parse(JSON.stringify(D)); D4.fuehrung.stationen.splice(3, 1);
+ok(loadCore(D4).validateData().errors.some(e => /Führung/.test(e)), 'Datenprüfung: Führung ohne Lücken');
+const D5 = JSON.parse(JSON.stringify(D)); D5.szenen.prolog_fest.push({ sag: 'gibtsnicht' }); D5.szenen.morgen.push({ einblenden: 'nix' });
+ok(loadCore(D5).validateData().errors.filter(e => /Szene/.test(e)).length >= 2, 'Datenprüfung: Szenen mit fehlendem Dialog oder Objekt');
+const D6 = JSON.parse(JSON.stringify(D)); D6.dialogs.fest_7[0][2] = 'x';
+ok(loadCore(D6).validateData().errors.some(e => /Taste/.test(e)), 'Datenprüfung: nur bekannte Tasten im Tutorial');
+// Quests erst nach dem Prolog: Erzähltag 0 heißt, Q01 ist noch nicht aktiv
+ok(!C.checkCond('quest:Q01', { flags: {}, day: Math.min(5, n0.tag), done: [], followers: [] }), 'Q01 startet erst nach dem Prolog (Erzähltag 0), auch wenn der Kalender schon weiter ist');
 
 console.log((fails ? '✗ ' + fails + ' von ' : '✓ alle ') + count + ' Tests' + (fails ? ' fehlgeschlagen' : ' bestanden'));
 v.warnings.forEach(w => console.log('  Hinweis: ' + w));

@@ -23,20 +23,19 @@ async function run() {
     for (let i = 0; i < 60 && (await state()).dialog; i++) await key('Enter', 1, 90);
   };
 
-  // 1) Testtag 1: neues Spiel, Intro, Q01 komplett bis Jörn
+  // 1) Testtag 1: Testsprung (Prolog übersprungen), Morgen am Kamin, Q01 bis Jörn
   await page.goto(FILE + '?testtag=1');
   await page.waitForTimeout(600);
   await shot('01_titel');
-  await key('Enter');                 // Spiel beginnen
-  await page.waitForTimeout(700);
-  await shot('02_intro');
-  await talk(false);                  // Intro durchklicken
-  await page.waitForTimeout(300); await talk(false); // Türchen-Hinweis + Q01-Start
+  await key('ArrowRight'); await key('Enter');   // Test: Tag 1
+  await page.waitForTimeout(1500);
+  await shot('02_morgen');
+  for (let i = 0; i < 120; i++) { const z = await state(); if (!z.dialog && z.mode !== 'szene') { await page.waitForTimeout(300); const z2 = await state(); if (!z2.dialog && z2.mode !== 'szene') break; } await key('Enter', 1, 90); }
   await page.waitForTimeout(400);
   await shot('03_raum');
-  await talk();                       // Diego wecken (Blick nach links auf Diego)
   let s = await state();
-  if (!s.flags.diego_dabei) errors.push('Diego wurde nicht geweckt');
+  if (!s.followers.some(f => f.char === 'diego')) errors.push('Diego ist nach dem Testsprung nicht dabei');
+  if (!s.flags.start_Q01) errors.push('Q01 wurde nach dem Morgen nicht gestartet');
   await key('x');                     // schnüffeln
   await page.waitForTimeout(1500);
   await shot('04_schnueffeln');

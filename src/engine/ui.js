@@ -56,7 +56,7 @@ const UI = {
       R.text(o.label, ox + w / 2, 326, { size: 14, align: 'center', weight: on ? 700 : 600, color: on ? '#ffd36a' : '#3a2a50', shadow: on });
       ox += w + gap;
     });
-    const info = G.day > 0 ? 'Heute ist der ' + G.day + '. Dezember – Türchen ' + G.day + ' ist offen.' : 'Noch ' + G.daysLeft() + (G.daysLeft() === 1 ? ' Tag' : ' Tage') + ' bis zum ersten Türchen.';
+    const info = G.kalender > 0 ? 'Heute ist der ' + G.kalender + '. Dezember – Türchen ' + G.kalender + ' ist offen.' : 'Noch ' + G.daysLeft() + (G.daysLeft() === 1 ? ' Tag' : ' Tage') + ' bis zum ersten Türchen.';
     R.text(info, VIEW_W / 2, 352, { size: 12, align: 'center', color: '#3a2a50', weight: 600, shadow: false });
     R.text(WATERMARK, VIEW_W / 2, 369, { size: 8, align: 'center', color: '#5a5070', weight: 500, shadow: false });
     R.text('Version ' + DATA.welt.version, VIEW_W / 2, 380, { size: 7, align: 'center', color: '#7a7090', weight: 500, shadow: false });
@@ -204,16 +204,31 @@ const UI = {
   questlog(G) {
     const c = R.ctx; R.panel(16, 14, VIEW_W - 32, VIEW_H - 28);
     R.text('Questlog', 34, 42, { size: 20, weight: 700, serif: true, color: '#ffd36a' });
-    const head = G.day > 0 ? 'Heute: ' + G.day + '. Dezember' : 'Noch ' + G.daysLeft() + ' Tage bis zum 1. Dezember';
+    const sv0 = G.save, head = sv0.tag > 0 ? 'Türchen ' + sv0.tag : (G.kalender > 0 ? 'Prolog' : 'Noch ' + G.daysLeft() + ' Tage bis zum 1. Dezember');
     R.text(head, VIEW_W - 34, 40, { size: 12, align: 'right', color: '#c8b898' });
     const lines = [];
     const all = questIds().filter(id => DATA.quests[id].day <= G.day);
     const neben = all.filter(id => DATA.quests[id].neben && (G.save.done.indexOf(id) < 0) && DATA.quests[id].steps.some(st => stepCount(st, G.save.flags) > 0));
     const ids = all.filter(id => !DATA.quests[id].neben).reverse().concat(neben);
-    if (!ids.length) {
-      lines.push(['Das erste Türchen öffnet sich am 1. Dezember.', '#f4ead8', 600]);
-      lines.push(['Bis dahin: Schau dich im Gemeinschaftsraum um, weck Diego', '#c8b898', 500]);
-      lines.push(['und lass ihn nach Geheimnissen schnüffeln (Taste B).', '#c8b898', 500]);
+    const wrapLine = (txt, col) => R.wrap(txt, 400, 13, 600).forEach((l, i) => lines.push([(i ? '     ' : '  ▸ ') + l, col || '#f4ead8', 600]));
+    // Tagesablauf: nach der Tagesaufgabe zurück zum Kamin
+    if (!sv0.tagEnde && G.tagesAufgabeFertig()) {
+      lines.push(['Zurück zum Kamin', '#ffd36a', 700]);
+      wrapLine('Geh in den Gemeinschaftsraum und drück A am Kamin, um den Tag zu beenden.' + (G.kalender > sv0.tag ? ' Türchen ' + (sv0.tag + 1) + ' wartet schon!' : ''));
+      lines.push(['', '', 400]);
+    } else if (sv0.tagEnde && sv0.tag < 24) {
+      lines.push(['Der Tag ist beendet', '#ffd36a', 700]);
+      wrapLine(G.naechstesTuerchen(), '#c8b898');
+      lines.push(['', '', 400]);
+    }
+    // Prolog
+    if (!sv0.flags.prolog_tor) {
+      const P = DATA.welt.prolog;
+      lines.push(['Prolog · ' + P.title, '#ffd36a', 700]);
+      const st = P.steps.find(x => !sv0.flags[x.flag]);
+      P.steps.forEach(x => { if (sv0.flags[x.flag]) lines.push(['  ✓ ' + x.text, '#8a8070', 500]); });
+      if (st) wrapLine(st.text);
+      lines.push(['', '', 400]);
     }
     ids.forEach(id => {
       const q = DATA.quests[id], done = G.save.done.indexOf(id) >= 0;
@@ -237,6 +252,21 @@ const UI = {
     const sp = Object.keys(DATA.zauber).filter(z => G.save.flags['zauber_' + z]).map(z => DATA.zauber[z].name);
     R.text('🐾 Geheimnisse: ' + found + ' von ' + total + '    Fragmente: ' + G.save.fragments.length + ' von 24', 34, VIEW_H - 38, { size: 12, color: '#c8b898' });
     R.text('✦ Zauber: ' + (sp.length ? sp.join(', ') : 'noch keine'), 34, VIEW_H - 22, { size: 12, color: '#c8b898' });
+  },
+  // Hilfe: alle Erklärungen aus dem Prolog zum Nachlesen
+  hilfe(G) {
+    R.panel(16, 14, VIEW_W - 32, VIEW_H - 28);
+    R.text('Hilfe', 34, 42, { size: 20, weight: 700, serif: true, color: '#ffd36a' });
+    R.text('▲▼ blättern · A zurück', VIEW_W - 34, 40, { size: 11, align: 'right', color: '#c8b898' });
+    const lines = [];
+    DATA.hilfe.forEach(h => {
+      lines.push([h.titel, '#ffd36a', 700]);
+      R.wrap(h.text, 420, 13, 500).forEach(l => lines.push(['  ' + l, '#f4ead8', 500]));
+      lines.push(['', '', 400]);
+    });
+    const maxRows = 14; this.scroll = clamp(this.scroll, 0, Math.max(0, lines.length - maxRows));
+    lines.slice(this.scroll, this.scroll + maxRows).forEach(([t, col, w], i) => R.text(t, 34, 70 + i * 20, { size: 13, color: col, weight: w }));
+    if (this.scroll + maxRows < lines.length) R.text('▼', VIEW_W - 40, VIEW_H - 26, { size: 11, color: '#ffd36a' });
   },
   lied(G) {
     R.panel(16, 14, VIEW_W - 32, VIEW_H - 28);

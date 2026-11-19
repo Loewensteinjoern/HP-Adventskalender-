@@ -6,8 +6,8 @@ const vm = require('vm');
 
 const ROOT = path.join(__dirname, '..');
 const CORE_FILES = ['util', 'unlock', 'conditions', 'save', 'world', 'quests', 'kampf', 'validate'].map(n => 'src/core/' + n + '.js');
-const ENGINE_FILES = ['pixel', 'paint_tiles', 'paint_objects', 'paint_schloss', 'paint_chars', 'audio', 'input', 'render', 'dialog', 'ui', 'battle', 'game', 'main'].map(n => 'src/engine/' + n + '.js');
-const CORE_EXPORTS = ['SAVE_VERSION', 'SAVE_KEY', 'TEST_KEY', 'berlinDate', 'unlockedDay', 'daysUntilStart', 'parseTestDay',
+const ENGINE_FILES = ['pixel', 'paint_tiles', 'paint_objects', 'paint_schloss', 'paint_chars', 'audio', 'input', 'render', 'dialog', 'szene', 'ui', 'battle', 'game', 'main'].map(n => 'src/engine/' + n + '.js');
+const CORE_EXPORTS = ['SAVE_VERSION', 'SAVE_KEY', 'TEST_KEY', 'berlinDate', 'unlockedDay', 'daysUntilStart', 'parseTestDay', 'hoursUntilNextDay', 'PROLOG_FLAGS',
   'checkCond', 'condsOk', 'pickTalk', 'newSave', 'migrateSave', 'storeLoad', 'storeWrite', 'exportCode', 'importCode',
   'blockedAt', 'findPath', 'kampfNeu', 'kampfZug', 'kampfLebend', 'kampfAktionen', 'kampfGruppeWaehlen', 'waermeMax', 'epFuerStufe', 'epGeben', 'stufeWaehlen', 'updateQuests', 'questComplete', 'allSecretIds', 'validateData'];
 
@@ -20,7 +20,8 @@ function loadData() {
   const D = {
     welt: readJson('data/welt.json'), tiles: readJson('data/tiles.json'), objects: readJson('data/objects.json'),
     characters: readJson('data/characters.json'), dialogs: readJson('data/dialogs.json'), quests: readJson('data/quests.json'),
-    musik: readJson('data/musik.json'), puzzles: readJson('data/puzzles.json'), zauber: readJson('data/zauber.json'), kampf: readJson('data/kampf.json'), karte: readJson('data/karte.json'), maps: {},
+    musik: readJson('data/musik.json'), puzzles: readJson('data/puzzles.json'), zauber: readJson('data/zauber.json'), kampf: readJson('data/kampf.json'), karte: readJson('data/karte.json'),
+    szenen: readJson('data/szenen.json'), fuehrung: readJson('data/fuehrung.json'), hilfe: readJson('data/hilfe.json'), maps: {},
   };
   fs.readdirSync(path.join(ROOT, 'data/maps')).filter(f => f.endsWith('.json')).sort()
     .forEach(f => { D.maps[f.replace(/\.json$/, '')] = readJson('data/maps/' + f); });

@@ -28,6 +28,8 @@ const LOOKS = {
     robe: '#22747a', robeD: '#16545a', robeL: '#3a9aa0', trim: '#eef0f4', eye: '#3a6a5a', glasses: '#3a2a2a' },
   finn: { hair: '#2a2228', hairD: '#16101a', hairL: '#4a3e48', long: false, messy: true, skin: '#c89070', skinD: '#a87454',
     robe: '#3e5624', robeD: '#2c3f18', robeL: '#5a7432', trim: '#e09a2c', eye: '#2a1a12' },
+  wurzelgruen: { hair: '#9a4a2a', hairD: '#6a2e18', hairL: '#c8704a', long: false, bun: true, skin: '#f2cdb0', skinD: '#dca888',
+    robe: '#4a6a2a', robeD: '#34501c', robeL: '#62863a', trim: '#e09a2c', eye: '#4a6a3a', hat: '#3e5a22', hatBand: '#e09a2c' },
   lotte: { hair: '#3a2418', hairD: '#24140c', hairL: '#5a3a26', long: true, curls: true, skin: '#f2cdb0', skinD: '#dca888',
     robe: '#22747a', robeD: '#16545a', robeL: '#3a9aa0', trim: '#eef0f4', eye: '#3a2a1e' },
 };

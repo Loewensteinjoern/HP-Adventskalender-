@@ -1,6 +1,16 @@
 # STATUS
 
 ## Stand (19.11.2026)
+- **S2b gebaut (Version 0.7): Prolog Tag 0 + Tagesablauf am Kamin.**
+  - **Szenen-System** (`src/engine/szene.js`, Daten `data/szenen.json`): Kinobalken, Kamera-Schwenk, Figuren laufen, Charly läuft, Blasen, Ein-/Ausblenden von Objekten (`id`), Effekte (Funken, Tropfen, Schnee, Frost, Morgenlicht), Kartenwechsel, Abblenden, andere Karte bei Nacht zeigen (für Haken). Tippen beschleunigt. Szenen mit Bedingung starten von selbst (`welt.auto`). Quests können künftig `haken` (Szenen-id) bekommen → läuft nach „Gute Nacht“.
+  - **Prolog:** Neues Spiel beginnt in der Großen Halle beim Begrüßungsfest (volle Haustische, Rede Sternwald, vier Hauslaternen flackern, Bernfuchs leuchtet), Jörn schließt sich am Tisch an, Tutorial Laufen/A. **Führung mit Prof. Wilma Wurzelgrün** (neue Figur) über 21 Stationen (`data/fuehrung.json`), sie läuft voraus, falsche Türen sind gesperrt, ansprechen → „Führung abkürzen“. Tutorial je Ort (Menü, Ton bei Leisetritt, Sammeln im Innenhof, Zauberbuch bei Pendel). Gemeinschaftsraum: Diego wecken (B erklärt) → Pit stürmt herein → **Haupttor-Szene** in der Vorhalle (Eis mit Kronenzacken, Sternwald: Flammula, Tor schwingt auf, Diego knurrt). Danach freies Erkunden.
+  - **Tagesablauf:** Erzähltag `save.tag` (Quests richten sich danach, nicht direkt nach dem Kalender). A am Kamin → „Tag beenden?“ (erst wenn die Tagesaufgabe erledigt ist) → Gute-Nacht-Szene (Prolog: Jörn erklärt Speichern + Spielstand-Code) → neue Phönixlied-Zeile → Haken → nächster Morgen sofort, falls das Türchen schon offen ist, sonst „Nächstes Türchen in N Stunden“. Morgen-Szene am Kamin (Morgenlicht, Frieda, Diego gähnt). Verpasste Tage einzeln nacheinander. Unsichtbares Mitspeichern bleibt.
+  - **Haken Tag 0:** Nachts in der Vorhalle wächst ein Raureif-Handabdruck aufs Haupttor.
+  - Vorhalle verbreitert (20 Kacheln) mit Haupttor. Kellertreppe ist ab dem Prolog offen (nicht mehr erst ab 1.12.).
+  - Tasten leuchten beim Erklären (3. Feld in einer Dialogzeile: `a`, `b`, `menu`, `ton`, `dpad`). Menü → **Hilfe** (`data/hilfe.json`). Questlog: Prolog-Schritte, „Zurück zum Kamin“, „Tag ist beendet“.
+  - **Spielstand v3** (Migration v2→v3: alter Stand gilt als Prolog gespielt, Erzähltag = zuletzt gesehenes Türchen, Fortschritt bleibt). Jörn wird erst nach dem Fest automatisch Begleiter.
+  - **Testmodus:** Titel bietet „Test: Tag N“ (Prolog überspringen, Morgen N beginnt). „Spiel beginnen“ spielt den Prolog.
+  - Tests: 90 Kern-Tests, neuer Rauchtest `tests/smoke_prolog.js` (ganzer Prolog, alle Stationen, Abkürzung, Neuladen mitten in der Führung, Gute Nacht vor/nach 1.12., verpasste Tage, Testsprung, Hilfe). Alle Rauchtests auf Testsprung umgestellt.
 - **S1 erledigt:** `plan/STORY_BIBEL_V2.md` geschrieben (nur Planung, kein Code) – **von Jörn freigegeben (19.11.)**. Inhalt: Raureif braucht Charly (Wendung Woche 2) und wird am Ende erlöst; Jörns Geheimnis = Spieluhr mit Nordwind-Melodie und Gravur (löst Phase 3 des Raureif-Kampfs); Haken für alle 24 Tage; 14 Nebenquests; Diego-Geheimnisse je Gebiet; Kampfwerte und Gegnertabelle; gereimtes Phönixlied (24 Zeilen, setzt sich im Questlog zusammen); Haken als Zwischenszenen mit Kinobalken (Jörn, 19.11.). Neu (Jörn, 19.11.): **Prolog Tag 0** (Begrüßungsfest, Hauslaternen, Führung mit Prof. Wurzelgrün, zugefrorenes Haupttor, Tutorial) und **Tagesablauf am Kamin** (morgens Start, abends „Tag beenden“, unsichtbares Mitspeichern bleibt). Fahrplan: neue Sitzung S2b (25.11.), S3 jetzt 27.11.
 - **S2 gebaut (Version 0.3): Kampfsystem + Schlosskarte.**
   - Kampfbildschirm: rundenbasiert, eine Wahl pro Runde für Charly (Zaubern, Schneeball), Jörn (Kakao +4 Wärme, Mut = Schutz 2 Runden) oder Diego (Bellen = Gegner setzt aus, Schnüffeln = Schwäche zeigen), Zurückziehen. Danach handeln die Gegner. Ziel wählen bei mehreren Gegnern.
@@ -43,6 +53,7 @@
 - Auslieferung wie Anatomie-3d (Pages + Manifest + Apple-Icons), ohne Service Worker, Pages aus `/docs`.
 
 ## Offene Punkte
+0. **Jörn: Prolog testen** (ca. 15 Min.): Startlink mit `?testtag=0` → „Spiel beginnen“. Mit `?testtag=2` → „Test: Tag 2“ springt direkt zu Tag 2.
 1. **Jörn:** Satz für die Gravur der Spieluhr (wird erst in Q24 gebraucht).
 2. **Jörn: iPad-Test.** Repo ist öffentlich, `main` = `startpaket` (18.11.). Pages muss Jörn einschalten (Settings → Pages → main, /docs). Adresse: https://loewensteinjoern.github.io/HP-Adventskalender-/
 3. iPhone quer: Bild ist wegen der Höhe nur 2-fach skaliert (klein, aber spielbar).
@@ -51,4 +62,4 @@
 5. Kampfwerte: Es gelten die Werte in `data/kampf.json` (Stand 0.6: Pixie 10, Frostwicht 14, Energie, begrenzter Kakao, Stufen mit Wahl Kraft/Lebenspunkte, Mindest-Stufen für Zufallskämpfe). Story-Bibel V2 Abschnitt 8 ist nur der Rahmen; „kein Stufen-Sammeln“ ist durch Jörns Entscheidung (19.11.) überholt.
 
 ## Nächster Schritt
-**S1 und S2 sind erledigt.** Nächste Sitzung: **S2b Prolog Tag 0 + Tagesablauf am Kamin** (bis 25.11., `plan/FAHRPLAN.md` und `plan/STORY_BIBEL_V2.md` Abschnitt 5 „Tag 0“ und 5.0). Danach S3 Q01–Q04 neu erzählt (27.11.), S4 Q05–Q07, S5 Generalprobe 30.11.
+**S1, S2 und S2b sind erledigt.** Nächste Sitzung: **S3 Q01–Q04 neu erzählt** (27.11., Story-Bibel V2 Abschnitt 5 Woche 1): Texte und Haken je Tag (Szenen-System steht, `haken` an der Quest), Bedrohung sichtbar, Nebenquests/Geheimnisse Woche 1. Dabei: Q01 Schritt 1 „Weck Diego“ ist durch den Prolog schon erledigt → Q01 anpassen. Haken im Questlog erneut ansehen (noch offen). Danach S4 Q05–Q07, S5 Generalprobe 30.11.

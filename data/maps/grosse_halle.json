@@ -236,7 +236,8 @@
    "seq": "kerzen",
    "seqVal": 1,
    "if": [
-    "!flag:kerzen_1"
+    "!flag:kerzen_1",
+    "flag:prolog_tour"
    ],
    "talk": [
     {
@@ -260,7 +261,8 @@
    "seq": "kerzen",
    "seqVal": 1,
    "if": [
-    "flag:kerzen_1"
+    "flag:kerzen_1",
+    "flag:prolog_tour"
    ],
    "talk": [
     {
@@ -277,7 +279,8 @@
    "seq": "kerzen",
    "seqVal": 2,
    "if": [
-    "!flag:kerzen_2"
+    "!flag:kerzen_2",
+    "flag:prolog_tour"
    ],
    "talk": [
     {
@@ -301,7 +304,8 @@
    "seq": "kerzen",
    "seqVal": 2,
    "if": [
-    "flag:kerzen_2"
+    "flag:kerzen_2",
+    "flag:prolog_tour"
    ],
    "talk": [
     {
@@ -318,7 +322,8 @@
    "seq": "kerzen",
    "seqVal": 3,
    "if": [
-    "!flag:kerzen_3"
+    "!flag:kerzen_3",
+    "flag:prolog_tour"
    ],
    "talk": [
     {
@@ -342,7 +347,8 @@
    "seq": "kerzen",
    "seqVal": 3,
    "if": [
-    "flag:kerzen_3"
+    "flag:kerzen_3",
+    "flag:prolog_tour"
    ],
    "talk": [
     {
@@ -359,7 +365,8 @@
    "seq": "kerzen",
    "seqVal": 4,
    "if": [
-    "!flag:kerzen_4"
+    "!flag:kerzen_4",
+    "flag:prolog_tour"
    ],
    "talk": [
     {
@@ -383,7 +390,8 @@
    "seq": "kerzen",
    "seqVal": 4,
    "if": [
-    "flag:kerzen_4"
+    "flag:kerzen_4",
+    "flag:prolog_tour"
    ],
    "talk": [
     {
@@ -540,6 +548,158 @@
      "dialog": "pflanze"
     }
    ]
+  },
+  {
+   "type": "hauslaterne",
+   "x": 8,
+   "y": 3,
+   "v": "bernfuchs",
+   "if": [
+    "!flag:laterne_bernfuchs"
+   ]
+  },
+  {
+   "type": "hauslaterne_an",
+   "x": 8,
+   "y": 3,
+   "v": "bernfuchs:an",
+   "if": [
+    "flag:laterne_bernfuchs"
+   ]
+  },
+  {
+   "type": "hauslaterne",
+   "x": 9,
+   "y": 3,
+   "v": "eisvogel",
+   "if": [
+    "!flag:laterne_eisvogel"
+   ]
+  },
+  {
+   "type": "hauslaterne_an",
+   "x": 9,
+   "y": 3,
+   "v": "eisvogel:an",
+   "if": [
+    "flag:laterne_eisvogel"
+   ]
+  },
+  {
+   "type": "hauslaterne",
+   "x": 14,
+   "y": 3,
+   "v": "tannenhirsch",
+   "if": [
+    "!flag:laterne_tannenhirsch"
+   ]
+  },
+  {
+   "type": "hauslaterne_an",
+   "x": 14,
+   "y": 3,
+   "v": "tannenhirsch:an",
+   "if": [
+    "flag:laterne_tannenhirsch"
+   ]
+  },
+  {
+   "type": "hauslaterne",
+   "x": 15,
+   "y": 3,
+   "v": "sternbaer",
+   "if": [
+    "!flag:laterne_sternbaer"
+   ]
+  },
+  {
+   "type": "hauslaterne_an",
+   "x": 15,
+   "y": 3,
+   "v": "sternbaer:an",
+   "if": [
+    "flag:laterne_sternbaer"
+   ]
+  },
+  {
+   "type": "gaeste_hinten",
+   "x": 2,
+   "y": 6,
+   "v": "bernfuchs",
+   "seed": 8,
+   "if": [
+    "!flag:prolog_tour"
+   ]
+  },
+  {
+   "type": "gaeste_hinten",
+   "x": 15,
+   "y": 6,
+   "v": "eisvogel",
+   "seed": 21,
+   "if": [
+    "!flag:prolog_tour"
+   ]
+  },
+  {
+   "type": "gaeste_hinten",
+   "x": 2,
+   "y": 10,
+   "v": "tannenhirsch",
+   "seed": 12,
+   "if": [
+    "!flag:prolog_tour"
+   ]
+  },
+  {
+   "type": "gaeste_hinten",
+   "x": 15,
+   "y": 10,
+   "v": "sternbaer",
+   "seed": 25,
+   "if": [
+    "!flag:prolog_tour"
+   ]
+  },
+  {
+   "type": "gaeste_vorn",
+   "x": 2,
+   "y": 8,
+   "v": "bernfuchs:2,3",
+   "seed": 14,
+   "if": [
+    "!flag:prolog_tour"
+   ]
+  },
+  {
+   "type": "gaeste_vorn",
+   "x": 15,
+   "y": 8,
+   "v": "eisvogel",
+   "seed": 53,
+   "if": [
+    "!flag:prolog_tour"
+   ]
+  },
+  {
+   "type": "gaeste_vorn",
+   "x": 2,
+   "y": 12,
+   "v": "tannenhirsch",
+   "seed": 18,
+   "if": [
+    "!flag:prolog_tour"
+   ]
+  },
+  {
+   "type": "gaeste_vorn",
+   "x": 15,
+   "y": 12,
+   "v": "sternbaer",
+   "seed": 57,
+   "if": [
+    "!flag:prolog_tour"
+   ]
   }
  ],
  "npcs": [
@@ -591,7 +751,10 @@
      ]
     }
    ],
-   "turn": true
+   "turn": true,
+   "if": [
+    "flag:prolog_tour"
+   ]
   },
   {
    "char": "federleicht",
@@ -651,14 +814,20 @@
    "char": "mats",
    "x": 4,
    "y": 10,
-   "dir": "up"
+   "dir": "up",
+   "if": [
+    "flag:prolog_tour"
+   ]
   },
   {
    "char": "juna",
    "x": 18,
    "y": 12,
    "dir": "down",
-   "turn": true
+   "turn": true,
+   "if": [
+    "flag:prolog_tour"
+   ]
   },
   {
    "char": "pit",
@@ -670,6 +839,9 @@
     {
      "dialog": "pit_2"
     }
+   ],
+   "if": [
+    "flag:prolog_tour"
    ]
   },
   {
@@ -677,14 +849,38 @@
    "x": 14,
    "y": 12,
    "dir": "right",
-   "wander": 2
+   "wander": 2,
+   "if": [
+    "flag:prolog_tour"
+   ]
   },
   {
    "char": "oskar",
    "x": 7,
    "y": 10,
    "dir": "up",
-   "turn": true
+   "turn": true,
+   "if": [
+    "flag:prolog_tour"
+   ]
+  },
+  {
+   "char": "wurzelgruen",
+   "x": 10,
+   "y": 3,
+   "dir": "down",
+   "if": [
+    "!flag:prolog_fest"
+   ]
+  },
+  {
+   "char": "joern",
+   "x": 4,
+   "y": 8,
+   "dir": "up",
+   "if": [
+    "!flag:prolog_joern"
+   ]
   }
  ],
  "doors": [

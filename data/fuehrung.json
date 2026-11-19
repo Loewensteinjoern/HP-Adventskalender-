@@ -1,0 +1,114 @@
+{
+ "abkuerzen": {
+  "map": "gemeinschaftsraum",
+  "x": 17,
+  "y": 3,
+  "dir": "down"
+ },
+ "stationen": [
+  {
+   "map": "grosse_halle",
+   "nach": "vorhalle"
+  },
+  {
+   "map": "vorhalle",
+   "nach": "schlosskern",
+   "dialog": "tour_vorhalle"
+  },
+  {
+   "map": "schlosskern",
+   "nach": "treppenhaus",
+   "dialog": "tour_schlosskern"
+  },
+  {
+   "map": "treppenhaus",
+   "nach": "bibliothek",
+   "dialog": "tour_treppenhaus"
+  },
+  {
+   "map": "bibliothek",
+   "nach": "treppenhaus",
+   "dialog": "tour_bibliothek"
+  },
+  {
+   "map": "treppenhaus",
+   "nach": "schlosskern"
+  },
+  {
+   "map": "schlosskern",
+   "nach": "arkadengang",
+   "dialog": "tour_kern_hof"
+  },
+  {
+   "map": "arkadengang",
+   "nach": "innenhof",
+   "dialog": "tour_arkadengang"
+  },
+  {
+   "map": "innenhof",
+   "nach": "eulenstiege",
+   "dialog": "tour_innenhof"
+  },
+  {
+   "map": "eulenstiege",
+   "nach": "eulenturm",
+   "dialog": "tour_eulenstiege"
+  },
+  {
+   "map": "eulenturm",
+   "nach": "eulenstiege",
+   "dialog": "tour_eulenturm"
+  },
+  {
+   "map": "eulenstiege",
+   "nach": "innenhof"
+  },
+  {
+   "map": "innenhof",
+   "nach": "arkadengang"
+  },
+  {
+   "map": "arkadengang",
+   "nach": "schlosskern"
+  },
+  {
+   "map": "schlosskern",
+   "nach": "wendeltreppe",
+   "dialog": "tour_kern_turm"
+  },
+  {
+   "map": "wendeltreppe",
+   "nach": "uhrenturm",
+   "dialog": "tour_wendeltreppe"
+  },
+  {
+   "map": "uhrenturm",
+   "nach": "wendeltreppe",
+   "dialog": "tour_uhrenturm"
+  },
+  {
+   "map": "wendeltreppe",
+   "nach": "schlosskern"
+  },
+  {
+   "map": "schlosskern",
+   "nach": "kellergang",
+   "dialog": "tour_kern_keller"
+  },
+  {
+   "map": "kellergang",
+   "nach": "gemeinschaftsraum",
+   "dialog": "tour_kellergang"
+  },
+  {
+   "map": "gemeinschaftsraum",
+   "ziel": [
+    11,
+    4
+   ],
+   "dir": "right",
+   "dialog": "tour_gemeinschaft",
+   "hinweis": "tour_hinweis"
+  }
+ ]
+}

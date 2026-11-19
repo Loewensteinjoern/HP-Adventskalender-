@@ -62,8 +62,9 @@ const R = {
     const tx = mw <= VIEW_W ? -(VIEW_W - mw) / 2 : clamp(fx + 16 - VIEW_W / 2, 0, mw - VIEW_W);
     const ty = mh <= VIEW_H ? -(VIEW_H - mh) / 2 : clamp(fy + 16 - VIEW_H / 2, 0, mh - VIEW_H);
     // Bei Kartenwechsel springen, sonst bei Vorführungen sanft schwenken
+    const k = typeof SZ !== 'undefined' && SZ.schnell ? 0.3 : (typeof SZ !== 'undefined' && SZ.laeuft ? 0.05 : 0.08);
     if (this.camMap !== mid || (!focus && !this.camPan)) { this.camF = { x: tx, y: ty }; }
-    else { this.camF.x += (tx - this.camF.x) * 0.08; this.camF.y += (ty - this.camF.y) * 0.08; }
+    else { this.camF.x += (tx - this.camF.x) * k; this.camF.y += (ty - this.camF.y) * k; }
     this.camPan = !!focus || (this.camPan && (Math.abs(tx - this.camF.x) > 1 || Math.abs(ty - this.camF.y) > 1));
     this.camMap = mid;
     this.cam.x = Math.round(this.camF.x); this.cam.y = Math.round(this.camF.y);
@@ -73,25 +74,35 @@ const R = {
   world(G, time) {
     const c = this.ctx, m = DATA.maps[G.mapId], ctx = G.ctx(), cam = this.cam;
     const pp = G.renderPos(G.player);
-    this.camera(pp.x, pp.y, m, G.demo ? DATA.puzzles[G.demo.id].focus : null, G.mapId);
+    this.camera(pp.x, pp.y, m, SZ.kamera || (G.demo ? DATA.puzzles[G.demo.id].focus : null), G.mapId);
     c.fillStyle = '#0c0810'; c.fillRect(0, 0, VIEW_W, VIEW_H);
     c.drawImage(this.background(G.mapId), -cam.x, -cam.y);
     const objs = visibleObjs(m, ctx);
-    objs.forEach(o => { const t = objType(o); if (t.decal && o.if) c.drawImage(this.objImg(o, 0), o.x * TILE - cam.x, o.y * TILE - t.up - cam.y); });
-    objs.forEach(o => { const t = objType(o); if (t.wall) c.drawImage(this.objImg(o, this.objFrame(o, time)), o.x * TILE - cam.x, o.y * TILE - t.up - cam.y); });
+    // Objekt zeichnen, bei Szenen ggf. halb durchsichtig (Ein-/Ausblenden)
+    const draw = (o, f) => {
+      const t = objType(o), A = o.id && G.objAlpha[o.id];
+      if (A) c.globalAlpha = clamp(A.von + (A.nach - A.von) * Math.min(1, (time - A.t0) / A.dauer), 0, 1);
+      c.drawImage(this.objImg(o, f), o.x * TILE - cam.x, o.y * TILE - t.up - cam.y);
+      c.globalAlpha = 1;
+    };
+    objs.forEach(o => { const t = objType(o); if (t.decal && o.if) draw(o, 0); });
+    objs.forEach(o => { const t = objType(o); if (t.wall) draw(o, this.objFrame(o, time)); });
     this.paws(G, time);
     // Figuren und Möbel nach Tiefe sortiert
     const list = [];
-    objs.forEach(o => { const t = objType(o); if (!t.wall && !t.decal && !t.overlay) list.push({ y: (o.y + t.h) * TILE, d: () => c.drawImage(this.objImg(o, this.objFrame(o, time)), o.x * TILE - cam.x, o.y * TILE - t.up - cam.y) }); });
+    objs.forEach(o => { const t = objType(o); if (!t.wall && !t.decal && !t.overlay) list.push({ y: (o.y + t.h) * TILE, d: () => draw(o, this.objFrame(o, time)) }); });
     visibleNpcs(m, ctx).forEach(n => {
       const np = n.fx !== undefined ? G.renderPos(n) : { x: n.x * TILE, y: n.y * TILE };
       const fr = n.moving ? G.walkFrame(n) : (n.anim ? Math.floor(time * 2 + n.x) % 2 : 0);
       list.push({ y: np.y + TILE + 0.5, d: () => this.actor(n.char, np.x, np.y - (n.lift || 0), n.dir, fr, n.pose, time, n.lift) });
     });
-    G.followers.forEach(f => { const p = G.renderPos(f); list.push({ y: p.y + TILE + 0.4, d: () => this.actor(f.char, p.x, p.y, f.dir, G.walkFrame(f), f.pose, time) }); });
-    list.push({ y: pp.y + TILE + 0.6, d: () => this.actor('charly', pp.x, pp.y, G.player.dir, G.walkFrame(G.player), null, time) });
+    if (G.guide && !G.guide.weg) { const g = G.guide, p = G.renderPos(g); list.push({ y: p.y + TILE + 0.45, d: () => this.actor(g.char, p.x, p.y, g.dir, G.walkFrame(g), null, time) }); }
+    if (!G.hidePlayer) {
+      G.followers.forEach(f => { const p = G.renderPos(f); list.push({ y: p.y + TILE + 0.4, d: () => this.actor(f.char, p.x, p.y, f.dir, G.walkFrame(f), f.pose, time) }); });
+      list.push({ y: pp.y + TILE + 0.6, d: () => this.actor('charly', pp.x, pp.y, G.player.dir, G.walkFrame(G.player), null, time) });
+    }
     list.sort((a, b) => a.y - b.y).forEach(e => e.d());
-    objs.forEach(o => { const t = objType(o); if (t.overlay) c.drawImage(this.objImg(o, this.objFrame(o, time)), o.x * TILE - cam.x, o.y * TILE - t.up - cam.y); });
+    objs.forEach(o => { const t = objType(o); if (t.overlay) draw(o, this.objFrame(o, time)); });
     // Rätsel-Vorführung: das gerade klingende Objekt leuchtet
     objs.forEach(o => {
       if (!G.demoVal(o)) return;
@@ -194,9 +205,9 @@ const R = {
       const fl = t.light.flicker ? 1 + Math.sin(time * 9 + o.x) * 0.04 + Math.sin(time * 23 + o.y) * 0.03 : 1;
       srcs.push({ x: o.x * TILE + t.light.x - this.cam.x, y: o.y * TILE - t.up + t.light.y - this.cam.y + t.up, r: t.light.r * fl, col: t.light.col });
     });
-    srcs.push({ x: pp.x + 16 - this.cam.x, y: pp.y + 12 - this.cam.y, r: 70, col: '255,220,180', soft: true });
+    if (!G.hidePlayer) srcs.push({ x: pp.x + 16 - this.cam.x, y: pp.y + 12 - this.cam.y, r: 70, col: '255,220,180', soft: true });
     L.globalCompositeOperation = 'source-over'; L.clearRect(0, 0, VIEW_W, VIEW_H);
-    L.fillStyle = 'rgba(' + (amb.tint || '20,10,30') + ',' + (amb.dark || 0.4) + ')'; L.fillRect(0, 0, VIEW_W, VIEW_H);
+    L.fillStyle = G.nacht ? 'rgba(8,12,40,0.72)' : 'rgba(' + (amb.tint || '20,10,30') + ',' + (amb.dark || 0.4) + ')'; L.fillRect(0, 0, VIEW_W, VIEW_H);
     L.globalCompositeOperation = 'destination-out';
     srcs.forEach(s => {
       const g = L.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.r);

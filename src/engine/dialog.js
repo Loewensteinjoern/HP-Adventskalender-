@@ -5,13 +5,14 @@ const DLG = {
   // lines: [[sprecher, text], ...]; Sprecher '' = Erzähler
   show(lines, cb) {
     const pages = [];
-    lines.forEach(([sp, tx]) => {
+    lines.forEach(([sp, tx, taste]) => {
       const name = sp ? (DATA.characters[sp] || { name: sp }).name : '';
       const wrapped = R.wrap(tx, 470, 15, 500);
-      for (let i = 0; i < wrapped.length; i += 3) pages.push({ name, sp, lines: wrapped.slice(i, i + 3) });
+      for (let i = 0; i < wrapped.length; i += 3) pages.push({ name, sp, lines: wrapped.slice(i, i + 3), taste: taste || null });
     });
     this.pages = pages; this.idx = 0; this.shown = 0; this.cb = cb || null;
   },
+  taste() { return this.open ? this.pages[this.idx].taste : null; },
   pageLen() { return this.pages[this.idx].lines.join(' ').length; },
   update(dt) {
     if (!this.open) return;

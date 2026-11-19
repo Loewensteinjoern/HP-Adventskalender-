@@ -17,6 +17,16 @@ function selfCheck() {
   Object.keys(DATA.objects).forEach(k => { if (!PAINT_OBJ[DATA.objects[k].paint]) console.error('Objekt-Maler fehlt: ' + DATA.objects[k].paint); });
   Object.keys(DATA.characters).forEach(k => { const s = DATA.characters[k].sprite; if (s && !ANIMALS[s] && !LOOKS[s]) console.error('Figur fehlt: ' + s); });
 }
+// Tutorial: Die erklärte Taste leuchtet, solange der Satz zu sehen ist
+const TASTEN = { a: 'bA', b: 'bB', menu: 'bMenu', ton: 'snd', dpad: 'dpad' };
+let tasteAn = null;
+function tasteLeuchten() {
+  const k = DLG.taste();
+  if (k === tasteAn) return;
+  if (tasteAn && TASTEN[tasteAn]) document.getElementById(TASTEN[tasteAn]).classList.remove('glow');
+  if (k && TASTEN[k]) document.getElementById(TASTEN[k]).classList.add('glow');
+  tasteAn = k;
+}
 function boot() {
   selfCheck();
   R.init(); IN.init(); AU.init(); UI.init(); G.init();
@@ -30,6 +40,15 @@ function boot() {
       followers: G.followers.map(f => ({ char: f.char, x: f.x, y: f.y })), dialog: DLG.open, done: G.save ? G.save.done.slice() : [], fragments: G.save ? G.save.fragments.length : 0,
     });
     window.__face = d => { G.player.dir = d; };
+    window.__tag = () => ({ tag: G.save.tag, tagEnde: G.save.tagEnde, day: G.day, kalender: G.kalender, mode: G.mode, szene: SZ.a ? SZ.a.id : null, balken: SZ.balken, frage: G.frage ? G.frage.titel : null, start: Object.keys(G.save.flags).filter(k => /^start_/.test(k)) });
+    window.__tour = () => ({ station: G.save.flags.tour, map: G.mapId, guide: G.guide ? { x: G.guide.x, y: G.guide.y, weg: G.guide.weg, rest: G.guide.path ? G.guide.path.length : null, moving: G.guide.moving, tuer: G.guide.tuer } : null });
+    window.__tourDoor = () => { const st = G.tourStation(), d = DATA.maps[G.mapId].doors.find(x => x.to === st.nach); G.player.x = G.player.fx = d.x; G.player.y = G.player.fy = d.y; G.onArrive(); };
+    window.__pos = (x, y, d) => { const p = G.player; p.x = p.fx = x; p.y = p.fy = y; p.dir = d; p.moving = false; };
+    window.__guideFrage = () => G.guideFrage();
+    window.__szene = id => SZ.start(id);
+    window.__stationen = () => DATA.fuehrung.stationen;
+    window.__tuerOk = to => G.tourTuerOk(DATA.maps[G.mapId].doors.find(d => d.to === to));
+    window.__npcs = () => visibleNpcs(DATA.maps[G.mapId], G.ctx()).map(n => n.char);
     window.__go = (mid, x, y, d) => { G.trail = null; G.enterMap(mid, x, y, d); };
     window.__flags = o => { Object.assign(G.save.flags, o); if (o.diego_dabei && G.save.followers.indexOf('diego') < 0) G.save.followers.push('diego'); G.enterMap(G.mapId, G.player.x, G.player.y, G.player.dir); };
     // Ton-Prüfung: Musikstück offline berechnen, Spitzenpegel und Sprünge (Knackser) messen
@@ -68,7 +87,7 @@ function boot() {
   let last = performance.now();
   function frame(now) {
     const dt = Math.min(0.05, Math.max(0, (now - last) / 1000)); last = now;
-    try { G.update(dt); G.draw(G.time, dt); } catch (e) { console.error(e); }
+    try { G.update(dt); G.draw(G.time, dt); tasteLeuchten(); } catch (e) { console.error(e); }
     IN.clear();
     requestAnimationFrame(frame);
   }

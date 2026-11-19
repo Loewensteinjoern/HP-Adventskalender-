@@ -33,3 +33,9 @@ function parseTestDay(search) {
   const n = parseInt(m[1], 10);
   return n >= 0 && n <= 24 ? n : null;
 }
+
+// Stunden bis Mitternacht in Berlin (aufgerundet, mindestens 1)
+function hoursUntilNextDay(now) {
+  const b = berlinDate(now);
+  return Math.max(1, Math.ceil((24 * 60 - (b.h * 60 + b.min)) / 60));
+}

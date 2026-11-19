@@ -1368,5 +1368,488 @@
       "diego",
       "Grrrr …!"
     ]
+  ],
+  "fest_1": [
+    [
+      "",
+      "Løvestein, Ende November. Die Große Halle leuchtet: An allen vier Haustischen ist kein Platz mehr frei, über den Köpfen schweben hunderte Kerzen."
+    ],
+    [
+      "",
+      "Draußen fällt der erste richtige Schnee. Und Charly steht ganz hinten, noch mit Schnee auf den Schultern."
+    ]
+  ],
+  "fest_2": [
+    [
+      "sternwald",
+      "Liebe Schülerinnen und Schüler, willkommen zum Winterhalbjahr in Løvestein!"
+    ],
+    [
+      "sternwald",
+      "Die Nächte werden lang, die Kamine brennen, und in den Gängen riecht es bald nach Zimt. Passt gut aufeinander auf."
+    ],
+    [
+      "sternwald",
+      "Und ganz besonders begrüße ich heute eine Nachzüglerin, die der Schnee aufgehalten hat: Charly. Komm ruhig nach vorn!"
+    ]
+  ],
+  "fest_3": [
+    [
+      "sternwald",
+      "Tritt näher, Charly. Die vier Hauslaternen werden zeigen, wohin du gehörst."
+    ],
+    [
+      "",
+      "Es wird ganz still in der Halle. Die Laternen beginnen zu flackern …"
+    ]
+  ],
+  "fest_4": [
+    [
+      "",
+      "Die Bernfuchs-Laterne leuchtet bernsteinfarben auf!"
+    ],
+    [
+      "",
+      "Am Bernfuchs-Tisch bricht Jubel los. Jemand trommelt auf den Tisch, jemand pfeift."
+    ],
+    [
+      "sternwald",
+      "Haus Bernfuchs! Willkommen, Charly."
+    ]
+  ],
+  "fest_5": [
+    [
+      "joern",
+      "Charly! Hier drüben! Hier ist noch frei."
+    ],
+    [
+      "",
+      "Ein Junge mit Brille rückt ein Stück zur Seite und schiebt ihr einen dampfenden Becher hin."
+    ],
+    [
+      "joern",
+      "Ich bin Jörn. Ich hab dir Kakao aufgehoben – der Rest ist leider schon weg."
+    ]
+  ],
+  "fest_6": [
+    [
+      "wurzelgruen",
+      "Willkommen bei den Bernfüchsen, Charly! Ich bin Prof. Wilma Wurzelgrün, eure Hauslehrerin."
+    ],
+    [
+      "wurzelgruen",
+      "Bevor du dich im Schloss verläufst, zeige ich dir das Wichtigste. Jörn, du kommst mit – du kennst die Abkürzungen."
+    ],
+    [
+      "joern",
+      "Na klar. Ich bin direkt hinter dir, Charly."
+    ]
+  ],
+  "fest_7": [
+    [
+      "joern",
+      "Kleiner Tipp: Mit dem Steuerkreuz links läufst du.",
+      "dpad"
+    ],
+    [
+      "joern",
+      "Und mit A sprichst du Leute an oder schaust dir Dinge genauer an.",
+      "a"
+    ]
+  ],
+  "tour_vorhalle": [
+    [
+      "wurzelgruen",
+      "Die Vorhalle. Dort drüben ist das Haupttor nach draußen – im Winter bleibt es meistens zu."
+    ],
+    [
+      "wurzelgruen",
+      "In Løvestein liegt zwischen zwei Räumen immer ein Gang, eine Treppe oder eine Halle wie diese. Wer sich das merkt, verläuft sich nie."
+    ]
+  ],
+  "tour_schlosskern": [
+    [
+      "wurzelgruen",
+      "Der Schlosskern – von hier aus erreichst du fast alles. Treppen, Gänge, den Innenhof."
+    ],
+    [
+      "wurzelgruen",
+      "Falls du mal nicht weißt, wohin: Oben rechts ist das Menü (☰). Darin steht im Questlog, was als Nächstes zu tun ist.",
+      "menu"
+    ],
+    [
+      "wurzelgruen",
+      "Dort findest du auch die Schlosskarte mit allen Orten, die du schon kennst, und eine leere Seite für das Phönixlied. Aber das ist eine Geschichte für ein andermal.",
+      "menu"
+    ]
+  ],
+  "tour_treppenhaus": [
+    [
+      "wurzelgruen",
+      "Das Große Treppenhaus. Oben wartet die Bibliothek."
+    ],
+    [
+      "joern",
+      "Die vierte Stufe knarrt. Immer. Seit hundert Jahren."
+    ]
+  ],
+  "tour_bibliothek": [
+    [
+      "leisetritt",
+      "Pssst! Willkommen in der Bibliothek. Hier ist es leise – sehr leise."
+    ],
+    [
+      "leisetritt",
+      "Wenn dir die Musik zu viel wird: Oben rechts kannst du den Ton aus- und einschalten.",
+      "ton"
+    ],
+    [
+      "leisetritt",
+      "Und wenn du gar nichts hörst, ist vielleicht die Stummschaltung deines Geräts an. Die findest du im Kontrollzentrum.",
+      "ton"
+    ],
+    [
+      "wurzelgruen",
+      "Danke, Ottilie. Weiter geht's – leise!"
+    ]
+  ],
+  "tour_kern_hof": [
+    [
+      "wurzelgruen",
+      "Und jetzt an die frische Luft. Der Arkadengang führt hinaus in den Innenhof."
+    ]
+  ],
+  "tour_arkadengang": [
+    [
+      "wurzelgruen",
+      "Der Arkadengang. Durch die Bögen sieht man den Schnee – herrlich, nicht wahr?"
+    ],
+    [
+      "joern",
+      "Hier hängen die Winterumhänge. Nur falls dir draußen kalt wird."
+    ]
+  ],
+  "tour_innenhof": [
+    [
+      "wurzelgruen",
+      "Der Innenhof! Bleib bitte auf den Wegen, im tiefen Schnee am Rand kann man stecken bleiben."
+    ],
+    [
+      "joern",
+      "Siehst du das Glitzern im Schnee? Manchmal liegen hier Glutsplitter herum. Drei davon, und dir wird dauerhaft wärmer."
+    ],
+    [
+      "joern",
+      "Überhaupt: Halt die Augen offen. Glutsplitter, Schmuck, kleine Geheimnisse – im Questlog siehst du, wie viel du schon gefunden hast.",
+      "menu"
+    ]
+  ],
+  "tour_eulenstiege": [
+    [
+      "wurzelgruen",
+      "Die Eulenstiege. Vorsicht, die Stufen sind glatt!"
+    ]
+  ],
+  "tour_eulenturm": [
+    [
+      "wurzelgruen",
+      "Der Eulenturm. Hier wohnen die Schlosseulen. Sie bringen Briefe in jeden Winkel des Landes."
+    ],
+    [
+      "pimpernell",
+      "Huhu!"
+    ],
+    [
+      "wurzelgruen",
+      "Das ist Pimpernell, unsere klügste Eule. Sie vergisst nie etwas. Zumindest fast nie."
+    ]
+  ],
+  "tour_kern_turm": [
+    [
+      "wurzelgruen",
+      "Jetzt noch hoch hinaus: die Wendeltreppe hinauf zum Uhrenturm."
+    ]
+  ],
+  "tour_wendeltreppe": [
+    [
+      "joern",
+      "Zweihundertzwölf Stufen. Ich hab sie mal gezählt."
+    ],
+    [
+      "wurzelgruen",
+      "Zweihundertdreizehn, Jörn."
+    ]
+  ],
+  "tour_uhrenturm": [
+    [
+      "pendel",
+      "Ah, Besuch! Prof. Kasimir Pendel, Zauberkunde und Uhren. Hier lernst du deine ersten Sprüche."
+    ],
+    [
+      "pendel",
+      "Wo ein Zauber wirken kann, drückst du A. Dann öffnet sich dein Zauberbuch – und nur der richtige Spruch wirkt.",
+      "a"
+    ],
+    [
+      "pendel",
+      "Dein Buch ist noch leer. Acht Seiten, alle vereist. Jede taut auf, sobald du einen Zauber lernst."
+    ]
+  ],
+  "tour_kern_keller": [
+    [
+      "wurzelgruen",
+      "Und jetzt: nach Hause. Die Kellertreppe führt hinunter zu den Bernfüchsen."
+    ]
+  ],
+  "tour_kellergang": [
+    [
+      "wurzelgruen",
+      "Der Kellergang. Warm, trocken, und es riecht immer ein bisschen nach Bratäpfeln. Das ist unser Gang."
+    ]
+  ],
+  "tour_gemeinschaft": [
+    [
+      "wurzelgruen",
+      "Willkommen zu Hause! Der Gemeinschaftsraum der Bernfüchse."
+    ],
+    [
+      "wurzelgruen",
+      "Der Kamin brennt Tag und Nacht. Hier fängt jeder Morgen an, und hier sagt man sich abends Gute Nacht."
+    ],
+    [
+      "wurzelgruen",
+      "Das kleine Haus dort gehört Frieda, unserem Hamster. Und der Schnarcher im Körbchen am Kamin ist Diego, der Schlosshund."
+    ],
+    [
+      "wurzelgruen",
+      "Na los, weck ihn ruhig auf. Stell dich neben ihn und drück A.",
+      "a"
+    ]
+  ],
+  "tour_hinweis": [
+    [
+      "wurzelgruen",
+      "Na los, weck Diego auf! Er liegt im Körbchen vor dem Kamin."
+    ]
+  ],
+  "tour_weiter": [
+    [
+      "wurzelgruen",
+      "Wunderbar. Bleib dicht hinter mir!"
+    ]
+  ],
+  "tour_abkuerzen": [
+    [
+      "wurzelgruen",
+      "Schon müde? Verständlich, das Schloss ist groß. Den Rest entdeckst du ganz bestimmt allein."
+    ],
+    [
+      "",
+      "Alles, was Prof. Wurzelgrün unterwegs erklärt hätte, steht im Menü unter „Hilfe“.",
+      "menu"
+    ]
+  ],
+  "prolog_diego": [
+    [
+      "",
+      "Diego schnarcht leise. Charly krault ihn hinter den Ohren."
+    ],
+    [
+      "diego",
+      "Wuff?"
+    ],
+    [
+      "",
+      "Diego schnuppert an Charlys Hand, wedelt – und weicht ihr ab jetzt nicht mehr von der Seite."
+    ],
+    [
+      "wurzelgruen",
+      "Na so was! Er hat dich ausgesucht. Diego hat die beste Nase im ganzen Schloss."
+    ],
+    [
+      "wurzelgruen",
+      "Drück B, dann schnüffelt er nach Geheimnissen in der Nähe. Goldene Pfotenspuren zeigen dir den Weg.",
+      "b"
+    ]
+  ],
+  "prolog_pit": [
+    [
+      "pit",
+      "Frau Professor! Frau Professor!"
+    ],
+    [
+      "pit",
+      "Das Haupttor – es ist zugefroren! Ganz und gar! Von innen!"
+    ],
+    [
+      "wurzelgruen",
+      "Zugefroren? Von innen? Das kann nicht sein … Kommt mit, alle!"
+    ]
+  ],
+  "tor_1": [
+    [
+      "",
+      "Das große Tor ist von dickem, bläulichem Eis überzogen. Die Eisblumen darauf sehen aus wie Kronenzacken."
+    ],
+    [
+      "",
+      "Eine Handvoll Schüler steht ratlos davor. Die Direktorin ist schon da."
+    ]
+  ],
+  "tor_2": [
+    [
+      "sternwald",
+      "Bitte zurücktreten."
+    ],
+    [
+      "sternwald",
+      "Flammula!"
+    ]
+  ],
+  "tor_3": [
+    [
+      "",
+      "Das Eis knackt, Wasser tropft. Dann schwingt das Tor auf, und eiskalter Wind weht Schnee herein."
+    ],
+    [
+      "sternwald",
+      "(leise) So früh im Winter, Wilma? Das hat es seit Langem nicht gegeben."
+    ],
+    [
+      "wurzelgruen",
+      "(leise) Ich weiß, Adelheid. Ich weiß."
+    ]
+  ],
+  "tor_4": [
+    [
+      "sternwald",
+      "Charly. Diesen Zauber lernst du auch noch. Wenn es so weit ist."
+    ]
+  ],
+  "tor_5": [
+    [
+      "joern",
+      "Diego? Was knurrst du denn das Eis an?"
+    ],
+    [
+      "",
+      "Diego starrt auf die letzten Eisreste am Tor. Sein Nackenfell ist gesträubt."
+    ]
+  ],
+  "tor_6": [
+    [
+      "wurzelgruen",
+      "Genug Aufregung für heute. Seht euch ruhig noch ein wenig um – und dann ab ans Kaminfeuer."
+    ],
+    [
+      "joern",
+      "Komm, Charly. Wir haben das ganze Schloss für uns. Und wenn du müde bist: Gute Nacht sagt man am Kamin."
+    ]
+  ],
+  "haupttor_eis": [
+    [
+      "",
+      "Dickes, bläuliches Eis. Es ist so kalt, dass es an den Fingern brennt."
+    ]
+  ],
+  "haupttor": [
+    [
+      "",
+      "Das Haupttor von Løvestein. Durch die Ritzen pfeift der Winterwind."
+    ]
+  ],
+  "sternwald_tor": [
+    [
+      "sternwald",
+      "Zurücktreten, bitte. Ich kümmere mich darum."
+    ]
+  ],
+  "wurzelgruen_tor": [
+    [
+      "wurzelgruen",
+      "Bleib dicht bei mir, Charly."
+    ]
+  ],
+  "wurzelgruen_1": [
+    [
+      "wurzelgruen",
+      "Na, wie gefällt dir Løvestein bisher?"
+    ]
+  ],
+  "wurzelgruen_2": [
+    [
+      "wurzelgruen",
+      "Wenn du Fragen hast – meine Tür steht immer offen. Außer nachts."
+    ]
+  ],
+  "kamin_prolog_noch": [
+    [
+      "",
+      "Das Feuer knistert. Für Gute Nacht ist es noch zu früh – der erste Abend in Løvestein hat gerade erst begonnen."
+    ]
+  ],
+  "kamin_noch": [
+    [
+      "joern",
+      "Schon schlafen gehen? Erst schauen wir, was heute los ist. Im Questlog steht, was als Nächstes dran ist.",
+      "menu"
+    ]
+  ],
+  "nacht_prolog": [
+    [
+      "joern",
+      "Langer erster Tag. Morgen geht der Advent los."
+    ],
+    [
+      "joern",
+      "Übrigens: Das Schloss merkt sich alles von selbst – jeden Schritt. Du kannst jederzeit aufhören und machst genau da weiter."
+    ],
+    [
+      "joern",
+      "Und jeden Abend sagen wir hier am Kamin Gute Nacht. Am nächsten Morgen wartet dann ein neues Türchen."
+    ],
+    [
+      "joern",
+      "Falls du mal das Gerät wechselst: Im Menü gibt es „Spielstand sichern (Code)“. Den Code aufheben und auf dem neuen Gerät eingeben.",
+      "menu"
+    ],
+    [
+      "",
+      "Diego rollt sich vor dem Kamin zusammen. Draußen fällt leise Schnee."
+    ]
+  ],
+  "nacht": [
+    [
+      "",
+      "Das Kaminfeuer ist heruntergebrannt. Diego rollt sich in seinem Körbchen zusammen."
+    ],
+    [
+      "joern",
+      "Gute Nacht, Charly. Das war ein guter Tag."
+    ]
+  ],
+  "morgen": [
+    [
+      "",
+      "{tag}. Dezember. Morgenlicht fällt durchs Fenster, Frieda rennt schon in ihrem Laufrad, und Diego gähnt ausgiebig."
+    ],
+    [
+      "joern",
+      "Guten Morgen, Charly! Türchen {tag} ist offen. Mal sehen, was heute passiert."
+    ]
+  ],
+  "haken_0": [
+    [
+      "",
+      "Mitternacht. Die Vorhalle liegt still und dunkel."
+    ],
+    [
+      "",
+      "Auf dem Haupttor wächst Raureif. Er formt den Abdruck einer Hand – mit langen, dünnen Fingern."
+    ],
+    [
+      "",
+      "Die Hand hat das Tor nicht von innen berührt. Sie war draußen."
+    ]
   ]
 }
