@@ -635,5 +635,14 @@
     "h": 1,
     "up": 24,
     "solid": true
+  },
+  "schneehaufen_zitter": {
+    "paint": "schneehaufen_zitter",
+    "w": 1,
+    "h": 1,
+    "up": 4,
+    "solid": true,
+    "frames": 4,
+    "fps": 6
   }
 }

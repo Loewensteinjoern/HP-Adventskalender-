@@ -1,0 +1,65 @@
+{
+  "regeln": {
+    "zauberSchaden": 3,
+    "kakao": 4,
+    "mutRunden": 2,
+    "mutSchutz": 1
+  },
+  "texte": {
+    "schneeball": "Charly wirft einen Schneeball – Treffer! {name} schüttelt sich.",
+    "zauber_schwach": "{name} zuckt kurz zusammen. Der Zauber wirkt kaum.",
+    "kakao": "Jörn reicht Charly einen Becher heißen Kakao. Mmh! (+{n} Wärme)",
+    "mut": "Jörn legt Charly die Hand auf die Schulter: „Du schaffst das!“ Ein warmer Schimmer schützt sie.",
+    "bellen": "WUFF! WUFF! Diego bellt {name} an. {name} erschrickt fürchterlich.",
+    "hinweis_kann": "Probier es mit {z}!",
+    "hinweis_fehlt": "Diesen Zauber kennt Charly noch nicht – aber Schneebälle helfen auch.",
+    "flucht": "Charly, Jörn und Diego ziehen sich schnell zurück.",
+    "keine_flucht": "Diego stellt sich mutig vor Charly. Weglaufen? Nicht jetzt!",
+    "geschuetzt": "Jörns Mut fängt das Schlimmste ab.",
+    "kalt": "(−{n} Wärme)",
+    "erfroren": "Charly ist ganz durchgefroren … Ihre Finger sind steif, die Augen fallen zu."
+  },
+  "gegner": {
+    "schneepixie": {
+      "name": "Schneepixie",
+      "kraft": 2,
+      "angriff": [1, 1, 2],
+      "ausweichen": 0.25,
+      "schwaeche": "luxa",
+      "angriffe": [
+        "{name} wirft eine Handvoll Schnee in Charlys Kragen!",
+        "{name} zupft kichernd an Charlys Schal.",
+        "{name} pustet eiskalten Glitzer!"
+      ],
+      "ausgewichen": "{name} flitzt kichernd zur Seite. Daneben!",
+      "treffer": "Grelles Licht! {name} ist geblendet und taumelt.",
+      "aussetzen": "{name} reibt sich die Augen und tut nichts.",
+      "hinweis": "Diego schnüffelt: {name} riecht nach Nacht und Dunkelheit – helles Licht mag sie gar nicht.",
+      "besiegt": "{name} quiekt und flattert über die Mauer davon."
+    },
+    "frostwicht": {
+      "name": "Frostwicht",
+      "kraft": 5,
+      "angriff": [1, 2, 2],
+      "ausweichen": 0,
+      "schwaeche": "flammula",
+      "angriffe": [
+        "{name} haucht eisigen Frost!",
+        "{name} schleudert spitze Eiskristalle!",
+        "{name} stampft – kalter Schnee stiebt hoch!"
+      ],
+      "ausgewichen": "{name} duckt sich weg.",
+      "treffer": "Ein Flämmchen tanzt los – {name} zischt und schmilzt ein Stück!",
+      "aussetzen": "{name} muss erst wieder zusammenfrieren.",
+      "hinweis": "Diego schnüffelt: {name} besteht aus hartem Eis – Feuer würde ihn schmelzen.",
+      "besiegt": "{name} zerrinnt zu einer kleinen Pfütze. Puh!"
+    }
+  },
+  "gruppen": {
+    "probe": { "gegner": ["schneepixie"], "tutorial": true, "flucht": false },
+    "pixie1": { "gegner": ["schneepixie"] },
+    "pixie2": { "gegner": ["schneepixie", "schneepixie"] },
+    "wicht1": { "gegner": ["frostwicht"] },
+    "wicht_pixie": { "gegner": ["frostwicht", "schneepixie"] }
+  }
+}

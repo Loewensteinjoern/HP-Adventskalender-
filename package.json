@@ -5,7 +5,7 @@
   "scripts": {
     "build": "node tools/build.js",
     "test": "node tests/test.js",
-    "smoke": "node tests/smoke.js && node tests/smoke_quests.js",
-    "check": "node tools/build.js && node tests/test.js && node tests/smoke.js && node tests/smoke_quests.js"
+    "smoke": "node tests/smoke.js && node tests/smoke_quests.js && node tests/smoke_kampf.js",
+    "check": "node tools/build.js && node tests/test.js && node tests/smoke.js && node tests/smoke_quests.js && node tests/smoke_kampf.js"
   }
 }

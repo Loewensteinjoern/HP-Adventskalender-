@@ -58,6 +58,7 @@ async function run() {
   // Menü und Questlog
   await key('Escape'); await page.waitForTimeout(200); await shot('06_menue');
   await key('Enter'); await page.waitForTimeout(200); await shot('07_questlog');
+  await key('x'); await key('ArrowDown'); await key('Enter'); await page.waitForTimeout(300); await shot('08_karte');
   await key('x'); await key('ArrowDown'); await key('Enter'); await page.waitForTimeout(200); await shot('08_lied');
   await key('x'); await key('x');
   // Durch die Tür in den Kellergang
@@ -95,7 +96,7 @@ async function run() {
 
   // Musik: nicht übersteuert, keine Knackser, hörbar
   await page.goto(FILE + '?testtag=1'); await page.waitForTimeout(300);
-  for (const song of ['kamin', 'titel', 'flur', 'schloss', 'halle', 'hof', 'turm']) {
+  for (const song of ['kamin', 'titel', 'flur', 'schloss', 'halle', 'hof', 'turm', 'kampf']) {
     const r = await page.evaluate(n => window.__audioCheck(n), song);
     if (r.peak > 0.95) errors.push('Musik ' + song + ' übersteuert (Spitze ' + r.peak.toFixed(2) + ')');
     if (r.jump > 0.08) errors.push('Musik ' + song + ' knackt (Sprung ' + r.jump.toFixed(3) + ')');

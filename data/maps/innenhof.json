@@ -13,15 +13,15 @@
   "YnnnnnnnnnwwnnnnnnwnnY",
   "YnnnnnnnnnwwnnnnnnwnnY",
   "YnnnnnnnnnwwwwwwwwwnnY",
-  "YnnnnnnnnnwwnnnnnnnnnY",
-  "YnnnnnnnnnwwnnnnnnnnnY",
-  "YnnnnnnnnnwwnnnnnnnnnY",
-  "YnnnnnnnnnwwnnnnnnnnnY",
-  "YnnnnnnnnnwwnnnnnnnnnY",
-  "YnnnnnnnnnwwnnnnnnnnnY",
-  "YnnnnnnnnnwwnnnnnnnnnY",
-  "YnnnnnnnnnwwnnnnnnnnnY",
-  "YnnnnnnnnnwwnnnnnnnnnY",
+  "YnnnnnnnnnwwnnnnnnnNNY",
+  "YnnnnnnnnnwwnnnnnnnNNY",
+  "YnnnnnnnnnwwnnnnnnnNNY",
+  "YnnnnnnnnnwwnnnnnnnNNY",
+  "YnnnnnnnnnwwnnnnNNNNNY",
+  "YnnnnnnnnnwwnnnnNNNNNY",
+  "YnnnnnnnnnwwnnnnNNNNNY",
+  "YnnnnnnnnnwwnnnnNNNNNY",
+  "YnnnnnnnnnwwnnnnNNNNNY",
   "YYYYYYYYYYYYYYYYYYYYYY"
  ],
  "objects": [
@@ -216,6 +216,30 @@
      "dialog": "bank"
     }
    ]
+  },
+  {
+   "type": "schneehaufen_zitter",
+   "x": 18,
+   "y": 10,
+   "if": [
+    "flag:zauber_luxa",
+    "!flag:kampf_probe"
+   ],
+   "talk": [
+    {
+     "dialog": "probe_start",
+     "kampf": "probe",
+     "win": {
+      "dialog": "probe_sieg",
+      "set": [
+       "kampf_probe"
+      ]
+     },
+     "if": [
+      "flag:zauber_luxa"
+     ]
+    }
+   ]
   }
  ],
  "secrets": [
@@ -233,6 +257,16 @@
     "set": [
      "knarz_schluessel"
     ],
+    "sound": "fund"
+   }
+  },
+  {
+   "id": "glut_innenhof",
+   "x": 20,
+   "y": 6,
+   "found": {
+    "dialog": "glut_fund",
+    "glut": "innenhof",
     "sound": "fund"
    }
   }
@@ -292,5 +326,34 @@
    "dir": "right",
    "wander": 3
   }
- ]
+ ],
+ "kampf": {
+  "if": [
+   "flag:kampf_probe"
+  ],
+  "chance": 0.09,
+  "schonung": 5,
+  "gruppen": [
+   {
+    "g": "pixie1",
+    "ab": 2,
+    "w": 4
+   },
+   {
+    "g": "pixie2",
+    "ab": 3,
+    "w": 2
+   },
+   {
+    "g": "wicht1",
+    "ab": 7,
+    "w": 2
+   },
+   {
+    "g": "wicht_pixie",
+    "ab": 8,
+    "w": 1
+   }
+  ]
+ }
 }

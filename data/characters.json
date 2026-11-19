@@ -158,6 +158,13 @@
     ],
     "talk": [
       {
+        "if": [
+          "flag:zauber_luxa",
+          "!flag:kampf_probe"
+        ],
+        "dialog": "mats_pixie"
+      },
+      {
         "dialog": [
           "mats_1",
           "mats_2"

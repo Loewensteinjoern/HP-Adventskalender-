@@ -22,7 +22,27 @@ function validateData() {
     if (a.zauber && !DATA.zauber[a.zauber]) E(where + ': Zauber „' + a.zauber + '“ fehlt');
     if (a.seq && !DATA.puzzles[a.seq]) E(where + ': Rätsel „' + a.seq + '“ fehlt');
     if (a.demo && !DATA.puzzles[a.demo]) E(where + ': Rätsel „' + a.demo + '“ fehlt');
+    if (a.kampf) {
+      if (!DATA.kampf.gruppen[a.kampf]) E(where + ': Kampf-Gruppe „' + a.kampf + '“ fehlt');
+      else kampfRegel(a.kampf, a.if, null, where);
+      checkAction(a.win, where + ' Sieg'); if (!a.win) E(where + ': Kampf ohne Sieg-Aktion');
+    }
+    if (a.glut) setFlags.add('glut_' + a.glut);
     if (a.minigame) { if (a.minigame.type !== 'takt' && a.minigame.type !== 'uhr') E(where + ': unbekanntes Minispiel'); if (a.minigame.type === 'uhr' && !(DATA.puzzles[a.minigame.raetsel] || {}).fragen) E(where + ': Uhr-Rätsel fehlt'); checkAction(a.win, where + ' Sieg'); if (!a.win) E(where + ': Minispiel ohne Sieg-Aktion'); }
+  }
+  // Regel aus dem Fahrplan: Ein Gegner darf erst auftauchen, wenn seine Schwäche als Zauber gelernt werden kann.
+  // Belegt durch "day>=N" (N ≥ Lerntag) oder "flag:zauber_x" in den Bedingungen bzw. "ab" bei Zufallskämpfen.
+  function kampfRegel(gid, conds, ab, where) {
+    const g = DATA.kampf.gruppen[gid];
+    let tag = ab || 0; const flags = [];
+    (conds || []).forEach(c => { let m; if ((m = /^day>=(\d+)$/.exec(c))) tag = Math.max(tag, +m[1]); if ((m = /^flag:zauber_(\w+)$/.exec(c))) flags.push(m[1]); });
+    g.gegner.forEach(id => {
+      const T = DATA.kampf.gegner[id];
+      if (!T) return E(where + ': Gegner „' + id + '“ fehlt');
+      const Z = DATA.zauber[T.schwaeche];
+      if (!Z) return E('Gegner ' + id + ': Schwäche-Zauber „' + T.schwaeche + '“ fehlt');
+      if (flags.indexOf(T.schwaeche) < 0 && tag < Z.tag) E(where + ': ' + T.name + ' taucht ab Tag ' + tag + ' auf, ' + Z.name + ' gibt es aber erst ab Tag ' + Z.tag);
+    });
   }
   const checkTalk = (list, where) => (list || []).forEach((t, i) => checkAction(t, where + '[' + i + ']'));
 
@@ -69,6 +89,13 @@ function validateData() {
       if (!inB(s.x, s.y)) E(where + ': Geheimnis ' + s.id + ' außerhalb');
       checkConds(s.if, where + ' Geheimnis ' + s.id); checkAction(s.found, where + ' Geheimnis ' + s.id);
     });
+    if (!DATA.karte.orte[mid]) E(where + ': fehlt auf der Schlosskarte (data/karte.json)');
+    if (m.kampf) {
+      checkConds(m.kampf.if, where + ' Kampf');
+      if (!(m.kampf.chance > 0 && m.kampf.chance < 0.5)) E(where + ': Kampf-Chance ungültig');
+      if (!m.tiles.some(r => [...r].some(ch => DATA.tiles[ch] && DATA.tiles[ch].kampf))) E(where + ': Kämpfe eingestellt, aber kein Tiefschnee');
+      (m.kampf.gruppen || []).forEach(g => { if (!DATA.kampf.gruppen[g.g]) E(where + ': Kampf-Gruppe „' + g.g + '“ fehlt'); else kampfRegel(g.g, m.kampf.if, g.ab, where + ' Kampf ' + g.g); });
+    }
     (m.doors || []).forEach((d, i) => {
       const t = maps[d.to];
       if (!t) return E(where + ': Tür ' + i + ' führt zu fehlender Karte „' + d.to + '“');
@@ -122,6 +149,10 @@ function validateData() {
     });
   });
 
+  Object.keys(DATA.karte.orte).forEach(k => { if (!maps[k]) E('Schlosskarte: Ort „' + k + '“ gibt es nicht'); });
+  Object.keys(DATA.kampf.gegner).forEach(id => { const T = DATA.kampf.gegner[id]; ['name', 'angriffe', 'treffer', 'besiegt', 'hinweis', 'aussetzen', 'ausgewichen'].forEach(f => { if (!T[f]) E('Gegner ' + id + ': ' + f + ' fehlt'); }); });
+  Object.keys(DATA.zauber).forEach(z => { if (!(DATA.zauber[z].tag >= 1 && DATA.zauber[z].tag <= 24)) E('Zauber ' + z + ': Lerntag fehlt'); });
+
   // Quests: jeder Schritt muss irgendwo gesetzt werden können
   const days = {};
   Object.keys(DATA.quests).forEach(id => {
@@ -131,6 +162,7 @@ function validateData() {
     if (!q.neben && !q.fragment) E('Quest ' + id + ': Fragment fehlt');
     if (!q.title || !Array.isArray(q.steps) || !q.steps.length) E('Quest ' + id + ': Titel oder Schritte fehlen');
     if (q.start) checkDialogRef(q.start, 'Quest ' + id);
+    (q.steps || []).forEach(st => stepFlags(st).forEach(f => { const m = /^zauber_(\w+)$/.exec(f); if (m && DATA.zauber[m[1]] && DATA.zauber[m[1]].tag !== q.day) E('Quest ' + id + ': ' + DATA.zauber[m[1]].name + ' wird an Tag ' + q.day + ' gelernt, laut zauber.json aber an Tag ' + DATA.zauber[m[1]].tag); }));
     (q.steps || []).forEach((st, i) => stepFlags(st).forEach(f => {
       if (!setFlags.has(f)) {
         if (q.teilweise) Wn('Quest ' + id + ' Schritt ' + (i + 1) + ' (' + f + ') ist noch nicht baubar – Quest als „teilweise“ markiert');

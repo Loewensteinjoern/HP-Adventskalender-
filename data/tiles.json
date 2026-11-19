@@ -92,5 +92,9 @@
   },
   "E": {
     "paint": "schneestufe"
+  },
+  "N": {
+    "paint": "tiefschnee",
+    "kampf": true
   }
 }

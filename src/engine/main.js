@@ -25,7 +25,7 @@ function boot() {
   // Nur im Testmodus: Einblick für den automatischen Rauchtest
   if (G.testDay !== null) {
     window.__wp = () => ({
-      mode: G.mode, map: G.mapId, hasSave: !!G.save, flags: G.save ? Object.assign({}, G.save.flags) : {},
+      mode: G.mode, map: G.mapId, waerme: G.save ? G.save.waerme : null, hasSave: !!G.save, flags: G.save ? Object.assign({}, G.save.flags) : {},
       pos: G.player ? { x: G.player.x, y: G.player.y, dir: G.player.dir } : null, trail: !!G.trail,
       followers: G.followers.map(f => ({ char: f.char, x: f.x, y: f.y })), dialog: DLG.open, done: G.save ? G.save.done.slice() : [], fragments: G.save ? G.save.fragments.length : 0,
     });
@@ -51,6 +51,11 @@ function boot() {
     window.__mini = () => (G.mini ? { type: G.mini.type || 'takt', phase: G.mini.phase, seq: G.mini.seq ? G.mini.seq.slice() : [], round: G.mini.round, hour: G.mini.hour, ziel: G.mini.fragen ? (G.mini.fragen[G.mini.round] || {}).stunde : null } : null);
     window.__pickSpell = z => { UI.sel = G.spells().indexOf(z); return G.mode; };
     window.__teleport = (x, y, d) => { G.enterMap(G.mapId, x, y, d); };
+    window.__kampf = () => (G.mode === 'kampf' && KB.F ? { phase: KB.phase, ende: KB.F.ende, waerme: KB.F.waerme, max: KB.F.max, gegner: KB.F.gegner.map(e => ({ id: e.id, kraft: e.kraft })), aktionen: KB.akts().map(a => a.art), sel: KB.sel, zsel: KB.zsel, zauber: KB.F.zauber.slice(), ziel: KB.pend ? KB.pend.ziel : null } : null);
+    window.__setWaerme = n => { G.save.waerme = n; };
+    window.__startFight = g => G.startFight(g, null);
+    window.__kampfChance = x => { if (x === null) delete G.kampfTest; else G.kampfTest = x; };
+    window.__warm = () => ({ waerme: G.save.waerme, warm: G.save.warm, besucht: G.save.besucht.slice(), glut: G.save.glut.slice(), alarm: !!G.alarm });
   }
   let hinted = false;
   ['pointerdown', 'touchend', 'keydown', 'mousedown'].forEach(n => addEventListener(n, () => {

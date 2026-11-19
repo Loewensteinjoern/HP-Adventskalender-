@@ -8,6 +8,7 @@ function newSave(now) {
     map: s.map, x: s.x, y: s.y, dir: s.dir,
     flags: {}, done: [], fragments: [], secrets: [],
     followers: ['joern'], seenDay: 0, playMs: 0,
+    waerme: WAERME_GRUND, warm: null, besucht: [s.map], glut: [],
   };
 }
 
@@ -19,6 +20,13 @@ const MIGRATIONS = {
     out.v = 1;
     if (isObj(d.pos)) { out.map = d.pos.map; out.x = d.pos.x; out.y = d.pos.y; }
     delete out.pos; delete out.version;
+    return out;
+  },
+  // v1 → v2 (Stufe S2): Wärme, letzter warmer Ort, besuchte Orte (Schlosskarte), Glutsplitter
+  1: d => {
+    const out = Object.assign({}, d);
+    out.waerme = WAERME_GRUND; out.warm = null; out.glut = [];
+    out.besucht = typeof d.map === 'string' ? [d.map] : [];
     return out;
   },
 };
@@ -56,6 +64,11 @@ function migrateSave(raw) {
   if (out.followers.indexOf('joern') < 0) out.followers.unshift('joern');
   out.seenDay = isNum(d.seenDay) ? clamp(d.seenDay, 0, 24) : 0;
   out.playMs = isNum(d.playMs) ? d.playMs : 0;
+  out.glut = strList(d.glut);
+  out.besucht = strList(d.besucht).filter(k => DATA.maps[k]);
+  out.waerme = isNum(d.waerme) ? clamp(Math.round(d.waerme), 1, waermeMax(out)) : waermeMax(out);
+  const w = d.warm, wm = isObj(w) && typeof w.map === 'string' && DATA.maps[w.map];
+  out.warm = wm && isNum(w.x) && isNum(w.y) && !tileSolid(wm, w.x, w.y) && DIRS[w.dir] ? { map: w.map, x: w.x, y: w.y, dir: w.dir } : null;
   // Position: unbekannte Karte oder Wand -> sicher zum Start, Fortschritt bleibt
   const m = typeof d.map === 'string' && DATA.maps[d.map];
   const posOk = m && isNum(d.x) && isNum(d.y) && d.x >= 0 && d.y >= 0 && d.y < m.tiles.length && d.x < m.tiles[0].length

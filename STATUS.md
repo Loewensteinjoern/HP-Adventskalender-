@@ -1,7 +1,18 @@
 # STATUS
 
-## Stand (18.11.2026)
-- **Stufe 2 gebaut** (Version 0.2), wartet auf Jörns iPad-Test.
+## Stand (19.11.2026)
+- **S2 gebaut (Version 0.3): Kampfsystem + Schlosskarte.** S1 (Story-Bibel V2) ist noch offen – auf Jörns Wunsch wurde S2 vorgezogen.
+  - Kampfbildschirm: rundenbasiert, eine Wahl pro Runde für Charly (Zaubern, Schneeball), Jörn (Kakao +4 Wärme, Mut = Schutz 2 Runden) oder Diego (Bellen = Gegner setzt aus, Schnüffeln = Schwäche zeigen), Zurückziehen. Danach handeln die Gegner. Ziel wählen bei mehreren Gegnern.
+  - Gegner `data/kampf.json`: Schneepixie (Kraft 2, weicht aus, Schwäche Luxa), Frostwicht (Kraft 5, Schwäche Flammula). Richtiger Zauber = 3 Schaden + Gegner setzt aus. Gruppen: probe, pixie1, pixie2, wicht1, wicht_pixie.
+  - Wärme statt Lebenspunkten (10, je 3 Glutsplitter +2). Anzeige oben rechts draußen. Drinnen (Karten ohne `kampf`) sofort voll, der Ort wird als „warmer Ort“ gemerkt. Bei 0 Wärme: Aufwachen dort, volle Wärme, Dialog `kampf_aufwachen` – kein Game Over.
+  - Innenhof: Tiefschnee (Kachel `N`, `kampf: true`) rechts unten und am rechten Rand. Probekampf am zitternden Schneehaufen (ab Luxa, Mats gibt den Hinweis, Jörn erklärt beim ersten Mal). Danach Überfälle im Tiefschnee (`kampf` in der Karte: Chance 9 %, 5 Schritte Schonung; Pixies ab Tag 2/3, Frostwicht ab 7/8). Diego knurrt vorher.
+  - Glutsplitter-Mechanik (`glut` als Aktion, `save.glut`), erster Splitter als Diego-Geheimnis im Innenhof.
+  - Schlosskarte im Menü (2. Punkt): besuchte Orte, Übergänge als Punkte, unbekannte Nachbarn als „?“, „Du bist hier“. Lage in `data/karte.json`.
+  - Spielstand v2 (Migration v1→v2: Wärme, warmer Ort, besuchte Orte, Glutsplitter).
+  - Datenprüfung neu: Gegner nur ab dem Lerntag seines Schwäche-Zaubers (`tag` in `zauber.json`, auch gegen die Quest geprüft), jeder Ort auf der Karte, Kampf-Karten brauchen Tiefschnee.
+  - Musik `kampf`, Geräusche knurren, Schneeball, Treffer, Kakao, Mut, Sieg …
+  - Tests: 58 Kern-Tests (u. a. jeder Kampf nur mit Schneeball+Kakao gewinnbar, mit richtigem Zauber ≤ 4 Runden), neuer Rauchtest `tests/smoke_kampf.js`.
+- Stufe 2 (Version 0.2) wartet weiter auf Jörns iPad-Test.
 - Neue Gebiete: Schlosskern (Drehkreuz), Große Halle, Bibliothek, Innenhof (Schnee), Eulenturm, Uhrenturm. Kellertreppe öffnet sich ab 1.12.
 - Quests Q01–Q04 vollständig spielbar, je ein Winterfragment. Nebenaufgabe „Knarz’ Schlüsselbund“ (ab Tag 1).
 - Neue Mechaniken: Reihenfolge-Rätsel mit Vorführung (Kerzen, `data/puzzles.json`), Takt-Minispiel (Uhrmeister), Geheimgang über Flag (loser Stein), mehrteilige Quest-Schritte (`flags` + `{n}`), Nebenquests (`neben: true`), Zauber als Flags `zauber_*` (Anzeige im Questlog).
@@ -31,5 +42,8 @@
 1. **Jörn: iPad-Test.** Repo ist öffentlich, `main` = `startpaket` (18.11.). Pages muss Jörn einschalten (Settings → Pages → main, /docs). Adresse: https://loewensteinjoern.github.io/HP-Adventskalender-/
 2. iPhone quer: Bild ist wegen der Höhe nur 2-fach skaliert (klein, aber spielbar).
 
+3. **Jörn: 1–2 Kämpfe spielen** (zu leicht/schwer?). Testlink: `?testtag=2`, Q02 bis Luxa spielen, dann im Innenhof zum zitternden Schneehaufen rechts unten. Frostwicht erst ab `?testtag=7` + Flammula (kommt in Q06).
+4. S1 Story-Bibel V2 nachholen (vor S3).
+
 ## Nächster Schritt
-**Verbindlich ist jetzt `plan/FAHRPLAN.md`** (ersetzt den Stufenplan ab Stufe 3). Nächste Sitzung: **S1 Story-Bibel V2** (bis 20.11.) – spürbare Bedrohung durch den Winterkönig ab Tag 1, Jörns eigene Geschichte, Tageshaken, Nebenquests, Erkundung, Kampfdesign. Danach S2 Kampfsystem + Schlosskarte, S3 Q01–Q04 neu erzählt, S4 Q05–Q07, S5 Generalprobe 30.11.
+**Verbindlich ist jetzt `plan/FAHRPLAN.md`** (ersetzt den Stufenplan ab Stufe 3). S2 ist erledigt. Nächste Sitzung: **S1 Story-Bibel V2** (nachholen, Pflicht vor S3) – Bedrohung, Jörns Geschichte, Tageshaken, Nebenquests, Erkundung, Gegner. Danach S3 Q01–Q04 neu erzählt (inkl. sichtbarer Frostschatten), S4 Q05–Q07 (Spiegelsee-Kampf, Flammula in Q06), S5 Generalprobe 30.11.
