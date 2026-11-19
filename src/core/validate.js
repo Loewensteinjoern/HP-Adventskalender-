@@ -199,6 +199,10 @@ function validateData() {
   });
 
   Object.keys(DATA.karte.orte).forEach(k => { if (!maps[k]) E('Schlosskarte: Ort „' + k + '“ gibt es nicht'); });
+  // Grundriss: Räume liegen überschneidungsfrei
+  const kb = k => { const o = DATA.karte.orte[k], m = maps[k]; return [o.x, o.y, o.x + mapW(m), o.y + mapH(m)]; };
+  const ko = Object.keys(DATA.karte.orte).filter(k => maps[k]);
+  ko.forEach((a, i) => ko.slice(i + 1).forEach(b => { const A = kb(a), B = kb(b); if (A[0] < B[2] && B[0] < A[2] && A[1] < B[3] && B[1] < A[3]) E('Schlosskarte: ' + a + ' und ' + b + ' überlappen'); }));
   Object.keys(DATA.kampf.gegner).forEach(id => { const T = DATA.kampf.gegner[id]; ['name', 'angriffe', 'treffer', 'besiegt', 'hinweis', 'aussetzen', 'ausgewichen'].forEach(f => { if (!T[f]) E('Gegner ' + id + ': ' + f + ' fehlt'); }); });
   Object.keys(DATA.zauber).forEach(z => { if (!(DATA.zauber[z].tag >= 1 && DATA.zauber[z].tag <= 24)) E('Zauber ' + z + ': Lerntag fehlt'); });
 

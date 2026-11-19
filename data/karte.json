@@ -1,80 +1,73 @@
 {
   "titel": "Schloss Løvestein",
+  "hinweis": "Lage jedes Raums in Kacheln (Grundriss). Räume dürfen sich nicht überlappen.",
   "orte": {
     "grosse_halle": {
-      "x": 256,
-      "y": 62,
-      "kurz": "Große Halle",
-      "icon": "halle"
+      "x": 39,
+      "y": 12,
+      "kurz": "Große Halle"
     },
     "vorhalle": {
-      "x": 256,
-      "y": 112,
-      "weg": true
+      "x": 44,
+      "y": 29,
+      "kurz": "Vorhalle"
     },
     "schlosskern": {
-      "x": 256,
-      "y": 172,
-      "kurz": "Schlosskern",
-      "icon": "kern"
+      "x": 40,
+      "y": 40,
+      "kurz": "Schlosskern"
     },
     "treppenhaus": {
-      "x": 168,
-      "y": 172,
-      "weg": true,
+      "x": 22,
+      "y": 40,
       "kurz": "Treppenhaus"
     },
     "bibliothek": {
-      "x": 82,
-      "y": 132,
-      "kurz": "Bibliothek",
-      "icon": "buch"
-    },
-    "wendeltreppe": {
-      "x": 350,
-      "y": 136,
-      "weg": true
-    },
-    "uhrenturm": {
-      "x": 434,
-      "y": 86,
-      "kurz": "Uhrenturm",
-      "icon": "uhr"
+      "x": 8,
+      "y": 22,
+      "kurz": "Bibliothek"
     },
     "kellergang": {
-      "x": 176,
-      "y": 240,
-      "weg": true
+      "x": 29,
+      "y": 56,
+      "kurz": "Kellergang"
     },
     "gemeinschaftsraum": {
-      "x": 88,
-      "y": 282,
-      "kurz": "Bernfuchs-Raum",
-      "icon": "kamin"
+      "x": 20,
+      "y": 64,
+      "kurz": "Bernfuchs-Raum"
     },
     "arkadengang": {
-      "x": 330,
-      "y": 236,
-      "weg": true
+      "x": 48,
+      "y": 56,
+      "kurz": "Arkadengang"
     },
     "innenhof": {
-      "x": 404,
-      "y": 296,
+      "x": 70,
+      "y": 56,
       "kurz": "Innenhof",
-      "draussen": true,
-      "icon": "baum"
+      "draussen": true
     },
     "eulenstiege": {
-      "x": 472,
-      "y": 236,
-      "weg": true,
+      "x": 84,
+      "y": 41,
+      "kurz": "Eulenstiege",
       "draussen": true
     },
     "eulenturm": {
-      "x": 440,
-      "y": 176,
-      "kurz": "Eulenturm",
-      "icon": "eule"
+      "x": 83,
+      "y": 30,
+      "kurz": "Eulenturm"
+    },
+    "wendeltreppe": {
+      "x": 64,
+      "y": 39,
+      "kurz": "Wendeltreppe"
+    },
+    "uhrenturm": {
+      "x": 66,
+      "y": 26,
+      "kurz": "Uhrenturm"
     }
   }
 }

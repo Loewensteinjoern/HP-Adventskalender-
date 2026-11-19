@@ -42,6 +42,8 @@
 
 - **Version 0.8 (Wunsch Jörn, 19.11.): Schlosskarte als Pergament.** Verwittertes Papier mit Fransenrand, blasser Schloss-Grundriss, verschneiter Hof, geschwungene Tintenwege, Medaillons mit Bildchen je Ort (`icon` in `data/karte.json`: halle, kern, buch, uhr, kamin, baum, eule), rote Namensbänder, Übergänge als Rauten, Nebel mit „?“ über unbekannten Orten, Charly-Bild als „Du bist hier“, Kompassrose, Wachssiegel mit Bernfuchs, leiser Schneefall. Neue Räume brauchen ein `icon` (sonst schlichte Säule).
 
+- **Version 0.9 (Wunsch Jörn, 19.11.): Schlosskarte als echter Grundriss.** Jeder Raum in wahrer Größe (Kachel für Kachel: Wände, Boden, Läufer, Schnee, Möbel), Türen golden an ihrer echten Stelle, Tintenweg zur Gegentür, Charly als Punkt an ihrer genauen Position. Lage der Räume in `data/karte.json` (`x`,`y` in Kacheln), Datenprüfung meldet Überlappungen. **Neue Räume brauchen dort eine Lage**, die zu ihren Türen passt. Die Pergament-Optik (Rand, Kompass, Siegel) bleibt.
+
 ## Entscheidungen
 - Siehe `CLAUDE.md`, Weltlexikon und Bauauftrag (`plan/STARTPAKET.md`).
 - Grafikmaß wie geplant umgesetzt: 512×384, Kachel 32, Figur 32×40, ganzzahlig skaliert (iPad quer: 3-fach). **Von Jörn freigegeben (18.11.).**

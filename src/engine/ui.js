@@ -384,12 +384,6 @@ const UI = {
     g.fillStyle = rg; g.fillRect(0, 0, W, H);
     for (let i = 0; i < 2600; i++) { g.fillStyle = R0() < 0.5 ? 'rgba(120,80,30,0.07)' : 'rgba(255,250,230,0.08)'; g.fillRect(R0() * W | 0, R0() * H | 0, 1 + (R0() * 2 | 0), 1); }
     for (let i = 0; i < 7; i++) { const x = R0() * W, y = R0() * H, r = 10 + R0() * 26, st = g.createRadialGradient(x, y, 0, x, y, r); st.addColorStop(0, 'rgba(140,96,40,0.13)'); st.addColorStop(1, 'rgba(140,96,40,0)'); g.fillStyle = st; g.fillRect(x - r, y - r, r * 2, r * 2); }
-    // Grundriss des Schlosses in blasser Tinte (Mauer, Ecktürme, verschneiter Hof)
-    const ink = 'rgba(90,60,30,0.22)';
-    g.strokeStyle = ink; g.lineWidth = 2; g.strokeRect(40, 34, W - 80, H - 86);
-    [[40, 34], [W - 40, 34], [40, H - 52], [W - 40, H - 52]].forEach(([x, y]) => { g.beginPath(); g.arc(x, y, 9, 0, 6.283); g.fillStyle = '#e6d2a0'; g.fill(); g.stroke(); });
-    g.fillStyle = 'rgba(160,200,240,0.25)'; g.beginPath(); g.ellipse(392, 270, 70, 34, -0.1, 0, 6.283); g.fill();
-    for (let i = 0; i < 9; i++) { const x = 340 + R0() * 110, y = 252 + R0() * 36; p.r(x, y, 1, 1, 'rgba(255,255,255,0.8)'); }
     // Kompassrose
     const cx = 76, cy = H - 30;
     g.fillStyle = 'rgba(90,60,30,0.65)';
@@ -404,92 +398,98 @@ const UI = {
     g.restore();
     this.pergament = cv;
   },
-  // Kleine Bildchen für die Orte (Pixel, ca. 18×18 um den Mittelpunkt)
-  kartenIcon(p, art, x, y, t) {
-    const I = '#4a2e18';
-    if (art === 'kamin') { p.r(x - 8, y - 7, 16, 14, '#8e8274'); p.r(x - 5, y - 2, 10, 9, '#2a1a12'); p.r(x - 3, y + 1 - (t % 2), 6, 5, '#ff8a2a'); p.r(x - 1, y + 2, 2, 3, '#ffd36a'); p.r(x - 9, y - 8, 18, 2, '#5e3820'); }
-    else if (art === 'halle') { p.r(x - 9, y + 2, 18, 4, '#7a4a2a'); p.r(x - 9, y + 1, 18, 1, '#a86d40'); [-6, 0, 6].forEach(d => { p.r(x + d - 1, y - 6 + ((t + d) % 2), 2, 5, '#f4ead8'); p.r(x + d - 1, y - 8 + ((t + d) % 2), 2, 2, '#ffb84a'); }); }
-    else if (art === 'kern') { p.r(x - 7, y + 6, 14, 2, I); [-5, 0, 5].forEach(d => p.r(x + d - 1, y - 5, 3, 11, '#b0a490')); p.r(x - 8, y - 7, 16, 2, I); p.r(x - 6, y - 9, 12, 2, '#8e8274'); }
-    else if (art === 'buch') { [['#8a2a1e', -7], ['#2a5a6a', -3], ['#4f6b2a', 1], ['#7a4a8a', 5]].forEach(([c, d], i) => p.r(x + d, y - 7 + (i % 2) * 2, 3, 14 - (i % 2) * 2, c)); p.r(x - 8, y + 7, 16, 1, I); }
-    else if (art === 'uhr') { p.circ(x, y, 8, '#e8dcc4'); p.circ(x, y, 7, '#f8f0dc'); p.r(x, y - 6, 1, 6, I); p.r(x, y, 4, 1, I); for (let a = 0; a < 12; a++) p.px(x + Math.round(Math.cos(a * 0.524) * 6), y + Math.round(Math.sin(a * 0.524) * 6), I); }
-    else if (art === 'eule') { p.ell(x, y + 1, 7, 8, '#8a6a4a'); p.ell(x, y + 3, 4, 5, '#c8a882'); p.circ(x - 3, y - 2, 2, '#fff8d0'); p.circ(x + 3, y - 2, 2, '#fff8d0'); p.px(x - 3, y - 2, I); p.px(x + 3, y - 2, I); p.r(x - 1, y, 2, 2, '#e8a030'); p.r(x - 6, y - 8, 2, 3, '#8a6a4a'); p.r(x + 4, y - 8, 2, 3, '#8a6a4a'); }
-    else if (art === 'baum') { for (let i = 0; i < 3; i++) p.r(x - 3 - i * 2, y - 7 + i * 4, 6 + i * 4, 4, i % 2 ? '#2f6a32' : '#3a7a3a'); p.r(x - 1, y + 5, 2, 3, '#5e3820'); p.r(x - 5, y - 4, 3, 1, '#ffffff'); p.r(x + 2, y, 3, 1, '#ffffff'); p.r(x - 9, y + 7, 18, 2, '#eef4ff'); }
-    else { p.r(x - 2, y - 6, 4, 12, '#b0a490'); }
+  // Grundriss eines Raums: jede Kachel ein Pixelfeld, Möbel dunkler, Türen golden (einmal gemalt)
+  grundriss: {},
+  KFARBE: { decke: '#5a3a20', wand_putz: '#7a5634', wand_stein: '#6a5a4a', wand_schloss: '#6e5236', galerie_front: '#7a5634', galerie_seite: '#7a5634', aussenmauer: '#6a6070', arkade: '#7a6a5a', gelaender: '#8a6a44', saeule_rund: '#8a7a6a',
+    dielen: '#d8b483', galerie: '#c8a070', treppe: '#b08a5a', steinboden: '#c8baa2', marmor: '#e4d8c4', laeufer: '#c0563e', torbogen: '#d8c8a8', treppe_runter: '#a8865a', stroh: '#e0c070', geheimgang: '#9a8a70', steinstufe: '#bcae96',
+    schnee: '#f2f6fc', weg_schnee: '#d4dce8', schneestufe: '#c8d4e4', tiefschnee: '#ffffff' },
+  grundrissBild(mid, s) {
+    const key = mid + ':' + s; if (this.grundriss[key]) return this.grundriss[key];
+    const m = DATA.maps[mid], w = mapW(m), h = mapH(m), cv = mkCanvas(w * s, h * s), g = cv.getContext('2d');
+    for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+      const t = DATA.tiles[m.tiles[y][x]];
+      g.fillStyle = this.KFARBE[t.paint] || (t.solid ? '#6e5236' : '#d8c8a8'); g.fillRect(x * s, y * s, s, s);
+      if (t.kampf) { g.fillStyle = '#b8c8e0'; g.fillRect(x * s + 1, y * s + 1, 1, 1); }
+    }
+    // feste Möbel als dunklere Flächen (ohne Wandschmuck und bedingte Objekte)
+    (m.objects || []).forEach(o => {
+      const T = objType(o); if (o.if || T.wall || T.decal || T.overlay || !objSolid(o)) return;
+      g.fillStyle = 'rgba(70,40,20,0.55)'; g.fillRect(o.x * s, o.y * s, T.w * s, T.h * s);
+    });
+    // Außenlinie
+    g.strokeStyle = '#3a2210'; g.lineWidth = 1; g.strokeRect(0.5, 0.5, w * s - 1, h * s - 1);
+    return (this.grundriss[key] = cv);
   },
   karte(G, time) {
-    const c = R.ctx, K = DATA.karte.orte, seen = G.save.besucht, p = Pen(c), ox = 12, oy = 10;
+    const c = R.ctx, K = DATA.karte.orte, seen = G.save.besucht, ox = 12, oy = 10;
     c.fillStyle = 'rgba(10,6,14,0.88)'; c.fillRect(0, 0, VIEW_W, VIEW_H);
     if (!this.pergament) this.buildPergament();
     c.drawImage(this.pergament, ox, oy);
-    R.text(DATA.karte.titel, VIEW_W / 2, 40, { size: 20, weight: 700, serif: true, align: 'center', color: '#4a2a14', shadow: false });
-    c.fillStyle = '#7a4a24'; c.fillRect(VIEW_W / 2 - 80, 46, 160, 1); c.fillRect(VIEW_W / 2 - 3, 44, 6, 5);
-    R.text(seen.length + ' von ' + Object.keys(K).length + ' Orten', VIEW_W - 40, 36, { size: 10, align: 'right', color: '#6a4a2a', shadow: false, serif: true });
+    R.text(DATA.karte.titel, VIEW_W / 2, 38, { size: 18, weight: 700, serif: true, align: 'center', color: '#4a2a14', shadow: false });
+    c.fillStyle = '#7a4a24'; c.fillRect(VIEW_W / 2 - 80, 44, 160, 1);
+    R.text(seen.length + ' von ' + Object.keys(K).length + ' Orten', VIEW_W - 40, 34, { size: 10, align: 'right', color: '#6a4a2a', shadow: false, serif: true });
     const known = id => seen.indexOf(id) >= 0;
-    const edges = {}, show = {};
-    Object.keys(DATA.maps).forEach(a => (DATA.maps[a].doors || []).forEach(d => {
-      if (!K[a] || !K[d.to] || a === d.to) return;
-      const k = [a, d.to].sort().join('|');
-      if (known(a) || known(d.to)) { edges[k] = [a, d.to]; show[a] = true; show[d.to] = true; }
-    }));
-    seen.forEach(id => { show[id] = true; });
-    // Wege als geschwungene Tintenlinien
-    Object.keys(edges).forEach(key => {
-      const [a, b] = edges[key], A = K[a], B = K[b], both = known(a) && known(b);
-      const mx = (A.x + B.x) / 2, my = (A.y + B.y) / 2, dx = B.x - A.x, dy = B.y - A.y, bend = (hashStr(key).charCodeAt(0) % 2 ? 1 : -1) * 0.12;
-      c.strokeStyle = both ? 'rgba(74,42,20,0.85)' : 'rgba(110,80,50,0.35)'; c.lineWidth = both ? 2 : 1.5;
-      c.setLineDash(both ? [5, 3] : [2, 4]); c.beginPath(); c.moveTo(A.x, A.y); c.quadraticCurveTo(mx - dy * bend, my + dx * bend, B.x, B.y); c.stroke();
-    });
-    c.setLineDash([]); c.lineWidth = 1;
-    // Orte
+    // Welche Räume zeigen? Entdeckte und deren direkte Nachbarn (im Nebel)
+    const show = {};
+    seen.forEach(id => { if (!K[id]) return; show[id] = true; (DATA.maps[id].doors || []).forEach(d => { if (K[d.to]) show[d.to] = true; }); });
     const ids = Object.keys(show);
+    // Maßstab: Grundriss des ganzen Schlosses passt ins Pergament
+    let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
+    Object.keys(K).forEach(id => { const m = DATA.maps[id]; x0 = Math.min(x0, K[id].x); y0 = Math.min(y0, K[id].y); x1 = Math.max(x1, K[id].x + mapW(m)); y1 = Math.max(y1, K[id].y + mapH(m)); });
+    const AW = VIEW_W - 60, AH = VIEW_H - 92, sc = Math.max(2, Math.floor(Math.min(AW / (x1 - x0), AH / (y1 - y0))));
+    const bx = Math.round((VIEW_W - (x1 - x0) * sc) / 2), by = 52 + Math.round((AH - (y1 - y0) * sc) / 2);
+    const gx = (id, x) => bx + (K[id].x - x0 + x) * sc, gy = (id, y) => by + (K[id].y - y0 + y) * sc;
+    // Verbindungen: jede Tür mit ihrer Gegentür (Tintenweg)
+    const done = {};
+    ids.forEach(a => (DATA.maps[a].doors || []).forEach(d => {
+      if (!K[d.to] || !show[d.to]) return;
+      const key = [a, d.to].sort().join('|'); if (done[key]) return; done[key] = true;
+      const back = (DATA.maps[d.to].doors || []).filter(e => e.to === a).sort((u, v) => (Math.abs(u.x - d.tx) + Math.abs(u.y - d.ty)) - (Math.abs(v.x - d.tx) + Math.abs(v.y - d.ty)))[0];
+      if (!back) return;
+      const ax = gx(a, d.x + 0.5), ay = gy(a, d.y + 0.5), ex = gx(d.to, back.x + 0.5), ey = gy(d.to, back.y + 0.5), beide = known(a) && known(d.to);
+      c.strokeStyle = beide ? 'rgba(74,42,20,0.9)' : 'rgba(110,80,50,0.45)'; c.lineWidth = 2; c.setLineDash(beide ? [4, 2] : [2, 3]);
+      c.beginPath(); c.moveTo(ax, ay);
+      if (Math.abs(ax - ex) > 2 && Math.abs(ay - ey) > 2) c.lineTo(ax, (ay + ey) / 2), c.lineTo(ex, (ay + ey) / 2);
+      c.lineTo(ex, ey); c.stroke();
+    }));
+    c.setLineDash([]); c.lineWidth = 1;
+    // Räume
     ids.forEach(id => {
-      const o = K[id], k = known(id);
-      if (o.weg) {
-        // Übergang: kleine Raute
-        c.fillStyle = k ? (o.draussen ? '#5a86b8' : '#7a4a24') : 'rgba(110,80,50,0.4)';
-        c.beginPath(); c.moveTo(o.x, o.y - 6); c.lineTo(o.x + 6, o.y); c.lineTo(o.x, o.y + 6); c.lineTo(o.x - 6, o.y); c.closePath(); c.fill();
-        c.fillStyle = '#f2e2b8'; c.fillRect(o.x - 1, o.y - 1, 2, 2);
-        if (k) {
-          const nm = o.kurz || DATA.maps[id].name; c.font = '500 8px ' + R.SERIF; const tw = c.measureText(nm).width + 6;
-          c.fillStyle = 'rgba(242,226,184,0.92)'; c.fillRect(o.x - tw / 2, o.y + 8, tw, 10);
-          R.text(nm, o.x, o.y + 15, { size: 8, align: 'center', weight: 500, serif: true, color: '#6a4a2a', shadow: false });
-        }
+      const m = DATA.maps[id], X = gx(id, 0), Y = gy(id, 0), W = mapW(m) * sc, H = mapH(m) * sc;
+      if (!known(id)) {
+        c.fillStyle = 'rgba(235,222,196,0.85)'; c.fillRect(X, Y, W, H);
+        for (let i = 0; i < 6; i++) { const a = i * 1.05 + time * 0.25; c.fillStyle = 'rgba(250,244,230,0.7)'; c.beginPath(); c.arc(X + W / 2 + Math.cos(a) * W * 0.25, Y + H / 2 + Math.sin(a) * H * 0.2, Math.min(W, H) * 0.28, 0, 6.283); c.fill(); }
+        c.strokeStyle = 'rgba(110,80,50,0.5)'; c.setLineDash([3, 3]); c.strokeRect(X + 0.5, Y + 0.5, W - 1, H - 1); c.setLineDash([]);
+        R.text('?', X + W / 2, Y + H / 2 + 5, { size: 14, align: 'center', weight: 700, serif: true, color: '#8a6a4a', shadow: false });
         return;
       }
-      if (!k) {
-        // Nebel über unbekannten Orten
-        for (let i = 0; i < 5; i++) { const a = i * 1.26 + time * 0.3, rr = 9 + (i % 2) * 3; c.fillStyle = 'rgba(240,232,214,0.75)'; c.beginPath(); c.arc(o.x + Math.cos(a) * 9, o.y + Math.sin(a) * 5, rr, 0, 6.283); c.fill(); }
-        R.text('?', o.x, o.y + 6, { size: 16, align: 'center', weight: 700, serif: true, color: '#8a6a4a', shadow: false });
-        return;
-      }
-      // Medaillon mit Bildchen und Namensband
-      c.fillStyle = 'rgba(60,36,16,0.25)'; c.beginPath(); c.arc(o.x + 1, o.y + 2, 17, 0, 6.283); c.fill();
-      c.fillStyle = o.draussen ? '#3a5a8a' : '#7a4a24'; c.beginPath(); c.arc(o.x, o.y, 17, 0, 6.283); c.fill();
-      c.fillStyle = o.draussen ? '#dbe8f6' : '#f4e6c4'; c.beginPath(); c.arc(o.x, o.y, 14, 0, 6.283); c.fill();
-      this.kartenIcon(p, o.icon, o.x, o.y, Math.floor(time * 3));
-      const name = o.kurz || DATA.maps[id].name;
-      c.font = '700 10px ' + R.SERIF; const w = c.measureText(name).width + 14, by = o.y + 21;
-      c.fillStyle = '#9a2a1e'; c.fillRect(o.x - w / 2 - 4, by + 2, 5, 10); c.fillRect(o.x + w / 2 - 1, by + 2, 5, 10);
-      c.fillStyle = '#c8442e'; c.fillRect(o.x - w / 2, by, w, 13);
-      c.fillStyle = '#e8705a'; c.fillRect(o.x - w / 2, by, w, 1);
-      R.text(name, o.x, by + 10, { size: 10, align: 'center', weight: 700, serif: true, color: '#fff4e0', shadow: false });
+      c.fillStyle = 'rgba(60,36,16,0.3)'; c.fillRect(X + 2, Y + 2, W, H);
+      c.drawImage(this.grundrissBild(id, sc), X, Y);
+      // Türen golden hervorheben
+      (m.doors || []).forEach(d => { const px = gx(id, d.x), py = gy(id, d.y); c.fillStyle = '#ffd36a'; c.fillRect(px, py, sc, sc); c.strokeStyle = '#7a4a10'; c.strokeRect(px - 0.5, py - 0.5, sc + 1, sc + 1); });
     });
-    // Du bist hier: Charly im Kreis, darüber ein Fähnchen
-    const cur = K[G.mapId];
-    if (cur) {
-      const pulse = 0.5 + 0.5 * Math.sin(time * 4), r = (cur.weg ? 10 : 20) + pulse * 3;
-      c.strokeStyle = 'rgba(200,40,30,' + (0.5 + pulse * 0.4).toFixed(2) + ')'; c.lineWidth = 2; c.beginPath(); c.arc(cur.x, cur.y, r, 0, 6.283); c.stroke(); c.lineWidth = 1;
-      // Charly-Bild schräg rechts oben, damit kein Name verdeckt wird
-      const hx = cur.x + (cur.weg ? 18 : 28), hy = cur.y - (cur.weg ? 18 : 26) + Math.round(Math.sin(time * 3) * 2);
-      c.fillStyle = '#9a2a1e'; c.beginPath(); c.moveTo(hx - 9, hy + 6); c.lineTo(hx - 3, hy + 11); c.lineTo(cur.x + (cur.weg ? 5 : 12), cur.y - (cur.weg ? 5 : 12)); c.fill();
-      c.fillStyle = '#9a2a1e'; c.beginPath(); c.arc(hx, hy, 14, 0, 6.283); c.fill();
-      c.fillStyle = '#f8ecd0'; c.beginPath(); c.arc(hx, hy, 12, 0, 6.283); c.fill();
-      c.save(); c.beginPath(); c.arc(hx, hy, 11, 0, 6.283); c.clip(); c.drawImage(SPR.get('charly', 'down', 0), hx - 16, hy - 12); c.restore();
+    // Namen über den Räumen (nach den Räumen, damit nichts verdeckt)
+    ids.filter(known).forEach(id => {
+      const m = DATA.maps[id], X = gx(id, 0), Y = gy(id, 0), W = mapW(m) * sc, H = mapH(m) * sc, name = K[id].kurz || m.name;
+      const gross = mapW(m) * mapH(m) > 200, size = gross ? 10 : 8;
+      c.font = '700 ' + size + 'px ' + R.SERIF; const tw = c.measureText(name).width + 8, ty = Y + H / 2 + 4;
+      c.fillStyle = K[id].draussen ? 'rgba(220,232,248,0.92)' : 'rgba(248,236,208,0.92)'; c.fillRect(X + W / 2 - tw / 2, ty - size, tw, size + 4);
+      R.text(name, X + W / 2, ty, { size, align: 'center', weight: 700, serif: true, color: '#3a2210', shadow: false });
+    });
+    // Du bist hier: Charly an ihrer echten Stelle im Raum
+    if (K[G.mapId] && G.player) {
+      const px = gx(G.mapId, G.player.x + 0.5), py = gy(G.mapId, G.player.y + 0.5), pulse = 0.5 + 0.5 * Math.sin(time * 4);
+      c.strokeStyle = 'rgba(200,40,30,' + (0.4 + pulse * 0.5).toFixed(2) + ')'; c.lineWidth = 2; c.beginPath(); c.arc(px, py, 5 + pulse * 3, 0, 6.283); c.stroke(); c.lineWidth = 1;
+      c.fillStyle = '#c8281e'; c.beginPath(); c.arc(px, py, 3, 0, 6.283); c.fill();
+      const hx = px + 16, hy = py - 18 + Math.round(Math.sin(time * 3) * 2);
+      c.fillStyle = '#9a2a1e'; c.beginPath(); c.moveTo(hx - 8, hy + 7); c.lineTo(hx - 2, hy + 11); c.lineTo(px + 2, py - 2); c.fill();
+      c.beginPath(); c.arc(hx, hy, 12, 0, 6.283); c.fill();
+      c.fillStyle = '#f8ecd0'; c.beginPath(); c.arc(hx, hy, 10, 0, 6.283); c.fill();
+      c.save(); c.beginPath(); c.arc(hx, hy, 9, 0, 6.283); c.clip(); c.drawImage(SPR.get('charly', 'down', 0), hx - 16, hy - 12); c.restore();
     }
-    // sanfter Schneefall über der Karte
-    c.fillStyle = 'rgba(255,255,255,0.7)';
-    for (let i = 0; i < 24; i++) { const x = (i * 97 + time * 8 * (1 + i % 3)) % (VIEW_W - 40) + 20, y = (i * 53 + time * 14 * (1 + i % 2)) % (VIEW_H - 40) + 20; c.fillRect(x | 0, y | 0, i % 4 ? 1 : 2, i % 4 ? 1 : 2); }
-    R.text('◆ Übergang   ● Raum   ? noch im Nebel   blau: draußen', VIEW_W / 2, VIEW_H - 18, { size: 9, align: 'center', color: '#5a3a1e', shadow: false, serif: true });
+    // Legende
+    const ly = VIEW_H - 22; c.fillStyle = '#ffd36a'; c.fillRect(150, ly - 7, 6, 6); c.strokeStyle = '#7a4a10'; c.strokeRect(149.5, ly - 7.5, 7, 7);
+    R.text('Tür       ┅ Weg zur Gegentür       ● du       ? noch im Nebel', 160, ly, { size: 9, color: '#5a3a1e', shadow: false, serif: true });
   },
 
   // --- Code-Fenster (HTML, weil Text kopiert/eingefügt werden muss) ---
