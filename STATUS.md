@@ -48,7 +48,7 @@
 3. iPhone quer: Bild ist wegen der Höhe nur 2-fach skaliert (klein, aber spielbar).
 
 4. **Jörn: 1–2 Kämpfe spielen** (zu leicht/schwer?). Testlink: `?testtag=2`, Q02 bis Luxa spielen, dann im Innenhof zum zitternden Schneehaufen rechts unten. Frostwicht erst ab `?testtag=7` + Flammula (kommt in Q06).
-5. Kampfwerte: S2 hat eigene Werte (siehe `data/kampf.json`; Stand 19.11. abends: richtiger Zauber 2 Schaden/2 Energie, Pixie 6, Wicht 6, Frost-Angriff, Kakao begrenzt). Diese gelten; Story-Bibel V2 Abschnitt 8 ist nur der Rahmen. Feinschliff nach Jörns Probekämpfen.
+5. Kampfwerte: Es gelten die Werte in `data/kampf.json` (Stand 0.6: Pixie 10, Frostwicht 14, Energie, begrenzter Kakao, Stufen mit Wahl Kraft/Lebenspunkte, Mindest-Stufen für Zufallskämpfe). Story-Bibel V2 Abschnitt 8 ist nur der Rahmen; „kein Stufen-Sammeln“ ist durch Jörns Entscheidung (19.11.) überholt.
 
 ## Nächster Schritt
 **S1 und S2 sind erledigt.** Nächste Sitzung: **S2b Prolog Tag 0 + Tagesablauf am Kamin** (bis 25.11., `plan/FAHRPLAN.md` und `plan/STORY_BIBEL_V2.md` Abschnitt 5 „Tag 0“ und 5.0). Danach S3 Q01–Q04 neu erzählt (27.11.), S4 Q05–Q07, S5 Generalprobe 30.11.
