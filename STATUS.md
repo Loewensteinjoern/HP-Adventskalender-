@@ -40,6 +40,8 @@
 - Belebung: Figuren schauen sich um (`turn`), laufen umher (`wander: n`), Sprechblasen (`blasen` an der Figur). Neue Figuren: Mats, Juna, Ida Muschelweiß, Oskar Rindenmoos, Finn Haselnuss, Kater Zimt, Rotkehlchen.
 - Große Halle gemütlicher: zwei Kamine, vier Statuen, Sitzecke mit Teppich, Weihnachtsbuffet, kleine Tannenbäume.
 
+- **Version 0.8 (Wunsch Jörn, 19.11.): Schlosskarte als Pergament.** Verwittertes Papier mit Fransenrand, blasser Schloss-Grundriss, verschneiter Hof, geschwungene Tintenwege, Medaillons mit Bildchen je Ort (`icon` in `data/karte.json`: halle, kern, buch, uhr, kamin, baum, eule), rote Namensbänder, Übergänge als Rauten, Nebel mit „?“ über unbekannten Orten, Charly-Bild als „Du bist hier“, Kompassrose, Wachssiegel mit Bernfuchs, leiser Schneefall. Neue Räume brauchen ein `icon` (sonst schlichte Säule).
+
 ## Entscheidungen
 - Siehe `CLAUDE.md`, Weltlexikon und Bauauftrag (`plan/STARTPAKET.md`).
 - Grafikmaß wie geplant umgesetzt: 512×384, Kachel 32, Figur 32×40, ganzzahlig skaliert (iPad quer: 3-fach). **Von Jörn freigegeben (18.11.).**

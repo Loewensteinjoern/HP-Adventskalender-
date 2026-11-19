@@ -366,12 +366,64 @@ const UI = {
     R.text('☕ ' + s.kakao, x + 92, y + 20, { size: 11, weight: 700, color: '#e8c8a0' });
   },
   // --- Schlosskarte: besuchte Orte, Wege dazwischen, unbekannte Nachbarn als „?“ ---
+  // --- Schlosskarte als Pergament: Tintenwege, Bildchen je Ort, Nebel über Unbekanntem ---
+  pergament: null,
+  buildPergament() {
+    const W = VIEW_W - 24, H = VIEW_H - 20, cv = mkCanvas(W, H), g = cv.getContext('2d'), p = Pen(g), R0 = srand(77);
+    // ausgefranster Rand
+    const rand = []; for (let i = 0; i <= 60; i++) rand.push(3 + R0() * 5);
+    g.fillStyle = '#d9c08a'; g.beginPath();
+    for (let i = 0; i <= 60; i++) { const t = i / 60; g.lineTo(t * W, rand[i]); }
+    for (let i = 0; i <= 40; i++) { const t = i / 40; g.lineTo(W - rand[i % 60], t * H); }
+    for (let i = 60; i >= 0; i--) { const t = i / 60; g.lineTo(t * W, H - rand[(i * 7) % 60]); }
+    for (let i = 40; i >= 0; i--) { const t = i / 40; g.lineTo(rand[(i * 3) % 60], t * H); }
+    g.closePath(); g.fill();
+    g.save(); g.clip();
+    const rg = g.createRadialGradient(W / 2, H / 2, 40, W / 2, H / 2, W * 0.62);
+    rg.addColorStop(0, '#f2e2b8'); rg.addColorStop(0.7, '#e2c992'); rg.addColorStop(1, '#a8834a');
+    g.fillStyle = rg; g.fillRect(0, 0, W, H);
+    for (let i = 0; i < 2600; i++) { g.fillStyle = R0() < 0.5 ? 'rgba(120,80,30,0.07)' : 'rgba(255,250,230,0.08)'; g.fillRect(R0() * W | 0, R0() * H | 0, 1 + (R0() * 2 | 0), 1); }
+    for (let i = 0; i < 7; i++) { const x = R0() * W, y = R0() * H, r = 10 + R0() * 26, st = g.createRadialGradient(x, y, 0, x, y, r); st.addColorStop(0, 'rgba(140,96,40,0.13)'); st.addColorStop(1, 'rgba(140,96,40,0)'); g.fillStyle = st; g.fillRect(x - r, y - r, r * 2, r * 2); }
+    // Grundriss des Schlosses in blasser Tinte (Mauer, Ecktürme, verschneiter Hof)
+    const ink = 'rgba(90,60,30,0.22)';
+    g.strokeStyle = ink; g.lineWidth = 2; g.strokeRect(40, 34, W - 80, H - 86);
+    [[40, 34], [W - 40, 34], [40, H - 52], [W - 40, H - 52]].forEach(([x, y]) => { g.beginPath(); g.arc(x, y, 9, 0, 6.283); g.fillStyle = '#e6d2a0'; g.fill(); g.stroke(); });
+    g.fillStyle = 'rgba(160,200,240,0.25)'; g.beginPath(); g.ellipse(392, 270, 70, 34, -0.1, 0, 6.283); g.fill();
+    for (let i = 0; i < 9; i++) { const x = 340 + R0() * 110, y = 252 + R0() * 36; p.r(x, y, 1, 1, 'rgba(255,255,255,0.8)'); }
+    // Kompassrose
+    const cx = 76, cy = H - 30;
+    g.fillStyle = 'rgba(90,60,30,0.65)';
+    [[0, -16], [16, 0], [0, 16], [-16, 0]].forEach(([dx, dy], i) => { g.beginPath(); g.moveTo(cx + dx, cy + dy); g.lineTo(cx + dy / 4, cy - dx / 4); g.lineTo(cx - dy / 4, cy + dx / 4); g.closePath(); g.fillStyle = i === 0 ? '#9a2a1e' : 'rgba(90,60,30,0.7)'; g.fill(); });
+    g.beginPath(); g.arc(cx, cy, 3, 0, 6.283); g.fillStyle = '#e8c050'; g.fill();
+    g.font = '700 9px ' + R.SERIF; g.fillStyle = '#5a3a1e'; g.textAlign = 'center'; g.fillText('N', cx, cy - 19); g.textAlign = 'left';
+    // Wachssiegel mit Bernfuchs
+    const sx = W - 34, sy = H - 34;
+    g.fillStyle = '#8a1e14'; for (let a = 0; a < 6.28; a += 0.5) { g.beginPath(); g.arc(sx + Math.cos(a) * 15, sy + Math.sin(a) * 15, 5, 0, 6.283); g.fill(); }
+    g.beginPath(); g.arc(sx, sy, 16, 0, 6.283); g.fill(); g.fillStyle = '#b02a1e'; g.beginPath(); g.arc(sx, sy, 12, 0, 6.283); g.fill();
+    wappen(p, 'bernfuchs', sx, sy + 1);
+    g.restore();
+    this.pergament = cv;
+  },
+  // Kleine Bildchen für die Orte (Pixel, ca. 18×18 um den Mittelpunkt)
+  kartenIcon(p, art, x, y, t) {
+    const I = '#4a2e18';
+    if (art === 'kamin') { p.r(x - 8, y - 7, 16, 14, '#8e8274'); p.r(x - 5, y - 2, 10, 9, '#2a1a12'); p.r(x - 3, y + 1 - (t % 2), 6, 5, '#ff8a2a'); p.r(x - 1, y + 2, 2, 3, '#ffd36a'); p.r(x - 9, y - 8, 18, 2, '#5e3820'); }
+    else if (art === 'halle') { p.r(x - 9, y + 2, 18, 4, '#7a4a2a'); p.r(x - 9, y + 1, 18, 1, '#a86d40'); [-6, 0, 6].forEach(d => { p.r(x + d - 1, y - 6 + ((t + d) % 2), 2, 5, '#f4ead8'); p.r(x + d - 1, y - 8 + ((t + d) % 2), 2, 2, '#ffb84a'); }); }
+    else if (art === 'kern') { p.r(x - 7, y + 6, 14, 2, I); [-5, 0, 5].forEach(d => p.r(x + d - 1, y - 5, 3, 11, '#b0a490')); p.r(x - 8, y - 7, 16, 2, I); p.r(x - 6, y - 9, 12, 2, '#8e8274'); }
+    else if (art === 'buch') { [['#8a2a1e', -7], ['#2a5a6a', -3], ['#4f6b2a', 1], ['#7a4a8a', 5]].forEach(([c, d], i) => p.r(x + d, y - 7 + (i % 2) * 2, 3, 14 - (i % 2) * 2, c)); p.r(x - 8, y + 7, 16, 1, I); }
+    else if (art === 'uhr') { p.circ(x, y, 8, '#e8dcc4'); p.circ(x, y, 7, '#f8f0dc'); p.r(x, y - 6, 1, 6, I); p.r(x, y, 4, 1, I); for (let a = 0; a < 12; a++) p.px(x + Math.round(Math.cos(a * 0.524) * 6), y + Math.round(Math.sin(a * 0.524) * 6), I); }
+    else if (art === 'eule') { p.ell(x, y + 1, 7, 8, '#8a6a4a'); p.ell(x, y + 3, 4, 5, '#c8a882'); p.circ(x - 3, y - 2, 2, '#fff8d0'); p.circ(x + 3, y - 2, 2, '#fff8d0'); p.px(x - 3, y - 2, I); p.px(x + 3, y - 2, I); p.r(x - 1, y, 2, 2, '#e8a030'); p.r(x - 6, y - 8, 2, 3, '#8a6a4a'); p.r(x + 4, y - 8, 2, 3, '#8a6a4a'); }
+    else if (art === 'baum') { for (let i = 0; i < 3; i++) p.r(x - 3 - i * 2, y - 7 + i * 4, 6 + i * 4, 4, i % 2 ? '#2f6a32' : '#3a7a3a'); p.r(x - 1, y + 5, 2, 3, '#5e3820'); p.r(x - 5, y - 4, 3, 1, '#ffffff'); p.r(x + 2, y, 3, 1, '#ffffff'); p.r(x - 9, y + 7, 18, 2, '#eef4ff'); }
+    else { p.r(x - 2, y - 6, 4, 12, '#b0a490'); }
+  },
   karte(G, time) {
-    const c = R.ctx, K = DATA.karte.orte, seen = G.save.besucht, p = Pen(c);
-    c.fillStyle = 'rgba(10,6,14,0.85)'; c.fillRect(0, 0, VIEW_W, VIEW_H);
-    R.panel(16, 14, VIEW_W - 32, VIEW_H - 28);
-    R.text(DATA.karte.titel, 34, 42, { size: 18, weight: 700, serif: true, color: '#ffd36a' });
-    R.text(seen.length + ' von ' + Object.keys(K).length + ' Orten entdeckt', VIEW_W - 34, 40, { size: 11, align: 'right', color: '#c8b898' });
+    const c = R.ctx, K = DATA.karte.orte, seen = G.save.besucht, p = Pen(c), ox = 12, oy = 10;
+    c.fillStyle = 'rgba(10,6,14,0.88)'; c.fillRect(0, 0, VIEW_W, VIEW_H);
+    if (!this.pergament) this.buildPergament();
+    c.drawImage(this.pergament, ox, oy);
+    R.text(DATA.karte.titel, VIEW_W / 2, 40, { size: 20, weight: 700, serif: true, align: 'center', color: '#4a2a14', shadow: false });
+    c.fillStyle = '#7a4a24'; c.fillRect(VIEW_W / 2 - 80, 46, 160, 1); c.fillRect(VIEW_W / 2 - 3, 44, 6, 5);
+    R.text(seen.length + ' von ' + Object.keys(K).length + ' Orten', VIEW_W - 40, 36, { size: 10, align: 'right', color: '#6a4a2a', shadow: false, serif: true });
     const known = id => seen.indexOf(id) >= 0;
     const edges = {}, show = {};
     Object.keys(DATA.maps).forEach(a => (DATA.maps[a].doors || []).forEach(d => {
@@ -380,33 +432,64 @@ const UI = {
       if (known(a) || known(d.to)) { edges[k] = [a, d.to]; show[a] = true; show[d.to] = true; }
     }));
     seen.forEach(id => { show[id] = true; });
-    // Wege
-    Object.values(edges).forEach(([a, b]) => {
-      const A = K[a], B = K[b], both = known(a) && known(b);
-      c.strokeStyle = both ? 'rgba(232,192,80,0.7)' : 'rgba(200,184,152,0.35)'; c.lineWidth = both ? 2 : 1;
-      c.setLineDash(both ? [] : [3, 3]); c.beginPath(); c.moveTo(A.x, A.y); c.lineTo(B.x, B.y); c.stroke();
+    // Wege als geschwungene Tintenlinien
+    Object.keys(edges).forEach(key => {
+      const [a, b] = edges[key], A = K[a], B = K[b], both = known(a) && known(b);
+      const mx = (A.x + B.x) / 2, my = (A.y + B.y) / 2, dx = B.x - A.x, dy = B.y - A.y, bend = (hashStr(key).charCodeAt(0) % 2 ? 1 : -1) * 0.12;
+      c.strokeStyle = both ? 'rgba(74,42,20,0.85)' : 'rgba(110,80,50,0.35)'; c.lineWidth = both ? 2 : 1.5;
+      c.setLineDash(both ? [5, 3] : [2, 4]); c.beginPath(); c.moveTo(A.x, A.y); c.quadraticCurveTo(mx - dy * bend, my + dx * bend, B.x, B.y); c.stroke();
     });
     c.setLineDash([]); c.lineWidth = 1;
     // Orte
-    Object.keys(show).forEach(id => {
-      const o = K[id], k = known(id), cur = id === G.mapId, name = o.kurz || DATA.maps[id].name;
+    const ids = Object.keys(show);
+    ids.forEach(id => {
+      const o = K[id], k = known(id);
       if (o.weg) {
-        p.circ(o.x, o.y, 5, k ? (o.draussen ? '#9cc0f0' : '#b0a08a') : '#4a4050'); p.circ(o.x, o.y, 3, k ? (o.draussen ? '#d8e8ff' : '#e8dcc4') : '#5a5060');
-        if (k) R.text(name, o.x, o.y + 16, { size: 8, align: 'center', weight: 600, color: '#a89878' });
-      } else {
-        c.font = '700 11px ' + R.FONT; const label = k ? (o.draussen ? '❄ ' : '') + name : '?', w = Math.max(30, c.measureText(label).width + 16), h = 22;
-        c.fillStyle = !k ? '#2a2430' : o.draussen ? '#24345a' : '#3a2a44'; c.fillRect(o.x - w / 2, o.y - h / 2, w, h);
-        c.fillStyle = !k ? '#5a5060' : o.draussen ? '#9cc0f0' : '#e09a2c';
-        c.fillRect(o.x - w / 2, o.y - h / 2, w, 1); c.fillRect(o.x - w / 2, o.y + h / 2 - 1, w, 1); c.fillRect(o.x - w / 2, o.y - h / 2, 1, h); c.fillRect(o.x + w / 2 - 1, o.y - h / 2, 1, h);
-        R.text(label, o.x, o.y + 4, { size: 11, align: 'center', weight: 700, color: k ? '#f4ead8' : '#8a8090' });
+        // Übergang: kleine Raute
+        c.fillStyle = k ? (o.draussen ? '#5a86b8' : '#7a4a24') : 'rgba(110,80,50,0.4)';
+        c.beginPath(); c.moveTo(o.x, o.y - 6); c.lineTo(o.x + 6, o.y); c.lineTo(o.x, o.y + 6); c.lineTo(o.x - 6, o.y); c.closePath(); c.fill();
+        c.fillStyle = '#f2e2b8'; c.fillRect(o.x - 1, o.y - 1, 2, 2);
+        if (k) {
+          const nm = o.kurz || DATA.maps[id].name; c.font = '500 8px ' + R.SERIF; const tw = c.measureText(nm).width + 6;
+          c.fillStyle = 'rgba(242,226,184,0.92)'; c.fillRect(o.x - tw / 2, o.y + 8, tw, 10);
+          R.text(nm, o.x, o.y + 15, { size: 8, align: 'center', weight: 500, serif: true, color: '#6a4a2a', shadow: false });
+        }
+        return;
       }
-      if (cur) {
-        const a = 0.5 + 0.5 * Math.sin(time * 5);
-        c.globalAlpha = a; c.strokeStyle = '#ffd36a'; c.lineWidth = 2; c.beginPath(); c.arc(o.x, o.y, o.weg ? 10 : 18, 0, 6.283); c.stroke(); c.lineWidth = 1; c.globalAlpha = 1;
-        R.text('★ Du bist hier', o.x, o.y - (o.weg ? 14 : 18), { size: 10, align: 'center', weight: 700, color: '#ffd36a' });
+      if (!k) {
+        // Nebel über unbekannten Orten
+        for (let i = 0; i < 5; i++) { const a = i * 1.26 + time * 0.3, rr = 9 + (i % 2) * 3; c.fillStyle = 'rgba(240,232,214,0.75)'; c.beginPath(); c.arc(o.x + Math.cos(a) * 9, o.y + Math.sin(a) * 5, rr, 0, 6.283); c.fill(); }
+        R.text('?', o.x, o.y + 6, { size: 16, align: 'center', weight: 700, serif: true, color: '#8a6a4a', shadow: false });
+        return;
       }
+      // Medaillon mit Bildchen und Namensband
+      c.fillStyle = 'rgba(60,36,16,0.25)'; c.beginPath(); c.arc(o.x + 1, o.y + 2, 17, 0, 6.283); c.fill();
+      c.fillStyle = o.draussen ? '#3a5a8a' : '#7a4a24'; c.beginPath(); c.arc(o.x, o.y, 17, 0, 6.283); c.fill();
+      c.fillStyle = o.draussen ? '#dbe8f6' : '#f4e6c4'; c.beginPath(); c.arc(o.x, o.y, 14, 0, 6.283); c.fill();
+      this.kartenIcon(p, o.icon, o.x, o.y, Math.floor(time * 3));
+      const name = o.kurz || DATA.maps[id].name;
+      c.font = '700 10px ' + R.SERIF; const w = c.measureText(name).width + 14, by = o.y + 21;
+      c.fillStyle = '#9a2a1e'; c.fillRect(o.x - w / 2 - 4, by + 2, 5, 10); c.fillRect(o.x + w / 2 - 1, by + 2, 5, 10);
+      c.fillStyle = '#c8442e'; c.fillRect(o.x - w / 2, by, w, 13);
+      c.fillStyle = '#e8705a'; c.fillRect(o.x - w / 2, by, w, 1);
+      R.text(name, o.x, by + 10, { size: 10, align: 'center', weight: 700, serif: true, color: '#fff4e0', shadow: false });
     });
-    R.text('▢ Raum   ● Übergang   ❄ draußen: Vorsicht im tiefen Schnee   ? noch unbekannt', VIEW_W / 2, VIEW_H - 24, { size: 10, align: 'center', color: '#c8b898' });
+    // Du bist hier: Charly im Kreis, darüber ein Fähnchen
+    const cur = K[G.mapId];
+    if (cur) {
+      const pulse = 0.5 + 0.5 * Math.sin(time * 4), r = (cur.weg ? 10 : 20) + pulse * 3;
+      c.strokeStyle = 'rgba(200,40,30,' + (0.5 + pulse * 0.4).toFixed(2) + ')'; c.lineWidth = 2; c.beginPath(); c.arc(cur.x, cur.y, r, 0, 6.283); c.stroke(); c.lineWidth = 1;
+      // Charly-Bild schräg rechts oben, damit kein Name verdeckt wird
+      const hx = cur.x + (cur.weg ? 18 : 28), hy = cur.y - (cur.weg ? 18 : 26) + Math.round(Math.sin(time * 3) * 2);
+      c.fillStyle = '#9a2a1e'; c.beginPath(); c.moveTo(hx - 9, hy + 6); c.lineTo(hx - 3, hy + 11); c.lineTo(cur.x + (cur.weg ? 5 : 12), cur.y - (cur.weg ? 5 : 12)); c.fill();
+      c.fillStyle = '#9a2a1e'; c.beginPath(); c.arc(hx, hy, 14, 0, 6.283); c.fill();
+      c.fillStyle = '#f8ecd0'; c.beginPath(); c.arc(hx, hy, 12, 0, 6.283); c.fill();
+      c.save(); c.beginPath(); c.arc(hx, hy, 11, 0, 6.283); c.clip(); c.drawImage(SPR.get('charly', 'down', 0), hx - 16, hy - 12); c.restore();
+    }
+    // sanfter Schneefall über der Karte
+    c.fillStyle = 'rgba(255,255,255,0.7)';
+    for (let i = 0; i < 24; i++) { const x = (i * 97 + time * 8 * (1 + i % 3)) % (VIEW_W - 40) + 20, y = (i * 53 + time * 14 * (1 + i % 2)) % (VIEW_H - 40) + 20; c.fillRect(x | 0, y | 0, i % 4 ? 1 : 2, i % 4 ? 1 : 2); }
+    R.text('◆ Übergang   ● Raum   ? noch im Nebel   blau: draußen', VIEW_W / 2, VIEW_H - 18, { size: 9, align: 'center', color: '#5a3a1e', shadow: false, serif: true });
   },
 
   // --- Code-Fenster (HTML, weil Text kopiert/eingefügt werden muss) ---
