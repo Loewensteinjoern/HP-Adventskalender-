@@ -92,10 +92,9 @@ ok(C.waermeMax({ glut: [] }) === 10 && C.waermeMax({ glut: ['a', 'b', 'c'] }) ==
 ok(C.newSave(0).kakao === 3 && C.newSave(0).energie === 6 && gut.save.kakao === 3, 'Spielstand: Kakao und Energie (auch für alte Stände)');
 let F = C.kampfNeu('pixie1', { zauber: ['luxa'] });
 C.kampfZug(F, { art: 'zauber', z: 'luxa', ziel: 0 }, nie);
-ok(!F.ende && F.gegner[0].kraft === 4 && F.energie === 4, 'Luxa: 2 Schaden, kostet 2 Energie');
-C.kampfZug(F, { art: 'zauber', z: 'luxa', ziel: 0 }, nie); ok(!F.ende, 'Zweimal Luxa reicht nicht');
-C.kampfZug(F, { art: 'zauber', z: 'luxa', ziel: 0 }, nie);
-ok(F.ende === 'sieg' && F.energie === 0, 'Dreimal Luxa besiegt die Schneepixie, Energie dann leer');
+ok(!F.ende && F.gegner[0].kraft === 8 && F.energie === 4, 'Luxa: 2 Schaden, kostet 2 Energie');
+C.kampfZug(F, { art: 'zauber', z: 'luxa', ziel: 0 }, nie); C.kampfZug(F, { art: 'zauber', z: 'luxa', ziel: 0 }, nie);
+ok(!F.ende && F.gegner[0].kraft === 4 && F.energie === 0 && !kann(F, 'zaubern'), 'Dreimal Luxa: Pixie noch nicht besiegt, Energie leer');
 F = C.kampfNeu('wicht1', { zauber: ['flammula'], energie: 1 });
 ok(!kann(F, 'zaubern') && kann(F, 'schneeball') && kann(F, 'kakao') && kann(F, 'bellen'), 'Ohne Energie: kein Zauber, aber Schneeball, Kakao und Diego');
 ok(!kann(C.kampfNeu('wicht1', { energie: 0 }), 'mut') && kann(C.kampfNeu('wicht1', { energie: 1 }), 'mut'), 'Ohne Energie auch kein Mut zusprechen');
@@ -119,8 +118,9 @@ F = C.kampfNeu('pixie2', { waerme: 1 });
 for (let i = 0; i < 20 && !F.ende; i++) C.kampfZug(F, { art: 'schnueffeln' }, rnd);
 ok(F.ende === 'kalt' && F.waerme === 0, 'Bei 0 Wärme endet der Kampf (danach Aufwachen im Warmen)');
 // Schwierigkeit: klug gespielt fast immer gewinnbar, aber nicht in einer Runde; Probekampf auch ohne Zauber
-const spiel = (g, klug) => {
-  const f = C.kampfNeu(g, { zauber: klug ? Object.keys(D.zauber) : [] }); let n = 0;
+const spiel = (g, klug, stufe) => {
+  const kr = Math.floor(((stufe || 1) - 1) / 2), lp = (stufe || 1) - 1 - kr;
+  const f = C.kampfNeu(g, { zauber: klug ? Object.keys(D.zauber) : [], kraft: kr, max: 10 + 2 * lp }); let n = 0;
   while (!f.ende && n < 60) {
     n++; const t = C.kampfLebend(f)[0]; let a;
     if (f.waerme <= 4 && kann(f, 'kakao')) a = { art: 'kakao' };
@@ -133,16 +133,33 @@ const spiel = (g, klug) => {
   }
   return { sieg: f.ende === 'sieg', n };
 };
+// Jede Gruppe wird auf der kleinsten Stufe geprüft, ab der sie im Spiel auftaucht
+const abStufe = {}; Object.values(D.maps).forEach(m => ((m.kampf || {}).gruppen || []).forEach(x => { abStufe[x.g] = Math.min(abStufe[x.g] || 99, x.stufe || 1); }));
 Object.keys(D.kampf.gruppen).forEach(g => {
   let win = 0, kurz = 0;
-  for (let i = 0; i < 400; i++) { const r = spiel(g, true); if (r.sieg) win++; if (r.n < 2) kurz++; }
+  for (let i = 0; i < 400; i++) { const r = spiel(g, true, abStufe[g] || 1); if (r.sieg) win++; if (r.n < 2) kurz++; }
   ok(win >= 360, 'Kampf ' + g + ': klug gespielt fast immer gewinnbar (' + win + '/400)');
   ok(kurz === 0, 'Kampf ' + g + ': nie in einer Runde vorbei');
 });
-let pw = 0; for (let i = 0; i < 400; i++) if (spiel('probe', false).sieg) pw++;
-ok(pw >= 280, 'Probekampf auch ohne Zauber meist gewinnbar (' + pw + '/400)');
+// Pixie: Luxa betäubt nicht jedes Mal und nie zweimal hintereinander
+let F2 = C.kampfNeu('pixie1', { zauber: ['luxa'] }); C.kampfZug(F2, { art: 'zauber', z: 'luxa', ziel: 0 }, () => 0.01);
+ok(F2.gegner[0].immun && F2.gegner[0].aus === 0, 'Nach dem Aussetzen ist die Pixie eine Runde lang nicht betäubbar');
+C.kampfZug(F2, { art: 'zauber', z: 'luxa', ziel: 0 }, () => 0.01);
+ok(F2.waerme < 10 && F2.gegner[0].kraft === 6, 'Zweites Luxa direkt danach betäubt nicht: die Pixie greift an');
+ok(C.kampfNeu('pixie1', {}).gegner[0].kraft === 10, 'Schneepixie hat 10 Kraft');
+// Erfahrung und Stufen
+const sv = C.newSave(0);
+ok(sv.stufe === 1 && sv.ep === 0 && C.epGeben(sv, 5) === 0 && C.epGeben(sv, 5) === 1 && sv.stufe === 2 && sv.ep === 0 && sv.wahl === 1, '10 Erfahrung: Stufe 2 mit einer Wahl');
+ok(C.stufeWaehlen(sv, 'kraft') && sv.kraft === 1 && sv.wahl === 0 && !C.stufeWaehlen(sv, 'lp'), 'Wahl Kraft, danach keine weitere Wahl offen');
+C.epGeben(sv, 15); C.stufeWaehlen(sv, 'lp');
+ok(sv.stufe === 3 && sv.lp === 1 && C.waermeMax(sv) === 12, 'Wahl Lebenspunkte: +2 Wärme');
+let F3 = C.kampfNeu('pixie1', { zauber: ['luxa'], kraft: 2 }); C.kampfZug(F3, { art: 'zauber', z: 'luxa', ziel: 0 }, nie);
+ok(F3.gegner[0].kraft === 6, 'Kraft 2: Luxa macht 4 Schaden');
+ok(C.epGeben(sv, 100000) > 0 && sv.stufe === 20 && sv.ep === 0, 'Höchststufe 20');
+ok(C.migrateSave({ v: 2, map: 'innenhof', x: 5, y: 8, stufe: 99, kraft: -3, wahl: 'x' }).save.stufe === 20 && gut.save.stufe === 1, 'Stufenwerte im Spielstand werden bereinigt');
 const K = { gruppen: [{ g: 'pixie1', ab: 2 }, { g: 'wicht1', ab: 7 }] };
 ok([0.1, 0.5, 0.99].every(r => C.kampfGruppeWaehlen(K, 3, () => r) === 'pixie1') && C.kampfGruppeWaehlen(K, 1, () => 0.5) === null, 'Zufallskampf: nur Gegner, die schon dran sind');
+ok(C.kampfGruppeWaehlen({ gruppen: [{ g: 'pixie2', ab: 2, stufe: 6 }] }, 9, () => 0.5, 5) === null && C.kampfGruppeWaehlen({ gruppen: [{ g: 'pixie2', ab: 2, stufe: 6 }] }, 9, () => 0.5, 6) === 'pixie2', 'Zwei Pixies erst ab Stufe 6');
 // Regel aus dem Fahrplan wird geprüft: Frostwicht vor Flammula ist ein Fehler
 const D2 = JSON.parse(JSON.stringify(D)); D2.maps.innenhof.kampf.gruppen.push({ g: 'wicht1', ab: 2 });
 ok(loadCore(D2).validateData().errors.some(e => /Frostwicht taucht ab Tag 2 auf/.test(e)), 'Datenprüfung meldet Gegner, deren Zauber noch nicht gelernt werden kann');

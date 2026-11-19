@@ -9,7 +9,7 @@ const CORE_FILES = ['util', 'unlock', 'conditions', 'save', 'world', 'quests', '
 const ENGINE_FILES = ['pixel', 'paint_tiles', 'paint_objects', 'paint_schloss', 'paint_chars', 'audio', 'input', 'render', 'dialog', 'ui', 'battle', 'game', 'main'].map(n => 'src/engine/' + n + '.js');
 const CORE_EXPORTS = ['SAVE_VERSION', 'SAVE_KEY', 'TEST_KEY', 'berlinDate', 'unlockedDay', 'daysUntilStart', 'parseTestDay',
   'checkCond', 'condsOk', 'pickTalk', 'newSave', 'migrateSave', 'storeLoad', 'storeWrite', 'exportCode', 'importCode',
-  'blockedAt', 'findPath', 'kampfNeu', 'kampfZug', 'kampfLebend', 'kampfAktionen', 'kampfGruppeWaehlen', 'waermeMax', 'updateQuests', 'questComplete', 'allSecretIds', 'validateData'];
+  'blockedAt', 'findPath', 'kampfNeu', 'kampfZug', 'kampfLebend', 'kampfAktionen', 'kampfGruppeWaehlen', 'waermeMax', 'epFuerStufe', 'epGeben', 'stufeWaehlen', 'updateQuests', 'questComplete', 'allSecretIds', 'validateData'];
 
 const read = p => fs.readFileSync(path.join(ROOT, p), 'utf8');
 const readJson = p => {

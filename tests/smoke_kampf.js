@@ -141,8 +141,21 @@ const SHOTS = process.argv[2] || null;
     await kaempfe('50_frostwicht');
     for (let i = 0; i < 30 && (await kb()); i++) await key('Enter', 1, 150);
     await drain();
+    if ((await st()).mode === 'stufe') await key('Enter', 1, 300);
+    await drain();
     { const s9 = await st(); if (s9.mode !== 'play' || (!(s9.flags.siege >= 1) && s9.waerme !== 10)) errors.push('Frostwicht-Kampf endet nicht sauber'); }
   }
+
+  // Stufenaufstieg: Wahl zwischen Kraft und Lebenspunkten
+  { const vor = await st();
+    await page.evaluate(() => window.__giveEp(200));
+    if ((await st()).mode !== 'stufe') errors.push('Keine Stufenwahl nach genug Erfahrung');
+    await shot('53_stufe');
+    await key('Enter', 1, 250); await key('ArrowDown', 1, 150); await key('Enter', 1, 250);
+    for (let i = 0; i < 20 && (await st()).mode === 'stufe'; i++) await key('Enter', 1, 120);
+    const nach = await st();
+    if (!(nach.stufe > vor.stufe) || !(nach.kraft > vor.kraft)) errors.push('Stufenwahl wirkt nicht: ' + JSON.stringify({ vor: [vor.stufe, vor.kraft], nach: [nach.stufe, nach.kraft] }));
+    if (nach.mode !== 'play' || nach.wahl !== 0) errors.push('Nach der Stufenwahl nicht zurück im Spiel'); }
 
   // 5) Schlosskarte im Menü
   await go('schlosskern', 10, 8, 'down');

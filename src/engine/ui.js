@@ -229,9 +229,11 @@ const UI = {
       lines.push(['', '', 400]);
     });
     const total = allSecretIds().length, found = G.save.secrets.length;
-    const maxRows = 12; this.scroll = clamp(this.scroll, 0, Math.max(0, lines.length - maxRows));
+    const maxRows = 11; this.scroll = clamp(this.scroll, 0, Math.max(0, lines.length - maxRows));
     lines.slice(this.scroll, this.scroll + maxRows).forEach(([t, col, wgt], i) => R.text(t, 34, 74 + i * 20, { size: 13, color: col, weight: wgt }));
-    c.fillStyle = 'rgba(224,154,44,0.4)'; c.fillRect(34, VIEW_H - 54, VIEW_W - 68, 1);
+    c.fillStyle = 'rgba(224,154,44,0.4)'; c.fillRect(34, VIEW_H - 70, VIEW_W - 68, 1);
+    const sv = G.save;
+    R.text('★ Stufe ' + sv.stufe + '   Erfahrung ' + sv.ep + ' / ' + epFuerStufe(sv.stufe) + '   Kraft ' + sv.kraft + '   Wärme ' + waermeMax(sv) + '   ☕ ' + sv.kakao, 34, VIEW_H - 54, { size: 12, color: '#ffd36a' });
     const sp = Object.keys(DATA.zauber).filter(z => G.save.flags['zauber_' + z]).map(z => DATA.zauber[z].name);
     R.text('🐾 Geheimnisse: ' + found + ' von ' + total + '    Fragmente: ' + G.save.fragments.length + ' von 24', 34, VIEW_H - 38, { size: 12, color: '#c8b898' });
     R.text('✦ Zauber: ' + (sp.length ? sp.join(', ') : 'noch keine'), 34, VIEW_H - 22, { size: 12, color: '#c8b898' });

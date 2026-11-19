@@ -292,7 +292,9 @@ const KB = {
     if (this.phase === 'intro') this.wirbel(Math.min(1, this.t / 1.1));
     if (this.phase === 'ende' && F.ende === 'sieg') {
       const a = Math.min(1, (this.t - this.endT) * 3);
-      c.globalAlpha = a; R.panel(156, 96, 200, 46); R.text('Gewonnen!', VIEW_W / 2, 127, { size: 22, weight: 700, serif: true, align: 'center', color: '#ffd36a' }); c.globalAlpha = 1;
+      const ep = F.gegner.reduce((n, g) => n + (DATA.kampf.gegner[g.id].ep || 0), 0);
+      c.globalAlpha = a; R.panel(156, 88, 200, 62); R.text('Gewonnen!', VIEW_W / 2, 118, { size: 22, weight: 700, serif: true, align: 'center', color: '#ffd36a' });
+      R.text('+' + ep + ' Erfahrung', VIEW_W / 2, 138, { size: 12, weight: 700, align: 'center', color: '#9ae07a' }); c.globalAlpha = 1;
     }
   },
   sterne(x, y, time) {
@@ -391,7 +393,7 @@ const KB = {
     const c = R.ctx, F = this.F, x0 = 6, y0 = 270;
     R.panel(x0, y0, VIEW_W - 12, VIEW_H - y0 - 6, 0.95);
     // Wärme und Energie
-    R.text('Charly', 20, y0 + 18, { size: 13, weight: 700, color: '#ffd36a' });
+    R.text('Charly · Stufe ' + G.save.stufe, 20, y0 + 18, { size: 13, weight: 700, color: '#ffd36a' });
     if (F.joern) R.text('☕ Kakao: ' + this.visK, 178, y0 + 18, { size: 11, weight: 700, color: this.visK ? '#e8c8a0' : '#8a7070', align: 'right' });
     const bar = (y, v, max, col, leer, label) => {
       const w = 158, fx = 20; v = clamp(v, 0, max);

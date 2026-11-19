@@ -56,6 +56,7 @@ const G = {
       if (q.start && q.day <= this.day && s.done.indexOf(id) < 0 && !s.flags['start_' + id])
         this.queue.push(() => { s.flags['start_' + id] = true; this.say(q.start); });
     });
+    if (s.wahl > 0) this.queue.push(() => this.stufeFrage());
     if (!DLG.open && this.mode !== 'kampf') this.next();
   },
   next() { const f = this.queue.shift(); if (f) f(); },
@@ -97,6 +98,7 @@ const G = {
     if (this.mode === 'mini') return this.updateMini(dt);
     if (this.mode === 'zauber') return this.updateSpell();
     if (this.mode === 'kampf') return KB.update(dt);
+    if (this.mode === 'stufe') return this.updateStufe();
     if (this.alarm) { this.alarm.t -= dt; this.moveTick(dt, false); if (this.alarm.t <= 0) { const g = this.alarm.g; this.alarm = null; this.startFight(g, null); } return; }
     if (this.demo) this.updateDemo();
     this.updateNpcs(dt);
@@ -150,7 +152,7 @@ const G = {
     const chance = this.kampfTest !== undefined ? this.kampfTest : K.chance;
     if (this.kampfSchritte <= (K.schonung || 0) && this.kampfTest === undefined) return false;
     if (Math.random() >= chance) return false;
-    const g = kampfGruppeWaehlen(K, this.day);
+    const g = kampfGruppeWaehlen(K, this.day, null, this.save.stufe);
     if (!g) return false;
     // Diego spürt die Gefahr zuerst
     const d = this.followers.find(f => f.char === 'diego');
@@ -159,11 +161,22 @@ const G = {
     this.alarm = { t: d ? 0.9 : 0.4, g };
     return true;
   },
+  // Neue Stufe: Charly wählt mehr Kraft oder mehr Lebenspunkte
+  stufeFrage() { if (!(this.save.wahl > 0)) return this.next(); this.mode = 'stufe'; UI.sel = 0; },
+  updateStufe() {
+    const r = UI.navigate(2);
+    if (r === null || r < 0) return;
+    stufeWaehlen(this.save, r === 0 ? 'kraft' : 'lp'); AU.sfx('fund');
+    this.banner(r === 0 ? 'Kraft ' + this.save.kraft + ': Charlys Zauber treffen stärker' : 'Lebenspunkte: Wärme jetzt ' + waermeMax(this.save));
+    this.persist();
+    if (this.save.wahl > 0) return;
+    this.mode = 'play'; this.next();
+  },
   startFight(gruppe, talk) {
     const s = this.save;
     this.mode = 'kampf'; this.bubble = null; this.trail = null;
     AU.sfx('kampf'); AU.playMusic('kampf');
-    KB.start(gruppe, { max: waermeMax(s), waerme: s.waerme, energie: s.energie, kakao: s.kakao, zauber: this.spells(), diego: s.followers.indexOf('diego') >= 0, joern: s.followers.indexOf('joern') >= 0 },
+    KB.start(gruppe, { max: waermeMax(s), waerme: s.waerme, energie: s.energie, kakao: s.kakao, kraft: s.kraft, zauber: this.spells(), diego: s.followers.indexOf('diego') >= 0, joern: s.followers.indexOf('joern') >= 0 },
       (ende, F) => this.endFight(ende, F, talk));
   },
   endFight(ende, F, talk) {
@@ -180,7 +193,15 @@ const G = {
       this.persist(); return;
     }
     AU.playMusic(m.music);
-    if (ende === 'sieg') { s.flags.siege = (s.flags.siege || 0) + 1; if (talk && talk.win) this.runTalk(talk.win); }
+    if (ende === 'sieg') {
+      s.flags.siege = (s.flags.siege || 0) + 1;
+      const ep = F.gegner.reduce((n, e) => n + (DATA.kampf.gegner[e.id].ep || 0), 0);
+      const neu = epGeben(s, ep);
+      this.banner(neu ? 'Charly erreicht Stufe ' + s.stufe + '!' : '+' + ep + ' Erfahrung');
+      if (neu) AU.sfx('tuerchen');
+      if (talk && talk.win) this.runTalk(talk.win);
+      if (s.wahl > 0) this.queue.push(() => this.stufeFrage());
+    }
     this.persist();
     if (!DLG.open) this.next();
   },
@@ -470,6 +491,10 @@ const G = {
     if (this.mode === 'questlog') UI.questlog(this);
     if (this.mode === 'lied') UI.lied(this);
     if (this.mode === 'karte') UI.karte(this, time);
+    if (this.mode === 'stufe') {
+      UI.list('Charly erreicht Stufe ' + this.save.stufe + '!', [{ label: 'Mehr Kraft (Zauber stärker)' }, { label: 'Mehr Lebenspunkte (+2 Wärme)' }], time);
+      R.text('Jetzt: Kraft ' + this.save.kraft + ' · Wärme ' + waermeMax(this.save) + (this.save.wahl > 1 ? ' · noch ' + this.save.wahl + ' Wahlen' : ''), VIEW_W / 2, VIEW_H / 2 + 62, { size: 11, align: 'center', color: '#c8b898' });
+    }
     if (this.mode === 'mini') UI.mini(this, time);
     if (this.mode === 'zauber') UI.list('Welchen Zauber wirkst du?', this.spells().map(z => ({ label: DATA.zauber[z].name + ' – ' + DATA.zauber[z].wirkung })).concat([{ label: 'Abbrechen' }]), time);
     if (this.fade) { R.ctx.fillStyle = 'rgba(8,4,10,' + (1 - Math.abs(this.fade.t - 0.5) * 2).toFixed(3) + ')'; R.ctx.fillRect(0, 0, VIEW_W, VIEW_H); }

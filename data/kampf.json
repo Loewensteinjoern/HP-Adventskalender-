@@ -7,7 +7,8 @@
     "kochRunden": 3,
     "kochMenge": 2,
     "mutRunden": 2,
-    "mutSchutz": 1
+    "mutSchutz": 1,
+    "betaeubChance": 0.35
   },
   "texte": {
     "schneeball": "Charly wirft einen Schneeball – Treffer! {name} schüttelt sich.",
@@ -30,12 +31,14 @@
     "warum_kakao": "Der Kakao ist alle. Jörn kann neuen kochen.",
     "warum_kocht": "Jörn sitzt am Feuer und kocht Kakao.",
     "warum_voll": "Jörn hat schon genug Kakao dabei.",
-    "warum_mut": "Charly hat keine Energie mehr – Mut geht erst wieder nach einem Kakao."
+    "warum_mut": "Charly hat keine Energie mehr – Mut geht erst wieder nach einem Kakao.",
+    "bellen_immun": "WUFF! Aber {name} hat sich gerade erst erholt und lässt sich nicht noch einmal erschrecken.",
+    "ep": "+{n} Erfahrung"
   },
   "gegner": {
     "schneepixie": {
       "name": "Schneepixie",
-      "kraft": 6,
+      "kraft": 10,
       "angriff": [
         1,
         2,
@@ -49,12 +52,14 @@
         "{name} pustet eiskalten Glitzer!"
       ],
       "ausgewichen": "{name} flitzt kichernd zur Seite. Daneben!",
-      "treffer": "Grelles Licht! {name} ist geblendet und taumelt.",
+      "treffer": "Grelles Licht! {name} kreischt und taumelt zurück.",
       "aussetzen": "{name} reibt sich die Augen und tut nichts.",
       "hinweis": "Diego schnüffelt: {name} riecht nach Nacht und Dunkelheit – helles Licht mag sie gar nicht.",
       "besiegt": "{name} quiekt und flattert über die Mauer davon.",
       "frieren": 0.2,
-      "frost": "{name} wirbelt einen Glitzerschauer um Charly – ihre Hände frieren fest! Sie muss eine Runde aussetzen."
+      "frost": "{name} wirbelt einen Glitzerschauer um Charly – ihre Hände frieren fest! Sie muss eine Runde aussetzen.",
+      "betaeubt": "Sie ist geblendet!",
+      "ep": 5
     },
     "frostwicht": {
       "name": "Frostwicht",
@@ -77,7 +82,9 @@
       "hinweis": "Diego schnüffelt: {name} besteht aus hartem Eis – Feuer würde ihn schmelzen.",
       "besiegt": "{name} zerrinnt zu einer kleinen Pfütze. Puh!",
       "frieren": 0.3,
-      "frost": "{name} pustet einen eisigen Hauch – Charly ist im Eis gefangen! Sie muss eine Runde aussetzen."
+      "frost": "{name} pustet einen eisigen Hauch – Charly ist im Eis gefangen! Sie muss eine Runde aussetzen.",
+      "betaeubt": "Er muss erst wieder zusammenfrieren.",
+      "ep": 6
     }
   },
   "gruppen": {

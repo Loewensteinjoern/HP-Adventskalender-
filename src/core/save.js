@@ -8,7 +8,7 @@ function newSave(now) {
     map: s.map, x: s.x, y: s.y, dir: s.dir,
     flags: {}, done: [], fragments: [], secrets: [],
     followers: ['joern'], seenDay: 0, playMs: 0,
-    waerme: WAERME_GRUND, energie: ENERGIE_MAX, kakao: KAKAO_START, warm: null, besucht: [s.map], glut: [],
+    waerme: WAERME_GRUND, energie: ENERGIE_MAX, ep: 0, stufe: 1, kraft: 0, lp: 0, wahl: 0, kakao: KAKAO_START, warm: null, besucht: [s.map], glut: [],
   };
 }
 
@@ -65,6 +65,9 @@ function migrateSave(raw) {
   out.seenDay = isNum(d.seenDay) ? clamp(d.seenDay, 0, 24) : 0;
   out.playMs = isNum(d.playMs) ? d.playMs : 0;
   out.glut = strList(d.glut);
+  const zahl = (v, a, b, def) => isNum(v) ? clamp(Math.round(v), a, b) : def;
+  out.stufe = zahl(d.stufe, 1, STUFE_MAX, 1); out.ep = zahl(d.ep, 0, 9999, 0);
+  out.kraft = zahl(d.kraft, 0, STUFE_MAX, 0); out.lp = zahl(d.lp, 0, STUFE_MAX, 0); out.wahl = zahl(d.wahl, 0, STUFE_MAX, 0);
   out.besucht = strList(d.besucht).filter(k => DATA.maps[k]);
   out.waerme = isNum(d.waerme) ? clamp(Math.round(d.waerme), 1, waermeMax(out)) : waermeMax(out);
   out.energie = isNum(d.energie) ? clamp(Math.round(d.energie), 0, ENERGIE_MAX) : ENERGIE_MAX;

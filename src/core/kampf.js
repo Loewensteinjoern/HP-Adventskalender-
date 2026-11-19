@@ -6,8 +6,30 @@
 const WAERME_GRUND = 10;
 const ENERGIE_MAX = 6;
 const KAKAO_MAX = 5, KAKAO_START = 3;
-// Je 3 Glutsplitter: 2 Wärme mehr
-function waermeMax(save) { return WAERME_GRUND + 2 * Math.floor(((save && save.glut) || []).length / 3); }
+const STUFE_MAX = 20;
+// Je 3 Glutsplitter: 2 Wärme mehr; dazu je 2 Wärme für jede Stufe, bei der „Lebenspunkte“ gewählt wurde
+function waermeMax(save) { return WAERME_GRUND + 2 * Math.floor(((save && save.glut) || []).length / 3) + 2 * ((save && save.lp) || 0); }
+
+// --- Erfahrung und Stufen ---
+// EP bis zur nächsten Stufe: 10, 15, 20, …
+function epFuerStufe(stufe) { return 10 + 5 * (stufe - 1); }
+// Gibt EP; liefert die Zahl der neuen Stufen (jede Stufe = eine Wahl: Kraft oder Lebenspunkte)
+function epGeben(save, n) {
+  let neu = 0;
+  save.ep = (save.ep || 0) + n;
+  while (save.stufe < STUFE_MAX && save.ep >= epFuerStufe(save.stufe)) { save.ep -= epFuerStufe(save.stufe); save.stufe++; save.wahl = (save.wahl || 0) + 1; neu++; }
+  if (save.stufe >= STUFE_MAX) save.ep = 0;
+  return neu;
+}
+function stufeWaehlen(save, was) {
+  if (!(save.wahl > 0)) return false;
+  save.wahl--;
+  if (was === 'kraft') save.kraft = (save.kraft || 0) + 1; else { save.lp = (save.lp || 0) + 1; save.waerme = (save.waerme || 0) + 2; }
+  return true;
+}
+// Charlys Schaden: Kraft macht den richtigen Zauber stärker, jede zweite Kraft auch Schneeball und andere Zauber
+function schadenStark(F) { return DATA.kampf.regeln.zauberSchaden + F.kraft; }
+function schadenSchwach(F) { return 1 + Math.floor(F.kraft / 2); }
 
 function kampfNeu(gruppeId, opt) {
   opt = opt || {};
@@ -15,11 +37,11 @@ function kampfNeu(gruppeId, opt) {
   const max = opt.max || WAERME_GRUND, emax = opt.emax || ENERGIE_MAX;
   return {
     gruppe: gruppeId, tutorial: !!g.tutorial, flucht: g.flucht !== false,
-    gegner: g.gegner.map((id, i) => { const t = DATA.kampf.gegner[id]; return { id, nr: i, kraft: t.kraft, max: t.kraft, aus: 0, erkannt: false }; }),
+    gegner: g.gegner.map((id, i) => { const t = DATA.kampf.gegner[id]; return { id, nr: i, kraft: t.kraft, max: t.kraft, aus: 0, immun: false, erkannt: false }; }),
     waerme: clamp(isNum(opt.waerme) ? opt.waerme : max, 1, max), max,
     energie: clamp(isNum(opt.energie) ? opt.energie : emax, 0, emax), emax,
     kakao: clamp(isNum(opt.kakao) ? opt.kakao : KAKAO_START, 0, KAKAO_MAX),
-    kochen: 0, eingefroren: false, mut: 0, runde: 1, ende: null,
+    kochen: 0, eingefroren: false, mut: 0, runde: 1, ende: null, kraft: opt.kraft || 0,
     zauber: opt.zauber || [], diego: opt.diego !== false, joern: opt.joern !== false,
   };
 }
@@ -68,17 +90,20 @@ function kampfZug(F, akt, rnd) {
       const T = K.gegner[ziel.id], Z = DATA.zauber[akt.z] || { name: akt.z };
       F.energie = Math.max(0, F.energie - R.zauberKosten);
       if (akt.z === T.schwaeche) {
-        ziel.erkannt = true; ziel.aus = Math.max(ziel.aus, 1);
-        hit(ziel, R.zauberSchaden, Z.name + '! ' + fill(T.treffer, ziel), 'zauber_' + akt.z);
+        // Betäuben nur mit etwas Glück und nie zwei Runden hintereinander
+        ziel.erkannt = true;
+        const betaeubt = !ziel.immun && rnd() < R.betaeubChance;
+        if (betaeubt) ziel.aus = Math.max(ziel.aus, 1);
+        hit(ziel, schadenStark(F), Z.name + '! ' + fill(T.treffer, ziel) + (betaeubt ? ' ' + fill(T.betaeubt, ziel) : ''), 'zauber_' + akt.z);
       } else if (T.ausweichen && rnd() < T.ausweichen) {
         ev.push({ wer: 'charly', text: Z.name + '! ' + fill(T.ausgewichen, ziel), fx: 'zauber_' + akt.z, ziel: ziel.nr, dmg: 0, vorbei: true });
-      } else hit(ziel, 1, Z.name + '! ' + fill(K.texte.zauber_schwach, ziel), 'zauber_' + akt.z);
+      } else hit(ziel, schadenSchwach(F), Z.name + '! ' + fill(K.texte.zauber_schwach, ziel), 'zauber_' + akt.z);
       break;
     }
     case 'schneeball': {
       const T = K.gegner[ziel.id];
       if (T.ausweichen && rnd() < T.ausweichen) ev.push({ wer: 'charly', text: fill(T.ausgewichen, ziel), fx: 'schneeball', ziel: ziel.nr, dmg: 0, vorbei: true });
-      else hit(ziel, 1, fill(K.texte.schneeball, ziel), 'schneeball');
+      else hit(ziel, schadenSchwach(F), fill(K.texte.schneeball, ziel), 'schneeball');
       break;
     }
     case 'kakao': {
@@ -90,7 +115,9 @@ function kampfZug(F, akt, rnd) {
     }
     case 'kochen': F.kochen = R.kochRunden; ev.push({ wer: 'joern', text: K.texte.kochen, fx: 'kochen' }); break;
     case 'mut': F.mut = R.mutRunden; ev.push({ wer: 'joern', text: K.texte.mut, fx: 'mut' }); break;
-    case 'bellen': ziel.aus = Math.max(ziel.aus, 1); ev.push({ wer: 'diego', text: fill(K.texte.bellen, ziel), fx: 'bellen', ziel: ziel.nr }); break;
+    case 'bellen':
+      if (ziel.immun) { ev.push({ wer: 'diego', text: fill(K.texte.bellen_immun, ziel), fx: 'bellen', ziel: ziel.nr }); break; }
+      ziel.aus = Math.max(ziel.aus, 1); ev.push({ wer: 'diego', text: fill(K.texte.bellen, ziel), fx: 'bellen', ziel: ziel.nr }); break;
     case 'schnueffeln': {
       lebend.forEach(e => {
         e.erkannt = true;
@@ -109,7 +136,8 @@ function kampfZug(F, akt, rnd) {
   kampfLebend(F).forEach(e => {
     if (F.ende) return;
     const T = K.gegner[e.id];
-    if (e.aus > 0) { e.aus--; ev.push({ wer: '', text: fill(T.aussetzen, e), fx: 'aus', ziel: e.nr }); return; }
+    if (e.aus > 0) { e.aus--; e.immun = true; ev.push({ wer: '', text: fill(T.aussetzen, e), fx: 'aus', ziel: e.nr }); return; }
+    e.immun = false;
     // Frost-Angriff: Charly friert fest und muss eine Runde aussetzen
     if (T.frieren && !F.eingefroren && rnd() < T.frieren) {
       const dmg = 1; F.waerme = Math.max(0, F.waerme - dmg); F.eingefroren = true;
@@ -138,8 +166,8 @@ function kochFertig(F, ev, sofort) {
 }
 
 // Zufällige Begegnung für eine Karte und einen Tag (gewichtete Auswahl)
-function kampfGruppeWaehlen(kampf, day, rnd) {
-  const list = (kampf.gruppen || []).filter(g => day >= g.ab);
+function kampfGruppeWaehlen(kampf, day, rnd, stufe) {
+  const list = (kampf.gruppen || []).filter(g => day >= g.ab && (stufe || 1) >= (g.stufe || 1));
   const sum = list.reduce((s, g) => s + (g.w || 1), 0);
   if (!sum) return null;
   let r = (rnd || Math.random)() * sum;
