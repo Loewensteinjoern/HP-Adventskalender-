@@ -97,6 +97,7 @@ C.kampfZug(F, { art: 'zauber', z: 'luxa', ziel: 0 }, nie);
 ok(F.ende === 'sieg', 'Zweimal Luxa besiegt die Schneepixie');
 F = C.kampfNeu('wicht1', { zauber: ['flammula'], energie: 1 });
 ok(!kann(F, 'zaubern') && kann(F, 'schneeball') && kann(F, 'kakao') && kann(F, 'bellen'), 'Ohne Energie: kein Zauber, aber Schneeball, Kakao und Diego');
+ok(!kann(C.kampfNeu('wicht1', { energie: 0 }), 'mut') && kann(C.kampfNeu('wicht1', { energie: 1 }), 'mut'), 'Ohne Energie auch kein Mut zusprechen');
 C.kampfZug(F, { art: 'kakao' }, nie);
 ok(F.kakao === 2 && F.energie === 3 && kann(F, 'zaubern'), 'Kakao gibt Energie zurück und wird verbraucht');
 F = C.kampfNeu('wicht1', { kakao: 0 });

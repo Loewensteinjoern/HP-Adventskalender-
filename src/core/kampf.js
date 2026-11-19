@@ -38,7 +38,7 @@ function kampfAktionen(F) {
   if (F.joern) {
     a.push({ art: 'kakao', label: 'Kakao (' + F.kakao + ')', wer: 'joern', ok: F.kakao > 0 && !F.kochen, warum: F.kochen ? T.warum_kocht : T.warum_kakao });
     a.push({ art: 'kochen', label: 'Kakao kochen', wer: 'joern', ok: !F.kochen && F.kakao < KAKAO_MAX, warum: F.kochen ? T.warum_kocht : T.warum_voll });
-    a.push({ art: 'mut', label: 'Mut zusprechen', wer: 'joern', ok: !F.kochen, warum: T.warum_kocht });
+    a.push({ art: 'mut', label: 'Mut zusprechen', wer: 'joern', ok: !F.kochen && F.energie > 0, warum: F.kochen ? T.warum_kocht : T.warum_mut });
   }
   if (F.diego) a.push({ art: 'bellen', label: 'Bellen', wer: 'diego', ok: true }, { art: 'schnueffeln', label: 'Schnüffeln', wer: 'diego', ok: true });
   a.push({ art: 'flucht', label: 'Zurückziehen', wer: 'charly', ok: F.flucht, warum: T.keine_flucht });
