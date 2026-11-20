@@ -1100,5 +1100,47 @@
     ]
    }
   }
+ ],
+ "morgen_schmuck": [
+  {
+   "gehe": {
+    "map": "gemeinschaftsraum",
+    "x": 13,
+    "y": 4,
+    "dir": "left"
+   }
+  },
+  {
+   "balken": true
+  },
+  {
+   "fx": {
+    "art": "morgenlicht",
+    "x": 0,
+    "y": 0,
+    "zeit": 7
+   }
+  },
+  {
+   "warte": 0.8
+  },
+  {
+   "ton": "piep"
+  },
+  {
+   "blase": {
+    "char": "diego",
+    "text": "*gääähn*"
+   }
+  },
+  {
+   "warte": 1.4
+  },
+  {
+   "sag": "morgen_schmuck"
+  },
+  {
+   "balken": false
+  }
  ]
 }

@@ -32,7 +32,16 @@ const SHOTS = process.argv[2] || null;
   // --- Teil 1: Tag 1 beenden → Phönixlied taut auf → Haken 1 → Hinweis aufs nächste Türchen ---
   await start(1);
   if ((await tag()).tag !== 1) errors.push('Testsprung: Tag 1 erwartet');
-  await flags({ q01_feder: true, q01_joern: true, q01_lotte: true });
+  if (!(await st()).flags.erklaert_schmuck) errors.push('Erster Morgen erklärt den Baumschmuck nicht');
+  // Feder erschnüffeln, dann zu Jörn umdrehen (antippen = nur drehen) und sie ihm zeigen
+  await go('gemeinschaftsraum', 15, 4, 'up'); await key('x'); await wait(1300); await key('Enter', 1, 200); await drain();
+  await expect('q01_feder', 'Q01: Feder');
+  for (const d of ['ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowUp']) {
+    if ((await st()).flags.q01_joern) break;
+    await key(d, 1, 200); await key('Enter', 1, 200); await drain();
+  }
+  await expect('q01_joern', 'Q01: Feder Jörn zeigen (umdrehen zu Jörn klappt nicht)');
+  await flags({ q01_lotte: true });
   await go('gemeinschaftsraum', 4, 9, 'up'); await npc('finn');   // irgendeine Aktion prüft die Quests
   if ((await st()).done.indexOf('Q01') < 0) errors.push('Q01 ohne „Weck Diego“ nicht abschließbar');
   await go('gemeinschaftsraum', 14, 4, 'up'); await key('Enter', 1, 300);

@@ -11,6 +11,7 @@
   - **Diego-Geheimnisse:** jetzt mindestens 2 pro Raum (Liste Story-Bibel 7.2, spätere mit `day>=`), Build warnt bei weniger. Geheimnisse mit `zauber` zählen erst nach dem richtigen Spruch. Schon gefundene werden nicht mehr erneut erschnüffelt. Glutsplitter Woche 1: Innenhof, Sofa, Münze, Rüstung, Taschenuhr, Idas Buch.
   - **Baumschmuck:** Großer Baum rechts in der Großen Halle (`schmuckbaum`), Schmuck als Aktion `schmuck` (Flag `schmuck_<id>`). Tagesschmuck 1–4 (Kellergang, Wendeltreppe, Eulenstiege, Uhrenturm), dazu Schneemann (N02) und Zimtstern (N04). Anzeige im Questlog. Morgens erinnert Jörn daran.
   - **Nebenaufgaben:** N02 Oskars Schneemann (Karotte, 3 Kohleknöpfe, Schal → Schneemann wird fertig), N03 Idas Buch (Kater Zimt durch Treppenhaus, Vorhalle, Gemeinschaftsraum verfolgen, Diego findet das Buch), N04 Finns Zimtsterne (5 eingefrorene Sterne, am Kamin auftauen).
+  - **Nachbesserung nach Jörns iPad-Test (20.11.):** Charly konnte sich nicht zu Jörn umdrehen (Laufen in einen Begleiter tauscht den Platz) → Feder ließ sich nicht zeigen. Jetzt: kurz antippen dreht nur um, gedrückt halten tauscht den Platz (`turnHold`). Erster Morgen erklärt den Baumschmuck ausführlich (Szene `morgen_schmuck`, Flag `erklaert_schmuck`), danach nur kurzer Hinweis. Rauchtest prüft Feder → umdrehen → Jörn zeigen.
   - Tests: 101 Kern-Tests, neuer Rauchtest `tests/smoke_woche1.js` (Tagesende mit Liedseite und Haken 1, alle Haken, Rückblicke, Kerze 4, N02–N04, Tagesschmuck). `npm run check` enthält ihn.
 
 ## Stand (19.11.2026)

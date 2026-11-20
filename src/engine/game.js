@@ -119,7 +119,9 @@ const G = {
     const s = this.save;
     s.tag = Math.min(24, s.tag + 1); s.tagEnde = false; s.seenDay = Math.max(s.seenDay, s.tag);
     this.refreshDay(); this.tuerHinweis = 0; this.persist();
-    SZ.start('morgen', () => {
+    // Beim ersten Morgen erklärt Jörn den Baumschmuck ausführlich, danach nur ein kurzer Hinweis
+    const erklaeren = !s.flags.erklaert_schmuck; s.flags.erklaert_schmuck = true;
+    SZ.start(erklaeren ? 'morgen_schmuck' : 'morgen', () => {
       const q = this.questFuerTag(s.tag);
       this.banner('Türchen ' + s.tag + ' ist offen' + (q ? ': ' + q.title : '!')); AU.sfx('tuerchen');
       this.questStarts(); this.next();
@@ -316,12 +318,16 @@ const G = {
       else { if (this.autoDir) this.player.dir = this.autoDir; this.autoPath = null; }
       return;
     }
+    if (this.turnHold > 0) { this.turnHold -= dt; if (!IN.dir()) this.turnHold = 0; }
     if (allowInput && !this.player.moving) { const d = IN.dir(); if (d) this.tryMove(d); }
   },
   tryMove(d) {
     const p = this.player, m = DATA.maps[this.mapId], ctx = this.ctx();
-    p.dir = d;
     const nx = p.x + DIRS[d][0], ny = p.y + DIRS[d][1];
+    // Steht Jörn oder Diego direkt dort: erst nur umdrehen (dann kann man sie mit A ansprechen), beim nächsten Druck Platz tauschen
+    if (p.dir !== d && this.followers.some(f => f.x === nx && f.y === ny)) { p.dir = d; this.turnHold = 0.25; return; }
+    if (this.turnHold > 0) return;
+    p.dir = d;
     if (blockedAt(m, nx, ny, ctx)) {
       const o = objAt(m, nx, ny, ctx), sp = spotAt(m, nx, ny, ctx);
       if (o && o.bump && o.talk) this.runTalk(pickTalk(o.talk, ctx));

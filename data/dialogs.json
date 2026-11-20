@@ -2510,5 +2510,33 @@
    "finn",
    "Mmmh. Schmecken noch ein bisschen nach Abenteuer."
   ]
+ ],
+ "morgen_schmuck": [
+  [
+   "",
+   "{tag}. Dezember. Morgenlicht fällt durchs Fenster, Frieda rennt schon in ihrem Laufrad, und Diego gähnt ausgiebig."
+  ],
+  [
+   "joern",
+   "Guten Morgen, Charly! Türchen {tag} ist offen. Mal sehen, was heute passiert."
+  ],
+  [
+   "joern",
+   "Ach, und weißt du was? Der große Weihnachtsbaum in der Großen Halle ist noch ganz kahl. Nur Lichter, kein Schmuck."
+  ],
+  [
+   "joern",
+   "Prof. Wurzelgrün hat erzählt: Jeden Tag im Advent ist irgendwo im Schloss ein Schmuckstück versteckt. Wer es findet, darf es an den Baum hängen."
+  ],
+  [
+   "joern",
+   "Diego findet so was mit der Nase. Einfach schnüffeln lassen, wo es spannend aussieht.",
+   "b"
+  ],
+  [
+   "joern",
+   "Was wir schon gefunden haben, steht im Questlog unten bei „Baumschmuck“.",
+   "menu"
+  ]
  ]
 }
