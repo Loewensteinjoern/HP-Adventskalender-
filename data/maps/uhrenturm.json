@@ -179,6 +179,24 @@
      "dialog": "pflanze"
     }
    ]
+  },
+  {
+   "type": "raureif",
+   "x": 7,
+   "y": 3,
+   "if": [
+    "done:Q04",
+    "day>=5"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 8,
+   "y": 3,
+   "if": [
+    "done:Q04",
+    "day>=5"
+   ]
   }
  ],
  "npcs": [
@@ -304,6 +322,32 @@
      "geheimgang_uhr"
     ],
     "sound": "stein"
+   }
+  },
+  {
+   "id": "glut_taschenuhr",
+   "x": 2,
+   "y": 9,
+   "if": [
+    "day>=4"
+   ],
+   "found": {
+    "dialog": "glut_taschenuhr",
+    "sound": "fund",
+    "glut": "taschenuhr"
+   }
+  },
+  {
+   "id": "schmuck_gloeckchen",
+   "x": 14,
+   "y": 10,
+   "if": [
+    "day>=4"
+   ],
+   "found": {
+    "dialog": "schmuck_4",
+    "sound": "fund",
+    "schmuck": "4"
    }
   }
  ],

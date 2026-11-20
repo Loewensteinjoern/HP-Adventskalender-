@@ -323,6 +323,25 @@
    "talk": [
     {
      "if": [
+      "quest:Q02",
+      "flag:q02_kerzen",
+      "!flag:q02_knarz"
+     ],
+     "dialog": "q02_knarz",
+     "set": [
+      "q02_knarz"
+     ]
+    },
+    {
+     "if": [
+      "quest:Q02",
+      "flag:q02_knarz",
+      "!flag:kampf_probe"
+     ],
+     "dialog": "q02_knarz_warten"
+    },
+    {
+     "if": [
       "!flag:knarz_auftrag"
      ],
      "dialog": "knarz_auftrag",
@@ -395,6 +414,25 @@
     "set": [
      "q03_siegel"
     ],
+    "sound": "fund"
+   }
+  },
+  {
+   "id": "glut_muenze",
+   "x": 13,
+   "y": 11,
+   "found": {
+    "dialog": "glut_muenze",
+    "sound": "fund",
+    "glut": "muenze"
+   }
+  },
+  {
+   "id": "karte_schueler",
+   "x": 1,
+   "y": 10,
+   "found": {
+    "dialog": "geheim_karte",
     "sound": "fund"
    }
   }

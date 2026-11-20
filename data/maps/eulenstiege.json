@@ -172,5 +172,51 @@
    "ty": 3,
    "dir": "down"
   }
+ ],
+ "secrets": [
+  {
+   "id": "eulenfeder",
+   "x": 2,
+   "y": 7,
+   "if": [
+    "day>=3"
+   ],
+   "found": {
+    "dialog": "geheim_eulenfeder",
+    "sound": "fund",
+    "set": [
+     "eulenfeder_1"
+    ]
+   }
+  },
+  {
+   "id": "stern_stiege",
+   "x": 1,
+   "y": 10,
+   "if": [
+    "flag:finn_auftrag",
+    "!flag:stern_5"
+   ],
+   "found": {
+    "dialog": "stern_fund_diego",
+    "sound": "fund",
+    "set": [
+     "stern_5"
+    ]
+   }
+  },
+  {
+   "id": "schmuck_eule",
+   "x": 8,
+   "y": 6,
+   "if": [
+    "day>=3"
+   ],
+   "found": {
+    "dialog": "schmuck_3",
+    "sound": "fund",
+    "schmuck": "3"
+   }
+  }
  ]
 }

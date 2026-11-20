@@ -190,6 +190,22 @@ ok(loadCore(D6).validateData().errors.some(e => /Taste/.test(e)), 'Datenprüfung
 // Quests erst nach dem Prolog: Erzähltag 0 heißt, Q01 ist noch nicht aktiv
 ok(!C.checkCond('quest:Q01', { flags: {}, day: Math.min(5, n0.tag), done: [], followers: [] }), 'Q01 startet erst nach dem Prolog (Erzähltag 0), auch wenn der Kalender schon weiter ist');
 
+// S3: Phönixlied, Woche 1, Geheimnisse
+ok(D.lied.zeilen.length === 24 && D.lied.zeilen[0] === 'Naht die längste Nacht heran,' && D.lied.zeilen[23] === 'und die längste Nacht wird Licht.', 'Phönixlied: 24 gereimte Zeilen aus der Story-Bibel');
+ok(Object.keys(D.quests).every(id => D.quests[id].fragment === undefined), 'Liedtext steht nur in lied.json (Spielstand merkt sich nur die Quest)');
+ok(!D.quests.Q01.steps.some(s => s.flag === 'diego_dabei'), 'Q01 ohne „Weck Diego“ (passiert im Prolog)');
+ok(!C.questComplete(D.quests.Q02, { zauber_luxa: true, q02_melodie: true, q02_kerzen: true }) && C.questComplete(D.quests.Q02, { zauber_luxa: true, q02_melodie: true, q02_kerzen: true, q02_knarz: true, kampf_probe: true }), 'Q02 endet erst nach Knarz und dem Probekampf');
+ok(['Q01', 'Q02', 'Q03', 'Q04'].every(id => D.quests[id].haken && D.szenen[D.quests[id].haken] && D.welt.rueckblicke[D.quests[id].haken]), 'Haken Tag 1–4 mit Szene und Rückblick-Titel');
+ok(Object.keys(D.maps).every(mid => (D.maps[mid].secrets || []).filter(s => s.count !== false).length >= 2), 'Jeder Raum hat mindestens zwei Diego-Geheimnisse');
+ok([1, 2, 3, 4].every(d => Object.keys(D.maps).some(mid => (D.maps[mid].secrets || []).some(s => s.found.schmuck === String(d) && (s.if || []).indexOf('day>=' + d) >= 0))), 'Tagesschmuck für Tag 1–4, jeweils erst ab seinem Tag');
+ok(['N_oskar', 'N_ida', 'N_finn'].every(id => D.quests[id] && D.quests[id].neben), 'Nebenaufgaben N02–N04 vorhanden');
+{ const D7 = JSON.parse(JSON.stringify(D)); D7.maps.vorhalle.secrets = D7.maps.vorhalle.secrets.slice(0, 1); ok(loadCore(D7).validateData().warnings.some(w => /vorhalle.*Diego-Geheimnis/.test(w)), 'Build warnt bei weniger als zwei Geheimnissen'); }
+{ const D8 = JSON.parse(JSON.stringify(D)); D8.lied.zeilen.pop(); ok(loadCore(D8).validateData().errors.some(e => /Phönixlied/.test(e)), 'Datenprüfung: Phönixlied braucht 24 Zeilen'); }
+// Alter Spielstand (v3, Q02 schon fertig ohne Probekampf): Quest bleibt fertig, Probekampf bleibt erreichbar
+{ const r = C.migrateSave({ v: 3, tag: 3, flags: { prolog_fertig: true, zauber_luxa: true, q02_melodie: true, q02_kerzen: true }, done: ['Q01', 'Q02'], fragments: ['Q01', 'Q02'] }).save;
+  const zit = D.maps.innenhof.objects.find(o => o.type === 'schneehaufen_zitter');
+  ok(r.done.indexOf('Q02') >= 0 && r.fragments.length === 2 && C.condsOk(zit.if, { flags: r.flags, day: r.tag, done: r.done, followers: [] }), 'Alter Stand: Q02 bleibt fertig, Probekampf weiter erreichbar'); }
+
 console.log((fails ? '✗ ' + fails + ' von ' : '✓ alle ') + count + ' Tests' + (fails ? ' fehlgeschlagen' : ' bestanden'));
 v.warnings.forEach(w => console.log('  Hinweis: ' + w));
 process.exit(fails ? 1 : 0);

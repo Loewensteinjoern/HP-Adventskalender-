@@ -1,5 +1,5 @@
 {
- "version": "0.11 · Haupttor an der Seitenwand",
+ "version": "0.12 · Woche 1 neu erzählt",
  "start": {
   "map": "gemeinschaftsraum",
   "x": 13,
@@ -44,5 +44,12 @@
    ]
   }
  ],
- "haken0": "haken_0"
+ "haken0": "haken_0",
+ "rueckblicke": {
+  "haken_0": "Prolog · Die Hand am Tor",
+  "haken_1": "Türchen 1 · Das Gesicht am Fenster",
+  "haken_2": "Türchen 2 · Die vierte Kerze",
+  "haken_3": "Türchen 3 · Pimpernell träumt",
+  "haken_4": "Türchen 4 · Dreizehn Schläge"
+ }
 }

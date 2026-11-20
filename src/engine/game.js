@@ -99,7 +99,7 @@ const G = {
       const haken = d === 0 ? DATA.welt.haken0 : q && q.haken;
       const danach = () => this.morgenOderWarten();
       const zeigeHaken = () => (haken && DATA.szenen[haken] ? SZ.start(haken, danach) : danach());
-      if (q && s.fragments.indexOf(q.id) >= 0) DLG.show([['', 'Heute neu im Phönixlied:'], ['', '„' + q.fragment + '“']], zeigeHaken);
+      if (q && s.fragments.indexOf(q.id) >= 0) this.liedZeigen(q.day, zeigeHaken);
       else zeigeHaken();
     });
   },
@@ -124,6 +124,12 @@ const G = {
       this.banner('Türchen ' + s.tag + ' ist offen' + (q ? ': ' + q.title : '!')); AU.sfx('tuerchen');
       this.questStarts(); this.next();
     });
+  },
+  // Phönixlied-Seite mit neu auftauender Zeile (am Abend)
+  liedZeigen(tag, cb) {
+    this.liedNeu = { tag, t0: this.time, cb, reim: false, strophe: false };
+    this.mode = 'lied'; UI.scroll = Math.max(0, Math.floor((tag - 1) / 4) * 5 - 2);
+    AU.melodie(DATA.lied.melodie[(tag - 1) % 4], DATA.lied.takt);
   },
   frageStellen(titel, opts, cb) { this.frage = { titel, opts, cb }; this.mode = 'frage'; UI.sel = 0; },
 
@@ -276,6 +282,7 @@ const G = {
       const f = this.frage; this.frage = null; this.mode = 'play'; f.cb(r); return;
     }
     if (this.mode === 'menu') return this.updateMenu();
+    if (this.mode === 'rueck') return this.updateRueck();
     if (this.mode === 'mini') return this.updateMini(dt);
     if (this.mode === 'zauber') return this.updateSpell();
     if (this.mode === 'kampf') return KB.update(dt);
@@ -285,6 +292,11 @@ const G = {
     this.updateNpcs(dt); this.guideUpdate(dt);
     if (this.mode === 'questlog' || this.mode === 'lied' || this.mode === 'karte' || this.mode === 'hilfe') {
       if (IN.take('up')) UI.scroll--; if (IN.take('down')) UI.scroll++;
+      const L = this.liedNeu;
+      if (this.mode === 'lied' && L) {
+        if (IN.take('a') || IN.take('b') || IN.take('menu')) { if (this.time - L.t0 < 3.4) { L.t0 = this.time - 3.4; return; } this.liedNeu = null; this.mode = 'play'; AU.sfx('menue'); L.cb(); }
+        return;
+      }
       if (IN.take('a') || IN.take('b') || IN.take('menu')) { AU.sfx('zurueck'); this.mode = 'menu'; }
       return;
     }
@@ -420,7 +432,22 @@ const G = {
   },
   // Dialogtext mit Platzhaltern
   lines(id) {
-    return DATA.dialogs[id].map(([sp, tx, taste]) => [sp, tx.replace(/\{tage\}/g, String(this.daysLeft())).replace(/\{tag\}/g, String(this.day)), taste]);
+    return DATA.dialogs[id].map(([sp, tx, taste]) => [sp, tx.replace(/\{tage\}/g, String(this.daysLeft())).replace(/\{tag\}/g, String(this.day)).replace(/\{schmuck\}/g, String(this.schmuckZahl())), taste]);
+  },
+  schmuckZahl() { return Object.keys(this.save.flags).filter(k => k.indexOf('schmuck_') === 0).length; },
+  // Rückblicke: gesehene Haken noch einmal ansehen
+  rueckblicke() {
+    const s = this.save, R0 = DATA.welt.rueckblicke || {};
+    return Object.keys(R0).filter(id => {
+      const d = +id.split('_')[1];
+      return s.flags['gesehen_' + id] || s.tag > d || (s.tag === d && s.tagEnde) || (d === 0 && s.flags.prolog_fertig);
+    }).map(id => ({ id, label: R0[id] }));
+  },
+  updateRueck() {
+    const L = this.rueckblicke(), r = UI.navigate(L.length + 1);
+    if (r === null) return;
+    if (r < 0 || r === L.length) { this.mode = 'menu'; UI.sel = 3; return; }
+    this.mode = 'play'; SZ.start(L[r].id);
   },
   say(id, cb) { DLG.show(this.lines(id), () => { if (cb) cb(); this.next(); }); },
   runTalk(t, cast) {
@@ -524,12 +551,14 @@ const G = {
       s.waerme = Math.min(nach, s.waerme + (nach - vor));
       this.banner(nach > vor ? 'Charly ist wärmer geworden! Wärme ' + nach : 'Glutsplitter ' + s.glut.length + ' – noch ' + (3 - s.glut.length % 3) + ' bis zu mehr Wärme');
     }
+    if (t.schmuck && !s.flags['schmuck_' + t.schmuck]) { s.flags['schmuck_' + t.schmuck] = true; this.banner('Neuer Schmuck für den Baum in der Großen Halle!'); }
+    if (t.geheimnis && s.secrets.indexOf(t.geheimnis) < 0) s.secrets.push(t.geheimnis);
     if (t.leave) { s.followers = s.followers.filter(c => c !== t.leave); this.followers = this.followers.filter(f => f.char !== t.leave); }
     const neu = updateQuests(s, this.day);
     neu.forEach(id => this.queue.push(() => {
       if (DATA.quests[id].neben) { AU.sfx('fund'); this.banner('Nebenaufgabe erledigt: ' + DATA.quests[id].title); this.next(); return; }
       setTimeout(() => AU.sfx('tuerchen'), 900); this.banner('Winterfragment ' + DATA.quests[id].day + ' gefunden!');
-      DLG.show([['', 'Ein eisblauer Splitter leuchtet auf. Darin klingt eine Zeile des Phönixlieds:'], ['', '„' + DATA.quests[id].fragment + '“']], () => this.next()); }));
+      DLG.show([['', 'Ein eisblauer Splitter leuchtet auf. Darin klingt eine Zeile des Phönixlieds:'], ['', '„' + liedZeile(DATA.quests[id].day) + '“']], () => this.next()); }));
     this.persist();
   },
 
@@ -610,7 +639,7 @@ const G = {
     const d = this.followers.find(f => f.char === 'diego'); if (d) d.pose = null;
     const m = DATA.maps[this.mapId], ctx = this.ctx();
     let best = null;
-    (m.secrets || []).filter(s => condsOk(s.if, ctx)).forEach(s => {
+    (m.secrets || []).filter(s => condsOk(s.if, ctx) && !(s.count !== false && this.save.secrets.indexOf(s.id) >= 0)).forEach(s => {
       const path = findPath(m, { x: d.x, y: d.y }, s, ctx, 14);
       if (path && (!best || path.length < best.path.length)) best = { s, path };
     });
@@ -621,7 +650,9 @@ const G = {
   },
   findSecret(sec) {
     this.trail = null;
-    if (sec.count !== false && this.save.secrets.indexOf(sec.id) < 0) this.save.secrets.push(sec.id);
+    const zaehlt = sec.count !== false;
+    if (sec.found.zauber) return this.runTalk(Object.assign({}, sec.found, zaehlt ? { geheimnis: sec.id } : {}));
+    if (zaehlt && this.save.secrets.indexOf(sec.id) < 0) this.save.secrets.push(sec.id);
     this.runTalk(sec.found);
   },
 
@@ -659,7 +690,7 @@ const G = {
   },
   menuOptions() {
     return [
-      { id: 'log', label: 'Questlog' }, { id: 'karte', label: 'Schlosskarte' }, { id: 'lied', label: 'Phönixlied' }, { id: 'hilfe', label: 'Hilfe' },
+      { id: 'log', label: 'Questlog' }, { id: 'karte', label: 'Schlosskarte' }, { id: 'lied', label: 'Phönixlied' }, { id: 'rueck', label: 'Rückblicke' }, { id: 'hilfe', label: 'Hilfe' },
       { id: 'export', label: 'Spielstand sichern (Code)' }, { id: 'import', label: 'Spielstand-Code eingeben' },
       { id: 'ton', label: 'Ton: ' + (AU.on ? 'an' : 'aus') }, { id: 'titel', label: 'Zum Titelbild' }, { id: 'zurueck', label: 'Weiterspielen' },
     ];
@@ -671,6 +702,7 @@ const G = {
     const id = opts[r].id;
     if (id === 'zurueck') this.mode = 'play';
     else if (id === 'log' || id === 'lied' || id === 'karte' || id === 'hilfe') { this.mode = { log: 'questlog', lied: 'lied', karte: 'karte', hilfe: 'hilfe' }[id]; UI.scroll = 0; }
+    else if (id === 'rueck') { this.mode = 'rueck'; UI.sel = 0; }
     else if (id === 'export') { this.persist(); UI.codePanel('export', exportCode(this.save)); }
     else if (id === 'import') this.openImport();
     else if (id === 'ton') { AU.unlock(); AU.setOn(!AU.on); updateSoundButton(); }
@@ -706,8 +738,9 @@ const G = {
     if (this.mode === 'frage') UI.list(this.frage.titel, this.frage.opts.map(label => ({ label })), time);
     if (this.mode === 'hilfe') UI.hilfe(this);
     if (this.mode === 'menu') UI.list('Menü', this.menuOptions(), time);
+    if (this.mode === 'rueck') { const L = this.rueckblicke(); UI.list(L.length ? 'Rückblicke' : 'Noch keine Rückblicke', L.concat([{ label: 'Zurück' }]), time); }
     if (this.mode === 'questlog') UI.questlog(this);
-    if (this.mode === 'lied') UI.lied(this);
+    if (this.mode === 'lied') UI.lied(this, this.time);
     if (this.mode === 'karte') UI.karte(this, time);
     if (this.mode === 'stufe') {
       UI.list('Charly erreicht Stufe ' + this.save.stufe + '!', [{ label: 'Mehr Kraft (Zauber stärker)' }, { label: 'Mehr Lebenspunkte (+2 Wärme)' }], time);

@@ -196,6 +196,31 @@
     ],
     "sound": "fund"
    }
+  },
+  {
+   "id": "schmuck_fliese",
+   "x": 10,
+   "y": 5,
+   "if": [
+    "day>=1"
+   ],
+   "found": {
+    "dialog": "schmuck_1",
+    "sound": "fund",
+    "schmuck": "1"
+   }
+  },
+  {
+   "id": "kratzer",
+   "x": 16,
+   "y": 3,
+   "if": [
+    "day>=8"
+   ],
+   "found": {
+    "dialog": "geheim_kratzer",
+    "sound": "spur"
+   }
   }
  ],
  "doors": [

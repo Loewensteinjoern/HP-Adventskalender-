@@ -1,5 +1,18 @@
 # STATUS
 
+## Stand (20.11.2026)
+- **S3 gebaut (Version 0.12): Woche 1 neu erzählt (Tag 1–4).** Noch nicht auf `main` – wartet auf Jörns Freigabe.
+  - **Q01–Q04 nach Story-Bibel V2:** Q01 ohne „Weck Diego“, Lotte: „kalt … von innen“, Diego knurrt die Spur an. Q02: Federleicht „Frost im Docht“, Jörn summt heimlich (Spur), danach **Knarz → Probekampf** (Q02 endet erst mit dem Sieg; der Splitter kommt aus der Pixie). Q03: Pimpernell „Gedanken weggepustet“, Brief leer bis auf Phönixsiegel. Q04: Pendel „versteckt“, Uhrmeister bedankt sich (Frost hatte ihn verwirrt), Spur: Jörn fragt nach kleinen Zahnrädern.
+  - **Phönixlied:** 24 gereimte Zeilen in `data/lied.json` (Quests haben kein `fragment` mehr; Spielstand merkt sich nur die Quest – keine Migration nötig). Liedseite in sechs Strophen, fehlende Zeilen als Eiskristalle mit Türchennummer. Am Abend taut die neue Zeile golden auf, die Spieluhr spielt ihren Takt (`melodie`, 4 Takte), Reimpaar leuchtet, volle Strophe = Akkord.
+  - **Haken Tag 1–4** (`haken` an der Quest, Szenen `haken_1`…`haken_4`): Frostgesicht am Fenster + „Bald.“ im Raureif, Diego bellt; vierte Kerze erlischt, Raureif-Hauch zur Tür („Warm …“), Kerze danach mit Luxa wieder anzündbar; Pimpernell ruft „HÜTERIN!“; Uhr schlägt dreizehn, Pendel: „Noch zwanzig Nächte.“ Neue Effekte `hauch`, `schrift`; Töne `schuhu`, `turmschlag`, `reim`, `akkord`.
+  - **Raureifs Stimme:** Sprecher `stimme` in Dialogen = ohne Namensschild, kursiv, eisblau.
+  - **Rückblicke** im Menü: gesehene Haken noch einmal ansehen (Titel in `welt.json` → `rueckblicke`, Pflicht für jeden Haken).
+  - **Bedrohung sichtbar:** Eisblumen an Fenstern (Gemeinschaftsraum ab Tag 2, Bibliothek, Eulenturm), Raureif-Spur von Kerze 4 zur Hallentür, Spuren im Eulen- und Uhrenturm.
+  - **Diego-Geheimnisse:** jetzt mindestens 2 pro Raum (Liste Story-Bibel 7.2, spätere mit `day>=`), Build warnt bei weniger. Geheimnisse mit `zauber` zählen erst nach dem richtigen Spruch. Schon gefundene werden nicht mehr erneut erschnüffelt. Glutsplitter Woche 1: Innenhof, Sofa, Münze, Rüstung, Taschenuhr, Idas Buch.
+  - **Baumschmuck:** Großer Baum rechts in der Großen Halle (`schmuckbaum`), Schmuck als Aktion `schmuck` (Flag `schmuck_<id>`). Tagesschmuck 1–4 (Kellergang, Wendeltreppe, Eulenstiege, Uhrenturm), dazu Schneemann (N02) und Zimtstern (N04). Anzeige im Questlog. Morgens erinnert Jörn daran.
+  - **Nebenaufgaben:** N02 Oskars Schneemann (Karotte, 3 Kohleknöpfe, Schal → Schneemann wird fertig), N03 Idas Buch (Kater Zimt durch Treppenhaus, Vorhalle, Gemeinschaftsraum verfolgen, Diego findet das Buch), N04 Finns Zimtsterne (5 eingefrorene Sterne, am Kamin auftauen).
+  - Tests: 101 Kern-Tests, neuer Rauchtest `tests/smoke_woche1.js` (Tagesende mit Liedseite und Haken 1, alle Haken, Rückblicke, Kerze 4, N02–N04, Tagesschmuck). `npm run check` enthält ihn.
+
 ## Stand (19.11.2026)
 - **S2b gebaut (Version 0.7): Prolog Tag 0 + Tagesablauf am Kamin.**
   - **Szenen-System** (`src/engine/szene.js`, Daten `data/szenen.json`): Kinobalken, Kamera-Schwenk, Figuren laufen, Charly läuft, Blasen, Ein-/Ausblenden von Objekten (`id`), Effekte (Funken, Tropfen, Schnee, Frost, Morgenlicht), Kartenwechsel, Abblenden, andere Karte bei Nacht zeigen (für Haken). Tippen beschleunigt. Szenen mit Bedingung starten von selbst (`welt.auto`). Quests können künftig `haken` (Szenen-id) bekommen → läuft nach „Gute Nacht“.
@@ -73,10 +86,5 @@
 5. Kampfwerte: Es gelten die Werte in `data/kampf.json` (Stand 0.6: Pixie 10, Frostwicht 14, Energie, begrenzter Kakao, Stufen mit Wahl Kraft/Lebenspunkte, Mindest-Stufen für Zufallskämpfe). Story-Bibel V2 Abschnitt 8 ist nur der Rahmen; „kein Stufen-Sammeln“ ist durch Jörns Entscheidung (19.11.) überholt.
 
 ## Nächster Schritt
-**S3 – Woche 1 neu erzählt (Tag 1–4), fällig 27.11.** Jörn hat den Plan am 19.11. bestätigt:
-1. Q01–Q04 neu erzählt nach Story-Bibel V2 Abschnitt 5 (Woche 1): Q01 ohne Schritt „Weck Diego“ (passiert im Prolog), Lotte: „kalt von innen“; Q02 Federleicht „Frost im Docht“, danach Knarz → Probekampf, Jörn summt heimlich (Spur); Q03 Pimpernell „Gedanken weggepustet“, Brief nur mit Phönixsiegel; Q04 Pendel „Zahnrad versteckt“, Jörn-Spur. Alle 24 gereimten Phönixlied-Zeilen aus der Story-Bibel in `data/quests.json`.
-2. Haken je Tag als Szene (`haken` an der Quest; Effekte flackern/eiswind/frost/schatten/einblenden stehen bereit, Raureif ist Figur `raureif`): Tag 1 Frostgesicht „Bald.“, Diego bellt; Tag 2 vierte Kerze erlischt; Tag 3 Pimpernell ruft „Hüterin!“; Tag 4 Uhr schlägt einmal zu viel, „Noch zwanzig Nächte.“ Gesehene Haken im Questlog erneut ansehen.
-3. Bedrohung sichtbar (Raureif-Spuren, Eisblumen an Fenstern), Raureifs Stimme (eisblau, einzelne Wörter).
-4. Diego-Geheimnisse (2 je Raum, Liste Story-Bibel 7.2), Tagesschmuck sichtbar am Baum in der Großen Halle, Nebenaufgaben N02 Oskars Schneemann, N03 Idas Buch, N04 Finns Zimtsterne.
-5. Build-Warnung bei < 2 Geheimnissen je Raum, Rauchtest Tag 1–4 inkl. Haken.
-Arbeitsweise: Stand vor jedem `main`-Push von Jörn freigeben lassen. Danach S4 (Q05–Q07) bis 29.11., S5 Generalprobe 30.11.
+**Jörn:** Version 0.12 testen und freigeben, dann nach `main`. Testlinks: `?testtag=1` (Tag 1 spielen, am Kamin beenden → Liedseite + Haken), `?testtag=4` (Nebenaufgaben, Schmuck, Rückblicke).
+**S4 – Q05–Q07 (Tag 5–7), fällig 29.11.:** nach Story-Bibel V2 Woche 1 (Tabelle Tag 5–7, Wendung Woche 1 in Q07), Haken 5–7 mit Rückblick-Titel, Tagesschmuck 5–7, N05 Friedas Körner (Flag `korn_1` gibt es schon im Gemeinschaftsraum), N06 Porträt-Geschenke. Neue Orte (Sternwarte, Porträtgalerie, Spiegelsee …) je mit Übergang, Kartenlage, `icon` und 2 Geheimnissen. Danach S5 Generalprobe 30.11.

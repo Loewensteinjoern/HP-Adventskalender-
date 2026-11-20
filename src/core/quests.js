@@ -27,3 +27,5 @@ function allSecretIds() {
   Object.keys(DATA.maps).forEach(mid => (DATA.maps[mid].secrets || []).forEach(s => { if (s.count !== false) ids.push(s.id); }));
   return ids;
 }
+// Phönixlied: Zeile zu einem Tag (Text steht nur in data/lied.json, der Spielstand merkt sich die Quest)
+function liedZeile(tag) { return DATA.lied.zeilen[tag - 1] || ''; }

@@ -21,7 +21,7 @@ function loadData() {
     welt: readJson('data/welt.json'), tiles: readJson('data/tiles.json'), objects: readJson('data/objects.json'),
     characters: readJson('data/characters.json'), dialogs: readJson('data/dialogs.json'), quests: readJson('data/quests.json'),
     musik: readJson('data/musik.json'), puzzles: readJson('data/puzzles.json'), zauber: readJson('data/zauber.json'), kampf: readJson('data/kampf.json'), karte: readJson('data/karte.json'),
-    szenen: readJson('data/szenen.json'), fuehrung: readJson('data/fuehrung.json'), hilfe: readJson('data/hilfe.json'), maps: {},
+    szenen: readJson('data/szenen.json'), lied: readJson('data/lied.json'), fuehrung: readJson('data/fuehrung.json'), hilfe: readJson('data/hilfe.json'), maps: {},
   };
   fs.readdirSync(path.join(ROOT, 'data/maps')).filter(f => f.endsWith('.json')).sort()
     .forEach(f => { D.maps[f.replace(/\.json$/, '')] = readJson('data/maps/' + f); });

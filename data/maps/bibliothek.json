@@ -99,6 +99,22 @@
    ]
   },
   {
+   "type": "eisblume",
+   "x": 7,
+   "y": 2,
+   "if": [
+    "day>=3"
+   ]
+  },
+  {
+   "type": "eisblume",
+   "x": 11,
+   "y": 2,
+   "if": [
+    "day>=4"
+   ]
+  },
+  {
    "type": "pult",
    "x": 9,
    "y": 4,
@@ -238,6 +254,24 @@
    "type": "kerzen_schwebend",
    "x": 7,
    "y": 5
+  },
+  {
+   "type": "zimtstern_eis",
+   "x": 16,
+   "y": 6,
+   "if": [
+    "flag:finn_auftrag",
+    "!flag:stern_1"
+   ],
+   "talk": [
+    {
+     "dialog": "stern_fund",
+     "set": [
+      "stern_1"
+     ],
+     "sound": "fund"
+    }
+   ]
   }
  ],
  "npcs": [
@@ -272,14 +306,64 @@
    "char": "ida",
    "x": 9,
    "y": 9,
-   "dir": "up"
+   "dir": "up",
+   "talk": [
+    {
+     "if": [
+      "day>=3",
+      "!flag:ida_auftrag"
+     ],
+     "dialog": "ida_auftrag",
+     "set": [
+      "ida_auftrag",
+      "ida_jagd"
+     ]
+    },
+    {
+     "if": [
+      "flag:ida_buch",
+      "!flag:ida_fertig"
+     ],
+     "dialog": "ida_fertig",
+     "set": [
+      "ida_fertig"
+     ],
+     "unset": [
+      "ida_jagd"
+     ],
+     "glut": "ida",
+     "sound": "fund"
+    },
+    {
+     "if": [
+      "flag:ida_auftrag",
+      "!flag:ida_fertig"
+     ],
+     "dialog": "ida_warten"
+    },
+    {
+     "if": [
+      "flag:ida_fertig"
+     ],
+     "dialog": "ida_danke"
+    },
+    {
+     "dialog": [
+      "ida_1",
+      "ida_2"
+     ]
+    }
+   ]
   },
   {
    "char": "kater",
    "x": 17,
    "y": 10,
    "dir": "down",
-   "pose": "schlaf"
+   "pose": "schlaf",
+   "if": [
+    "!flag:ida_jagd"
+   ]
   },
   {
    "char": "lotte",
@@ -308,6 +392,35 @@
    "tx": 7,
    "ty": 3,
    "dir": "down"
+  }
+ ],
+ "secrets": [
+  {
+   "id": "gandalf_loch",
+   "x": 17,
+   "y": 2,
+   "if": [
+    "day>=6"
+   ],
+   "found": {
+    "dialog": "geheim_gandalf",
+    "sound": "piep"
+   }
+  },
+  {
+   "id": "leseseite",
+   "x": 17,
+   "y": 11,
+   "if": [
+    "day>=17"
+   ],
+   "found": {
+    "dialog": "geheim_leseseite",
+    "sound": "fund",
+    "set": [
+     "pit_seite_1"
+    ]
+   }
   }
  ]
 }

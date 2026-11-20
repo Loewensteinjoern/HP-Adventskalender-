@@ -1,0 +1,36 @@
+{
+ "titel": "Das Phönixlied",
+ "zeilen": [
+  "Naht die längste Nacht heran,",
+  "stimmt der Phönix Kerzen an.",
+  "Eulen trugen seine Kunde,",
+  "Türme schlugen ihm die Stunde.",
+  "Sterne künden seine Wiederkehr –",
+  "einer schwieg, und schwieg so schwer.",
+  "Am Spiegelsee lag einst sein Nest,",
+  "die Glutrose hält es fest.",
+  "Man verbot, von ihm zu lehren,",
+  "doch ein Ruf lässt ihn heimkehren.",
+  "Schatten ziehn durch Wald und Eis,",
+  "wer sein Lied kennt, ruft ihn leis.",
+  "Raureif schloss sein Feuer ein,",
+  "vier Flammen müssen es befrein.",
+  "In der Frostnacht, still und kalt,",
+  "blieb die Feder warm und alt.",
+  "Unterm Dorf führt tief ein Gang",
+  "hin, wo einst der Winter sang.",
+  "Schwach ist er, ein Funke nur,",
+  "Skarn wacht treu bei seinem Schwur.",
+  "Ewig sollte Winter sein –",
+  "alle Zauber lassen ein.",
+  "Raureif gab’s zurück – vergessen wird er nicht,",
+  "und die längste Nacht wird Licht."
+ ],
+ "melodie": [
+  ["E5", "E5", "G5", "A5", "G5", "E5"],
+  ["D5", "E5", "G5", "E5", "D5", "C5"],
+  ["C5", "E5", "A5", "G5", "E5", "G5"],
+  ["A5", "G5", "E5", "D5", "E5", "C5"]
+ ],
+ "takt": 0.36
+}

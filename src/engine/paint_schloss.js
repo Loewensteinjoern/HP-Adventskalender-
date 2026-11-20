@@ -320,14 +320,22 @@ Object.assign(PAINT_OBJ, {
     p.r(7, 4, 19, 3, '#2a2a34'); p.r(13, 1, 7, 3, '#2a2a34'); p.r(8, 2, 17, 3, '#e8f0fc');
     p.r(6, 22, 6, 4, '#2f6a32'); p.r(8, 25, 2, 3, '#c8282a');
   },
-  schneemann(p) {
+  // Schneemann im Innenhof: roh (Oskar baut noch) oder fertig mit Schal und Kohleknöpfen (N02)
+  schneemann(p, f, R, W, H, v) {
     p.ell(16, 46, 11, 9, '#f4f8ff'); p.ell(16, 44, 10, 7, '#ffffff');
     p.ell(16, 30, 8, 7, '#f4f8ff'); p.circ(16, 17, 6, '#f4f8ff'); p.circ(15, 16, 5, '#ffffff');
+    p.line(6, 30, 0, 24, '#5e3820'); p.line(26, 30, 31, 23, '#5e3820');
+    if (v === 'roh') { p.px(12, 13, '#dce8f8'); p.px(19, 20, '#dce8f8'); return; }
     p.r(13, 15, 2, 2, '#1a1a1a'); p.r(18, 15, 2, 2, '#1a1a1a'); p.r(16, 18, 5, 2, '#e8762a');
+    if (v === 'fertig') {
+      p.r(10, 22, 13, 3, '#b8322a'); p.r(10, 22, 13, 1, '#e85a4a'); p.r(19, 24, 3, 8, '#b8322a'); p.r(19, 30, 3, 1, '#ffd36a');
+      p.r(11, 8, 10, 3, '#2a2a34'); p.r(13, 3, 6, 6, '#2a2a34'); p.r(13, 7, 6, 1, '#b8322a');
+      [28, 33, 38].forEach(y => p.r(15, y, 3, 3, '#1a1a1a'));
+      return;
+    }
     p.r(10, 22, 13, 3, '#4f6b2a'); p.r(19, 24, 3, 7, '#4f6b2a'); p.r(20, 24, 2, 7, '#e09a2c');
     p.r(11, 8, 10, 3, '#2a2a34'); p.r(13, 3, 6, 6, '#2a2a34');
     p.r(16, 29, 2, 2, '#2a2a2a'); p.r(16, 34, 2, 2, '#2a2a2a');
-    p.line(6, 30, 0, 24, '#5e3820'); p.line(26, 30, 31, 23, '#5e3820');
   },
   baum_kahl(p, f, R, W, H, v) {
     p.r(13, 30, 6, 48, '#4a3424'); p.r(13, 30, 2, 48, '#5e4430');
@@ -561,5 +569,59 @@ Object.assign(PAINT_OBJ, {
     });
     for (let k = 0; k < 11; k++) p.r(x - 7 - Math.round(k * 0.4), y + 2 - k, 1, 1, C);
     for (let i = 0; i < 12; i++) { const a = i * 0.52, r = 12 + (i % 3) * 3; p.px(x + Math.round(Math.cos(a) * r * 0.6), y - 6 + Math.round(Math.sin(a) * r), D); }
+  },
+
+  // Frostgesicht am Fenster (Haken Tag 1): ein hohles Gesicht aus Raureif, das haucht
+  frostgesicht(p, f) {
+    const C = 'rgba(220,240,255,0.85)', D = 'rgba(150,200,250,0.7)', cx = 32, cy = 15;
+    p.ell(cx, cy, 13, 12, D); p.ell(cx, cy, 11, 10, 'rgba(200,228,255,0.55)');
+    for (let i = 0; i < 9; i++) { const a = -2.6 + i * 0.4; p.px(cx + Math.round(Math.cos(a) * 15), cy - 4 + Math.round(Math.sin(a) * 10), C); p.px(cx + Math.round(Math.cos(a) * 15), cy - 7 + Math.round(Math.sin(a) * 9), '#ffffff'); }
+    [[-10, -12], [-4, -15], [4, -15], [10, -12]].forEach(([dx, dy]) => { p.r(cx + dx, cy + dy, 1, 4, '#eef8ff'); p.px(cx + dx, cy + dy - 1, '#ffffff'); });
+    p.r(cx - 7, cy - 3, 5, 3, '#0e1a3a'); p.r(cx + 3, cy - 3, 5, 3, '#0e1a3a');
+    p.r(cx - 6, cy - 2, 2, 1, '#5ab8ff'); p.r(cx + 5, cy - 2, 2, 1, '#5ab8ff');
+    p.r(cx - 1, cy + 1, 2, 3, D);
+    const o = f % 2 ? 3 : 2; p.ell(cx, cy + 7, o, o - 1 > 0 ? o - 1 : 1, '#0e1a3a');
+    if (f % 2) for (let i = 0; i < 4; i++) p.px(cx - 3 + i * 2, cy + 11 + (i % 2), '#eef8ff');
+  },
+  // Eisblumen an einem Fenster (Bedrohung Woche 1): in den Ecken wachsen Frostranken
+  eisblume(p, f, R, W) {
+    const C = 'rgba(225,242,255,0.9)', D = 'rgba(170,210,250,0.75)';
+    const ranke = (x, y, sx, sy, n) => { for (let k = 0; k < n; k++) { const xx = x + sx * k, yy = y + sy * Math.round(k * 0.7); p.px(xx, yy, C); if (k % 3 === 1) { p.px(xx + sx, yy - sy, D); p.px(xx, yy + sy * 2, D); p.px(xx - sx, yy + sy, D); } } };
+    const xs = W > 64 ? [5, W - 6] : [5, 58];
+    ranke(xs[0], 5, 1, 1, 10); ranke(xs[0], 6, 1, 0, 8); ranke(xs[1], 5, -1, 1, 10); ranke(xs[1], 20, -1, -1, 9); ranke(xs[0], 20, 1, -1, 8);
+    for (let i = 0; i < 8; i++) p.px(6 + ((i * 29) % (W - 12)), 6 + ((i * 17) % 16), '#ffffff');
+  },
+  // Weihnachtsbaum der Großen Halle: nur Lichter, der Schmuck kommt Tag für Tag dazu
+  schmuckbaum(p, f) {
+    p.r(24, 104, 16, 10, '#b8322a'); p.r(24, 104, 16, 2, '#e85a4a'); p.r(31, 104, 2, 10, '#e8c050');
+    p.r(30, 96, 4, 8, '#5e3820');
+    for (let i = 0; i < 5; i++) {
+      const top = 8 + i * 18, w = 8 + i * 6;
+      for (let y = 0; y < 22; y++) p.r(32 - (w * y / 22) - 2, top + y, (w * y / 22) * 2 + 4, 1, y % 5 === 4 ? '#1f5a26' : (i % 2 ? '#2f6a32' : '#2a6230'));
+      for (let x = 32 - w; x < 32 + w; x += 3) p.px(x, top + 21, '#eef4ff');
+    }
+    for (let i = 0; i < 12; i++) { const y = 20 + ((i * 37) % 76), sp = 6 + (y - 8) / 3.2, x = 32 + (((i * 53) % 100) / 100 - 0.5) * sp * 2; p.px(x, y, (i + f) % 2 ? '#fff2b0' : '#ffd36a'); }
+    p.r(30, 2, 4, 4, '#8a7a50');
+  },
+  // Ein Schmuckstück am Baum. v = Tag (1–24) oder Nebenquest-Schmuck
+  baumschmuck(p, f, R, W, H, v) {
+    const slot = { schneemann: [24, 90], zimtstern: [44, 62], stern: [32, 2] };
+    const n = +v, pos = slot[v] || [[26, 34], [38, 46], [22, 58], [42, 74], [30, 70], [20, 86], [36, 88], [46, 90], [28, 50], [40, 30], [18, 76], [34, 60],
+      [24, 44], [44, 82], [30, 92], [16, 92], [38, 76], [26, 80], [42, 56], [34, 40], [20, 68], [32, 24], [46, 70], [28, 62]][(n - 1) % 24];
+    const [x, y] = pos, art = slot[v] ? v : ['kugel', 'strohstern', 'eule', 'gloeckchen'][(n - 1) % 4], col = ['#c8282a', '#2a6ab8', '#e8c050', '#b84ab0', '#e8762a', '#3a9aa0'][(n - 1 + 6) % 6];
+    if (art === 'kugel') { p.r(x, y - 3, 1, 2, '#c8c0a0'); p.circ(x, y + 1, 3, col); p.px(x - 1, y, '#ffffff'); }
+    if (art === 'strohstern') { p.r(x - 3, y, 7, 1, '#e8c050'); p.r(x, y - 3, 1, 7, '#e8c050'); p.px(x - 2, y - 2, '#d0a840'); p.px(x + 2, y + 2, '#d0a840'); p.px(x + 2, y - 2, '#d0a840'); p.px(x - 2, y + 2, '#d0a840'); }
+    if (art === 'eule') { p.r(x - 2, y - 2, 5, 6, 'rgba(200,230,255,0.9)'); p.px(x - 1, y - 1, '#2a2a34'); p.px(x + 1, y - 1, '#2a2a34'); p.px(x, y + 1, '#e8c050'); p.px(x - 2, y - 3, '#ffffff'); p.px(x + 2, y - 3, '#ffffff'); }
+    if (art === 'gloeckchen') { p.r(x - 1, y - 3, 3, 1, '#a88a3a'); p.r(x - 2, y - 2, 5, 4, '#e8c050'); p.r(x - 3, y + 2, 7, 1, '#c8a040'); p.px(x, y + 3, '#8a6a2a'); p.px(x - 1, y - 1, '#fff2b0'); }
+    if (art === 'schneemann') { p.circ(x, y + 3, 3, '#ffffff'); p.circ(x, y - 2, 2, '#f4f8ff'); p.px(x, y - 2, '#e8762a'); p.r(x - 2, y, 5, 1, '#b8322a'); }
+    if (art === 'zimtstern') { p.r(x - 3, y, 7, 2, '#a0602a'); p.r(x - 1, y - 3, 3, 8, '#a0602a'); p.r(x - 2, y - 1, 5, 4, '#a0602a'); p.r(x - 1, y - 1, 3, 2, '#fff8e8'); }
+    if (art === 'stern') { p.r(x - 1, y - 2, 4, 6, '#ffd36a'); p.r(x - 3, y, 8, 2, '#ffd36a'); p.px(x, y, '#ffffff'); }
+  },
+  // Eingefrorener Zimtstern (N04): kleiner Eisblock mit Stern darin
+  zimtstern_eis(p, f) {
+    p.ell(16, 28, 9, 3, 'rgba(0,0,0,0.2)');
+    p.r(8, 14, 16, 14, 'rgba(170,215,250,0.8)'); p.r(8, 14, 16, 2, 'rgba(230,245,255,0.95)'); p.r(8, 14, 2, 14, 'rgba(230,245,255,0.8)');
+    p.r(13, 19, 6, 3, '#a0602a'); p.r(15, 17, 2, 7, '#a0602a'); p.r(15, 20, 2, 1, '#fff8e8');
+    p.px(10 + (f % 2) * 10, 16, '#ffffff'); p.px(21 - (f % 2) * 8, 25, '#ffffff');
   },
 });

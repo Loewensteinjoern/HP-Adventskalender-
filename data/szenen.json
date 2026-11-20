@@ -616,5 +616,489 @@
   {
    "balken": false
   }
+ ],
+ "haken_1": [
+  {
+   "balken": true
+  },
+  {
+   "aktion": {
+    "unset": [
+     "frostgesicht_da",
+     "frostgesicht_weg"
+    ],
+    "set": [
+     "szene_diego"
+    ]
+   }
+  },
+  {
+   "ort": {
+    "map": "gemeinschaftsraum",
+    "kamera": [
+     7,
+     3
+    ],
+    "nacht": true,
+    "musik": "frost"
+   }
+  },
+  {
+   "warte": 1.4
+  },
+  {
+   "ton": "kalt"
+  },
+  {
+   "fx": {
+    "art": "frost",
+    "x": 6.5,
+    "y": 1,
+    "w": 2,
+    "zeit": 4
+   }
+  },
+  {
+   "einblenden": "frostgesicht",
+   "zeit": 2.6
+  },
+  {
+   "warte": 0.6
+  },
+  {
+   "ton": "eiswind"
+  },
+  {
+   "fx": {
+    "art": "hauch",
+    "x": 6.5,
+    "y": 1.2,
+    "x2": 6.5,
+    "y2": 2.6,
+    "zeit": 1.8
+   }
+  },
+  {
+   "warte": 0.8
+  },
+  {
+   "fx": {
+    "art": "schrift",
+    "x": 6.5,
+    "y": 1.7,
+    "text": "Bald.",
+    "zeit": 6
+   }
+  },
+  {
+   "warte": 1.6
+  },
+  {
+   "sag": "haken_1_stimme"
+  },
+  {
+   "ton": "knurren"
+  },
+  {
+   "blase": {
+    "char": "diego",
+    "text": "Grrr …"
+   }
+  },
+  {
+   "warte": 1.0
+  },
+  {
+   "ton": "wuff"
+  },
+  {
+   "blase": {
+    "char": "diego",
+    "text": "WUFF! WUFF!"
+   }
+  },
+  {
+   "ausblenden": "frostgesicht",
+   "zeit": 1.2
+  },
+  {
+   "fx": {
+    "art": "frost",
+    "x": 6.5,
+    "y": 1.4,
+    "w": 2,
+    "zeit": 1.6
+   }
+  },
+  {
+   "warte": 1.0
+  },
+  {
+   "sag": "haken_1"
+  },
+  {
+   "aktion": {
+    "unset": [
+     "szene_diego"
+    ]
+   }
+  },
+  {
+   "ort": null
+  },
+  {
+   "balken": false
+  }
+ ],
+ "haken_2": [
+  {
+   "balken": true
+  },
+  {
+   "aktion": {
+    "unset": [
+     "kerze4_aus"
+    ]
+   }
+  },
+  {
+   "ort": {
+    "map": "grosse_halle",
+    "kamera": [
+     16,
+     8
+    ],
+    "nacht": true,
+    "musik": "frost"
+   }
+  },
+  {
+   "warte": 1.4
+  },
+  {
+   "fx": {
+    "art": "flackern",
+    "x": 0,
+    "y": 0,
+    "zeit": 5
+   }
+  },
+  {
+   "warte": 1.6
+  },
+  {
+   "ton": "puff"
+  },
+  {
+   "aktion": {
+    "set": [
+     "kerze4_aus"
+    ]
+   }
+  },
+  {
+   "fx": {
+    "art": "frost",
+    "x": 18,
+    "y": 8.6,
+    "w": 1,
+    "zeit": 2.4
+   }
+  },
+  {
+   "warte": 1.0
+  },
+  {
+   "sag": "haken_2_stimme"
+  },
+  {
+   "ton": "eiswind"
+  },
+  {
+   "fx": {
+    "art": "hauch",
+    "x": 18,
+    "y": 8.6,
+    "x2": 11.5,
+    "y2": 14.6,
+    "zeit": 3.6
+   }
+  },
+  {
+   "kamera": [
+    12,
+    12
+   ],
+   "zeit": 3.4
+  },
+  {
+   "warte": 0.6
+  },
+  {
+   "sag": "haken_2"
+  },
+  {
+   "ort": null
+  },
+  {
+   "balken": false
+  }
+ ],
+ "haken_3": [
+  {
+   "balken": true
+  },
+  {
+   "ort": {
+    "map": "eulenturm",
+    "kamera": [
+     5,
+     5
+    ],
+    "nacht": true,
+    "musik": "frost"
+   }
+  },
+  {
+   "warte": 1.4
+  },
+  {
+   "ton": "eiswind"
+  },
+  {
+   "fx": {
+    "art": "frost",
+    "x": 4.5,
+    "y": 2,
+    "w": 2,
+    "zeit": 3
+   }
+  },
+  {
+   "warte": 1.4
+  },
+  {
+   "ton": "schuhu"
+  },
+  {
+   "blase": {
+    "char": "pimpernell",
+    "text": "HÜTERIN!"
+   }
+  },
+  {
+   "warte": 1.2
+  },
+  {
+   "sag": "haken_3"
+  },
+  {
+   "ton": "schnarch"
+  },
+  {
+   "warte": 1.0
+  },
+  {
+   "ort": null
+  },
+  {
+   "balken": false
+  }
+ ],
+ "haken_4": [
+  {
+   "balken": true
+  },
+  {
+   "ort": {
+    "map": "uhrenturm",
+    "kamera": [
+     4,
+     4
+    ],
+    "nacht": true,
+    "musik": "frost"
+   }
+  },
+  {
+   "warte": 1.0
+  },
+  {
+   "ton": "turmschlag"
+  },
+  {
+   "warte": 0.55
+  },
+  {
+   "ton": "turmschlag"
+  },
+  {
+   "warte": 0.55
+  },
+  {
+   "ton": "turmschlag"
+  },
+  {
+   "warte": 0.55
+  },
+  {
+   "ton": "turmschlag"
+  },
+  {
+   "warte": 0.55
+  },
+  {
+   "ton": "turmschlag"
+  },
+  {
+   "warte": 0.55
+  },
+  {
+   "ton": "turmschlag"
+  },
+  {
+   "warte": 0.55
+  },
+  {
+   "ton": "turmschlag"
+  },
+  {
+   "warte": 0.55
+  },
+  {
+   "ton": "turmschlag"
+  },
+  {
+   "warte": 0.55
+  },
+  {
+   "ton": "turmschlag"
+  },
+  {
+   "warte": 0.55
+  },
+  {
+   "ton": "turmschlag"
+  },
+  {
+   "warte": 0.55
+  },
+  {
+   "ton": "turmschlag"
+  },
+  {
+   "warte": 0.55
+  },
+  {
+   "ton": "turmschlag"
+  },
+  {
+   "warte": 0.55
+  },
+  {
+   "warte": 0.5
+  },
+  {
+   "blase": {
+    "char": "pendel",
+    "text": "… zwölf."
+   }
+  },
+  {
+   "warte": 0.9
+  },
+  {
+   "ton": "turmschlag"
+  },
+  {
+   "fx": {
+    "art": "frost",
+    "x": 4,
+    "y": 1.5,
+    "w": 2,
+    "zeit": 3
+   }
+  },
+  {
+   "warte": 1.2
+  },
+  {
+   "blase": {
+    "char": "pendel",
+    "text": "Dreizehn?!"
+   }
+  },
+  {
+   "warte": 0.8
+  },
+  {
+   "sag": "haken_4"
+  },
+  {
+   "ton": "kalt"
+  },
+  {
+   "warte": 1.0
+  },
+  {
+   "ort": null
+  },
+  {
+   "balken": false
+  }
+ ],
+ "zimt_1": [
+  {
+   "figur": {
+    "char": "kater",
+    "nach": [
+     7,
+     14
+    ]
+   }
+  },
+  {
+   "aktion": {
+    "set": [
+     "zimt_1"
+    ]
+   }
+  }
+ ],
+ "zimt_2": [
+  {
+   "figur": {
+    "char": "kater",
+    "nach": [
+     6,
+     8
+    ]
+   }
+  },
+  {
+   "aktion": {
+    "set": [
+     "zimt_2"
+    ]
+   }
+  }
+ ],
+ "zimt_3": [
+  {
+   "figur": {
+    "char": "kater",
+    "nach": [
+     15,
+     11
+    ]
+   }
+  },
+  {
+   "aktion": {
+    "set": [
+     "zimt_3"
+    ]
+   }
+  }
  ]
 }

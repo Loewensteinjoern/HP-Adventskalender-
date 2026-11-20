@@ -141,7 +141,7 @@ const SHOTS = process.argv[2] || null;
   await key('ArrowRight'); await key('Enter'); await wait(500); await drain();
   { const t = await tag(), q = await st(); if (t.tag !== 3 || !q.flags.prolog_fertig || q.followers.length !== 2) errors.push('Testsprung kaputt: ' + JSON.stringify(t)); }
   // Hilfe im Menü
-  await key('Escape'); await key('ArrowDown', 3); await key('Enter', 1, 200);
+  await key('Escape'); await key('ArrowDown', 4); await key('Enter', 1, 200);
   if ((await st()).mode !== 'hilfe') errors.push('Hilfe im Menü fehlt'); await shot('p40_hilfe');
   await key('x'); await key('x');
   // Echter Spielstand bleibt unberührt

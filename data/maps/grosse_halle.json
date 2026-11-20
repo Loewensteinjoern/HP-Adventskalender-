@@ -145,13 +145,256 @@
    ]
   },
   {
-   "type": "tannenbaum_gross",
+   "type": "schmuckbaum",
    "x": 21,
    "y": 3,
    "talk": [
     {
-     "dialog": "tannenbaum_gross"
+     "dialog": "schmuckbaum"
     }
+   ]
+  },
+  {
+   "type": "baumschmuck",
+   "x": 21,
+   "y": 3,
+   "v": "1",
+   "if": [
+    "flag:schmuck_1"
+   ]
+  },
+  {
+   "type": "baumschmuck",
+   "x": 21,
+   "y": 3,
+   "v": "2",
+   "if": [
+    "flag:schmuck_2"
+   ]
+  },
+  {
+   "type": "baumschmuck",
+   "x": 21,
+   "y": 3,
+   "v": "3",
+   "if": [
+    "flag:schmuck_3"
+   ]
+  },
+  {
+   "type": "baumschmuck",
+   "x": 21,
+   "y": 3,
+   "v": "4",
+   "if": [
+    "flag:schmuck_4"
+   ]
+  },
+  {
+   "type": "baumschmuck",
+   "x": 21,
+   "y": 3,
+   "v": "5",
+   "if": [
+    "flag:schmuck_5"
+   ]
+  },
+  {
+   "type": "baumschmuck",
+   "x": 21,
+   "y": 3,
+   "v": "6",
+   "if": [
+    "flag:schmuck_6"
+   ]
+  },
+  {
+   "type": "baumschmuck",
+   "x": 21,
+   "y": 3,
+   "v": "7",
+   "if": [
+    "flag:schmuck_7"
+   ]
+  },
+  {
+   "type": "baumschmuck",
+   "x": 21,
+   "y": 3,
+   "v": "8",
+   "if": [
+    "flag:schmuck_8"
+   ]
+  },
+  {
+   "type": "baumschmuck",
+   "x": 21,
+   "y": 3,
+   "v": "9",
+   "if": [
+    "flag:schmuck_9"
+   ]
+  },
+  {
+   "type": "baumschmuck",
+   "x": 21,
+   "y": 3,
+   "v": "10",
+   "if": [
+    "flag:schmuck_10"
+   ]
+  },
+  {
+   "type": "baumschmuck",
+   "x": 21,
+   "y": 3,
+   "v": "11",
+   "if": [
+    "flag:schmuck_11"
+   ]
+  },
+  {
+   "type": "baumschmuck",
+   "x": 21,
+   "y": 3,
+   "v": "12",
+   "if": [
+    "flag:schmuck_12"
+   ]
+  },
+  {
+   "type": "baumschmuck",
+   "x": 21,
+   "y": 3,
+   "v": "13",
+   "if": [
+    "flag:schmuck_13"
+   ]
+  },
+  {
+   "type": "baumschmuck",
+   "x": 21,
+   "y": 3,
+   "v": "14",
+   "if": [
+    "flag:schmuck_14"
+   ]
+  },
+  {
+   "type": "baumschmuck",
+   "x": 21,
+   "y": 3,
+   "v": "15",
+   "if": [
+    "flag:schmuck_15"
+   ]
+  },
+  {
+   "type": "baumschmuck",
+   "x": 21,
+   "y": 3,
+   "v": "16",
+   "if": [
+    "flag:schmuck_16"
+   ]
+  },
+  {
+   "type": "baumschmuck",
+   "x": 21,
+   "y": 3,
+   "v": "17",
+   "if": [
+    "flag:schmuck_17"
+   ]
+  },
+  {
+   "type": "baumschmuck",
+   "x": 21,
+   "y": 3,
+   "v": "18",
+   "if": [
+    "flag:schmuck_18"
+   ]
+  },
+  {
+   "type": "baumschmuck",
+   "x": 21,
+   "y": 3,
+   "v": "19",
+   "if": [
+    "flag:schmuck_19"
+   ]
+  },
+  {
+   "type": "baumschmuck",
+   "x": 21,
+   "y": 3,
+   "v": "20",
+   "if": [
+    "flag:schmuck_20"
+   ]
+  },
+  {
+   "type": "baumschmuck",
+   "x": 21,
+   "y": 3,
+   "v": "21",
+   "if": [
+    "flag:schmuck_21"
+   ]
+  },
+  {
+   "type": "baumschmuck",
+   "x": 21,
+   "y": 3,
+   "v": "22",
+   "if": [
+    "flag:schmuck_22"
+   ]
+  },
+  {
+   "type": "baumschmuck",
+   "x": 21,
+   "y": 3,
+   "v": "23",
+   "if": [
+    "flag:schmuck_23"
+   ]
+  },
+  {
+   "type": "baumschmuck",
+   "x": 21,
+   "y": 3,
+   "v": "24",
+   "if": [
+    "flag:schmuck_24"
+   ]
+  },
+  {
+   "type": "baumschmuck",
+   "x": 21,
+   "y": 3,
+   "v": "schneemann",
+   "if": [
+    "flag:schmuck_schneemann"
+   ]
+  },
+  {
+   "type": "baumschmuck",
+   "x": 21,
+   "y": 3,
+   "v": "zimtstern",
+   "if": [
+    "flag:schmuck_zimtstern"
+   ]
+  },
+  {
+   "type": "baumschmuck",
+   "x": 21,
+   "y": 3,
+   "v": "stern",
+   "if": [
+    "flag:schmuck_stern"
    ]
   },
   {
@@ -391,7 +634,8 @@
    "seqVal": 4,
    "if": [
     "flag:kerzen_4",
-    "flag:prolog_tour"
+    "flag:prolog_tour",
+    "!flag:kerze4_aus"
    ],
    "talk": [
     {
@@ -401,10 +645,46 @@
    ]
   },
   {
+   "type": "singkerze",
+   "v": "aus",
+   "x": 18,
+   "y": 9,
+   "if": [
+    "flag:kerzen_4",
+    "flag:kerze4_aus"
+   ],
+   "talk": [
+    {
+     "if": [
+      "flag:zauber_luxa"
+     ],
+     "zauber": "luxa",
+     "dialog": "kerze4_wieder",
+     "unset": [
+      "kerze4_aus"
+     ]
+    },
+    {
+     "dialog": "kerze4_aus"
+    }
+   ]
+  },
+  {
    "type": "kamin",
    "x": 3,
    "y": 1,
    "talk": [
+    {
+     "if": [
+      "flag:oskar_auftrag",
+      "!flag:kohle_halle"
+     ],
+     "dialog": "kohle_kamin",
+     "set": [
+      "kohle_halle"
+     ],
+     "sound": "fund"
+    },
     {
      "dialog": "kamin_halle"
     }
@@ -504,6 +784,17 @@
    "x": 15,
    "y": 13,
    "talk": [
+    {
+     "if": [
+      "flag:oskar_auftrag",
+      "!flag:oskar_karotte"
+     ],
+     "dialog": "buffet_karotte",
+     "set": [
+      "oskar_karotte"
+     ],
+     "sound": "fund"
+    },
     {
      "dialog": "buffet"
     }
@@ -699,6 +990,46 @@
    "seed": 57,
    "if": [
     "!flag:prolog_tour"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 17,
+   "y": 10,
+   "if": [
+    "flag:kerze4_aus"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 16,
+   "y": 11,
+   "if": [
+    "flag:kerze4_aus"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 14,
+   "y": 12,
+   "if": [
+    "flag:kerze4_aus"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 13,
+   "y": 13,
+   "if": [
+    "flag:kerze4_aus"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 12,
+   "y": 14,
+   "if": [
+    "flag:kerze4_aus"
    ]
   }
  ],
@@ -899,6 +1230,26 @@
    "tx": 7,
    "ty": 3,
    "dir": "down"
+  }
+ ],
+ "secrets": [
+  {
+   "id": "zimt_lager",
+   "x": 16,
+   "y": 13,
+   "found": {
+    "dialog": "geheim_zimtlager",
+    "sound": "fund"
+   }
+  },
+  {
+   "id": "ewige_kerze",
+   "x": 11,
+   "y": 10,
+   "found": {
+    "dialog": "geheim_ewige_kerze",
+    "sound": "spur"
+   }
   }
  ]
 }

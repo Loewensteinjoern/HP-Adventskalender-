@@ -6,9 +6,10 @@ const DLG = {
   show(lines, cb) {
     const pages = [];
     lines.forEach(([sp, tx, taste]) => {
-      const name = sp ? (DATA.characters[sp] || { name: sp }).name : '';
+      // Raureifs Stimme: ohne Namensschild, kursiv und eisblau
+      const stimme = sp === 'stimme', name = sp && !stimme ? (DATA.characters[sp] || { name: sp }).name : '';
       const wrapped = R.wrap(tx, 470, 15, 500);
-      for (let i = 0; i < wrapped.length; i += 3) pages.push({ name, sp, lines: wrapped.slice(i, i + 3), taste: taste || null });
+      for (let i = 0; i < wrapped.length; i += 3) pages.push({ name, sp, stimme, lines: wrapped.slice(i, i + 3), taste: taste || null });
     });
     this.pages = pages; this.idx = 0; this.shown = 0; this.cb = cb || null;
   },
@@ -36,7 +37,8 @@ const DLG = {
     let left = Math.floor(this.shown);
     pg.lines.forEach((ln, i) => {
       const part = ln.slice(0, Math.max(0, left)); left -= ln.length + 1;
-      R.text(part, x + 16, y + 27 + i * 21, { size: 15, weight: 500, color: pg.name ? '#f8f0e0' : '#e8dcc4' });
+      if (pg.stimme) R.text(part, x + 16, y + 27 + i * 21, { size: 17, weight: 600, italic: true, serif: true, color: '#9ad0ff', shadowCol: 'rgba(20,60,120,0.8)' });
+      else R.text(part, x + 16, y + 27 + i * 21, { size: 15, weight: 500, color: pg.name ? '#f8f0e0' : '#e8dcc4' });
     });
     if (this.shown >= this.pageLen() && Math.floor(time * 3) % 2) { c.fillStyle = '#ffd36a'; c.fillRect(x + w - 22, y + h - 16, 9, 3); c.fillRect(x + w - 20, y + h - 13, 5, 2); c.fillRect(x + w - 19, y + h - 11, 3, 2); }
   },

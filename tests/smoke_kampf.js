@@ -32,7 +32,7 @@ const SHOTS = process.argv[2] || null;
   };
   await page.goto(FILE + '?testtag=2'); await wait(500);
   await key('ArrowRight'); await key('Enter'); await wait(500); await drain(); await wait(300); await drain();
-  await flags({ diego_dabei: true, zauber_luxa: true });
+  await flags({ diego_dabei: true, zauber_luxa: true, q02_kerzen: true });
 
   // Steuerkreuz-Navigation im Kampfmenü
   const nav = async art => {

@@ -200,6 +200,24 @@
      "dialog": "pflanze"
     }
    ]
+  },
+  {
+   "type": "zimtstern_eis",
+   "x": 13,
+   "y": 13,
+   "if": [
+    "flag:finn_auftrag",
+    "!flag:stern_2"
+   ],
+   "talk": [
+    {
+     "dialog": "stern_fund",
+     "set": [
+      "stern_2"
+     ],
+     "sound": "fund"
+    }
+   ]
   }
  ],
  "npcs": [
@@ -209,6 +227,22 @@
    "y": 4,
    "dir": "down",
    "wander": 2
+  },
+  {
+   "char": "kater",
+   "x": 5,
+   "y": 12,
+   "dir": "down",
+   "if": [
+    "flag:ida_auftrag",
+    "!flag:zimt_1"
+   ],
+   "talk": [
+    {
+     "dialog": "zimt_flieht_1",
+     "szene": "zimt_1"
+    }
+   ]
   }
  ],
  "doors": [
@@ -243,6 +277,31 @@
    "tx": 1,
    "ty": 8,
    "dir": "right"
+  }
+ ],
+ "secrets": [
+  {
+   "id": "gemaelde_gang",
+   "x": 13,
+   "y": 5,
+   "found": {
+    "dialog": "geheim_gemaelde",
+    "sound": "spur"
+   }
+  },
+  {
+   "id": "glut_kronleuchter",
+   "x": 7,
+   "y": 7,
+   "if": [
+    "day>=9"
+   ],
+   "found": {
+    "dialog": "glut_kronleuchter",
+    "sound": "fund",
+    "glut": "kronleuchter",
+    "zauber": "levitas"
+   }
   }
  ]
 }

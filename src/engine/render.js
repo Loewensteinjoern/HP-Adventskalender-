@@ -237,7 +237,7 @@ const R = {
   // --- Text ---
   text(str, x, y, o) {
     o = o || {}; const c = this.ctx;
-    c.font = (o.weight || 600) + ' ' + (o.size || 13) + 'px ' + (o.serif ? this.SERIF : this.FONT);
+    c.font = (o.italic ? 'italic ' : '') + (o.weight || 600) + ' ' + (o.size || 13) + 'px ' + (o.serif ? this.SERIF : this.FONT);
     c.textAlign = o.align || 'left'; c.textBaseline = 'alphabetic';
     if (o.shadow !== false) { c.fillStyle = o.shadowCol || 'rgba(0,0,0,0.6)'; c.fillText(str, x + 1, y + 1); }
     c.fillStyle = o.color || '#f4ead8'; c.fillText(str, x, y);

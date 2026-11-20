@@ -28,6 +28,7 @@ function validateData() {
       checkAction(a.win, where + ' Sieg'); if (!a.win) E(where + ': Kampf ohne Sieg-Aktion');
     }
     if (a.glut) setFlags.add('glut_' + a.glut);
+    if (a.schmuck) setFlags.add('schmuck_' + a.schmuck);
     if (a.szene && !(DATA.szenen || {})[a.szene]) E(where + ': Szene „' + a.szene + '“ fehlt');
     if (a.minigame) { if (a.minigame.type !== 'takt' && a.minigame.type !== 'uhr') E(where + ': unbekanntes Minispiel'); if (a.minigame.type === 'uhr' && !(DATA.puzzles[a.minigame.raetsel] || {}).fragen) E(where + ': Uhr-Rätsel fehlt'); checkAction(a.win, where + ' Sieg'); if (!a.win) E(where + ': Minispiel ohne Sieg-Aktion'); }
   }
@@ -51,7 +52,7 @@ function validateData() {
   Object.keys(dlg).forEach(id => {
     if (!Array.isArray(dlg[id]) || !dlg[id].length) return E('Dialog ' + id + ' ist leer');
     dlg[id].forEach(([sp, tx, taste], i) => {
-      if (sp && !chars[sp]) E('Dialog ' + id + '[' + i + ']: Sprecher „' + sp + '“ unbekannt');
+      if (sp && sp !== 'stimme' && !chars[sp]) E('Dialog ' + id + '[' + i + ']: Sprecher „' + sp + '“ unbekannt');
       if (taste !== undefined && ['a', 'b', 'menu', 'ton', 'dpad'].indexOf(taste) < 0) E('Dialog ' + id + '[' + i + ']: unbekannte Taste „' + taste + '“');
       if (typeof tx !== 'string' || !tx) E('Dialog ' + id + '[' + i + ']: Text fehlt');
       else if (tx.length > 190) Wn('Dialog ' + id + '[' + i + '] ist sehr lang (' + tx.length + ' Zeichen)');
@@ -206,13 +207,22 @@ function validateData() {
   Object.keys(DATA.kampf.gegner).forEach(id => { const T = DATA.kampf.gegner[id]; ['name', 'angriffe', 'treffer', 'besiegt', 'hinweis', 'aussetzen', 'ausgewichen'].forEach(f => { if (!T[f]) E('Gegner ' + id + ': ' + f + ' fehlt'); }); });
   Object.keys(DATA.zauber).forEach(z => { if (!(DATA.zauber[z].tag >= 1 && DATA.zauber[z].tag <= 24)) E('Zauber ' + z + ': Lerntag fehlt'); });
 
+  // Diego-Geheimnisse: mindestens zwei pro Raum (Story-Bibel 7.2)
+  Object.keys(maps).forEach(mid => { const n = (maps[mid].secrets || []).filter(s => s.count !== false).length; if (n < 2) Wn('Karte ' + mid + ': nur ' + n + ' Diego-Geheimnis(se), geplant sind mindestens 2'); });
+  // Rückblicke: jede Quest mit Haken braucht einen Titel
+  Object.keys(DATA.quests).forEach(id => { const h = DATA.quests[id].haken; if (h && !(DATA.welt.rueckblicke || {})[h]) E('Quest ' + id + ': Haken „' + h + '“ hat keinen Rückblick-Titel (welt.json)'); });
+  Object.keys(DATA.welt.rueckblicke || {}).forEach(h => { if (!DATA.szenen[h]) E('Rückblick „' + h + '“: Szene fehlt'); });
+
+  // Phönixlied: 24 gereimte Zeilen, Melodie mit vier Takten
+  if (!DATA.lied || !Array.isArray(DATA.lied.zeilen) || DATA.lied.zeilen.length !== 24 || DATA.lied.zeilen.some(z => typeof z !== 'string' || !z)) E('Phönixlied: es braucht genau 24 Zeilen');
+  if (!DATA.lied || !Array.isArray(DATA.lied.melodie) || DATA.lied.melodie.length !== 4) E('Phönixlied: Melodie braucht vier Takte');
+
   // Quests: jeder Schritt muss irgendwo gesetzt werden können
   const days = {};
   Object.keys(DATA.quests).forEach(id => {
     const q = DATA.quests[id];
     if (!(q.day >= (q.neben ? 0 : 1) && q.day <= 24)) E('Quest ' + id + ': Tag ungültig');
     if (!q.neben) { if (days[q.day]) E('Quest ' + id + ': Tag ' + q.day + ' doppelt'); days[q.day] = id; }
-    if (!q.neben && !q.fragment) E('Quest ' + id + ': Fragment fehlt');
     if (!q.title || !Array.isArray(q.steps) || !q.steps.length) E('Quest ' + id + ': Titel oder Schritte fehlen');
     if (q.start) checkDialogRef(q.start, 'Quest ' + id);
     if (q.haken && !DATA.szenen[q.haken]) E('Quest ' + id + ': Haken-Szene „' + q.haken + '“ fehlt');

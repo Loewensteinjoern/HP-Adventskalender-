@@ -75,6 +75,24 @@
      "dialog": "wegweiser_turm"
     }
    ]
+  },
+  {
+   "type": "zimtstern_eis",
+   "x": 9,
+   "y": 4,
+   "if": [
+    "flag:finn_auftrag",
+    "!flag:stern_3"
+   ],
+   "talk": [
+    {
+     "dialog": "stern_fund",
+     "set": [
+      "stern_3"
+     ],
+     "sound": "fund"
+    }
+   ]
   }
  ],
  "npcs": [
@@ -110,6 +128,30 @@
    "tx": 1,
    "ty": 7,
    "dir": "right"
+  }
+ ],
+ "secrets": [
+  {
+   "id": "schmuck_stufe",
+   "x": 3,
+   "y": 4,
+   "if": [
+    "day>=2"
+   ],
+   "found": {
+    "dialog": "schmuck_2",
+    "sound": "fund",
+    "schmuck": "2"
+   }
+  },
+  {
+   "id": "initialen",
+   "x": 9,
+   "y": 8,
+   "found": {
+    "dialog": "geheim_initialen",
+    "sound": "spur"
+   }
   }
  ]
 }

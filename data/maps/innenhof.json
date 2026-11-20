@@ -165,6 +165,24 @@
    "y": 12,
    "talk": [
     {
+     "dialog": "schneemann_roh"
+    }
+   ],
+   "v": "roh",
+   "if": [
+    "!flag:oskar_fertig"
+   ]
+  },
+  {
+   "type": "schneemann",
+   "x": 6,
+   "y": 12,
+   "v": "fertig",
+   "if": [
+    "flag:oskar_fertig"
+   ],
+   "talk": [
+    {
      "dialog": "schneemann"
     }
    ]
@@ -223,6 +241,7 @@
    "y": 10,
    "if": [
     "flag:zauber_luxa",
+    "flag:q02_kerzen",
     "!flag:kampf_probe"
    ],
    "talk": [
@@ -236,7 +255,8 @@
       ]
      },
      "if": [
-      "flag:zauber_luxa"
+      "flag:zauber_luxa",
+      "flag:q02_kerzen"
      ]
     }
    ]
@@ -265,8 +285,17 @@
    "x": 20,
    "y": 6,
    "found": {
-    "dialog": "glut_fund",
+    "dialog": "glut_futter",
     "glut": "innenhof",
+    "sound": "fund"
+   }
+  },
+  {
+   "id": "handschuh",
+   "x": 3,
+   "y": 12,
+   "found": {
+    "dialog": "geheim_handschuh",
     "sound": "fund"
    }
   }
@@ -303,7 +332,54 @@
    "x": 7,
    "y": 12,
    "dir": "left",
-   "wander": 2
+   "wander": 2,
+   "talk": [
+    {
+     "if": [
+      "day>=2",
+      "!flag:oskar_auftrag"
+     ],
+     "dialog": "oskar_auftrag",
+     "set": [
+      "oskar_auftrag"
+     ]
+    },
+    {
+     "if": [
+      "flag:oskar_karotte",
+      "flag:kohle_gemein",
+      "flag:kohle_halle",
+      "flag:kohle_vorhalle",
+      "flag:oskar_schal",
+      "!flag:oskar_fertig"
+     ],
+     "dialog": "oskar_fertig",
+     "set": [
+      "oskar_fertig"
+     ],
+     "schmuck": "schneemann",
+     "sound": "fund"
+    },
+    {
+     "if": [
+      "flag:oskar_auftrag",
+      "!flag:oskar_fertig"
+     ],
+     "dialog": "oskar_warten"
+    },
+    {
+     "if": [
+      "flag:oskar_fertig"
+     ],
+     "dialog": "oskar_danke"
+    },
+    {
+     "dialog": [
+      "oskar_1",
+      "oskar_2"
+     ]
+    }
+   ]
   },
   {
    "char": "mats",

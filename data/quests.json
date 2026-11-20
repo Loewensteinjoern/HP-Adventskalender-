@@ -1,121 +1,212 @@
 {
-  "Q01": {
-    "day": 1,
-    "title": "Die letzte Winterfeder",
-    "start": "q01_start",
-    "fragment": "Wenn die längste Nacht sich naht, sucht der Phönix sein Feuer.",
-    "steps": [
-      {
-        "flag": "diego_dabei",
-        "text": "Weck Diego in seinem Körbchen am Kamin."
-      },
-      {
-        "flag": "q01_feder",
-        "text": "Am Kamin glitzert Raureif. Lass Diego schnüffeln (Taste B)."
-      },
-      {
-        "flag": "q01_joern",
-        "text": "Zeig Jörn die Feder."
-      },
-      {
-        "flag": "q01_lotte",
-        "text": "Folge der Raureif-Spur über den Kellergang und den Schlosskern in die Große Halle und frag Lotte Silberfeder."
-      }
-    ]
-  },
-  "Q02": {
-    "day": 2,
-    "title": "Die singenden Kerzen",
-    "start": "q02_start",
-    "fragment": "Sein Lied weckt das Licht in allen Kerzen.",
-    "steps": [
-      {
-        "flag": "zauber_luxa",
-        "text": "Lass dir von Prof. Federleicht in der Großen Halle den Lichtzauber zeigen."
-      },
-      {
-        "flag": "q02_melodie",
-        "text": "Hör dir die Spieluhr rechts neben dem Lehrertisch an. Achte darauf, welche Kerze mitleuchtet."
-      },
-      {
-        "flag": "q02_kerzen",
-        "text": "Zünde die vier singenden Kerzen in der Reihenfolge der Melodie an: vor die Kerze stellen, A, den richtigen Zauber wählen."
-      }
-    ]
-  },
-  "Q03": {
-    "day": 3,
-    "title": "Die Eule ohne Erinnerung",
-    "start": "q03_start",
-    "fragment": "Eulen trugen einst seine Botschaften über das Land.",
-    "steps": [
-      {
-        "flag": "q03_eule",
-        "text": "Besuch die verwirrte Eule im Eulenturm. Der Weg führt über den Innenhof."
-      },
-      {
-        "flags": [
-          "q03_siegel",
-          "q03_band",
-          "q03_tinte"
-        ],
-        "text": "Finde Pimpernells drei Erinnerungsstücke ({n}/3): Siegelwachs (Diego hilft), ein rotes Band im Innenhof, ein Tintenfass in der Bibliothek."
-      },
-      {
-        "flag": "q03_erinnert",
-        "text": "Bring die Erinnerungsstücke zu Pimpernell."
-      },
-      {
-        "flag": "q03_clavis",
-        "text": "Die Briefkapsel ist verschlossen. Lass dir von Prof. Pendel im Uhrenturm einen Öffnungszauber zeigen."
-      },
-      {
-        "flag": "q03_offen",
-        "text": "Öffne Pimpernells Briefkapsel mit dem richtigen Zauber (A bei Pimpernell)."
-      }
-    ]
-  },
-  "Q04": {
-    "day": 4,
-    "title": "Das Herz des Uhrenturms",
-    "start": "q04_start",
-    "fragment": "Alle dreihundert Winter schlägt die Turmuhr für ihn.",
-    "steps": [
-      {
-        "flag": "q04_pendel",
-        "text": "Sprich mit Prof. Pendel im Uhrenturm."
-      },
-      {
-        "flag": "q04_zahnrad",
-        "text": "Finde das fehlende Zahnrad. Diego hat die beste Nase (Taste B)."
-      },
-      {
-        "flag": "q04_eingesetzt",
-        "text": "Setz das Zahnrad ins Uhrwerk ein – mit dem richtigen Zauber."
-      },
-      {
-        "flag": "q04_uhrmeister",
-        "text": "Sprich mit dem Uhrmeister und löse seine Uhr-Rätsel."
-      }
-    ]
-  },
-  "N_knarz": {
-    "day": 1,
-    "neben": true,
-    "title": "Knarz’ Schlüsselbund",
-    "steps": [
-      {
-        "flag": "knarz_auftrag",
-        "text": "Sprich mit Hausmeister Knarz im Schlosskern."
-      },
-      {
-        "flag": "knarz_schluessel",
-        "text": "Such den Schlüsselbund im verschneiten Innenhof. Diego kann ihn erschnüffeln (B)."
-      },
-      {
-        "flag": "knarz_fertig",
-        "text": "Bring Knarz den Schlüsselbund zurück."
-      }
-    ]
-  }
+ "Q01": {
+  "day": 1,
+  "title": "Die letzte Winterfeder",
+  "start": "q01_start",
+  "steps": [
+   {
+    "flag": "q01_feder",
+    "text": "Am Kamin glitzert Raureif. Lass Diego schnüffeln (Taste B)."
+   },
+   {
+    "flag": "q01_joern",
+    "text": "Zeig Jörn die Feder."
+   },
+   {
+    "flag": "q01_lotte",
+    "text": "Folge der Raureif-Spur über den Kellergang und den Schlosskern in die Große Halle und frag Lotte Silberfeder."
+   }
+  ],
+  "haken": "haken_1"
+ },
+ "Q02": {
+  "day": 2,
+  "title": "Die singenden Kerzen",
+  "start": "q02_start",
+  "steps": [
+   {
+    "flag": "zauber_luxa",
+    "text": "Lass dir von Prof. Federleicht in der Großen Halle den Lichtzauber zeigen."
+   },
+   {
+    "flag": "q02_melodie",
+    "text": "Hör dir die Spieluhr rechts neben dem Lehrertisch an. Achte darauf, welche Kerze mitleuchtet."
+   },
+   {
+    "flag": "q02_kerzen",
+    "text": "Zünde die vier singenden Kerzen in der Reihenfolge der Melodie an: vor die Kerze stellen, A, den richtigen Zauber wählen."
+   },
+   {
+    "flag": "q02_knarz",
+    "text": "Hausmeister Knarz sucht dich. Er steht im Schlosskern."
+   },
+   {
+    "flag": "kampf_probe",
+    "text": "Sieh nach dem kichernden Schneehaufen im tiefen Schnee rechts unten im Innenhof."
+   }
+  ],
+  "haken": "haken_2"
+ },
+ "Q03": {
+  "day": 3,
+  "title": "Die Eule ohne Erinnerung",
+  "start": "q03_start",
+  "steps": [
+   {
+    "flag": "q03_eule",
+    "text": "Besuch die verwirrte Eule im Eulenturm. Der Weg führt über den Innenhof."
+   },
+   {
+    "flags": [
+     "q03_siegel",
+     "q03_band",
+     "q03_tinte"
+    ],
+    "text": "Finde Pimpernells drei Erinnerungsstücke ({n}/3): Siegelwachs (Diego hilft), ein rotes Band im Innenhof, ein Tintenfass in der Bibliothek."
+   },
+   {
+    "flag": "q03_erinnert",
+    "text": "Bring die Erinnerungsstücke zu Pimpernell."
+   },
+   {
+    "flag": "q03_clavis",
+    "text": "Die Briefkapsel ist verschlossen. Lass dir von Prof. Pendel im Uhrenturm einen Öffnungszauber zeigen."
+   },
+   {
+    "flag": "q03_offen",
+    "text": "Öffne Pimpernells Briefkapsel mit dem richtigen Zauber (A bei Pimpernell)."
+   }
+  ],
+  "haken": "haken_3"
+ },
+ "Q04": {
+  "day": 4,
+  "title": "Das Herz des Uhrenturms",
+  "start": "q04_start",
+  "steps": [
+   {
+    "flag": "q04_pendel",
+    "text": "Sprich mit Prof. Pendel im Uhrenturm."
+   },
+   {
+    "flag": "q04_zahnrad",
+    "text": "Jemand hat das Zahnrad versteckt. Diego hat die beste Nase (Taste B)."
+   },
+   {
+    "flag": "q04_eingesetzt",
+    "text": "Setz das Zahnrad ins Uhrwerk ein – mit dem richtigen Zauber."
+   },
+   {
+    "flag": "q04_uhrmeister",
+    "text": "Sprich mit dem Uhrmeister und löse seine Uhr-Rätsel."
+   }
+  ],
+  "haken": "haken_4"
+ },
+ "N_knarz": {
+  "day": 1,
+  "neben": true,
+  "title": "Knarz’ Schlüsselbund",
+  "steps": [
+   {
+    "flag": "knarz_auftrag",
+    "text": "Sprich mit Hausmeister Knarz im Schlosskern."
+   },
+   {
+    "flag": "knarz_schluessel",
+    "text": "Such den Schlüsselbund im verschneiten Innenhof. Diego kann ihn erschnüffeln (B)."
+   },
+   {
+    "flag": "knarz_fertig",
+    "text": "Bring Knarz den Schlüsselbund zurück."
+   }
+  ]
+ },
+ "N_oskar": {
+  "day": 2,
+  "neben": true,
+  "title": "Oskars Schneemann",
+  "steps": [
+   {
+    "flag": "oskar_auftrag",
+    "text": "Sprich mit Oskar Rindenmoos im Innenhof."
+   },
+   {
+    "flag": "oskar_karotte",
+    "text": "Hol eine Karotte vom Weihnachtsbuffet in der Großen Halle."
+   },
+   {
+    "flags": [
+     "kohle_gemein",
+     "kohle_halle",
+     "kohle_vorhalle"
+    ],
+    "text": "Sammle drei Kohleknöpfe ({n}/3): aus dem Kamin im Gemeinschaftsraum, aus dem linken Kamin der Großen Halle – und in der Vorhalle weiß Diego Bescheid."
+   },
+   {
+    "flag": "oskar_schal",
+    "text": "Der Schneemann braucht einen Schal. Im Arkadengang gibt es eine Garderobe (Diego hilft)."
+   },
+   {
+    "flag": "oskar_fertig",
+    "text": "Bring alles zu Oskar in den Innenhof."
+   }
+  ]
+ },
+ "N_ida": {
+  "day": 3,
+  "neben": true,
+  "title": "Idas verschwundenes Buch",
+  "steps": [
+   {
+    "flag": "ida_auftrag",
+    "text": "Ida Muschelweiß in der Bibliothek sucht etwas."
+   },
+   {
+    "flags": [
+     "zimt_1",
+     "zimt_2",
+     "zimt_3"
+    ],
+    "text": "Folge Kater Zimt mit dem Buch ({n}/3): Treppenhaus, Vorhalle, Gemeinschaftsraum. Sprich ihn an, wenn du ihn erwischst."
+   },
+   {
+    "flag": "ida_buch",
+    "text": "Zimt hat das Buch im Gemeinschaftsraum versteckt. Lass Diego schnüffeln (B)."
+   },
+   {
+    "flag": "ida_fertig",
+    "text": "Bring Ida ihr Buch in die Bibliothek."
+   }
+  ]
+ },
+ "N_finn": {
+  "day": 4,
+  "neben": true,
+  "title": "Finns Zimtsterne",
+  "steps": [
+   {
+    "flag": "finn_auftrag",
+    "text": "Finn Haselnuss im Gemeinschaftsraum ist ganz verzweifelt."
+   },
+   {
+    "flags": [
+     "stern_1",
+     "stern_2",
+     "stern_3",
+     "stern_4",
+     "stern_5"
+    ],
+    "text": "Finde Finns fünf eingefrorene Zimtsterne ({n}/5): Bibliothek, Treppenhaus, Wendeltreppe, Arkadengang – und einen draußen (Diego hilft)."
+   },
+   {
+    "flag": "finn_aufgetaut",
+    "text": "Taue die Zimtsterne am Kamin im Gemeinschaftsraum auf (A am Kamin)."
+   },
+   {
+    "flag": "finn_fertig",
+    "text": "Bring Finn seine Zimtsterne."
+   }
+  ]
+ }
 }

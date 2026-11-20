@@ -199,6 +199,12 @@ const AU = {
   },
 
   note(n) { if (!this.ctx || !this.on || this.failed) return; const f = noteFreq(n); if (f) this.tone('glocke', f, this.ctx.currentTime + 0.01, 1.2, 0.3, this.sfxBus); },
+  // Spieluhr spielt einen Takt des Phönixlieds
+  melodie(notes, takt) {
+    if (!this.ctx || !this.on || this.failed) return;
+    const t = this.ctx.currentTime + 0.05;
+    notes.forEach((n, i) => { const f = noteFreq(n); if (f) this.tone('spieluhr', f, t + i * takt, 1.2, 0.2, this.sfxBus); });
+  },
   tick(dir) {
     if (!this.ctx || !this.on || this.failed) return;
     const t = this.ctx.currentTime + 0.01, f = { up: 'G5', right: 'E5', down: 'C5', left: 'A4' }[dir];
@@ -238,6 +244,10 @@ const AU = {
       case 'kalt': [659, 587, 523, 440].forEach((f, i) => this.tone('glocke', f, t + i * 0.18, 1.2, 0.14, B)); break;
       case 'wusch': [900, 520, 260].forEach((f, i) => this.noiseBurst(t + i * 0.09, 0.22, 0.32, f, 1.2)); this.tone('sine', 110, t, 0.45, 0.12, B); break;
       case 'eiswind': this.noiseBurst(t, 2.2, 0.22, 5200, 0.6); this.noiseBurst(t + 0.3, 1.6, 0.16, 2600, 0.8); [2637, 2489, 3136].forEach((f, i) => this.tone('glocke', f, t + 0.2 + i * 0.35, 1.2, 0.05, B)); break;
+      case 'schuhu': [392, 330].forEach((f, i) => { this.tone('sine', f, t + i * 0.32, 0.28, 0.16, B); this.noiseBurst(t + i * 0.32, 0.2, 0.08, 900, 1); }); break;
+      case 'turmschlag': [131, 262, 330].forEach((f, i) => this.tone('glocke', f, t, 2.2, [0.3, 0.16, 0.08][i], B)); this.noiseBurst(t, 0.1, 0.2, 400, 1); break;
+      case 'reim': [1568, 2093].forEach((f, i) => this.tone('spieluhr', f, t + i * 0.12, 0.8, 0.12, B)); break;
+      case 'akkord': [523, 659, 784, 1046].forEach(f => this.tone('glocke', f, t, 2.4, 0.11, B)); [262, 392].forEach(f => this.tone('spieluhr', f, t, 2.4, 0.14, B)); break;
       case 'sieg': [523, 659, 784, 1046, 784, 1046].forEach((f, i) => this.tone('glocke', f, t + i * 0.11, 1, 0.18, B)); break;
     }
   },

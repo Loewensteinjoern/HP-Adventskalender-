@@ -181,12 +181,15 @@ const UI = {
 
   // --- Auswahlliste (Menü, Nachfragen) ---
   list(title, opts, time) {
-    const c = R.ctx, w = 260, h = 40 + opts.length * 26, x = (VIEW_W - w) / 2, y = (VIEW_H - h) / 2;
+    // lange Listen: Fenster mit höchstens 10 Einträgen um die Auswahl
+    const all = opts, von = all.length > 10 ? clamp(this.sel - 4, 0, all.length - 10) : 0;
+    opts = all.slice(von, von + 10);
+    const c = R.ctx, w = 300, h = 40 + opts.length * 26, x = (VIEW_W - w) / 2, y = (VIEW_H - h) / 2;
     c.fillStyle = 'rgba(8,4,12,0.5)'; c.fillRect(0, 0, VIEW_W, VIEW_H);
     R.panel(x, y, w, h);
     R.text(title, VIEW_W / 2, y + 24, { size: 15, weight: 700, align: 'center', color: '#ffd36a', serif: true });
     opts.forEach((o, i) => {
-      const yy = y + 50 + i * 26, on = i === this.sel;
+      const yy = y + 50 + i * 26, on = i + von === this.sel;
       if (on) { c.fillStyle = 'rgba(224,154,44,0.18)'; c.fillRect(x + 10, yy - 17, w - 20, 24); }
       R.text((on ? '▸ ' : '  ') + o.label, x + 24, yy, { size: 14, color: on ? '#ffd36a' : '#f4ead8', weight: on ? 700 : 500 });
     });
@@ -250,7 +253,7 @@ const UI = {
     const sv = G.save;
     R.text('★ Stufe ' + sv.stufe + '   Erfahrung ' + sv.ep + ' / ' + epFuerStufe(sv.stufe) + '   Kraft ' + sv.kraft + '   Wärme ' + waermeMax(sv) + '   ☕ ' + sv.kakao, 34, VIEW_H - 54, { size: 12, color: '#ffd36a' });
     const sp = Object.keys(DATA.zauber).filter(z => G.save.flags['zauber_' + z]).map(z => DATA.zauber[z].name);
-    R.text('🐾 Geheimnisse: ' + found + ' von ' + total + '    Fragmente: ' + G.save.fragments.length + ' von 24', 34, VIEW_H - 38, { size: 12, color: '#c8b898' });
+    R.text('🐾 Geheimnisse: ' + found + ' von ' + total + '    Fragmente: ' + G.save.fragments.length + ' von 24    🎄 Baumschmuck: ' + G.schmuckZahl(), 34, VIEW_H - 38, { size: 12, color: '#c8b898' });
     R.text('✦ Zauber: ' + (sp.length ? sp.join(', ') : 'noch keine'), 34, VIEW_H - 22, { size: 12, color: '#c8b898' });
   },
   // Hilfe: alle Erklärungen aus dem Prolog zum Nachlesen
@@ -268,22 +271,50 @@ const UI = {
     lines.slice(this.scroll, this.scroll + maxRows).forEach(([t, col, w], i) => R.text(t, 34, 70 + i * 20, { size: 13, color: col, weight: w }));
     if (this.scroll + maxRows < lines.length) R.text('▼', VIEW_W - 40, VIEW_H - 26, { size: 11, color: '#ffd36a' });
   },
-  lied(G) {
+  // Phönixlied: sechs Strophen, fehlende Zeilen als Eiskristalle, neue Zeile taut golden auf
+  lied(G, time) {
+    const c = R.ctx, L = G.liedNeu, has = d => { const id = questIds().find(q => DATA.quests[q].day === d && !DATA.quests[q].neben); return !!id && G.save.fragments.indexOf(id) >= 0; };
     R.panel(16, 14, VIEW_W - 32, VIEW_H - 28);
-    R.text('Das Phönixlied', 34, 42, { size: 20, weight: 700, serif: true, color: '#ffd36a' });
-    R.text(G.save.fragments.length + ' von 24 Zeilen', VIEW_W - 34, 40, { size: 12, align: 'right', color: '#c8b898' });
+    R.text(L ? 'Heute neu im Phönixlied' : DATA.lied.titel, 34, 42, { size: 20, weight: 700, serif: true, color: '#ffd36a' });
+    const n = [...Array(24)].filter((_, i) => has(i + 1)).length;
+    R.text(n + ' von 24 Zeilen', VIEW_W - 34, 40, { size: 12, align: 'right', color: '#c8b898' });
+    const lt = L ? time - L.t0 : 99, tau = clamp((lt - 0.4) / 2.6, 0, 1);
+    // nach dem Auftauen: Reimpaar und ganze Strophe leuchten kurz
+    if (L && lt > 3.1 && !L.reim) { L.reim = true; const p = L.tag % 2 ? L.tag + 1 : L.tag - 1; if (has(p)) { AU.sfx('reim'); L.reimT = time; } }
+    if (L && lt > 3.9 && !L.strophe) { L.strophe = true; const s0 = Math.floor((L.tag - 1) / 4) * 4; if ([1, 2, 3, 4].every(k => has(s0 + k))) { AU.sfx('akkord'); L.stropheT = time; } }
     const rows = [];
-    for (let d = 1; d <= 24; d++) {
-      const id = questIds().find(q => DATA.quests[q].day === d);
-      const has = id && G.save.fragments.indexOf(id) >= 0;
-      rows.push([d, has ? DATA.quests[id].fragment : '· · ·', has]);
-    }
-    const maxRows = 14; this.scroll = clamp(this.scroll, 0, rows.length - maxRows);
-    rows.slice(this.scroll, this.scroll + maxRows).forEach(([d, t, has], i) => {
-      R.text(String(d).padStart(2, ' '), 40, 70 + i * 20, { size: 12, color: '#a89878', align: 'right', weight: 600 });
-      R.text(t, 50, 70 + i * 20, { size: 12, color: has ? '#f4ead8' : '#6a6070', weight: has ? 600 : 400, serif: has });
+    for (let st = 0; st < 6; st++) { for (let i = 0; i < 4; i++) rows.push(st * 4 + i + 1); if (st < 5) rows.push(0); }
+    const maxRows = 15; this.scroll = clamp(this.scroll, 0, rows.length - maxRows);
+    rows.slice(this.scroll, this.scroll + maxRows).forEach((d, i) => {
+      if (!d) return;
+      const y = 72 + i * 18, x = 58;
+      R.text(String(d), 46, y, { size: 10, color: '#7a7088', align: 'right', weight: 600 });
+      const neu = L && L.tag === d;
+      if (!has(d)) {
+        // Eiskristall mit Tagesnummer, Inhalt bleibt geheim
+        const p = Pen(c), cx = x + 6, cy = y - 4;
+        p.r(cx - 5, cy, 11, 1, '#9ad0ff'); p.r(cx, cy - 5, 1, 11, '#9ad0ff'); p.px(cx - 3, cy - 3, '#cfe8ff'); p.px(cx + 3, cy - 3, '#cfe8ff'); p.px(cx - 3, cy + 3, '#cfe8ff'); p.px(cx + 3, cy + 3, '#cfe8ff');
+        R.text('· · ·  Türchen ' + d, x + 18, y, { size: 11, color: '#5a6a88', weight: 500 });
+        return;
+      }
+      let glow = 0;
+      if (L && L.reimT && (d === L.tag || d === (L.tag % 2 ? L.tag + 1 : L.tag - 1))) glow = Math.max(glow, 1 - (time - L.reimT) / 1.6);
+      if (L && L.stropheT && Math.floor((d - 1) / 4) === Math.floor((L.tag - 1) / 4)) glow = Math.max(glow, 0.7 * (1 - (time - L.stropheT) / 2.4));
+      if (glow > 0) { c.fillStyle = 'rgba(255,211,106,' + (0.22 * glow).toFixed(3) + ')'; c.fillRect(x - 4, y - 13, 400, 17); }
+      if (neu && tau < 1) {
+        // Buchstaben tauen von links nach rechts aus dem Eis
+        R.text(liedZeile(d), x, y, { size: 13, color: '#9ab8d8', weight: 600, serif: true });
+        c.font = '600 13px ' + R.SERIF; const w = c.measureText(liedZeile(d)).width;
+        c.save(); c.beginPath(); c.rect(x - 2, y - 16, w * tau + 2, 22); c.clip();
+        R.text(liedZeile(d), x, y, { size: 13, color: '#ffd36a', weight: 700, serif: true }); c.restore();
+        const fx = Math.round(x + w * tau), p = Pen(c);
+        p.r(fx, y - 12, 2, 14, 'rgba(255,242,176,0.9)');
+        for (let k = 0; k < 4; k++) p.px(fx + ((time * 37 + k * 13) % 9) - 4, y - 14 + ((time * 53 + k * 7) % 18), k % 2 ? '#fff2b0' : '#cfe8ff');
+      } else R.text(liedZeile(d), x, y, { size: 13, color: neu ? '#ffd36a' : '#f4ead8', weight: neu ? 700 : 600, serif: true });
     });
-    if (this.scroll + maxRows < rows.length) R.text('▼', VIEW_W - 40, VIEW_H - 26, { size: 11, color: '#ffd36a' });
+    if (this.scroll + maxRows < rows.length) R.text('▼', VIEW_W - 40, VIEW_H - 24, { size: 11, color: '#ffd36a' });
+    if (this.scroll > 0) R.text('▲', VIEW_W - 40, 60, { size: 11, color: '#ffd36a' });
+    if (L && lt > 3.4) R.text('A: weiter', VIEW_W - 34, VIEW_H - 24, { size: 11, align: 'right', color: '#c8b898' });
   },
   // Takt-Rätsel: vier Glocken um ein Zifferblatt
   mini(G, time) {

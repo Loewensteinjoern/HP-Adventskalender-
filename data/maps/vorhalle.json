@@ -313,7 +313,10 @@
    "x": 9,
    "y": 6,
    "dir": "left",
-   "wander": 3
+   "wander": 3,
+   "if": [
+    "!flag:ida_jagd"
+   ]
   },
   {
    "char": "sternwald",
@@ -379,6 +382,22 @@
     "flag:prolog_tour",
     "!flag:prolog_tor"
    ]
+  },
+  {
+   "char": "kater",
+   "x": 4,
+   "y": 6,
+   "dir": "right",
+   "if": [
+    "flag:zimt_1",
+    "!flag:zimt_2"
+   ],
+   "talk": [
+    {
+     "dialog": "zimt_flieht_2",
+     "szene": "zimt_2"
+    }
+   ]
   }
  ],
  "doors": [
@@ -413,6 +432,34 @@
    "tx": 11,
    "ty": 3,
    "dir": "down"
+  }
+ ],
+ "secrets": [
+  {
+   "id": "glut_ruestung",
+   "x": 10,
+   "y": 7,
+   "found": {
+    "dialog": "glut_ruestung",
+    "sound": "fund",
+    "glut": "ruestung"
+   }
+  },
+  {
+   "id": "kohle_vorhalle",
+   "x": 12,
+   "y": 8,
+   "if": [
+    "flag:oskar_auftrag",
+    "!flag:kohle_vorhalle"
+   ],
+   "found": {
+    "dialog": "kohle_vorhalle",
+    "sound": "fund",
+    "set": [
+     "kohle_vorhalle"
+    ]
+   }
   }
  ]
 }

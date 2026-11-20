@@ -46,6 +46,10 @@ const SHOTS = process.argv[2] || null;
   if ((await st()).flags.kerzen_1) errors.push('Q02: falsche Kerze wurde nicht zurückgesetzt');
   for (const n of [2, 4, 1, 3]) { await go('grosse_halle', kx[n], 10, 'up'); await cast('luxa'); }
   await drain(); await expect('q02_kerzen', 'Q02: Kerzenrätsel'); await shot('23_kerzen_an');
+  // Q02: Knarz schickt Charly zum kichernden Schneehaufen (der Kampf selbst steckt in smoke_kampf.js)
+  await go('schlosskern', 7, 13, 'up'); await talk(); await expect('q02_knarz', 'Q02: Knarz');
+  if ((await st()).done.indexOf('Q02') >= 0) errors.push('Q02 schon vor dem Probekampf fertig');
+  await flags({ kampf_probe: true });
 
   // Q03: Eule, drei Erinnerungen, Pendel
   await go('eulenturm', 5, 5, 'up'); await talk(); await expect('q03_eule', 'Q03: Eule'); await shot('24_eulenturm');

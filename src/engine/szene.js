@@ -12,7 +12,8 @@
 //   blick: {char|'spieler', dir}
 //   blase: {char, text}
 //   einblenden / ausblenden: Objekt-id, zeit   (einblenden setzt vorher das Flag "sichtbar", ausblenden nachher "weg")
-//   fx: {art, x, y, w, zeit}  Effekte: funken, tropfen, schnee, morgenlicht, frost
+//   fx: {art, x, y, w, zeit}  Effekte: funken, tropfen, schnee, morgenlicht, frost, flackern, eiswind, schatten (x2,y2),
+//                             hauch (Raureif zieht von x,y nach x2,y2), schrift (text im Raureif)
 //   gehe: {map, x, y, dir, nurWennWoanders}   Charly wechselt die Karte (mit Abblende)
 //   schwarz: {set, unset}     kurz abblenden, dabei Flags ändern
 //   tour: 'start'             Führung beginnt
@@ -22,6 +23,7 @@ const SZ = {
 
   start(id, cb) {
     this.a = { id, steps: DATA.szenen[id], i: 0, wait: null, cb };
+    if (/^haken_/.test(id)) G.save.flags['gesehen_' + id] = true;
     this.schnell = false;
     G.mode = 'szene'; G.bubble = null; G.trail = null; G.autoPath = null;
     this.weiter();
@@ -70,7 +72,7 @@ const SZ = {
       if (e) e.dir = st.blick.dir;
     }
     else if (st.blase) {
-      const e = G.followers.find(f => f.char === st.blase.char) || G.npcByChar(st.blase.char) || (G.guide && G.guide.char === st.blase.char ? G.guide : null);
+      const e = (G.hidePlayer ? G.npcByChar(st.blase.char) : null) || G.followers.find(f => f.char === st.blase.char) || G.npcByChar(st.blase.char) || (G.guide && G.guide.char === st.blase.char ? G.guide : null);
       if (e) G.bubble = { e, text: st.blase.text, t0: G.time };
     }
     else if (st.einblenden || st.ausblenden) {
@@ -115,6 +117,8 @@ const SZ = {
       if (f.art === 'tropfen' && Math.random() < 0.7) R.parts.push({ x: X - W / 2 + Math.random() * W, y: Y - 20 + Math.random() * 30, vx: 0, vy: 40 + Math.random() * 30, life: 0.8, t: 0, col: '#9ad0ff', mid: G.mapId });
       if (f.art === 'schnee') for (let i = 0; i < 3; i++) R.parts.push({ x: X - W / 2 + Math.random() * W, y: Y + (f.h ? (Math.random() - 0.5) * f.h * TILE : 0), vx: (f.vx || 0) + (Math.random() - 0.5) * 30, vy: (f.vx ? 10 : 30) + Math.random() * 50, life: 2.2, t: 0, col: '#eef4ff', mid: G.mapId, big: Math.random() < 0.4 });
       if (f.art === 'eiswind') for (let i = 0; i < 4; i++) R.parts.push({ x: R.cam.x - 10, y: R.cam.y + Math.random() * VIEW_H, vx: 200 + Math.random() * 160, vy: (Math.random() - 0.3) * 30, life: 3, t: 0, col: pickOne(['#cfe8ff', '#eef8ff', '#9ad0ff']), mid: G.mapId, streak: true });
+      if (f.art === 'hauch') { const k = clamp((G.time - f.t0) / (f.bis - f.t0), 0, 1), hx = (f.x + (f.x2 - f.x) * k) * TILE + 16, hy = (f.y + (f.y2 - f.y) * k) * TILE + 16;
+        for (let i = 0; i < 3; i++) R.parts.push({ x: hx + (Math.random() - 0.5) * 18, y: hy + (Math.random() - 0.5) * 18, vx: (Math.random() - 0.5) * 12, vy: -6 - Math.random() * 8, life: 1.4, t: 0, col: pickOne(['#cfe8ff', '#eef8ff', '#9ad0ff']), mid: G.mapId, soft: 1 }); }
       if (f.art === 'frost' && Math.random() < 0.5) R.parts.push({ x: X + (Math.random() - 0.5) * W, y: Y + (Math.random() - 0.5) * 30, vx: (Math.random() - 0.5) * 6, vy: -4, life: 1.6, t: 0, col: '#cfe8ff', mid: G.mapId, soft: 1 });
     });
   },
@@ -138,6 +142,14 @@ const SZ = {
         const dir = Math.abs(x2 - f.x) >= Math.abs(y2 - f.y) ? (x2 > f.x ? 'right' : 'left') : (y2 > f.y ? 'down' : 'up');
         this.schatten(c, x, y, j ? 0.18 / j : 0.85, dir, time);
       }
+    });
+    // Schrift im Raureif (Raureifs Stimme): erscheint langsam, eisblau
+    this.fxList.forEach(f => {
+      if (f.art !== 'schrift' || f.mid !== G.mapId) return;
+      const a = clamp(Math.min((time - f.t0) / 1.4, (f.bis - time) / 0.8), 0, 1);
+      c.globalAlpha = a;
+      R.text(f.text, f.x * TILE + 16 - R.cam.x, f.y * TILE + 20 - R.cam.y, { size: f.size || 18, italic: true, serif: true, weight: 700, align: 'center', color: '#cfe8ff', shadowCol: 'rgba(60,140,255,0.9)' });
+      c.globalAlpha = 1;
     });
     const h = Math.round(this.balken * 34);
     if (h > 0) { c.fillStyle = '#000'; c.fillRect(0, 0, VIEW_W, h); c.fillRect(0, VIEW_H - h, VIEW_W, h); }
