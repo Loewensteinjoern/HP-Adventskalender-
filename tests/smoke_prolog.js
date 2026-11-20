@@ -60,6 +60,7 @@ const SHOTS = process.argv[2] || null;
     if (T.map !== stationen[i].map) errors.push('Station ' + i + ': falsche Karte ' + T.map);
     if (!g || g.rest !== 0) errors.push('Station ' + i + ' (' + T.map + '): Wurzelgrün kommt nicht an der Tür an ' + JSON.stringify(T));
     else if (!g.tuer) errors.push('Station ' + i + ': keine Tür gemerkt');
+    if (T.map === 'vorhalle' && (await page.evaluate(() => window.__objIds())).indexOf('tor_eis') >= 0) errors.push('Haupttor ist schon während der Führung vereist');
     if ([1, 4, 8, 16].indexOf(i) >= 0) await shot('p1' + String(i).padStart(2, '0') + '_' + T.map);
     // falsche Tür ist gesperrt (Station 2: Schlosskern hat viele Türen)
     if (i === 2) {

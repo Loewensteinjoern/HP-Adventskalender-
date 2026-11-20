@@ -519,43 +519,47 @@ Object.assign(PAINT_OBJ, {
       p.r(x - 3, 5, 4, 2, shade(hair, 0.25));
     }
   },
-  haupttor(p, f, R, W, H, v) {
-    // Steinrahmen
-    for (let y = 0; y < 64; y += 8) for (let x = (y / 8) % 2 ? 0 : 6; x < 128; x += 12) { p.r(x, y, 11, 7, '#8e8274'); p.r(x, y, 11, 1, '#b0a490'); }
-    p.ell(64, 22, 46, 26, '#5a5048'); p.r(18, 22, 92, 42, '#5a5048');
-    p.ell(64, 24, 42, 23, '#1a1218'); p.r(22, 24, 84, 40, '#1a1218');
+  // Haupttor in der rechten Seitenwand (von oben-schräg gesehen): Steinrahmen, zwei Holzflügel, Eisenbänder
+  haupttor_seite(p, f, R, W, H, v) {
+    // Steinrahmen oben und unten, Leibung links
+    for (let y = 0; y < 14; y += 7) for (let x = (y / 7) % 2 ? 0 : 5; x < 32; x += 10) { p.r(x, y, 9, 6, '#8e8274'); p.r(x, y, 9, 1, '#b0a490'); }
+    for (let y = 114; y < 128; y += 7) for (let x = (y / 7) % 2 ? 0 : 5; x < 32; x += 10) { p.r(x, y, 9, 6, '#8e8274'); p.r(x, y, 9, 1, '#b0a490'); }
+    p.r(0, 12, 6, 104, '#a89a86'); p.r(0, 12, 2, 104, '#c8bca8'); p.r(5, 12, 1, 104, '#6a5e50');
     if (v === 'offen') {
-      p.vgrad(22, 4, 84, 40, '#0e1430', '#3a4a7a', 6); p.ell(64, 24, 40, 20, '#141c40');
-      for (let i = 0; i < 30; i++) p.px(26 + ((i * 37) % 78), 6 + ((i * 23 + f * 5) % 40), '#eef4ff');
-      p.r(22, 44, 84, 20, '#d8e4f4'); p.r(22, 44, 84, 2, '#eef4ff'); for (let x = 24; x < 104; x += 9) p.ell(x, 45, 5, 2, '#ffffff');
-      p.r(22, 6, 8, 58, '#5e3820'); p.r(98, 6, 8, 58, '#5e3820'); p.r(22, 6, 3, 58, '#7a4a2a'); p.r(103, 6, 3, 58, '#4a2c18');
+      p.vgrad(6, 14, 26, 100, '#141c40', '#2a3a6a', 6);
+      p.r(18, 14, 14, 100, '#d8e4f4'); p.r(18, 14, 1, 100, '#eef4ff');
+      for (let i = 0; i < 18; i++) p.px(7 + ((i * 13 + f * 3) % 24), 16 + ((i * 29 + f * 7) % 96), '#eef4ff');
+      p.r(6, 14, 24, 5, '#5e3820'); p.r(6, 109, 24, 5, '#5e3820'); p.r(6, 14, 24, 1, '#7a4a2a'); p.r(6, 109, 24, 1, '#7a4a2a');
       return;
     }
-    // Torflügel aus Holz mit Eisenbändern
-    p.ell(64, 25, 40, 21, '#6a4228'); p.r(24, 25, 80, 39, '#6a4228');
-    for (let x = 26; x < 104; x += 8) p.r(x, 8, 1, 56, '#5a361e');
-    p.r(63, 4, 2, 60, '#3a2214');
-    [22, 40, 56].forEach(y => { p.r(24, y, 80, 3, '#3a3a40'); p.r(24, y, 80, 1, '#6a6a74'); for (let x = 28; x < 104; x += 10) p.px(x, y + 1, '#9a9aa4'); });
-    p.circ(56, 36, 4, '#3a3a40'); p.circ(56, 36, 2, '#1a1218'); p.circ(72, 36, 4, '#3a3a40'); p.circ(72, 36, 2, '#1a1218');
+    // Holzflügel
+    p.r(6, 14, 24, 100, '#6a4228');
+    for (let y = 18; y < 112; y += 7) p.r(6, y, 24, 1, '#5a361e');
+    p.r(6, 63, 24, 2, '#3a2214');
+    [26, 46, 82, 102].forEach(y => { p.r(6, y, 24, 3, '#3a3a40'); p.r(6, y, 24, 1, '#6a6a74'); for (let x = 9; x < 30; x += 6) p.px(x, y + 1, '#9a9aa4'); });
+    p.circ(12, 56, 4, '#3a3a40'); p.circ(12, 56, 2, '#1a1218'); p.circ(12, 72, 4, '#3a3a40'); p.circ(12, 72, 2, '#1a1218');
+    p.r(28, 14, 2, 100, '#3a2214');
     if (v === 'eis') {
-      p.ell(64, 25, 41, 22, 'rgba(150,200,250,0.72)'); p.r(23, 25, 82, 39, 'rgba(150,200,250,0.72)');
-      for (let i = 0; i < 9; i++) { const x = 30 + i * 9, h = 8 + (i % 3) * 5; for (let k = 0; k < h; k++) p.r(x - Math.floor((h - k) / 3), 60 - k * 1.6, Math.max(1, Math.floor((h - k) / 1.5)), 2, 'rgba(220,240,255,0.85)'); }
-      // Eisblumen in Kronenform
-      [[44, 28], [64, 18], [84, 28], [54, 46], [76, 46]].forEach(([x, y]) => {
-        p.r(x - 8, y + 4, 17, 2, '#eef8ff'); for (let k = -8; k <= 8; k += 4) { p.r(x + k, y - 3 + Math.abs(k) / 4, 1, 7 - Math.abs(k) / 4, '#eef8ff'); p.px(x + k, y - 4 + Math.abs(k) / 4, '#ffffff'); }
+      p.r(6, 14, 26, 100, 'rgba(150,200,250,0.72)');
+      // Eiszapfen und Eisblumen in Kronenform
+      for (let i = 0; i < 12; i++) { const y = 18 + i * 8, l = 6 + (i % 3) * 4; for (let k = 0; k < l; k++) p.r(30 - k * 1.5, y + Math.floor(k / 3), Math.max(1, 3 - Math.floor(k / 3)), 2, 'rgba(220,240,255,0.85)'); }
+      [[16, 32], [18, 64], [16, 96]].forEach(([x, y]) => {
+        p.r(x - 1, y - 8, 2, 17, '#eef8ff');
+        for (let k = -8; k <= 8; k += 4) { p.r(x - 6 + Math.abs(k) / 4, y + k, 6 - Math.abs(k) / 4, 1, '#eef8ff'); p.px(x - 7 + Math.abs(k) / 4, y + k, '#ffffff'); }
       });
-      for (let i = 0; i < 20; i++) p.px(26 + ((i * 41) % 76), 8 + ((i * 29) % 54), '#ffffff');
-      p.r(18, 60, 92, 4, '#c8e0f8'); p.r(18, 60, 92, 1, '#ffffff');
+      for (let i = 0; i < 16; i++) p.px(7 + ((i * 11) % 23), 16 + ((i * 37) % 96), '#ffffff');
+      p.r(2, 14, 4, 100, '#c8e0f8');
     }
   },
-  frosthand(p) {
-    const C = 'rgba(220,240,255,0.92)', D = 'rgba(160,200,240,0.8)';
-    p.ell(32, 42, 10, 11, D); p.ell(32, 42, 8, 9, C);
-    [[-9, -1, 20], [-4, -3, 26], [1, -3, 28], [6, -2, 24]].forEach(([dx, sl, len]) => {
-      for (let k = 0; k < len; k++) { const x = 32 + dx + Math.round(sl * k / len); p.r(x, 33 - k, 2, 1, C); }
-      p.px(32 + dx + sl, 33 - len, '#ffffff');
+  // Raureif-Hand auf dem Seitentor (Finger zeigen nach oben)
+  frosthand_seite(p) {
+    const C = 'rgba(220,240,255,0.95)', D = 'rgba(160,200,240,0.85)', x = 18, y = 72;
+    p.ell(x, y, 7, 10, D); p.ell(x, y, 5, 8, C);
+    [[-5, -1, 18], [-2, -1, 24], [1, 0, 26], [4, 1, 22]].forEach(([dx, sl, len]) => {
+      for (let k = 0; k < len; k++) p.r(x + dx + Math.round(sl * k / len), y - 8 - k, 1, 1, C);
+      p.px(x + dx + sl, y - 8 - len, '#ffffff');
     });
-    for (let k = 0; k < 13; k++) p.r(23 - Math.round(k * 0.7), 44 - k, 2, 1, C);
-    for (let i = 0; i < 14; i++) { const a = i * 0.45, r = 13 + (i % 3) * 3; p.px(32 + Math.round(Math.cos(a) * r), 42 + Math.round(Math.sin(a) * r), D); }
+    for (let k = 0; k < 11; k++) p.r(x - 7 - Math.round(k * 0.4), y + 2 - k, 1, 1, C);
+    for (let i = 0; i < 12; i++) { const a = i * 0.52, r = 12 + (i % 3) * 3; p.px(x + Math.round(Math.cos(a) * r * 0.6), y - 6 + Math.round(Math.sin(a) * r), D); }
   },
 });

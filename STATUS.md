@@ -48,6 +48,8 @@
 
 - **Raureif als Spielfigur (Jörn, 19.11.):** `raureif` in `characters.json`, Pixelfigur 32×40 wie alle anderen (`LOOKS.raureif`: silberweißes Haar, Eiskrone, nachtblauer Umhang mit Frostkragen, lange Finger, kaltes Gesicht mit leuchtenden Augen; neue Merkmale `krone`, `krallen`, `kalt`). Der Schatten im Haken ist dieselbe Figur, dunkel eingefärbt, Krone hell. Für spätere Auftritte direkt als NPC nutzbar.
 
+- **Version 0.11 (Jörn, 20.11.):** Haupttor sitzt jetzt in der **rechten Seitenwand** der Vorhalle (Objekt `haupttor_seite`, x=19, y=4–7, Varianten zu/eis/offen; Hand `frosthand_seite`), Läufer quer zum Tor (Reihen 5–6). Das Tor ist **erst nach der Führung vereist** (Bedingung `flag:prolog_tour`), der Rauchtest prüft das. Szenen (Tor tauen, Schnee weht seitlich herein, Schatten huscht am Tor entlang auf und ab) angepasst.
+
 ## Entscheidungen
 - Siehe `CLAUDE.md`, Weltlexikon und Bauauftrag (`plan/STARTPAKET.md`).
 - Grafikmaß wie geplant umgesetzt: 512×384, Kachel 32, Figur 32×40, ganzzahlig skaliert (iPad quer: 3-fach). **Von Jörn freigegeben (18.11.).**

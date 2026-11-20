@@ -113,7 +113,7 @@ const SZ = {
       const X = f.x * TILE + 16, Y = f.y * TILE + 16, W = (f.w || 1) * TILE;
       if (f.art === 'funken') for (let i = 0; i < 3; i++) R.parts.push({ x: X + (Math.random() - 0.5) * W, y: Y + (Math.random() - 0.5) * 24, vx: (Math.random() - 0.5) * 50, vy: -20 - Math.random() * 40, life: 0.9, t: 0, col: pickOne(['#ffd36a', '#ff8a2a', '#fff2b0']), mid: G.mapId, big: true });
       if (f.art === 'tropfen' && Math.random() < 0.7) R.parts.push({ x: X - W / 2 + Math.random() * W, y: Y - 20 + Math.random() * 30, vx: 0, vy: 40 + Math.random() * 30, life: 0.8, t: 0, col: '#9ad0ff', mid: G.mapId });
-      if (f.art === 'schnee') for (let i = 0; i < 3; i++) R.parts.push({ x: X - W / 2 + Math.random() * W, y: Y, vx: (Math.random() - 0.5) * 30, vy: 30 + Math.random() * 50, life: 2.2, t: 0, col: '#eef4ff', mid: G.mapId, big: Math.random() < 0.4 });
+      if (f.art === 'schnee') for (let i = 0; i < 3; i++) R.parts.push({ x: X - W / 2 + Math.random() * W, y: Y + (f.h ? (Math.random() - 0.5) * f.h * TILE : 0), vx: (f.vx || 0) + (Math.random() - 0.5) * 30, vy: (f.vx ? 10 : 30) + Math.random() * 50, life: 2.2, t: 0, col: '#eef4ff', mid: G.mapId, big: Math.random() < 0.4 });
       if (f.art === 'eiswind') for (let i = 0; i < 4; i++) R.parts.push({ x: R.cam.x - 10, y: R.cam.y + Math.random() * VIEW_H, vx: 200 + Math.random() * 160, vy: (Math.random() - 0.3) * 30, life: 3, t: 0, col: pickOne(['#cfe8ff', '#eef8ff', '#9ad0ff']), mid: G.mapId, streak: true });
       if (f.art === 'frost' && Math.random() < 0.5) R.parts.push({ x: X + (Math.random() - 0.5) * W, y: Y + (Math.random() - 0.5) * 30, vx: (Math.random() - 0.5) * 6, vy: -4, life: 1.6, t: 0, col: '#cfe8ff', mid: G.mapId, soft: 1 });
     });
@@ -133,8 +133,10 @@ const SZ = {
       if (f.art !== 'schatten' || f.mid !== G.mapId) return;
       const k = clamp((time - f.t0) / (f.bis - f.t0), 0, 1);
       for (let j = 3; j >= 0; j--) {
-        const kk = clamp(k - j * 0.06, 0, 1), x = (f.x + (f.x2 - f.x) * kk) * TILE + 16 - R.cam.x, y = f.y * TILE - R.cam.y;
-        this.schatten(c, x, y, j ? 0.18 / j : 0.85, f.x2 > f.x ? 1 : -1, time);
+        const x2 = f.x2 !== undefined ? f.x2 : f.x, y2 = f.y2 !== undefined ? f.y2 : f.y;
+        const kk = clamp(k - j * 0.06, 0, 1), x = (f.x + (x2 - f.x) * kk) * TILE + 16 - R.cam.x, y = (f.y + (y2 - f.y) * kk) * TILE - R.cam.y;
+        const dir = Math.abs(x2 - f.x) >= Math.abs(y2 - f.y) ? (x2 > f.x ? 'right' : 'left') : (y2 > f.y ? 'down' : 'up');
+        this.schatten(c, x, y, j ? 0.18 / j : 0.85, dir, time);
       }
     });
     const h = Math.round(this.balken * 34);
@@ -151,7 +153,7 @@ const SZ = {
     return (this.schattenCache[k] = cv);
   },
   schatten(c, x, y, a, dir, time) {
-    const img = this.schattenBild(dir > 0 ? 'right' : 'left', Math.floor(time * 8) % 2 ? 1 : 2);
+    const img = this.schattenBild(dir, Math.floor(time * 8) % 2 ? 1 : 2);
     c.globalAlpha = a; c.shadowColor = 'rgba(150,200,255,0.9)'; c.shadowBlur = 4;
     c.drawImage(img, Math.round(x - 16), Math.round(y - 10));
     c.shadowBlur = 0; c.globalAlpha = 1;

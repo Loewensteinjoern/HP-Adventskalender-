@@ -686,18 +686,18 @@
   "up": 6,
   "solid": true
  },
- "haupttor": {
-  "paint": "haupttor",
-  "w": 4,
-  "h": 2,
+ "haupttor_seite": {
+  "paint": "haupttor_seite",
+  "w": 1,
+  "h": 4,
   "up": 0,
   "solid": true,
   "wall": true
  },
- "frosthand": {
-  "paint": "frosthand",
-  "w": 2,
-  "h": 2,
+ "frosthand_seite": {
+  "paint": "frosthand_seite",
+  "w": 1,
+  "h": 4,
   "up": 0,
   "solid": true,
   "wall": true

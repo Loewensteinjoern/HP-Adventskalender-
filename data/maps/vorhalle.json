@@ -10,12 +10,12 @@
   "TTTTTTTTTTTTTTTTTTTT",
   "TKKKKKKKKKKKKKKKKKKT",
   "TKKKKKOOKKKKKKKKKKKT",
-  "TMMMMMRRMMMMMMMRRMMT",
-  "TMMMMMRRMMMMMMMRRMMT",
-  "TMMMMMRRMMMMMMMRRMMT",
-  "TMMMMMRRMMMMMMMRRMMT",
-  "TMMMMMRRMMMMMMMRRMMT",
-  "TMMMMMRRMMMMMMMRRMMT",
+  "TMMMMMRRMMMMMMMMMMMT",
+  "TMMMMMRRMMMMMMMMMMMT",
+  "TMMMMMRRRRRRRRRRRRRT",
+  "TMMMMMRRRRRRRRRRRRRT",
+  "TMMMMMRRMMMMMMMMMMMT",
+  "TMMMMMRRMMMMMMMMMMMT",
   "TTTTTTddTTTTTTTTTTTT"
  ],
  "objects": [
@@ -219,55 +219,6 @@
    ]
   },
   {
-   "type": "haupttor",
-   "x": 14,
-   "y": 1,
-   "if": [
-    "!flag:tor_offen"
-   ],
-   "talk": [
-    {
-     "if": [
-      "!flag:prolog_tor"
-     ],
-     "dialog": "haupttor_eis"
-    },
-    {
-     "dialog": "haupttor"
-    }
-   ]
-  },
-  {
-   "type": "haupttor",
-   "x": 14,
-   "y": 1,
-   "v": "offen",
-   "if": [
-    "flag:tor_offen"
-   ]
-  },
-  {
-   "type": "haupttor",
-   "x": 14,
-   "y": 1,
-   "v": "eis",
-   "id": "tor_eis",
-   "if": [
-    "!flag:prolog_tor",
-    "!flag:tor_eis_weg"
-   ]
-  },
-  {
-   "type": "frosthand",
-   "x": 15,
-   "y": 1,
-   "id": "hand",
-   "if": [
-    "flag:hand_da"
-   ],
-   "leuchtet": true
-  },
-  {
    "type": "banner_haus",
    "x": 13,
    "y": 1,
@@ -290,11 +241,6 @@
    ]
   },
   {
-   "type": "ruestung",
-   "x": 18,
-   "y": 5
-  },
-  {
    "type": "statue",
    "x": 18,
    "y": 8
@@ -303,6 +249,62 @@
    "type": "kerzen_schwebend",
    "x": 16,
    "y": 6
+  },
+  {
+   "type": "girlande",
+   "x": 15,
+   "y": 1
+  },
+  {
+   "type": "haupttor_seite",
+   "x": 19,
+   "y": 4,
+   "if": [
+    "!flag:tor_offen"
+   ],
+   "talk": [
+    {
+     "if": [
+      "flag:prolog_tour",
+      "!flag:prolog_tor"
+     ],
+     "dialog": "haupttor_eis"
+    },
+    {
+     "dialog": "haupttor"
+    }
+   ]
+  },
+  {
+   "type": "haupttor_seite",
+   "x": 19,
+   "y": 4,
+   "v": "offen",
+   "if": [
+    "flag:tor_offen"
+   ]
+  },
+  {
+   "type": "haupttor_seite",
+   "x": 19,
+   "y": 4,
+   "v": "eis",
+   "id": "tor_eis",
+   "if": [
+    "flag:prolog_tour",
+    "!flag:prolog_tor",
+    "!flag:tor_eis_weg"
+   ]
+  },
+  {
+   "type": "frosthand_seite",
+   "x": 19,
+   "y": 4,
+   "id": "hand",
+   "leuchtet": true,
+   "if": [
+    "flag:hand_da"
+   ]
   }
  ],
  "npcs": [
@@ -315,9 +317,9 @@
   },
   {
    "char": "sternwald",
-   "x": 16,
+   "x": 15,
    "y": 5,
-   "dir": "up",
+   "dir": "right",
    "if": [
     "flag:prolog_tour",
     "!flag:prolog_tor"
@@ -330,9 +332,9 @@
   },
   {
    "char": "wurzelgruen",
-   "x": 13,
+   "x": 15,
    "y": 4,
-   "dir": "up",
+   "dir": "right",
    "if": [
     "flag:prolog_tour",
     "!flag:prolog_tor"
@@ -340,9 +342,9 @@
   },
   {
    "char": "mats",
-   "x": 13,
-   "y": 6,
-   "dir": "up",
+   "x": 14,
+   "y": 7,
+   "dir": "right",
    "if": [
     "flag:prolog_tour",
     "!flag:prolog_tor"
@@ -351,8 +353,8 @@
   {
    "char": "juna",
    "x": 17,
-   "y": 4,
-   "dir": "left",
+   "y": 3,
+   "dir": "down",
    "if": [
     "flag:prolog_tour",
     "!flag:prolog_tor"
@@ -360,8 +362,8 @@
   },
   {
    "char": "oskar",
-   "x": 17,
-   "y": 6,
+   "x": 16,
+   "y": 8,
    "dir": "up",
    "if": [
     "flag:prolog_tour",
@@ -370,9 +372,9 @@
   },
   {
    "char": "ida",
-   "x": 16,
-   "y": 7,
-   "dir": "up",
+   "x": 13,
+   "y": 6,
+   "dir": "right",
    "if": [
     "flag:prolog_tour",
     "!flag:prolog_tor"
