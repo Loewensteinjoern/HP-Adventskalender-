@@ -1,7 +1,7 @@
 # STATUS
 
 ## Stand (20.11.2026)
-- **S3 gebaut (Version 0.12): Woche 1 neu erzählt (Tag 1–4).** Noch nicht auf `main` – wartet auf Jörns Freigabe.
+- **S3 gebaut (Version 0.12): Woche 1 neu erzählt (Tag 1–4).** **Von Jörn freigegeben und auf `main` (20.11.).**
   - **Q01–Q04 nach Story-Bibel V2:** Q01 ohne „Weck Diego“, Lotte: „kalt … von innen“, Diego knurrt die Spur an. Q02: Federleicht „Frost im Docht“, Jörn summt heimlich (Spur), danach **Knarz → Probekampf** (Q02 endet erst mit dem Sieg; der Splitter kommt aus der Pixie). Q03: Pimpernell „Gedanken weggepustet“, Brief leer bis auf Phönixsiegel. Q04: Pendel „versteckt“, Uhrmeister bedankt sich (Frost hatte ihn verwirrt), Spur: Jörn fragt nach kleinen Zahnrädern.
   - **Phönixlied:** 24 gereimte Zeilen in `data/lied.json` (Quests haben kein `fragment` mehr; Spielstand merkt sich nur die Quest – keine Migration nötig). Liedseite in sechs Strophen, fehlende Zeilen als Eiskristalle mit Türchennummer. Am Abend taut die neue Zeile golden auf, die Spieluhr spielt ihren Takt (`melodie`, 4 Takte), Reimpaar leuchtet, volle Strophe = Akkord.
   - **Haken Tag 1–4** (`haken` an der Quest, Szenen `haken_1`…`haken_4`): Frostgesicht am Fenster + „Bald.“ im Raureif, Diego bellt; vierte Kerze erlischt, Raureif-Hauch zur Tür („Warm …“), Kerze danach mit Luxa wieder anzündbar; Pimpernell ruft „HÜTERIN!“; Uhr schlägt dreizehn, Pendel: „Noch zwanzig Nächte.“ Neue Effekte `hauch`, `schrift`; Töne `schuhu`, `turmschlag`, `reim`, `akkord`.
@@ -86,5 +86,5 @@
 5. Kampfwerte: Es gelten die Werte in `data/kampf.json` (Stand 0.6: Pixie 10, Frostwicht 14, Energie, begrenzter Kakao, Stufen mit Wahl Kraft/Lebenspunkte, Mindest-Stufen für Zufallskämpfe). Story-Bibel V2 Abschnitt 8 ist nur der Rahmen; „kein Stufen-Sammeln“ ist durch Jörns Entscheidung (19.11.) überholt.
 
 ## Nächster Schritt
-**Jörn:** Version 0.12 testen und freigeben, dann nach `main`. Testlinks: `?testtag=1` (Tag 1 spielen, am Kamin beenden → Liedseite + Haken), `?testtag=4` (Nebenaufgaben, Schmuck, Rückblicke).
+**Jörn:** Version 0.12 am iPad testen (liegt auf `main`). Testlinks: `?testtag=1` (Tag 1 spielen, am Kamin beenden → Liedseite + Haken), `?testtag=4` (Nebenaufgaben, Schmuck, Rückblicke).
 **S4 – Q05–Q07 (Tag 5–7), fällig 29.11.:** nach Story-Bibel V2 Woche 1 (Tabelle Tag 5–7, Wendung Woche 1 in Q07), Haken 5–7 mit Rückblick-Titel, Tagesschmuck 5–7, N05 Friedas Körner (Flag `korn_1` gibt es schon im Gemeinschaftsraum), N06 Porträt-Geschenke. Neue Orte (Sternwarte, Porträtgalerie, Spiegelsee …) je mit Übergang, Kartenlage, `icon` und 2 Geheimnissen. Danach S5 Generalprobe 30.11.
