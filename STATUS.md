@@ -64,7 +64,7 @@
 
 ## Offene Punkte
 0. **Version 0.9 liegt auf `main` (19.11., Freigabe Jörn)** – vorher zeigte Pages noch 0.6 (Kellertreppe vor 1.12. zu). Neue Stände ab jetzt nur nach Jörns Freigabe nach `main`.
-0. **Jörn: Prolog testen** (ca. 15 Min.): Startlink mit `?testtag=0` → „Spiel beginnen“. Mit `?testtag=2` → „Test: Tag 2“ springt direkt zu Tag 2.
+0. **Prolog, Tagesablauf, Schlosskarte und Haken Tag 0 von Jörn getestet und freigegeben (20.11.: „perfekt“).** Stand auf `main`: Version 0.11.
 1. **Jörn:** Satz für die Gravur der Spieluhr (wird erst in Q24 gebraucht).
 2. **Jörn: iPad-Test.** Repo ist öffentlich, `main` = `startpaket` (18.11.). Pages muss Jörn einschalten (Settings → Pages → main, /docs). Adresse: https://loewensteinjoern.github.io/HP-Adventskalender-/
 3. iPhone quer: Bild ist wegen der Höhe nur 2-fach skaliert (klein, aber spielbar).
@@ -73,4 +73,10 @@
 5. Kampfwerte: Es gelten die Werte in `data/kampf.json` (Stand 0.6: Pixie 10, Frostwicht 14, Energie, begrenzter Kakao, Stufen mit Wahl Kraft/Lebenspunkte, Mindest-Stufen für Zufallskämpfe). Story-Bibel V2 Abschnitt 8 ist nur der Rahmen; „kein Stufen-Sammeln“ ist durch Jörns Entscheidung (19.11.) überholt.
 
 ## Nächster Schritt
-**S1, S2 und S2b sind erledigt.** Nächste Sitzung: **S3 Q01–Q04 neu erzählt** (27.11., Story-Bibel V2 Abschnitt 5 Woche 1): Texte und Haken je Tag (Szenen-System steht, `haken` an der Quest), Bedrohung sichtbar, Nebenquests/Geheimnisse Woche 1. Dabei: Q01 Schritt 1 „Weck Diego“ ist durch den Prolog schon erledigt → Q01 anpassen. Haken im Questlog erneut ansehen (noch offen). Danach S4 Q05–Q07, S5 Generalprobe 30.11.
+**S3 – Woche 1 neu erzählt (Tag 1–4), fällig 27.11.** Jörn hat den Plan am 19.11. bestätigt:
+1. Q01–Q04 neu erzählt nach Story-Bibel V2 Abschnitt 5 (Woche 1): Q01 ohne Schritt „Weck Diego“ (passiert im Prolog), Lotte: „kalt von innen“; Q02 Federleicht „Frost im Docht“, danach Knarz → Probekampf, Jörn summt heimlich (Spur); Q03 Pimpernell „Gedanken weggepustet“, Brief nur mit Phönixsiegel; Q04 Pendel „Zahnrad versteckt“, Jörn-Spur. Alle 24 gereimten Phönixlied-Zeilen aus der Story-Bibel in `data/quests.json`.
+2. Haken je Tag als Szene (`haken` an der Quest; Effekte flackern/eiswind/frost/schatten/einblenden stehen bereit, Raureif ist Figur `raureif`): Tag 1 Frostgesicht „Bald.“, Diego bellt; Tag 2 vierte Kerze erlischt; Tag 3 Pimpernell ruft „Hüterin!“; Tag 4 Uhr schlägt einmal zu viel, „Noch zwanzig Nächte.“ Gesehene Haken im Questlog erneut ansehen.
+3. Bedrohung sichtbar (Raureif-Spuren, Eisblumen an Fenstern), Raureifs Stimme (eisblau, einzelne Wörter).
+4. Diego-Geheimnisse (2 je Raum, Liste Story-Bibel 7.2), Tagesschmuck sichtbar am Baum in der Großen Halle, Nebenaufgaben N02 Oskars Schneemann, N03 Idas Buch, N04 Finns Zimtsterne.
+5. Build-Warnung bei < 2 Geheimnissen je Raum, Rauchtest Tag 1–4 inkl. Haken.
+Arbeitsweise: Stand vor jedem `main`-Push von Jörn freigeben lassen. Danach S4 (Q05–Q07) bis 29.11., S5 Generalprobe 30.11.
