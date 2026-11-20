@@ -14,7 +14,7 @@
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <title>Die Reise zum Winterphönix</title>
-<!-- Version 0.12 · Woche 1 neu erzählt · gebaut 2026-11-20 15:31 UTC · Entwickelt und erstellt von Jörn Löwenstein mit Hilfe von künstlicher Intelligenz (Claude) -->
+<!-- Version 0.12 · Woche 1 neu erzählt · gebaut 2026-11-20 16:11 UTC · Entwickelt und erstellt von Jörn Löwenstein mit Hilfe von künstlicher Intelligenz (Claude) -->
 <style>
 html,body{margin:0;height:100%;background:#120c1c;overflow:hidden;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}
 body{position:fixed;inset:0;box-sizing:border-box;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
@@ -1870,15 +1870,24 @@ Object.assign(PAINT_OBJ, {
 
   // Frostgesicht am Fenster (Haken Tag 1): ein hohles Gesicht aus Raureif, das haucht
   frostgesicht(p, f) {
-    const C = 'rgba(220,240,255,0.85)', D = 'rgba(150,200,250,0.7)', cx = 32, cy = 15;
-    p.ell(cx, cy, 13, 12, D); p.ell(cx, cy, 11, 10, 'rgba(200,228,255,0.55)');
-    for (let i = 0; i < 9; i++) { const a = -2.6 + i * 0.4; p.px(cx + Math.round(Math.cos(a) * 15), cy - 4 + Math.round(Math.sin(a) * 10), C); p.px(cx + Math.round(Math.cos(a) * 15), cy - 7 + Math.round(Math.sin(a) * 9), '#ffffff'); }
-    [[-10, -12], [-4, -15], [4, -15], [10, -12]].forEach(([dx, dy]) => { p.r(cx + dx, cy + dy, 1, 4, '#eef8ff'); p.px(cx + dx, cy + dy - 1, '#ffffff'); });
-    p.r(cx - 7, cy - 3, 5, 3, '#0e1a3a'); p.r(cx + 3, cy - 3, 5, 3, '#0e1a3a');
-    p.r(cx - 6, cy - 2, 2, 1, '#5ab8ff'); p.r(cx + 5, cy - 2, 2, 1, '#5ab8ff');
-    p.r(cx - 1, cy + 1, 2, 3, D);
-    const o = f % 2 ? 3 : 2; p.ell(cx, cy + 7, o, o - 1 > 0 ? o - 1 : 1, '#0e1a3a');
-    if (f % 2) for (let i = 0; i < 4; i++) p.px(cx - 3 + i * 2, cy + 11 + (i % 2), '#eef8ff');
+    // hager und abgehärmt: langes schmales Gesicht, hohle Augen, eingefallene Wangen, spitzes Kinn
+    const C = 'rgba(206,228,252,0.8)', L = 'rgba(240,250,255,0.9)', H = 'rgba(140,180,228,0.7)', S = 'rgba(40,64,110,0.8)', cx = 32;
+    for (let y = 1; y < 31; y++) {
+      const w = y < 12 ? 8 : Math.max(1, Math.round(8 - (y - 12) * 0.42));
+      p.r(cx - w, y, w * 2, 1, C); p.px(cx - w, y, H); p.px(cx + w - 1, y, H);
+    }
+    p.ell(cx - 4, 11, 3, 3, S); p.ell(cx + 4, 11, 3, 3, S);                     // hohle Augen
+    p.ell(cx - 4, 12, 2, 2, '#060c1c'); p.ell(cx + 4, 12, 2, 2, '#060c1c');
+    p.px(cx - 4, 12, '#7ec8ff'); p.px(cx + 4, 12, '#7ec8ff');                  // kaltes Glimmen tief drin
+    p.r(cx - 7, 7, 5, 1, S); p.r(cx + 3, 7, 5, 1, S); p.px(cx - 2, 8, S); p.px(cx + 2, 8, S); // gequälte Brauen
+    p.r(cx - 7, 15, 3, 1, L); p.r(cx + 5, 15, 3, 1, L);                         // Wangenknochen
+    for (let i = 0; i < 6; i++) { p.px(cx - 6 + (i >> 1), 17 + i, S); p.px(cx + 5 - (i >> 1), 17 + i, S); } // eingefallene Wangen
+    p.r(cx, 13, 1, 6, L); p.px(cx - 1, 19, S); p.px(cx + 1, 19, S);            // lange Nase
+    if (f % 2) { p.ell(cx, 24, 1, 2, '#060c1c'); for (let i = 0; i < 3; i++) p.px(cx - 2 + i * 2, 28 + (i % 2), '#eef8ff'); }
+    else { p.r(cx - 3, 23, 6, 1, '#060c1c'); p.px(cx - 4, 24, S); p.px(cx + 3, 24, S); }
+    p.r(cx - 1, 29, 2, 1, H);
+    [[-6, 4], [-3, 6], [0, 7], [3, 6], [6, 4]].forEach(([dx, l]) => { p.r(cx + dx, 2 - Math.min(2, l - 4), 1, l - 2, '#eef8ff'); p.px(cx + dx, 0, '#ffffff'); });
+    for (let i = 0; i < 6; i++) p.px(cx - 13 + ((i * 7) % 26), 3 + ((i * 11) % 26), 'rgba(230,245,255,0.6)');
   },
   // Eisblumen an einem Fenster (Bedrohung Woche 1): in den Ecken wachsen Frostranken
   eisblume(p, f, R, W) {
@@ -2750,6 +2759,26 @@ const R = {
     c.fillStyle = o.color || '#f4ead8'; c.fillText(str, x, y);
     c.textAlign = 'left';
   },
+  // Raureifs Schrift: aufrecht, weit gesperrt, jeder Buchstabe glimmt und atmet leicht
+  mystisch(str, x, y, o) {
+    o = o || {}; const c = this.ctx, size = o.size || 18, sp = size * 0.55, t = o.time || 0;
+    str = str.toUpperCase();
+    c.font = '300 ' + size + 'px ' + this.SERIF; c.textAlign = 'left'; c.textBaseline = 'alphabetic';
+    const chars = [...str], ws = chars.map(ch => c.measureText(ch).width), total = ws.reduce((a, b) => a + b, 0) + sp * (chars.length - 1);
+    let cx = o.align === 'center' ? x - total / 2 : x;
+    const a0 = c.globalAlpha;
+    chars.forEach((ch, i) => {
+      const fl = 0.75 + 0.25 * Math.sin(t * 2.3 + i * 1.7), dy = Math.sin(t * 1.4 + i * 0.9) * 0.8;
+      c.globalAlpha = a0 * fl;
+      c.shadowColor = 'rgba(90,170,255,0.95)'; c.shadowBlur = size * 0.6;
+      c.fillStyle = '#b8dcff'; c.fillText(ch, cx, y + dy);
+      c.shadowBlur = 0; c.fillStyle = '#eef8ff'; c.fillText(ch, cx, y + dy);
+      // Frostfunkeln: kleine Kreuze wandern über die Buchstaben
+      if (((t * 3 + i * 5) | 0) % 6 === 0) { const fx = Math.round(cx + ws[i] * 0.7), fy = Math.round(y - size * 0.75 + dy); c.fillStyle = '#ffffff'; c.fillRect(fx, fy - 2, 1, 5); c.fillRect(fx - 2, fy, 5, 1); }
+      cx += ws[i] + sp;
+    });
+    c.globalAlpha = a0; c.shadowBlur = 0;
+  },
   wrap(str, maxW, size, weight) {
     const c = this.ctx; c.font = (weight || 500) + ' ' + size + 'px ' + this.FONT;
     const words = str.split(' '), lines = []; let cur = '';
@@ -2775,7 +2804,7 @@ const DLG = {
   show(lines, cb) {
     const pages = [];
     lines.forEach(([sp, tx, taste]) => {
-      // Raureifs Stimme: ohne Namensschild, kursiv und eisblau
+      // Raureifs Stimme: ohne Namensschild, eisblau, gesperrt und glimmend
       const stimme = sp === 'stimme', name = sp && !stimme ? (DATA.characters[sp] || { name: sp }).name : '';
       const wrapped = R.wrap(tx, 470, 15, 500);
       for (let i = 0; i < wrapped.length; i += 3) pages.push({ name, sp, stimme, lines: wrapped.slice(i, i + 3), taste: taste || null });
@@ -2806,7 +2835,7 @@ const DLG = {
     let left = Math.floor(this.shown);
     pg.lines.forEach((ln, i) => {
       const part = ln.slice(0, Math.max(0, left)); left -= ln.length + 1;
-      if (pg.stimme) R.text(part, x + 16, y + 27 + i * 21, { size: 17, weight: 600, italic: true, serif: true, color: '#9ad0ff', shadowCol: 'rgba(20,60,120,0.8)' });
+      if (pg.stimme) R.mystisch(part, x + w / 2, y + 30 + i * 24, { size: 19, align: 'center', time });
       else R.text(part, x + 16, y + 27 + i * 21, { size: 15, weight: 500, color: pg.name ? '#f8f0e0' : '#e8dcc4' });
     });
     if (this.shown >= this.pageLen() && Math.floor(time * 3) % 2) { c.fillStyle = '#ffd36a'; c.fillRect(x + w - 22, y + h - 16, 9, 3); c.fillRect(x + w - 20, y + h - 13, 5, 2); c.fillRect(x + w - 19, y + h - 11, 3, 2); }
@@ -2959,12 +2988,12 @@ const SZ = {
         this.schatten(c, x, y, j ? 0.18 / j : 0.85, dir, time);
       }
     });
-    // Schrift im Raureif (Raureifs Stimme): erscheint langsam, eisblau
+    // Schrift im Raureif (Raureifs Stimme): erscheint langsam, eisblau, gesperrt und glimmend
     this.fxList.forEach(f => {
       if (f.art !== 'schrift' || f.mid !== G.mapId) return;
       const a = clamp(Math.min((time - f.t0) / 1.4, (f.bis - time) / 0.8), 0, 1);
       c.globalAlpha = a;
-      R.text(f.text, f.x * TILE + 16 - R.cam.x, f.y * TILE + 20 - R.cam.y, { size: f.size || 18, italic: true, serif: true, weight: 700, align: 'center', color: '#cfe8ff', shadowCol: 'rgba(60,140,255,0.9)' });
+      R.mystisch(f.text, f.x * TILE + 16 - R.cam.x, f.y * TILE + 20 - R.cam.y, { size: f.size || 20, align: 'center', time });
       c.globalAlpha = 1;
     });
     const h = Math.round(this.balken * 34);

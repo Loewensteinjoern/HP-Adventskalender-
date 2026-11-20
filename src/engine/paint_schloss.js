@@ -573,15 +573,24 @@ Object.assign(PAINT_OBJ, {
 
   // Frostgesicht am Fenster (Haken Tag 1): ein hohles Gesicht aus Raureif, das haucht
   frostgesicht(p, f) {
-    const C = 'rgba(220,240,255,0.85)', D = 'rgba(150,200,250,0.7)', cx = 32, cy = 15;
-    p.ell(cx, cy, 13, 12, D); p.ell(cx, cy, 11, 10, 'rgba(200,228,255,0.55)');
-    for (let i = 0; i < 9; i++) { const a = -2.6 + i * 0.4; p.px(cx + Math.round(Math.cos(a) * 15), cy - 4 + Math.round(Math.sin(a) * 10), C); p.px(cx + Math.round(Math.cos(a) * 15), cy - 7 + Math.round(Math.sin(a) * 9), '#ffffff'); }
-    [[-10, -12], [-4, -15], [4, -15], [10, -12]].forEach(([dx, dy]) => { p.r(cx + dx, cy + dy, 1, 4, '#eef8ff'); p.px(cx + dx, cy + dy - 1, '#ffffff'); });
-    p.r(cx - 7, cy - 3, 5, 3, '#0e1a3a'); p.r(cx + 3, cy - 3, 5, 3, '#0e1a3a');
-    p.r(cx - 6, cy - 2, 2, 1, '#5ab8ff'); p.r(cx + 5, cy - 2, 2, 1, '#5ab8ff');
-    p.r(cx - 1, cy + 1, 2, 3, D);
-    const o = f % 2 ? 3 : 2; p.ell(cx, cy + 7, o, o - 1 > 0 ? o - 1 : 1, '#0e1a3a');
-    if (f % 2) for (let i = 0; i < 4; i++) p.px(cx - 3 + i * 2, cy + 11 + (i % 2), '#eef8ff');
+    // hager und abgehärmt: langes schmales Gesicht, hohle Augen, eingefallene Wangen, spitzes Kinn
+    const C = 'rgba(206,228,252,0.8)', L = 'rgba(240,250,255,0.9)', H = 'rgba(140,180,228,0.7)', S = 'rgba(40,64,110,0.8)', cx = 32;
+    for (let y = 1; y < 31; y++) {
+      const w = y < 12 ? 8 : Math.max(1, Math.round(8 - (y - 12) * 0.42));
+      p.r(cx - w, y, w * 2, 1, C); p.px(cx - w, y, H); p.px(cx + w - 1, y, H);
+    }
+    p.ell(cx - 4, 11, 3, 3, S); p.ell(cx + 4, 11, 3, 3, S);                     // hohle Augen
+    p.ell(cx - 4, 12, 2, 2, '#060c1c'); p.ell(cx + 4, 12, 2, 2, '#060c1c');
+    p.px(cx - 4, 12, '#7ec8ff'); p.px(cx + 4, 12, '#7ec8ff');                  // kaltes Glimmen tief drin
+    p.r(cx - 7, 7, 5, 1, S); p.r(cx + 3, 7, 5, 1, S); p.px(cx - 2, 8, S); p.px(cx + 2, 8, S); // gequälte Brauen
+    p.r(cx - 7, 15, 3, 1, L); p.r(cx + 5, 15, 3, 1, L);                         // Wangenknochen
+    for (let i = 0; i < 6; i++) { p.px(cx - 6 + (i >> 1), 17 + i, S); p.px(cx + 5 - (i >> 1), 17 + i, S); } // eingefallene Wangen
+    p.r(cx, 13, 1, 6, L); p.px(cx - 1, 19, S); p.px(cx + 1, 19, S);            // lange Nase
+    if (f % 2) { p.ell(cx, 24, 1, 2, '#060c1c'); for (let i = 0; i < 3; i++) p.px(cx - 2 + i * 2, 28 + (i % 2), '#eef8ff'); }
+    else { p.r(cx - 3, 23, 6, 1, '#060c1c'); p.px(cx - 4, 24, S); p.px(cx + 3, 24, S); }
+    p.r(cx - 1, 29, 2, 1, H);
+    [[-6, 4], [-3, 6], [0, 7], [3, 6], [6, 4]].forEach(([dx, l]) => { p.r(cx + dx, 2 - Math.min(2, l - 4), 1, l - 2, '#eef8ff'); p.px(cx + dx, 0, '#ffffff'); });
+    for (let i = 0; i < 6; i++) p.px(cx - 13 + ((i * 7) % 26), 3 + ((i * 11) % 26), 'rgba(230,245,255,0.6)');
   },
   // Eisblumen an einem Fenster (Bedrohung Woche 1): in den Ecken wachsen Frostranken
   eisblume(p, f, R, W) {

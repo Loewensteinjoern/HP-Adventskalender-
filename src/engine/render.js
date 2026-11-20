@@ -243,6 +243,26 @@ const R = {
     c.fillStyle = o.color || '#f4ead8'; c.fillText(str, x, y);
     c.textAlign = 'left';
   },
+  // Raureifs Schrift: aufrecht, weit gesperrt, jeder Buchstabe glimmt und atmet leicht
+  mystisch(str, x, y, o) {
+    o = o || {}; const c = this.ctx, size = o.size || 18, sp = size * 0.55, t = o.time || 0;
+    str = str.toUpperCase();
+    c.font = '300 ' + size + 'px ' + this.SERIF; c.textAlign = 'left'; c.textBaseline = 'alphabetic';
+    const chars = [...str], ws = chars.map(ch => c.measureText(ch).width), total = ws.reduce((a, b) => a + b, 0) + sp * (chars.length - 1);
+    let cx = o.align === 'center' ? x - total / 2 : x;
+    const a0 = c.globalAlpha;
+    chars.forEach((ch, i) => {
+      const fl = 0.75 + 0.25 * Math.sin(t * 2.3 + i * 1.7), dy = Math.sin(t * 1.4 + i * 0.9) * 0.8;
+      c.globalAlpha = a0 * fl;
+      c.shadowColor = 'rgba(90,170,255,0.95)'; c.shadowBlur = size * 0.6;
+      c.fillStyle = '#b8dcff'; c.fillText(ch, cx, y + dy);
+      c.shadowBlur = 0; c.fillStyle = '#eef8ff'; c.fillText(ch, cx, y + dy);
+      // Frostfunkeln: kleine Kreuze wandern über die Buchstaben
+      if (((t * 3 + i * 5) | 0) % 6 === 0) { const fx = Math.round(cx + ws[i] * 0.7), fy = Math.round(y - size * 0.75 + dy); c.fillStyle = '#ffffff'; c.fillRect(fx, fy - 2, 1, 5); c.fillRect(fx - 2, fy, 5, 1); }
+      cx += ws[i] + sp;
+    });
+    c.globalAlpha = a0; c.shadowBlur = 0;
+  },
   wrap(str, maxW, size, weight) {
     const c = this.ctx; c.font = (weight || 500) + ' ' + size + 'px ' + this.FONT;
     const words = str.split(' '), lines = []; let cur = '';

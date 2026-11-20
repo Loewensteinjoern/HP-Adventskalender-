@@ -143,12 +143,12 @@ const SZ = {
         this.schatten(c, x, y, j ? 0.18 / j : 0.85, dir, time);
       }
     });
-    // Schrift im Raureif (Raureifs Stimme): erscheint langsam, eisblau
+    // Schrift im Raureif (Raureifs Stimme): erscheint langsam, eisblau, gesperrt und glimmend
     this.fxList.forEach(f => {
       if (f.art !== 'schrift' || f.mid !== G.mapId) return;
       const a = clamp(Math.min((time - f.t0) / 1.4, (f.bis - time) / 0.8), 0, 1);
       c.globalAlpha = a;
-      R.text(f.text, f.x * TILE + 16 - R.cam.x, f.y * TILE + 20 - R.cam.y, { size: f.size || 18, italic: true, serif: true, weight: 700, align: 'center', color: '#cfe8ff', shadowCol: 'rgba(60,140,255,0.9)' });
+      R.mystisch(f.text, f.x * TILE + 16 - R.cam.x, f.y * TILE + 20 - R.cam.y, { size: f.size || 20, align: 'center', time });
       c.globalAlpha = 1;
     });
     const h = Math.round(this.balken * 34);
