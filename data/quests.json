@@ -5,16 +5,24 @@
   "start": "q01_start",
   "steps": [
    {
-    "flag": "q01_feder",
-    "text": "Am Kamin glitzert Raureif. Lass Diego schnüffeln (Taste B)."
+    "flag": "q01_daune",
+    "text": "Am Kamin im Gemeinschaftsraum glitzert Raureif. Lass Diego schnüffeln (Taste B)."
    },
    {
-    "flag": "q01_joern",
-    "text": "Zeig Jörn die Feder."
+    "flag": "q01_echt",
+    "text": "Folge der Raureif-Spur durch den Kellergang in den Schlosskern. Dort teilt sie sich – nur eine Spur ist echt. Lass Diego an jedem Ende schnüffeln."
+   },
+   {
+    "flag": "q01_brunnen",
+    "text": "Folge der echten Spur durch den Arkadengang in den Innenhof."
+   },
+   {
+    "flag": "q01_feder",
+    "text": "Die Feder steckt im Eis des Brunnens. Taue sie mit einem Glutsplitter auf (A am Brunnen). Noch keinen? Diego findet einen."
    },
    {
     "flag": "q01_lotte",
-    "text": "Folge der Raureif-Spur über den Kellergang und den Schlosskern in die Große Halle und frag Lotte Silberfeder."
+    "text": "Zeig die Feder Lotte Silberfeder in der Großen Halle."
    }
   ],
   "haken": "haken_1"

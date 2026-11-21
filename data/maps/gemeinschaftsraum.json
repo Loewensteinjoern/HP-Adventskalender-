@@ -31,7 +31,7 @@
     {
      "if": [
       "quest:Q01",
-      "!flag:q01_feder"
+      "!flag:q01_daune"
      ],
      "dialog": "kamin_q01"
     },
@@ -521,12 +521,12 @@
    "count": false,
    "if": [
     "quest:Q01",
-    "!flag:q01_feder"
+    "!flag:q01_daune"
    ],
    "found": {
-    "dialog": "q01_feder_fund",
+    "dialog": "q01_daune",
     "set": [
-     "q01_feder"
+     "q01_daune"
     ],
     "sound": "fund"
    }

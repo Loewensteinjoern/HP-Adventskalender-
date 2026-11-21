@@ -159,66 +159,6 @@
    ]
   },
   {
-   "type": "raureif",
-   "x": 6,
-   "y": 8,
-   "if": [
-    "quest:Q01",
-    "flag:q01_joern",
-    "!flag:q01_lotte"
-   ]
-  },
-  {
-   "type": "raureif",
-   "x": 6,
-   "y": 7,
-   "if": [
-    "quest:Q01",
-    "flag:q01_joern",
-    "!flag:q01_lotte"
-   ]
-  },
-  {
-   "type": "raureif",
-   "x": 7,
-   "y": 6,
-   "if": [
-    "quest:Q01",
-    "flag:q01_joern",
-    "!flag:q01_lotte"
-   ]
-  },
-  {
-   "type": "raureif",
-   "x": 7,
-   "y": 5,
-   "if": [
-    "quest:Q01",
-    "flag:q01_joern",
-    "!flag:q01_lotte"
-   ]
-  },
-  {
-   "type": "raureif",
-   "x": 6,
-   "y": 4,
-   "if": [
-    "quest:Q01",
-    "flag:q01_joern",
-    "!flag:q01_lotte"
-   ]
-  },
-  {
-   "type": "raureif",
-   "x": 6,
-   "y": 3,
-   "if": [
-    "quest:Q01",
-    "flag:q01_joern",
-    "!flag:q01_lotte"
-   ]
-  },
-  {
    "type": "banner_haus",
    "x": 13,
    "y": 1,
@@ -309,13 +249,59 @@
  ],
  "npcs": [
   {
+   "char": "sternwald",
+   "x": 17,
+   "y": 6,
+   "dir": "right",
+   "if": [
+    "flag:szene_lehrer"
+   ]
+  },
+  {
+   "char": "wurzelgruen",
+   "x": 16,
+   "y": 7,
+   "dir": "right",
+   "if": [
+    "flag:szene_lehrer"
+   ]
+  },
+  {
+   "char": "charly",
+   "x": 10,
+   "y": 6,
+   "dir": "right",
+   "if": [
+    "flag:szene_versteck"
+   ]
+  },
+  {
+   "char": "joern",
+   "x": 10,
+   "y": 5,
+   "dir": "right",
+   "if": [
+    "flag:szene_versteck"
+   ]
+  },
+  {
+   "char": "diego",
+   "x": 9,
+   "y": 6,
+   "dir": "right",
+   "if": [
+    "flag:szene_versteck"
+   ]
+  },
+  {
    "char": "kater",
    "x": 9,
    "y": 6,
    "dir": "left",
    "wander": 3,
    "if": [
-    "!flag:ida_jagd"
+    "!flag:ida_jagd",
+    "!flag:szene_versteck"
    ]
   },
   {

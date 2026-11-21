@@ -10,27 +10,36 @@
    {
     "if": [
      "quest:Q01",
-     "flag:q01_feder",
-     "!flag:q01_joern"
+     "!flag:q01_daune"
     ],
-    "dialog": "q01_joern",
-    "set": [
-     "q01_joern"
-    ],
-    "sound": "fund"
+    "dialog": "joern_q01_tipp"
    },
    {
     "if": [
      "quest:Q01",
-     "flag:q01_joern"
+     "!flag:q01_echt"
     ],
-    "dialog": "q01_joern_danach"
+    "dialog": "joern_q01_spur"
+   },
+   {
+    "if": [
+     "quest:Q01",
+     "!flag:q01_brunnen"
+    ],
+    "dialog": "joern_q01_hof"
+   },
+   {
+    "if": [
+     "quest:Q01",
+     "!flag:q01_feder"
+    ],
+    "dialog": "joern_q01_glut"
    },
    {
     "if": [
      "quest:Q01"
     ],
-    "dialog": "joern_q01_tipp"
+    "dialog": "joern_q01_lotte"
    },
    {
     "if": [

@@ -23,7 +23,7 @@ const SZ = {
 
   start(id, cb) {
     this.a = { id, steps: DATA.szenen[id], i: 0, wait: null, cb };
-    if (/^haken_/.test(id)) G.save.flags['gesehen_' + id] = true;
+    if (/^haken_/.test(id) || (DATA.welt.rueckblicke || {})[id]) G.save.flags['gesehen_' + id] = true;
     this.schnell = false;
     G.mode = 'szene'; G.bubble = null; G.trail = null; G.autoPath = null;
     this.weiter();
@@ -148,7 +148,14 @@ const SZ = {
       if (f.art !== 'schrift' || f.mid !== G.mapId) return;
       const a = clamp(Math.min((time - f.t0) / 1.4, (f.bis - time) / 0.8), 0, 1);
       c.globalAlpha = a;
-      R.mystisch(f.text, f.x * TILE + 16 - R.cam.x, f.y * TILE + 20 - R.cam.y, { size: f.size || 20, align: 'center', time });
+      if (f.grund) {
+        // dunkler Frosthauch hinter der Schrift, damit sie auf hellem Boden lesbar bleibt
+        const gx = f.x * TILE + 16 - R.cam.x, gy = f.y * TILE + 14 - R.cam.y, rx = f.text.length * (f.size || 20) * 0.52;
+        c.save(); c.translate(gx, gy); c.scale(1, (f.size || 20) * 1.5 / rx);
+        const g = c.createRadialGradient(0, 0, 0, 0, 0, rx); g.addColorStop(0, 'rgba(6,12,30,0.78)'); g.addColorStop(0.7, 'rgba(6,12,30,0.55)'); g.addColorStop(1, 'rgba(6,12,30,0)');
+        c.fillStyle = g; c.beginPath(); c.arc(0, 0, rx, 0, 6.283); c.fill(); c.restore();
+      }
+      R.mystisch(f.text, f.x * TILE + 16 - R.cam.x, f.y * TILE + 20 - R.cam.y, { size: f.size || 20, sp: f.sp, align: 'center', time });
       c.globalAlpha = 1;
     });
     const h = Math.round(this.balken * 34);
@@ -175,6 +182,8 @@ const SZ = {
   ortZeigen(o) {
     if (!G.ortAlt) G.ortAlt = { mapId: G.mapId };
     G.mapId = o.map; G.hidePlayer = true; G.nacht = !!o.nacht;
+    // Figuren, die in einer früheren Szene hier gelaufen sind, stehen wieder an ihrem Platz (für Rückblicke)
+    (DATA.maps[o.map].npcs || []).forEach(n => { if (n.dir0 === undefined) n.dir0 = n.dir; else n.dir = n.dir0; if (n.skript && n.hx !== undefined) { n.x = n.fx = n.hx; n.y = n.fy = n.hy; n.path = []; n.moving = false; n.skript = false; } });
     this.kamera = o.kamera || null; R.camMap = null;
     if (o.musik) AU.playMusic(o.musik);
   },

@@ -40,6 +40,13 @@ const MIGRATIONS = {
     out.tag = seen; out.tagEnde = seen === 0;
     return out;
   },
+  // v3 → v4 (S3): Q01 ist länger geworden (Daune, Spurgabel, Brunnen). Wer die Feder schon hat, hat diese Schritte erledigt.
+  3: d => {
+    const out = Object.assign({}, d), f = Object.assign({}, isObj(d.flags) ? d.flags : {});
+    if (f.q01_feder || f.q01_joern) ['q01_daune', 'q01_echt', 'q01_brunnen', 'q01_feder'].forEach(k => { f[k] = true; });
+    out.flags = f;
+    return out;
+  },
 };
 const PROLOG_FLAGS = ['prolog_fest', 'prolog_joern', 'prolog_tour', 'prolog_tor', 'prolog_fertig'];
 

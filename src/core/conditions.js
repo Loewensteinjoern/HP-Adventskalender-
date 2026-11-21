@@ -1,6 +1,6 @@
 // ===== Bedingungen und Aktionen aus den Daten =====
 // Bedingungen: "flag:x", "day>=3", "quest:Q01" (offen und aktiv), "done:Q01",
-// "follower:diego". Ein "!" davor kehrt um.
+// "follower:diego", "glut>=1" (Anzahl Glutsplitter). Ein "!" davor kehrt um.
 // ctx: { flags, day, done[], followers[] }
 
 function questIsActive(id, ctx) {
@@ -18,9 +18,10 @@ function checkCond(c, ctx) {
   if ((m = /^quest:(\w+)$/.exec(c))) return questIsActive(m[1], ctx);
   if ((m = /^done:(\w+)$/.exec(c))) return ctx.done.indexOf(m[1]) >= 0;
   if ((m = /^follower:(\w+)$/.exec(c))) return ctx.followers.indexOf(m[1]) >= 0;
+  if ((m = /^glut>=(\d+)$/.exec(c))) return (ctx.glut || 0) >= +m[1];
   return false;
 }
-const COND_RE = /^!?(flag:\w+|day>=\d+|day<\d+|quest:\w+|done:\w+|follower:\w+)$/;
+const COND_RE = /^!?(flag:\w+|day>=\d+|day<\d+|quest:\w+|done:\w+|follower:\w+|glut>=\d+)$/;
 
 function condsOk(list, ctx) { return !list || list.every(c => checkCond(c, ctx)); }
 

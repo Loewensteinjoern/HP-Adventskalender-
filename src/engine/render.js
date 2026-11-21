@@ -245,7 +245,7 @@ const R = {
   },
   // Raureifs Schrift: aufrecht, weit gesperrt, jeder Buchstabe glimmt und atmet leicht
   mystisch(str, x, y, o) {
-    o = o || {}; const c = this.ctx, size = o.size || 18, sp = size * 0.55, t = o.time || 0;
+    o = o || {}; const c = this.ctx, size = o.size || 18, sp = size * (o.sp || 0.55), t = o.time || 0;
     str = str.toUpperCase();
     c.font = '300 ' + size + 'px ' + this.SERIF; c.textAlign = 'left'; c.textBaseline = 'alphabetic';
     const chars = [...str], ws = chars.map(ch => c.measureText(ch).width), total = ws.reduce((a, b) => a + b, 0) + sp * (chars.length - 1);

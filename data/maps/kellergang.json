@@ -126,8 +126,8 @@
    "y": 4,
    "if": [
     "quest:Q01",
-    "flag:q01_joern",
-    "!flag:q01_lotte"
+    "flag:q01_daune",
+    "!flag:q01_feder"
    ]
   },
   {
@@ -136,8 +136,8 @@
    "y": 4,
    "if": [
     "quest:Q01",
-    "flag:q01_joern",
-    "!flag:q01_lotte"
+    "flag:q01_daune",
+    "!flag:q01_feder"
    ]
   },
   {
@@ -146,8 +146,8 @@
    "y": 4,
    "if": [
     "quest:Q01",
-    "flag:q01_joern",
-    "!flag:q01_lotte"
+    "flag:q01_daune",
+    "!flag:q01_feder"
    ]
   },
   {
@@ -156,8 +156,8 @@
    "y": 3,
    "if": [
     "quest:Q01",
-    "flag:q01_joern",
-    "!flag:q01_lotte"
+    "flag:q01_daune",
+    "!flag:q01_feder"
    ]
   },
   {
@@ -166,8 +166,8 @@
    "y": 3,
    "if": [
     "quest:Q01",
-    "flag:q01_joern",
-    "!flag:q01_lotte"
+    "flag:q01_daune",
+    "!flag:q01_feder"
    ]
   },
   {
@@ -176,8 +176,8 @@
    "y": 3,
    "if": [
     "quest:Q01",
-    "flag:q01_joern",
-    "!flag:q01_lotte"
+    "flag:q01_daune",
+    "!flag:q01_feder"
    ]
   }
  ],

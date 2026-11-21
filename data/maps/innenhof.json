@@ -95,6 +95,38 @@
    "y": 8,
    "talk": [
     {
+     "if": [
+      "quest:Q01",
+      "flag:q01_echt",
+      "!flag:q01_brunnen"
+     ],
+     "dialog": "q01_brunnen",
+     "set": [
+      "q01_brunnen"
+     ]
+    },
+    {
+     "if": [
+      "quest:Q01",
+      "flag:q01_brunnen",
+      "!flag:q01_feder",
+      "glut>=1"
+     ],
+     "dialog": "q01_tauen",
+     "set": [
+      "q01_feder"
+     ],
+     "sound": "fund"
+    },
+    {
+     "if": [
+      "quest:Q01",
+      "flag:q01_brunnen",
+      "!flag:q01_feder"
+     ],
+     "dialog": "q01_brunnen_kalt"
+    },
+    {
      "dialog": "brunnen"
     }
    ]
@@ -259,6 +291,46 @@
       "flag:q02_kerzen"
      ]
     }
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 10,
+   "y": 4,
+   "if": [
+    "quest:Q01",
+    "flag:q01_echt",
+    "!flag:q01_feder"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 11,
+   "y": 5,
+   "if": [
+    "quest:Q01",
+    "flag:q01_echt",
+    "!flag:q01_feder"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 12,
+   "y": 6,
+   "if": [
+    "quest:Q01",
+    "flag:q01_echt",
+    "!flag:q01_feder"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 13,
+   "y": 7,
+   "if": [
+    "quest:Q01",
+    "flag:q01_echt",
+    "!flag:q01_feder"
    ]
   }
  ],

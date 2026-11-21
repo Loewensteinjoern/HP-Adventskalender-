@@ -132,6 +132,166 @@
      "sound": "fund"
     }
    ]
+  },
+  {
+   "type": "raureif",
+   "x": 3,
+   "y": 3,
+   "if": [
+    "quest:Q01",
+    "flag:q01_echt",
+    "!flag:q01_feder"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 4,
+   "y": 4,
+   "if": [
+    "quest:Q01",
+    "flag:q01_echt",
+    "!flag:q01_feder"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 5,
+   "y": 3,
+   "if": [
+    "quest:Q01",
+    "flag:q01_echt",
+    "!flag:q01_feder"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 6,
+   "y": 4,
+   "if": [
+    "quest:Q01",
+    "flag:q01_echt",
+    "!flag:q01_feder"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 7,
+   "y": 3,
+   "if": [
+    "quest:Q01",
+    "flag:q01_echt",
+    "!flag:q01_feder"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 8,
+   "y": 4,
+   "if": [
+    "quest:Q01",
+    "flag:q01_echt",
+    "!flag:q01_feder"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 9,
+   "y": 3,
+   "if": [
+    "quest:Q01",
+    "flag:q01_echt",
+    "!flag:q01_feder"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 10,
+   "y": 4,
+   "if": [
+    "quest:Q01",
+    "flag:q01_echt",
+    "!flag:q01_feder"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 11,
+   "y": 3,
+   "if": [
+    "quest:Q01",
+    "flag:q01_echt",
+    "!flag:q01_feder"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 12,
+   "y": 4,
+   "if": [
+    "quest:Q01",
+    "flag:q01_echt",
+    "!flag:q01_feder"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 13,
+   "y": 3,
+   "if": [
+    "quest:Q01",
+    "flag:q01_echt",
+    "!flag:q01_feder"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 14,
+   "y": 4,
+   "if": [
+    "quest:Q01",
+    "flag:q01_echt",
+    "!flag:q01_feder"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 15,
+   "y": 3,
+   "if": [
+    "quest:Q01",
+    "flag:q01_echt",
+    "!flag:q01_feder"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 16,
+   "y": 4,
+   "if": [
+    "quest:Q01",
+    "flag:q01_echt",
+    "!flag:q01_feder"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 17,
+   "y": 3,
+   "if": [
+    "quest:Q01",
+    "flag:q01_echt",
+    "!flag:q01_feder"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 18,
+   "y": 4,
+   "if": [
+    "quest:Q01",
+    "flag:q01_echt",
+    "!flag:q01_feder"
+   ]
   }
  ],
  "npcs": [

@@ -33,16 +33,31 @@ const SHOTS = process.argv[2] || null;
   await start(1);
   if ((await tag()).tag !== 1) errors.push('Testsprung: Tag 1 erwartet');
   if (!(await st()).flags.erklaert_schmuck) errors.push('Erster Morgen erklärt den Baumschmuck nicht');
-  // Feder erschnüffeln, dann zu Jörn umdrehen (antippen = nur drehen) und sie ihm zeigen
+  if (!(await st()).flags.gesehen_tor_1) errors.push('Startszene am Tor lief am ersten Morgen nicht');
+  // Q01: Daune am Kamin erschnüffeln, dann zu Jörn umdrehen (antippen = nur drehen) und ihn fragen
   await go('gemeinschaftsraum', 15, 4, 'up'); await key('x'); await wait(1300); await key('Enter', 1, 200); await drain();
-  await expect('q01_feder', 'Q01: Feder');
+  await expect('q01_daune', 'Q01: Daune am Kamin');
+  let jo = false;
   for (const d of ['ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowUp']) {
-    if ((await st()).flags.q01_joern) break;
-    await key(d, 1, 200); await key('Enter', 1, 200); await drain();
+    await key(d, 1, 200); await key('Enter', 1, 200);
+    const s1 = await st(); if (s1.dialog) jo = true; await drain(); if (jo) break;
   }
-  await expect('q01_joern', 'Q01: Feder Jörn zeigen (umdrehen zu Jörn klappt nicht)');
-  await flags({ q01_lotte: true });
-  await go('gemeinschaftsraum', 4, 9, 'up'); await npc('finn');   // irgendeine Aktion prüft die Quests
+  if (!jo) errors.push('Q01: Zu Jörn umdrehen und ansprechen klappt nicht');
+  // Spurgabel im Schlosskern: zwei Finten, eine echte Spur (mit Diegos Nase)
+  await go('schlosskern', 2, 8, 'left'); await key('x'); await wait(1300); await key('Enter', 1, 200); await drain();
+  await expect('q01_finte_w', 'Q01: Finte West erschnüffeln');
+  await go('schlosskern', 19, 8, 'right'); await secret('q01_ost'); await expect('q01_finte_o', 'Q01: Finte Ost');
+  if ((await st()).flags.q01_echt) errors.push('Q01: Finte zählt als echte Spur');
+  await go('schlosskern', 10, 12, 'down'); await secret('q01_sued'); await expect('q01_echt', 'Q01: echte Spur');
+  await go('arkadengang', 10, 4, 'right'); await shot('w0_spur_arkade');
+  // Brunnen: erst ohne Glutsplitter (geht nicht), dann mit
+  await go('innenhof', 14, 9, 'up'); await talk(); await expect('q01_brunnen', 'Q01: Brunnen gefunden');
+  await talk(); if ((await st()).flags.q01_feder) errors.push('Q01: Feder taut ohne Glutsplitter');
+  await go('gemeinschaftsraum', 13, 9, 'up'); await secret('glut_sofa');
+  if ((await ex()).glut < 1) errors.push('Q01: Glutsplitter unter dem Sofa fehlt');
+  await go('innenhof', 14, 9, 'up'); await talk(); await expect('q01_feder', 'Q01: Feder mit Glutsplitter aufgetaut');
+  await go('grosse_halle', 17, 9, 'up'); await talk(); await expect('q01_lotte', 'Q01: Lotte');
+
   if ((await st()).done.indexOf('Q01') < 0) errors.push('Q01 ohne „Weck Diego“ nicht abschließbar');
   await go('gemeinschaftsraum', 14, 4, 'up'); await key('Enter', 1, 300);
   if (!(await tag()).frage) errors.push('Kamin fragt nicht nach dem Tagesende');
@@ -67,7 +82,7 @@ const SHOTS = process.argv[2] || null;
 
   // --- Teil 2: alle Haken, Rückblicke, Nebenaufgaben, Schmuck (Tag 4) ---
   await start(4);
-  await flags({ q01_feder: true, q01_joern: true });
+  await flags({ q01_daune: true, q01_echt: true, q01_brunnen: true, q01_feder: true });
   for (const h of ['haken_1', 'haken_2', 'haken_3', 'haken_4']) {
     await page.evaluate(id => window.__szene(id), h);
     await wait(h === 'haken_4' ? 7000 : 3600); await shot('w1_' + h);
@@ -75,6 +90,12 @@ const SHOTS = process.argv[2] || null;
     await drain();
     const s = await st(); if (s.map !== 'gemeinschaftsraum' || s.mode !== 'play') errors.push(h + ': danach falscher Ort/Modus (' + s.map + ', ' + s.mode + ')');
   }
+  // Startszene als Rückblick: Raureifs Schrift am Tor, Lehrerinnen, Versteck
+  await page.evaluate(() => window.__szene('tor_1'));
+  for (let i = 0; i < 40; i++) { const t = await tag(); if ((await ex()).objs && (await st()).map === 'vorhalle' && i > 22) break; await key('Enter', 1, 260); }
+  await shot('w1_tor_schrift');
+  await drain();
+  if ((await st()).map !== 'gemeinschaftsraum') errors.push('Startszene endet nicht im Gemeinschaftsraum');
   // Kerze 4 ist nach Haken 2 aus und lässt sich mit Luxa wieder anzünden
   await flags({ zauber_luxa: true, kerzen_1: true, kerzen_2: true, kerzen_3: true, kerzen_4: true });
   await go('grosse_halle', 18, 10, 'up');
@@ -83,10 +104,10 @@ const SHOTS = process.argv[2] || null;
   if ((await st()).flags.kerze4_aus) errors.push('Kerze 4 lässt sich nicht wieder anzünden');
   // Rückblicke im Menü
   const rb = (await ex()).rueck;
-  ['haken_0', 'haken_1', 'haken_2', 'haken_3', 'haken_4'].forEach(h => { if (rb.indexOf(h) < 0) errors.push('Rückblick fehlt: ' + h); });
+  ['haken_0', 'tor_1', 'haken_1', 'haken_2', 'haken_3', 'haken_4'].forEach(h => { if (rb.indexOf(h) < 0) errors.push('Rückblick fehlt: ' + h); });
   await key('Escape'); await key('ArrowDown', 3); await key('Enter', 1, 250);
   if ((await st()).mode !== 'rueck') errors.push('Menü „Rückblicke“ öffnet sich nicht');
-  await shot('w2_rueckblicke'); await key('ArrowDown'); await key('Enter', 1, 300);
+  await shot('w2_rueckblicke'); await key('ArrowDown', 2); await key('Enter', 1, 300);
   if ((await tag()).szene !== 'haken_1') errors.push('Rückblick spielt nicht den gewählten Haken');
   await drain();
 

@@ -23,24 +23,12 @@
  ],
  "q01_start": [
   [
-   "",
-   "1. Dezember. Über Nacht ist Løvestein unter einer dicken Schneedecke verschwunden."
+   "joern",
+   "Zum Kamin, Charly. Da hat es gestern Abend nach Glut und Schnee gerochen."
   ],
   [
    "joern",
-   "Charly … riechst du das auch? Wie Glut und Schnee gleichzeitig."
-  ],
-  [
-   "",
-   "Am Rand des Kamins glitzert Raureif. Mitten in der Wärme."
-  ],
-  [
-   "",
-   "Diego hebt die Nase und legt den Kopf schief."
-  ],
-  [
-   "joern",
-   "Das ist doch nicht normal. Lass Diego mal schnüffeln.",
+   "Lass Diego mal schnüffeln.",
    "b"
   ]
  ],
@@ -359,11 +347,7 @@
   ],
   [
    "lotte",
-   "Golden, warm und mit Raureif … Das hab ich schon mal gesehen. In einem ganz alten Buch über Winterwesen."
-  ],
-  [
-   "lotte",
-   "Wenn eine Winterfeder auftaucht, erwacht eine alte Legende. Die vom Winterphönix."
+   "Golden, warm und mit Raureif … Das ist eine Winterfeder. Vom Winterphönix! Ich hab sie in einem ganz alten Buch gesehen."
   ],
   [
    "",
@@ -378,16 +362,12 @@
    "Grrrr …"
   ],
   [
-   "",
-   "Diego knurrt die Raureif-Spur auf dem Boden an. Sein Fell steht ein bisschen ab."
-  ],
-  [
    "joern",
-   "Ein Phönix im Winter. Und irgendwas, das ihm hinterherschleicht."
+   "Lotte, wir haben heute früh was gehört. Von vierundzwanzig Splittern. Mit einem Lied darin."
   ],
   [
    "lotte",
-   "Ich suche heute Abend in der Bibliothek weiter. Pass gut auf die Feder auf!"
+   "Das Phönixlied? Dann halt die Feder mal ins Licht, Charly."
   ],
   [
    "",
@@ -2511,18 +2491,124 @@
    "Mmmh. Schmecken noch ein bisschen nach Abenteuer."
   ]
  ],
- "morgen_schmuck": [
+ "tor_morgen": [
   [
    "",
-   "{tag}. Dezember. Morgenlicht fällt durchs Fenster, Frieda rennt schon in ihrem Laufrad, und Diego gähnt ausgiebig."
+   "1. Dezember. Morgenlicht fällt durchs Fenster. Doch Diego gähnt heute nicht."
+  ],
+  [
+   "",
+   "Er steht steif vor der Tür, die Ohren gespitzt, und knurrt leise."
   ],
   [
    "joern",
-   "Guten Morgen, Charly! Türchen {tag} ist offen. Mal sehen, was heute passiert."
+   "Was hat er denn? … Er zupft an deinem Ärmel. Er will, dass wir mitkommen."
+  ]
+ ],
+ "tor_schleichen": [
+  [
+   "",
+   "Diego führt sie durch den Kellergang hinauf bis in die Vorhalle. Dort sind Stimmen."
   ],
   [
    "joern",
-   "Ach, und weißt du was? Der große Weihnachtsbaum in der Großen Halle ist noch ganz kahl. Nur Lichter, kein Schmuck."
+   "Psst! Hinter die Rüstungen. Schnell!"
+  ]
+ ],
+ "tor_lehrer_1": [
+  [
+   "wurzelgruen",
+   "Sie ist wieder da, Direktorin. Die Hand. Heute Nacht, von außen."
+  ],
+  [
+   "sternwald",
+   "Und diesmal hat er uns etwas dagelassen. Sehen Sie."
+  ]
+ ],
+ "tor_schrift": [
+  [
+   "",
+   "Unter der Hand kriecht Raureif über die Steine. Langsam formt er Buchstaben."
+  ]
+ ],
+ "tor_lehrer_2": [
+  [
+   "wurzelgruen",
+   "Rätsel? Splitter? Was soll das heißen?"
+  ],
+  [
+   "sternwald",
+   "Kennen Sie die alte Legende vom Winterphönix, Wilma? Vor dreihundert Wintern hat jemand sein Feuer gestohlen."
+  ],
+  [
+   "sternwald",
+   "Als der Phönix erlosch, zersprang sein Lied in vierundzwanzig Splitter aus Eis. Sie liegen seitdem verstreut. Hier im Schloss und weit darüber hinaus."
+  ],
+  [
+   "sternwald",
+   "Jeder Splitter trägt eine Zeile. Wer alle findet und das Lied in der längsten Nacht singt, ruft den Phönix zurück."
+  ],
+  [
+   "wurzelgruen",
+   "Und wenn niemand sie findet?"
+  ],
+  [
+   "sternwald",
+   "Dann wird es nie wieder Frühling."
+  ],
+  [
+   "wurzelgruen",
+   "Und wer hat das hier geschrieben?"
+  ],
+  [
+   "sternwald",
+   "Jemand, der die Splitter nicht selbst berühren kann. Sie sind zu warm für ihn."
+  ],
+  [
+   "wurzelgruen",
+   "Dann müssen wir sie vor ihm finden."
+  ],
+  [
+   "sternwald",
+   "Wir? Die Splitter zeigen sich nicht jedem, Wilma. Nur dem, den sie selbst wählen."
+  ]
+ ],
+ "tor_ertappt": [
+  [
+   "sternwald",
+   "Wer ist da?"
+  ],
+  [
+   "",
+   "Charly hält die Luft an. Jörn hält Diego die Schnauze zu."
+  ],
+  [
+   "wurzelgruen",
+   "Nur der Wind, Direktorin. Kommen Sie, Ihr Tee wird kalt."
+  ]
+ ],
+ "tor_joern": [
+  [
+   "",
+   "Ein paar Minuten später, zurück im Gemeinschaftsraum."
+  ],
+  [
+   "joern",
+   "Charly … vierundzwanzig Splitter. Einer in jeder Nacht. Das ist ja wie ein Adventskalender."
+  ],
+  [
+   "joern",
+   "Und gestern Abend am Kamin? Raureif, mitten in der Wärme. Diego hat da was gerochen. Ich wette, das hängt zusammen."
+  ],
+  [
+   "joern",
+   "Wenn die Splitter sich ihre Finderin selbst aussuchen … warum dann nicht dich?"
+  ]
+ ],
+ "schmuck_erklaerung": [
+  [
+   "joern",
+   "Ach, und noch was Schönes: Der große Weihnachtsbaum in der Großen Halle ist noch ganz kahl. Nur Lichter, kein Schmuck."
   ],
   [
    "joern",
@@ -2537,6 +2623,152 @@
    "joern",
    "Was wir schon gefunden haben, steht im Questlog unten bei „Baumschmuck“.",
    "menu"
+  ]
+ ],
+ "q01_daune": [
+  [
+   "",
+   "Diego bellt den Kamin an. Hinter einem losen Ziegel liegt … nichts. Nur eine winzige goldene Daune, noch warm."
+  ],
+  [
+   "",
+   "Daneben ist etwas in den Ruß gekratzt, mit langen, dünnen Fingern:"
+  ],
+  [
+   "stimme",
+   "Zu warm für mich."
+  ],
+  [
+   "joern",
+   "Hier lag etwas. Etwas Warmes. Und jemand hat es geholt – und ist vor dem Feuer geflohen."
+  ],
+  [
+   "joern",
+   "Schau, die Raureif-Spur. Sie führt zur Tür hinaus, in den Kellergang."
+  ]
+ ],
+ "q01_finte_west": [
+  [
+   "",
+   "Am Ende der Spur liegt eine Kugel aus Eis. Als Diego daran schnuppert, kichert sie – und zerplatzt in Glitzerstaub."
+  ],
+  [
+   "joern",
+   "Eine Finte! Die Spur war falsch."
+  ]
+ ],
+ "q01_finte_ost": [
+  [
+   "",
+   "Am Ende der Spur hängt ein Eiszapfen. Darin steckt eine Feder!"
+  ],
+  [
+   "",
+   "Diego leckt daran. Die Feder ist aus Eis und zerbricht in tausend Stücke."
+  ],
+  [
+   "joern",
+   "Nachgemacht. Da will uns jemand an der Nase herumführen."
+  ]
+ ],
+ "q01_echt": [
+  [
+   "",
+   "Diego schnüffelt – und stellt das Fell auf. Diese Spur ist anders als die anderen."
+  ],
+  [
+   "",
+   "Jeder Abdruck hat kleine Zacken, wie eine Krone. Genau wie die Hand am Tor."
+  ],
+  [
+   "joern",
+   "Das ist die echte. Sie führt hinaus, durch den Arkadengang in den Innenhof."
+  ]
+ ],
+ "q01_spur_gabel": [
+  [
+   "",
+   "Hier teilt sich die Raureif-Spur. Eine läuft nach links, eine nach rechts, eine nach unten."
+  ],
+  [
+   "joern",
+   "Drei Spuren? Nur eine kann echt sein. Lass Diego an jedem Ende schnüffeln.",
+   "b"
+  ]
+ ],
+ "q01_brunnen": [
+  [
+   "",
+   "Die Spur endet am zugefrorenen Brunnen. Tief im Eis leuchtet etwas golden: eine Feder."
+  ],
+  [
+   "joern",
+   "Die Winterfeder! Der Frostschatten hat sie hier eingefroren."
+  ],
+  [
+   "",
+   "Charly klopft gegen das Eis. Es ist steinhart und so kalt, dass die Finger brennen."
+  ],
+  [
+   "joern",
+   "Mit Kakao kriegen wir das nicht auf. Wir bräuchten echte Glut. Einen Glutsplitter."
+  ],
+  [
+   "joern",
+   "Diego hat gestern unter dem Sofa im Gemeinschaftsraum so komisch geschnüffelt. Oder hier draußen im Schnee …"
+  ]
+ ],
+ "q01_brunnen_kalt": [
+  [
+   "",
+   "Die Feder steckt tief im Eis. Ohne einen Glutsplitter ist da nichts zu machen."
+  ],
+  [
+   "joern",
+   "Diego findet Glutsplitter mit der Nase. Vielleicht im Gemeinschaftsraum, unter dem Sofa?",
+   "b"
+  ]
+ ],
+ "q01_tauen": [
+  [
+   "",
+   "Charly drückt den Glutsplitter gegen das Eis. Es zischt, dampft und tropft …"
+  ],
+  [
+   "",
+   "Dann gleitet die Feder in ihre Hand. Golden-weiß, warm, und an ihren Spitzen hängt Raureif, der nicht schmilzt."
+  ],
+  [
+   "",
+   "Der Glutsplitter glimmt weiter, als wäre nichts gewesen. Charly steckt ihn wieder ein."
+  ],
+  [
+   "joern",
+   "Lotte Silberfeder kennt jedes alte Buch über Winterwesen. Sie sitzt sicher in der Großen Halle."
+  ]
+ ],
+ "joern_q01_spur": [
+  [
+   "joern",
+   "Die Raureif-Spur führt durch den Kellergang in den Schlosskern. Dort teilt sie sich. Lass Diego an jedem Ende schnüffeln."
+  ]
+ ],
+ "joern_q01_hof": [
+  [
+   "joern",
+   "Die echte Spur hat Kronenzacken. Sie geht durch den Arkadengang in den Innenhof."
+  ]
+ ],
+ "joern_q01_glut": [
+  [
+   "joern",
+   "Für das Eis am Brunnen brauchen wir einen Glutsplitter. Diego findet die mit der Nase."
+  ]
+ ],
+ "joern_q01_lotte": [
+  [
+   "joern",
+   "Lotte sitzt bestimmt in der Großen Halle. Zeigen wir ihr die Feder!"
   ]
  ]
 }

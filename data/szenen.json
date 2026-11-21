@@ -1101,7 +1101,7 @@
    }
   }
  ],
- "morgen_schmuck": [
+ "tor_1": [
   {
    "gehe": {
     "map": "gemeinschaftsraum",
@@ -1118,26 +1118,210 @@
     "art": "morgenlicht",
     "x": 0,
     "y": 0,
-    "zeit": 7
+    "zeit": 6
    }
   },
   {
    "warte": 0.8
   },
   {
-   "ton": "piep"
+   "ton": "knurren"
   },
   {
    "blase": {
     "char": "diego",
-    "text": "*gääähn*"
+    "text": "Grrr …"
    }
   },
   {
-   "warte": 1.4
+   "warte": 0.8
   },
   {
-   "sag": "morgen_schmuck"
+   "sag": "tor_morgen"
+  },
+  {
+   "aktion": {
+    "set": [
+     "szene_versteck",
+     "szene_lehrer",
+     "hand_da"
+    ]
+   }
+  },
+  {
+   "ort": {
+    "map": "vorhalle",
+    "kamera": [
+     12,
+     5
+    ]
+   }
+  },
+  {
+   "sag": "tor_schleichen"
+  },
+  {
+   "kamera": [
+    15,
+    5
+   ],
+   "zeit": 1.6
+  },
+  {
+   "sag": "tor_lehrer_1"
+  },
+  {
+   "ton": "kalt"
+  },
+  {
+   "fx": {
+    "art": "frost",
+    "x": 18.6,
+    "y": 5.5,
+    "w": 1,
+    "zeit": 5
+   }
+  },
+  {
+   "warte": 1.0
+  },
+  {
+   "sag": "tor_schrift"
+  },
+  {
+   "ton": "eiswind"
+  },
+  {
+   "fx": {
+    "art": "schrift",
+    "x": 13.5,
+    "y": 2.9,
+    "text": "Ihr wollt meine Rätsel lösen?",
+    "size": 13,
+    "sp": 0.3,
+    "zeit": 40,
+    "grund": true
+   }
+  },
+  {
+   "warte": 1.6
+  },
+  {
+   "fx": {
+    "art": "schrift",
+    "x": 13.5,
+    "y": 3.55,
+    "text": "Findet die Splitter.",
+    "size": 13,
+    "sp": 0.3,
+    "zeit": 39,
+    "grund": true
+   }
+  },
+  {
+   "warte": 1.6
+  },
+  {
+   "fx": {
+    "art": "schrift",
+    "x": 13.5,
+    "y": 4.2,
+    "text": "Einen in jeder Nacht.",
+    "size": 13,
+    "sp": 0.3,
+    "zeit": 38,
+    "grund": true
+   }
+  },
+  {
+   "warte": 1.6
+  },
+  {
+   "fx": {
+    "art": "schrift",
+    "x": 13.5,
+    "y": 4.85,
+    "text": "Wir sehen uns in der längsten.",
+    "size": 13,
+    "sp": 0.3,
+    "zeit": 37,
+    "grund": true
+   }
+  },
+  {
+   "warte": 2.4
+  },
+  {
+   "sag": "tor_lehrer_2"
+  },
+  {
+   "ton": "niesen"
+  },
+  {
+   "blase": {
+    "char": "diego",
+    "text": "Hatschi!"
+   }
+  },
+  {
+   "blick": {
+    "char": "sternwald",
+    "dir": "left"
+   }
+  },
+  {
+   "blick": {
+    "char": "wurzelgruen",
+    "dir": "left"
+   }
+  },
+  {
+   "warte": 0.6
+  },
+  {
+   "sag": "tor_ertappt"
+  },
+  {
+   "figur": {
+    "char": "wurzelgruen",
+    "nach": [
+     7,
+     3
+    ],
+    "warten": false
+   }
+  },
+  {
+   "figur": {
+    "char": "sternwald",
+    "nach": [
+     6,
+     3
+    ]
+   }
+  },
+  {
+   "aktion": {
+    "unset": [
+     "szene_lehrer"
+    ]
+   }
+  },
+  {
+   "warte": 0.6
+  },
+  {
+   "aktion": {
+    "unset": [
+     "szene_versteck"
+    ]
+   }
+  },
+  {
+   "ort": null
+  },
+  {
+   "sag": "tor_joern"
   },
   {
    "balken": false

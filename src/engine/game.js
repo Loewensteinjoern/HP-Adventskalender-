@@ -34,7 +34,7 @@ const G = {
     if (this.tuerHinweis !== this.kalender) { this.tuerHinweis = this.kalender; this.banner('Türchen ' + this.kalender + ' ist offen – beende den Tag am Kamin'); AU.sfx('tuerchen'); }
   },
   daysLeft() { if (this.testDay === null) return daysUntilStart(new Date()); return this.testDay > 0 ? 0 : Math.max(1, daysUntilStart(new Date())); },
-  ctx() { return { flags: this.save.flags, day: this.day, done: this.save.done, followers: this.save.followers }; },
+  ctx() { return { flags: this.save.flags, day: this.day, done: this.save.done, followers: this.save.followers, glut: this.save.glut.length }; },
   persist() {
     if (!this.save || !this.storeOk || this.mode === 'title') return;
     const s = this.save, p = this.player;
@@ -119,12 +119,13 @@ const G = {
     const s = this.save;
     s.tag = Math.min(24, s.tag + 1); s.tagEnde = false; s.seenDay = Math.max(s.seenDay, s.tag);
     this.refreshDay(); this.tuerHinweis = 0; this.persist();
-    // Beim ersten Morgen erklärt Jörn den Baumschmuck ausführlich, danach nur ein kurzer Hinweis
+    // Tag 1 beginnt mit der Szene am Tor (Raureifs Schrift, Legende der Splitter).
+    // Beim ersten Morgen erklärt Jörn danach den Baumschmuck, später nur ein kurzer Hinweis.
     const erklaeren = !s.flags.erklaert_schmuck; s.flags.erklaert_schmuck = true;
-    SZ.start(erklaeren ? 'morgen_schmuck' : 'morgen', () => {
+    SZ.start(s.tag === 1 ? 'tor_1' : 'morgen', () => {
       const q = this.questFuerTag(s.tag);
-      this.banner('Türchen ' + s.tag + ' ist offen' + (q ? ': ' + q.title : '!')); AU.sfx('tuerchen');
-      this.questStarts(); this.next();
+      const los = () => { this.banner('Türchen ' + s.tag + ' ist offen' + (q ? ': ' + q.title : '!')); AU.sfx('tuerchen'); this.questStarts(); this.next(); };
+      if (erklaeren) DLG.show(this.lines('schmuck_erklaerung'), los); else los();
     });
   },
   // Phönixlied-Seite mit neu auftauender Zeile (am Abend)
@@ -445,7 +446,7 @@ const G = {
   rueckblicke() {
     const s = this.save, R0 = DATA.welt.rueckblicke || {};
     return Object.keys(R0).filter(id => {
-      const d = +id.split('_')[1];
+      const d = +((/(\d+)/.exec(id) || [0, 0])[1]);
       return s.flags['gesehen_' + id] || s.tag > d || (s.tag === d && s.tagEnde) || (d === 0 && s.flags.prolog_fertig);
     }).map(id => ({ id, label: R0[id] }));
   },

@@ -45,14 +45,14 @@ async function run() {
   await key('ArrowDown', 1, 250); await key('ArrowRight', 3, 250); await key('ArrowUp', 2, 250); await key('ArrowLeft', 1, 250);
   await talk();
   s = await state();
-  if (!s.flags.q01_feder) errors.push('Feder nicht gefunden, Position ' + JSON.stringify(s.pos));
+  if (!s.flags.q01_daune) errors.push('Daune am Kamin nicht gefunden, Position ' + JSON.stringify(s.pos));
   // Jörn ansprechen: er steht direkt hinter Charly
   const j = s.followers.find(f => f.char === 'joern');
   const dir = j.x > s.pos.x ? 'ArrowRight' : j.x < s.pos.x ? 'ArrowLeft' : j.y > s.pos.y ? 'ArrowDown' : 'ArrowUp';
   await page.evaluate(d => window.__face(d), dir.replace('Arrow', '').toLowerCase());
   await talk();
   s = await state();
-  if (!s.flags.q01_joern) errors.push('Jörn-Gespräch nicht ausgelöst');
+  if (s.mode !== 'play') errors.push('Jörn-Gespräch hängt');
   await shot('05_nach_joern');
   // Menü und Questlog
   await key('Escape'); await page.waitForTimeout(200); await shot('06_menue');

@@ -26,7 +26,7 @@ const SHOTS = process.argv[2] || null;
   const busy = s => s.dialog || s.mode === 'szene';
   // Dialoge und Szenen durchklicken; optional unterwegs Bilder machen
   const drain = async (bilder) => {
-    for (let i = 0; i < 400; i++) {
+    for (let i = 0; i < 1200; i++) {
       const s = await st();
       if (bilder && bilder[i]) await shot(bilder[i]);
       if (!busy(s)) { await wait(300); if (!busy(await st())) return; }

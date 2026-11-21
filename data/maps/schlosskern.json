@@ -209,8 +209,8 @@
    "y": 12,
    "if": [
     "quest:Q01",
-    "flag:q01_joern",
-    "!flag:q01_lotte"
+    "flag:q01_daune",
+    "!flag:q01_feder"
    ]
   },
   {
@@ -219,8 +219,8 @@
    "y": 11,
    "if": [
     "quest:Q01",
-    "flag:q01_joern",
-    "!flag:q01_lotte"
+    "flag:q01_daune",
+    "!flag:q01_feder"
    ]
   },
   {
@@ -229,8 +229,8 @@
    "y": 10,
    "if": [
     "quest:Q01",
-    "flag:q01_joern",
-    "!flag:q01_lotte"
+    "flag:q01_daune",
+    "!flag:q01_feder"
    ]
   },
   {
@@ -239,8 +239,48 @@
    "y": 9,
    "if": [
     "quest:Q01",
-    "flag:q01_joern",
-    "!flag:q01_lotte"
+    "flag:q01_daune",
+    "!flag:q01_feder"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 4,
+   "y": 8,
+   "if": [
+    "quest:Q01",
+    "flag:q01_daune",
+    "!flag:q01_echt"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 3,
+   "y": 8,
+   "if": [
+    "quest:Q01",
+    "flag:q01_daune",
+    "!flag:q01_echt"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 2,
+   "y": 8,
+   "if": [
+    "quest:Q01",
+    "flag:q01_daune",
+    "!flag:q01_echt"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 1,
+   "y": 8,
+   "if": [
+    "quest:Q01",
+    "flag:q01_daune",
+    "!flag:q01_echt"
    ]
   },
   {
@@ -249,8 +289,8 @@
    "y": 8,
    "if": [
     "quest:Q01",
-    "flag:q01_joern",
-    "!flag:q01_lotte"
+    "flag:q01_daune",
+    "!flag:q01_echt"
    ]
   },
   {
@@ -259,58 +299,188 @@
    "y": 8,
    "if": [
     "quest:Q01",
-    "flag:q01_joern",
-    "!flag:q01_lotte"
+    "flag:q01_daune",
+    "!flag:q01_echt"
    ]
   },
   {
    "type": "raureif",
    "x": 8,
-   "y": 7,
+   "y": 8,
    "if": [
     "quest:Q01",
-    "flag:q01_joern",
-    "!flag:q01_lotte"
+    "flag:q01_daune",
+    "!flag:q01_echt"
    ]
   },
   {
    "type": "raureif",
    "x": 9,
-   "y": 6,
+   "y": 8,
    "if": [
     "quest:Q01",
-    "flag:q01_joern",
-    "!flag:q01_lotte"
+    "flag:q01_daune",
+    "!flag:q01_echt"
    ]
   },
   {
    "type": "raureif",
    "x": 10,
-   "y": 5,
+   "y": 8,
    "if": [
     "quest:Q01",
-    "flag:q01_joern",
-    "!flag:q01_lotte"
+    "flag:q01_daune",
+    "!flag:q01_echt"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 11,
+   "y": 8,
+   "if": [
+    "quest:Q01",
+    "flag:q01_daune",
+    "!flag:q01_echt"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 12,
+   "y": 8,
+   "if": [
+    "quest:Q01",
+    "flag:q01_daune",
+    "!flag:q01_echt"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 13,
+   "y": 8,
+   "if": [
+    "quest:Q01",
+    "flag:q01_daune",
+    "!flag:q01_echt"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 14,
+   "y": 8,
+   "if": [
+    "quest:Q01",
+    "flag:q01_daune",
+    "!flag:q01_echt"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 15,
+   "y": 8,
+   "if": [
+    "quest:Q01",
+    "flag:q01_daune",
+    "!flag:q01_echt"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 16,
+   "y": 8,
+   "if": [
+    "quest:Q01",
+    "flag:q01_daune",
+    "!flag:q01_echt"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 17,
+   "y": 8,
+   "if": [
+    "quest:Q01",
+    "flag:q01_daune",
+    "!flag:q01_echt"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 18,
+   "y": 8,
+   "if": [
+    "quest:Q01",
+    "flag:q01_daune",
+    "!flag:q01_echt"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 19,
+   "y": 8,
+   "if": [
+    "quest:Q01",
+    "flag:q01_daune",
+    "!flag:q01_echt"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 20,
+   "y": 8,
+   "if": [
+    "quest:Q01",
+    "flag:q01_daune",
+    "!flag:q01_echt"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 6,
+   "y": 10,
+   "if": [
+    "quest:Q01",
+    "flag:q01_daune",
+    "!flag:q01_echt"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 7,
+   "y": 11,
+   "if": [
+    "quest:Q01",
+    "flag:q01_daune",
+    "!flag:q01_echt"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 8,
+   "y": 12,
+   "if": [
+    "quest:Q01",
+    "flag:q01_daune",
+    "!flag:q01_echt"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 9,
+   "y": 13,
+   "if": [
+    "quest:Q01",
+    "flag:q01_daune",
+    "!flag:q01_echt"
    ]
   },
   {
    "type": "raureif",
    "x": 10,
-   "y": 4,
+   "y": 13,
    "if": [
     "quest:Q01",
-    "flag:q01_joern",
-    "!flag:q01_lotte"
-   ]
-  },
-  {
-   "type": "raureif",
-   "x": 10,
-   "y": 3,
-   "if": [
-    "quest:Q01",
-    "flag:q01_joern",
-    "!flag:q01_lotte"
+    "flag:q01_daune",
+    "!flag:q01_echt"
    ]
   }
  ],
@@ -435,6 +605,62 @@
     "dialog": "geheim_karte",
     "sound": "fund"
    }
+  },
+  {
+   "id": "q01_west",
+   "x": 1,
+   "y": 8,
+   "count": false,
+   "if": [
+    "quest:Q01",
+    "flag:q01_daune",
+    "!flag:q01_echt",
+    "!flag:q01_finte_w"
+   ],
+   "found": {
+    "dialog": "q01_finte_west",
+    "set": [
+     "q01_finte_w"
+    ],
+    "sound": "puff"
+   }
+  },
+  {
+   "id": "q01_ost",
+   "x": 20,
+   "y": 8,
+   "count": false,
+   "if": [
+    "quest:Q01",
+    "flag:q01_daune",
+    "!flag:q01_echt",
+    "!flag:q01_finte_o"
+   ],
+   "found": {
+    "dialog": "q01_finte_ost",
+    "set": [
+     "q01_finte_o"
+    ],
+    "sound": "puff"
+   }
+  },
+  {
+   "id": "q01_sued",
+   "x": 10,
+   "y": 13,
+   "count": false,
+   "if": [
+    "quest:Q01",
+    "flag:q01_daune",
+    "!flag:q01_echt"
+   ],
+   "found": {
+    "dialog": "q01_echt",
+    "set": [
+     "q01_echt"
+    ],
+    "sound": "spur"
+   }
   }
  ],
  "doors": [
@@ -493,6 +719,26 @@
    "tx": 14,
    "ty": 3,
    "dir": "down"
+  }
+ ],
+ "spots": [
+  {
+   "x": 5,
+   "y": 9,
+   "if": [
+    "quest:Q01",
+    "flag:q01_daune",
+    "!flag:q01_echt",
+    "!flag:q01_gabel_gesehen"
+   ],
+   "talk": [
+    {
+     "dialog": "q01_spur_gabel",
+     "set": [
+      "q01_gabel_gesehen"
+     ]
+    }
+   ]
   }
  ]
 }
