@@ -45,7 +45,7 @@ const SHOTS = process.argv[2] || null;
   if (!jo) errors.push('Q01: Zu Jörn umdrehen und ansprechen klappt nicht');
   // Spurgabel im Schlosskern: einmal schnüffeln → Spuren in alle Richtungen; an jedem Ende ein Wort (Fund durch Danebenstehen)
   await go('schlosskern', 6, 9, 'up'); await key('x'); await wait(1400);
-  if ((await ex()).spuren < 3) errors.push('Q01: Diego legt im Schlosskern nicht mehrere Spuren (' + (await ex()).spuren + ')');
+  if ((await ex()).spuren !== 3) errors.push('Q01: Diego zeigt im Schlosskern nicht genau die drei Quest-Spuren (' + (await ex()).spuren + ')');
   await shot('w0_spuren_gabel');
   for (const [x, y, d, f] of [[3, 8, 'left', 'q01_wort_1'], [18, 8, 'right', 'q01_wort_2'], [10, 11, 'down', 'q01_wort_3']]) {
     await go('schlosskern', x, y, d); await key('Arrow' + d[0].toUpperCase() + d.slice(1), 1, 500); await drain();
@@ -86,6 +86,9 @@ const SHOTS = process.argv[2] || null;
 
   // --- Teil 2: alle Haken, Rückblicke, Nebenaufgaben, Schmuck (Tag 4) ---
   await start(4);
+  // Ohne Versteck für die Tagesquest im Raum: nur die Spur zum nächsten Versteck
+  await go('gemeinschaftsraum', 8, 9, 'up'); await key('x'); await wait(1400);
+  if ((await ex()).spuren !== 1) errors.push('Ohne Quest-Versteck sollte Diego genau eine Spur zeigen (' + (await ex()).spuren + ')');
   await flags({ q01_daune: true, q01_echt: true, q01_brunnen: true, q01_feder: true });
   for (const h of ['haken_1', 'haken_2', 'haken_3', 'haken_4']) {
     await page.evaluate(id => window.__szene(id), h);

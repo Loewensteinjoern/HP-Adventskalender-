@@ -647,14 +647,17 @@ const G = {
   sniffDone() {
     const d = this.followers.find(f => f.char === 'diego'); if (d) d.pose = null;
     const m = DATA.maps[this.mapId], ctx = this.ctx();
-    // Diego legt Spuren zu allen Verstecken im Raum, in alle Richtungen
-    const spuren = [];
+    // Läuft eine Türchen-Quest und gibt es hier Verstecke dafür: Spuren zu genau diesen (in alle Richtungen).
+    // Sonst nur die Spur zum nächstgelegenen Versteck.
+    let spuren = [];
     (m.secrets || []).filter(s => condsOk(s.if, ctx) && !(s.count !== false && this.save.secrets.indexOf(s.id) >= 0)).forEach(s => {
       if (spuren.some(x => x.s.x === s.x && x.s.y === s.y)) return;
       const path = findPath(m, { x: d.x, y: d.y }, s, ctx, 80);
-      if (path) spuren.push({ s, pts: path, target: { x: s.x, y: s.y } });
+      if (path) spuren.push({ s, pts: path, target: { x: s.x, y: s.y }, quest: (s.if || []).some(c => { const q = /^quest:(\w+)$/.exec(c); return q && DATA.quests[q[1]] && !DATA.quests[q[1]].neben; }) });
     });
     if (!spuren.length) return this.say('diego_kein_geruch');
+    if (spuren.some(x => x.quest)) spuren = spuren.filter(x => x.quest);
+    else spuren = [spuren.reduce((a, b) => (b.pts.length < a.pts.length ? b : a))];
     spuren.forEach(x => { this.revealed[x.s.id] = true; });
     this.trail = { spuren, t0: this.time };
     AU.sfx('spur');

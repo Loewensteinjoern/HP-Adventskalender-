@@ -306,46 +306,6 @@
      ]
     }
    ]
-  },
-  {
-   "type": "raureif",
-   "x": 10,
-   "y": 4,
-   "if": [
-    "quest:Q01",
-    "flag:q01_echt",
-    "!flag:q01_feder"
-   ]
-  },
-  {
-   "type": "raureif",
-   "x": 11,
-   "y": 5,
-   "if": [
-    "quest:Q01",
-    "flag:q01_echt",
-    "!flag:q01_feder"
-   ]
-  },
-  {
-   "type": "raureif",
-   "x": 12,
-   "y": 6,
-   "if": [
-    "quest:Q01",
-    "flag:q01_echt",
-    "!flag:q01_feder"
-   ]
-  },
-  {
-   "type": "raureif",
-   "x": 13,
-   "y": 7,
-   "if": [
-    "quest:Q01",
-    "flag:q01_echt",
-    "!flag:q01_feder"
-   ]
   }
  ],
  "secrets": [
