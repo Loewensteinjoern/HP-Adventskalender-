@@ -2644,45 +2644,7 @@
   ],
   [
    "joern",
-   "Schau, die Raureif-Spur. Sie führt zur Tür hinaus, in den Kellergang."
-  ]
- ],
- "q01_finte_west": [
-  [
-   "",
-   "Am Ende der Spur liegt eine Kugel aus Eis. Als Diego daran schnuppert, kichert sie – und zerplatzt in Glitzerstaub."
-  ],
-  [
-   "joern",
-   "Eine Finte! Die Spur war falsch."
-  ]
- ],
- "q01_finte_ost": [
-  [
-   "",
-   "Am Ende der Spur hängt ein Eiszapfen. Darin steckt eine Feder!"
-  ],
-  [
-   "",
-   "Diego leckt daran. Die Feder ist aus Eis und zerbricht in tausend Stücke."
-  ],
-  [
-   "joern",
-   "Nachgemacht. Da will uns jemand an der Nase herumführen."
-  ]
- ],
- "q01_echt": [
-  [
-   "",
-   "Diego schnüffelt – und stellt das Fell auf. Diese Spur ist anders als die anderen."
-  ],
-  [
-   "",
-   "Jeder Abdruck hat kleine Zacken, wie eine Krone. Genau wie die Hand am Tor."
-  ],
-  [
-   "joern",
-   "Das ist die echte. Sie führt hinaus, durch den Arkadengang in den Innenhof."
+   "Schau, die Raureif-Spur. Sie führt zur Tür hinaus, durch den Kellergang hinauf in den Schlosskern."
   ]
  ],
  "q01_spur_gabel": [
@@ -2692,7 +2654,7 @@
   ],
   [
    "joern",
-   "Drei Spuren? Nur eine kann echt sein. Lass Diego an jedem Ende schnüffeln.",
+   "Drei Spuren auf einmal. Lass Diego schnüffeln, dann folgen wir jeder bis ans Ende.",
    "b"
   ]
  ],
@@ -2750,13 +2712,13 @@
  "joern_q01_spur": [
   [
    "joern",
-   "Die Raureif-Spur führt durch den Kellergang in den Schlosskern. Dort teilt sie sich. Lass Diego an jedem Ende schnüffeln."
+   "Im Schlosskern teilt sich die Raureif-Spur in drei. Lass Diego schnüffeln und folg jeder Spur bis ans Ende – da steht bestimmt was."
   ]
  ],
  "joern_q01_hof": [
   [
    "joern",
-   "Die echte Spur hat Kronenzacken. Sie geht durch den Arkadengang in den Innenhof."
+   "„Wo das Wasser schläft“ … der zugefrorene Brunnen im Innenhof! Durch den Arkadengang."
   ]
  ],
  "joern_q01_glut": [
@@ -2769,6 +2731,166 @@
   [
    "joern",
    "Lotte sitzt bestimmt in der Großen Halle. Zeigen wir ihr die Feder!"
+  ]
+ ],
+ "q01_wort_1": [
+  [
+   "",
+   "Diego setzt sich und bellt. Am Ende der Spur hat jemand mit langen, dünnen Fingern in den Raureif geschrieben:"
+  ],
+  [
+   "stimme",
+   "Wo das"
+  ],
+  [
+   "joern",
+   "Nur ein Teil. Die anderen Spuren, Charly – da steht bestimmt der Rest."
+  ]
+ ],
+ "q01_wort_1_fertig": [
+  [
+   "",
+   "Diego setzt sich und bellt. Am Ende der Spur hat jemand mit langen, dünnen Fingern in den Raureif geschrieben:"
+  ],
+  [
+   "stimme",
+   "Wo das"
+  ],
+  [
+   "",
+   "Die drei Wörter leuchten nacheinander im Raureif auf:"
+  ],
+  [
+   "stimme",
+   "Wo das Wasser schläft."
+  ],
+  [
+   "joern",
+   "Wasser, das schläft … gefrorenes Wasser! Der zugefrorene Brunnen im Innenhof!"
+  ],
+  [
+   "joern",
+   "Und schau – die Spur mit den Kronenzacken führt durch den Arkadengang nach draußen."
+  ]
+ ],
+ "q01_wort_2": [
+  [
+   "",
+   "Diego bellt einen Eiszapfen an. Darin, wie eingeritzt, ein einzelnes Wort:"
+  ],
+  [
+   "stimme",
+   "Wasser"
+  ],
+  [
+   "joern",
+   "Nur ein Teil. Die anderen Spuren, Charly – da steht bestimmt der Rest."
+  ]
+ ],
+ "q01_wort_2_fertig": [
+  [
+   "",
+   "Diego bellt einen Eiszapfen an. Darin, wie eingeritzt, ein einzelnes Wort:"
+  ],
+  [
+   "stimme",
+   "Wasser"
+  ],
+  [
+   "",
+   "Die drei Wörter leuchten nacheinander im Raureif auf:"
+  ],
+  [
+   "stimme",
+   "Wo das Wasser schläft."
+  ],
+  [
+   "joern",
+   "Wasser, das schläft … gefrorenes Wasser! Der zugefrorene Brunnen im Innenhof!"
+  ],
+  [
+   "joern",
+   "Und schau – die Spur mit den Kronenzacken führt durch den Arkadengang nach draußen."
+  ]
+ ],
+ "q01_wort_3": [
+  [
+   "",
+   "Diego kratzt an der Türschwelle. Im Raureif steht, in Kronenzacken-Schrift:"
+  ],
+  [
+   "stimme",
+   "schläft."
+  ],
+  [
+   "joern",
+   "Nur ein Teil. Die anderen Spuren, Charly – da steht bestimmt der Rest."
+  ]
+ ],
+ "q01_wort_3_fertig": [
+  [
+   "",
+   "Diego kratzt an der Türschwelle. Im Raureif steht, in Kronenzacken-Schrift:"
+  ],
+  [
+   "stimme",
+   "schläft."
+  ],
+  [
+   "",
+   "Die drei Wörter leuchten nacheinander im Raureif auf:"
+  ],
+  [
+   "stimme",
+   "Wo das Wasser schläft."
+  ],
+  [
+   "joern",
+   "Wasser, das schläft … gefrorenes Wasser! Der zugefrorene Brunnen im Innenhof!"
+  ],
+  [
+   "joern",
+   "Und schau – die Spur mit den Kronenzacken führt durch den Arkadengang nach draußen."
+  ]
+ ],
+ "q01_brunnen_glut": [
+  [
+   "",
+   "Die Spur endet am zugefrorenen Brunnen. Tief im Eis leuchtet etwas golden: eine Feder."
+  ],
+  [
+   "joern",
+   "Die Winterfeder! Der Frostschatten hat sie hier eingefroren."
+  ],
+  [
+   "",
+   "Charly klopft gegen das Eis. Es ist steinhart und so kalt, dass die Finger brennen."
+  ],
+  [
+   "joern",
+   "Moment – du hast doch einen Glutsplitter! Versuch’s damit."
+  ],
+  [
+   "",
+   "Charly drückt den Glutsplitter gegen das Eis. Es zischt, dampft und tropft …"
+  ],
+  [
+   "",
+   "Dann gleitet die Feder in ihre Hand. Golden-weiß, warm, und an ihren Spitzen hängt Raureif, der nicht schmilzt."
+  ],
+  [
+   "",
+   "Der Glutsplitter glimmt weiter, als wäre nichts gewesen. Charly steckt ihn wieder ein."
+  ],
+  [
+   "joern",
+   "Lotte Silberfeder kennt jedes alte Buch über Winterwesen. Sie sitzt sicher in der Großen Halle."
+  ]
+ ],
+ "diego_spur_tipp": [
+  [
+   "",
+   "Lauf der goldenen Pfotenspur nach. Am Ende funkelt es – sobald Charly danebensteht, zeigt Diego, was er gefunden hat."
   ]
  ]
 }

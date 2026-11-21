@@ -607,7 +607,7 @@
    }
   },
   {
-   "id": "q01_west",
+   "id": "q01_wort_1_fertig",
    "x": 1,
    "y": 8,
    "count": false,
@@ -615,18 +615,40 @@
     "quest:Q01",
     "flag:q01_daune",
     "!flag:q01_echt",
-    "!flag:q01_finte_w"
+    "!flag:q01_wort_1",
+    "flag:q01_wort_2",
+    "flag:q01_wort_3"
    ],
    "found": {
-    "dialog": "q01_finte_west",
+    "dialog": "q01_wort_1_fertig",
     "set": [
-     "q01_finte_w"
+     "q01_wort_1",
+     "q01_echt"
     ],
-    "sound": "puff"
+    "sound": "spur"
    }
   },
   {
-   "id": "q01_ost",
+   "id": "q01_wort_1",
+   "x": 1,
+   "y": 8,
+   "count": false,
+   "if": [
+    "quest:Q01",
+    "flag:q01_daune",
+    "!flag:q01_echt",
+    "!flag:q01_wort_1"
+   ],
+   "found": {
+    "dialog": "q01_wort_1",
+    "set": [
+     "q01_wort_1"
+    ],
+    "sound": "fund"
+   }
+  },
+  {
+   "id": "q01_wort_2_fertig",
    "x": 20,
    "y": 8,
    "count": false,
@@ -634,32 +656,77 @@
     "quest:Q01",
     "flag:q01_daune",
     "!flag:q01_echt",
-    "!flag:q01_finte_o"
+    "!flag:q01_wort_2",
+    "flag:q01_wort_1",
+    "flag:q01_wort_3"
    ],
    "found": {
-    "dialog": "q01_finte_ost",
+    "dialog": "q01_wort_2_fertig",
     "set": [
-     "q01_finte_o"
+     "q01_wort_2",
+     "q01_echt"
     ],
-    "sound": "puff"
+    "sound": "spur"
    }
   },
   {
-   "id": "q01_sued",
+   "id": "q01_wort_2",
+   "x": 20,
+   "y": 8,
+   "count": false,
+   "if": [
+    "quest:Q01",
+    "flag:q01_daune",
+    "!flag:q01_echt",
+    "!flag:q01_wort_2"
+   ],
+   "found": {
+    "dialog": "q01_wort_2",
+    "set": [
+     "q01_wort_2"
+    ],
+    "sound": "fund"
+   }
+  },
+  {
+   "id": "q01_wort_3_fertig",
    "x": 10,
    "y": 13,
    "count": false,
    "if": [
     "quest:Q01",
     "flag:q01_daune",
-    "!flag:q01_echt"
+    "!flag:q01_echt",
+    "!flag:q01_wort_3",
+    "flag:q01_wort_1",
+    "flag:q01_wort_2"
    ],
    "found": {
-    "dialog": "q01_echt",
+    "dialog": "q01_wort_3_fertig",
     "set": [
+     "q01_wort_3",
      "q01_echt"
     ],
     "sound": "spur"
+   }
+  },
+  {
+   "id": "q01_wort_3",
+   "x": 10,
+   "y": 13,
+   "count": false,
+   "if": [
+    "quest:Q01",
+    "flag:q01_daune",
+    "!flag:q01_echt",
+    "!flag:q01_wort_3"
+   ],
+   "found": {
+    "dialog": "q01_wort_3",
+    "set": [
+     "q01_wort_3"
+    ],
+    "sound": "fund"
    }
   }
  ],

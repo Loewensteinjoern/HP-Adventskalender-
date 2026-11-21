@@ -27,7 +27,7 @@ const SHOTS = process.argv[2] || null;
 
   await page.goto(FILE + '?testtag=4'); await wait(500);
   await key('ArrowRight'); await key('Enter'); await wait(500); await drain(); await wait(300); await drain();
-  await flags({ diego_dabei: true, q01_daune: true, q01_echt: true, q01_brunnen: true, q01_feder: true });
+  await flags({ diego_dabei: true, q01_daune: true, q01_wort_1: true, q01_wort_2: true, q01_wort_3: true, q01_echt: true, q01_brunnen: true, q01_feder: true });
 
   // Kartenwechsel über die geöffnete Kellertreppe
   await go('kellergang', 14, 3, 'up'); await key('ArrowUp', 1, 900);

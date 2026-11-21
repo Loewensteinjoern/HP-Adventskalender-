@@ -41,7 +41,7 @@ const gut = C.migrateSave(JSON.parse(fx('save_v1_gut.json')));
 ok(gut && gut.save.x === 5 && gut.save.flags.q01_feder === true && gut.save.secrets[0] === 'zimtstern', 'Guter v1-Stand bleibt unverändert');
 ok(gut.save.zukunftsfeld && gut.save.zukunftsfeld.bleibt === 'erhalten', 'Unbekannte Felder bleiben erhalten');
 const alt = C.migrateSave(JSON.parse(fx('save_v0_alt.json')));
-ok(alt && alt.save.v === 4 && alt.save.map === 'kellergang' && alt.save.x === 3 && alt.save.flags.diego_dabei, 'v0 wird über v1, v2 und v3 nach v4 migriert');
+ok(alt && alt.save.v === 5 && alt.save.map === 'kellergang' && alt.save.x === 3 && alt.save.flags.diego_dabei, 'v0 wird über alle Versionen nach v5 migriert');
 const schief = C.migrateSave(JSON.parse(fx('save_v1_schief.json')));
 ok(schief && schief.save.map === D.welt.start.map && schief.save.flags.ok === true && !('boese<script>' in schief.save.flags), 'Schiefer Stand wird repariert, nicht verworfen');
 ok(schief.save.followers.indexOf('drache') < 0 && schief.save.followers[0] === 'joern' && schief.save.seenDay === 24, 'Begleiter und Tage werden bereinigt');
@@ -81,7 +81,7 @@ const q = C.newSave(0); Object.assign(q.flags, { diego_dabei: true, q01_feder: t
 ok(C.updateQuests(q, 1).length === 0, 'Teilweise gebaute Quest wird nicht vorzeitig abgeschlossen');
 
 // --- Spielstand v2 (Stufe S2): Wärme, Karte, Glutsplitter ---
-ok(gut.save.v === 4 && gut.save.waerme === 10 && gut.save.besucht.indexOf(gut.save.map) >= 0 && gut.save.glut.length === 0 && gut.save.warm === null, 'v1-Stand bekommt Wärme, Karte und Glutsplitter dazu');
+ok(gut.save.v === 5 && gut.save.waerme === 10 && gut.save.besucht.indexOf(gut.save.map) >= 0 && gut.save.glut.length === 0 && gut.save.warm === null, 'v1-Stand bekommt Wärme, Karte und Glutsplitter dazu');
 const w2 = C.migrateSave({ v: 2, map: 'innenhof', x: 5, y: 8, waerme: 99, glut: ['a', 'b', 'c', 7], warm: { map: 'gibtsnicht', x: 1, y: 1, dir: 'up' }, besucht: ['innenhof', 'quatsch'] });
 ok(w2.save.waerme === 12 && w2.save.glut.length === 3 && w2.save.warm === null && w2.save.besucht.join() === 'innenhof', 'v2-Stand wird bereinigt (Wärme gedeckelt, unbekannte Orte raus)');
 
@@ -170,7 +170,7 @@ ok(loadCore(D3).validateData().errors.some(e => /Schlosskarte/.test(e)), 'Datenp
 const n0 = C.newSave(0);
 ok(n0.map === D.welt.prologStart.map && n0.followers.length === 0 && n0.tag === 0 && n0.tagEnde === false, 'Neues Spiel beginnt mit dem Prolog in der Großen Halle, Jörn kommt erst dort dazu');
 const v2 = C.migrateSave(JSON.parse(fx('save_v2_gut.json'))).save;
-ok(v2.v === 4 && C.PROLOG_FLAGS.every(f => v2.flags[f] === true) && v2.tag === 2 && v2.tagEnde === false, 'v2-Stand: Prolog gilt als gespielt, Erzähltag = zuletzt gesehenes Türchen');
+ok(v2.v === 5 && C.PROLOG_FLAGS.every(f => v2.flags[f] === true) && v2.tag === 2 && v2.tagEnde === false, 'v2-Stand: Prolog gilt als gespielt, Erzähltag = zuletzt gesehenes Türchen');
 ok(v2.map === 'innenhof' && v2.x === 6 && v2.stufe === 2 && v2.kakao === 2 && v2.done[0] === 'Q01' && v2.followers.join() === 'joern,diego' && v2.glut[0] === 'innenhof', 'v2-Stand: Fortschritt, Position, Stufe und Begleiter bleiben erhalten');
 const v2vor = C.migrateSave(Object.assign(JSON.parse(fx('save_v2_gut.json')), { seenDay: 0 })).save;
 ok(v2vor.tag === 0 && v2vor.tagEnde === true, 'v2-Stand vor dem 1.12.: Tag 0 ist schon beendet, am 1.12. kommt der Morgen');
@@ -208,9 +208,10 @@ ok(['N_oskar', 'N_ida', 'N_finn'].every(id => D.quests[id] && D.quests[id].neben
 
 // S3b: Startszene, schwerere Q01, Spielstand v4
 { const a = C.migrateSave({ v: 3, tag: 2, flags: { q01_feder: true, q01_joern: true }, done: [] }).save, b = C.migrateSave({ v: 3, tag: 1, flags: { diego_dabei: true }, done: [] }).save;
-  ok(a.v === 4 && a.flags.q01_daune && a.flags.q01_echt && a.flags.q01_brunnen && a.flags.q01_feder && !a.flags.q01_lotte && !b.flags.q01_daune, 'v3 → v4: Wer die Feder schon hat, behält seinen Q01-Fortschritt'); }
+  ok(a.v === 5 && a.flags.q01_daune && a.flags.q01_echt && a.flags.q01_brunnen && a.flags.q01_feder && !a.flags.q01_lotte && !b.flags.q01_daune, 'v3 → v4: Wer die Feder schon hat, behält seinen Q01-Fortschritt'); }
 ok(C.checkCond('glut>=1', { flags: {}, day: 1, done: [], followers: [], glut: 1 }) && !C.checkCond('glut>=1', { flags: {}, day: 1, done: [], followers: [], glut: 0 }) && !C.checkCond('glut>=1', { flags: {}, day: 1, done: [], followers: [] }), 'Bedingung glut>=N');
-ok(D.quests.Q01.steps.map(s => s.flag).join() === 'q01_daune,q01_echt,q01_brunnen,q01_feder,q01_lotte', 'Q01: Daune, echte Spur, Brunnen, Feder auftauen, Lotte');
+ok(D.quests.Q01.steps.map(s => s.flag || s.flags.join('+')).join() === 'q01_daune,q01_wort_1+q01_wort_2+q01_wort_3,q01_brunnen,q01_feder,q01_lotte', 'Q01: Daune, drei Wörter an der Spurgabel, Brunnen, Feder auftauen, Lotte');
+{ const r = C.migrateSave({ v: 4, tag: 1, flags: { q01_daune: true, q01_echt: true }, done: [] }).save; ok(r.v === 5 && r.flags.q01_wort_1 && r.flags.q01_wort_3, 'v4 → v5: echte Spur schon gefunden = alle drei Wörter'); }
 ok(D.szenen.tor_1 && D.welt.rueckblicke.tor_1 && D.szenen.tor_1.filter(s => s.fx && s.fx.art === 'schrift').map(s => s.fx.text).join(' ').indexOf('Findet die Splitter.') >= 0, 'Startszene am Tor mit Raureifs Schrift (Splitter)');
 
 console.log((fails ? '✗ ' + fails + ' von ' : '✓ alle ') + count + ' Tests' + (fails ? ' fehlgeschlagen' : ' bestanden'));

@@ -43,15 +43,19 @@ const SHOTS = process.argv[2] || null;
     const s1 = await st(); if (s1.dialog) jo = true; await drain(); if (jo) break;
   }
   if (!jo) errors.push('Q01: Zu Jörn umdrehen und ansprechen klappt nicht');
-  // Spurgabel im Schlosskern: zwei Finten, eine echte Spur (mit Diegos Nase)
-  await go('schlosskern', 2, 8, 'left'); await key('x'); await wait(1300); await key('Enter', 1, 200); await drain();
-  await expect('q01_finte_w', 'Q01: Finte West erschnüffeln');
-  await go('schlosskern', 19, 8, 'right'); await secret('q01_ost'); await expect('q01_finte_o', 'Q01: Finte Ost');
-  if ((await st()).flags.q01_echt) errors.push('Q01: Finte zählt als echte Spur');
-  await go('schlosskern', 10, 12, 'down'); await secret('q01_sued'); await expect('q01_echt', 'Q01: echte Spur');
+  // Spurgabel im Schlosskern: einmal schnüffeln → Spuren in alle Richtungen; an jedem Ende ein Wort (Fund durch Danebenstehen)
+  await go('schlosskern', 6, 9, 'up'); await key('x'); await wait(1400);
+  if ((await ex()).spuren < 3) errors.push('Q01: Diego legt im Schlosskern nicht mehrere Spuren (' + (await ex()).spuren + ')');
+  await shot('w0_spuren_gabel');
+  for (const [x, y, d, f] of [[3, 8, 'left', 'q01_wort_1'], [18, 8, 'right', 'q01_wort_2'], [10, 11, 'down', 'q01_wort_3']]) {
+    await go('schlosskern', x, y, d); await key('Arrow' + d[0].toUpperCase() + d.slice(1), 1, 500); await drain();
+    await expect(f, 'Q01: Wort an der Spur (' + f + ') durch Danebenstehen gefunden');
+  }
+  await expect('q01_echt', 'Q01: Wörter zusammengesetzt → Brunnen');
   await go('arkadengang', 10, 4, 'right'); await shot('w0_spur_arkade');
   // Brunnen: erst ohne Glutsplitter (geht nicht), dann mit
   await go('innenhof', 14, 9, 'up'); await talk(); await expect('q01_brunnen', 'Q01: Brunnen gefunden');
+  if ((await st()).flags.q01_feder) errors.push('Q01: Feder ohne Glutsplitter aufgetaut');
   await talk(); if ((await st()).flags.q01_feder) errors.push('Q01: Feder taut ohne Glutsplitter');
   await go('gemeinschaftsraum', 13, 9, 'up'); await secret('glut_sofa');
   if ((await ex()).glut < 1) errors.push('Q01: Glutsplitter unter dem Sofa fehlt');

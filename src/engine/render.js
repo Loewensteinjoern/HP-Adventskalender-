@@ -160,27 +160,35 @@ const R = {
 
   // Goldene Pfotenspur von Diegos Schnüffeln
   paws(G, time) {
-    const tr = G.trail; if (!tr) return;
-    const c = this.ctx, age = time - tr.t0, life = 7;
-    if (age > life) { G.trail = null; return; }
-    const fade = age > life - 1.5 ? (life - age) / 1.5 : 1;
-    tr.pts.forEach((pt, i) => {
-      const show = age - i * 0.09; if (show < 0 || i === 0) return;
-      const a = Math.min(1, show * 3) * fade, side = i % 2 ? 5 : -5;
-      const prev = tr.pts[i - 1], vert = prev.x === pt.x;
-      const x = pt.x * TILE + 16 - this.cam.x + (vert ? side : 0), y = pt.y * TILE + 18 - this.cam.y + (vert ? 0 : side);
-      c.globalAlpha = a * 0.35; c.fillStyle = '#ffd36a'; c.beginPath(); c.arc(x, y, 7, 0, 6.283); c.fill();
-      c.globalAlpha = a; c.fillStyle = '#ffd36a';
-      c.fillRect(x - 2, y - 1, 5, 4); c.fillRect(x - 3, y - 4, 2, 2); c.fillRect(x - 1, y - 5, 2, 2); c.fillRect(x + 1, y - 5, 2, 2); c.fillRect(x + 3, y - 4, 2, 2);
-      c.fillStyle = '#fff6c8'; c.fillRect(x - 1, y, 2, 1);
-    });
-    if (tr.target && age > tr.pts.length * 0.09) {
-      const x = tr.target.x * TILE + 16 - this.cam.x, y = tr.target.y * TILE + 14 - this.cam.y, s = 4 + Math.sin(time * 8) * 2;
-      c.globalAlpha = fade; c.fillStyle = '#fff2b0';
-      c.fillRect(x - s, y, s * 2 + 1, 1); c.fillRect(x, y - s, 1, s * 2 + 1); c.fillRect(x - 1, y - 1, 3, 3);
-      c.globalAlpha = fade * 0.3; c.beginPath(); c.arc(x, y, 10, 0, 6.283); c.fill();
+    const c = this.ctx, tr = G.trail;
+    if (tr) {
+      const age = time - tr.t0, life = tr.spuren ? 12 : 7;
+      if (age > life) G.trail = null;
+      else {
+        const fade = age > life - 1.5 ? (life - age) / 1.5 : 1;
+        (tr.spuren || [tr]).forEach(sp => sp.pts.forEach((pt, i) => {
+          const show = age - i * 0.09; if (show < 0 || i === 0) return;
+          const a = Math.min(1, show * 3) * fade, side = i % 2 ? 5 : -5;
+          const prev = sp.pts[i - 1], vert = prev.x === pt.x;
+          const x = pt.x * TILE + 16 - this.cam.x + (vert ? side : 0), y = pt.y * TILE + 18 - this.cam.y + (vert ? 0 : side);
+          c.globalAlpha = a * 0.35; c.fillStyle = '#ffd36a'; c.beginPath(); c.arc(x, y, 7, 0, 6.283); c.fill();
+          c.globalAlpha = a; c.fillStyle = '#ffd36a';
+          c.fillRect(x - 2, y - 1, 5, 4); c.fillRect(x - 3, y - 4, 2, 2); c.fillRect(x - 1, y - 5, 2, 2); c.fillRect(x + 1, y - 5, 2, 2); c.fillRect(x + 3, y - 4, 2, 2);
+          c.fillStyle = '#fff6c8'; c.fillRect(x - 1, y, 2, 1);
+        }));
+        if (!tr.spuren && tr.target) this.funkeln(tr.target, time, fade);
+      }
     }
+    // Aufgedeckte Fundstellen funkeln, bis Charly sie gefunden hat
+    const m = DATA.maps[G.mapId], ctx = G.ctx();
+    (m.secrets || []).forEach(s => { if (G.revealed[s.id] && condsOk(s.if, ctx) && !(s.count !== false && G.save.secrets.indexOf(s.id) >= 0)) this.funkeln(s, time, 1); });
     c.globalAlpha = 1;
+  },
+  funkeln(t, time, a) {
+    const c = this.ctx, x = t.x * TILE + 16 - this.cam.x, y = t.y * TILE + 14 - this.cam.y, s = 4 + Math.sin(time * 8) * 2;
+    c.globalAlpha = a; c.fillStyle = '#fff2b0';
+    c.fillRect(x - s, y, s * 2 + 1, 1); c.fillRect(x, y - s, 1, s * 2 + 1); c.fillRect(x - 1, y - 1, 3, 3);
+    c.globalAlpha = a * 0.3; c.beginPath(); c.arc(x, y, 10, 0, 6.283); c.fill(); c.globalAlpha = 1;
   },
 
   particles(G, m, objs, time) {

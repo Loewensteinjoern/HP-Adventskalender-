@@ -346,6 +346,7 @@ const G = {
       if (st && st.map === this.mapId && d.to === st.nach) this.save.flags.tour++;
       AU.sfx('tuer'); this.fade = { t: 0, door: d, done: false }; return true;
     }
+    const nah = this.revealedNear(); if (nah) { this.findSecret(nah); return true; }
     return this.checkEncounter(m);
   },
   // --- Kämpfe: plötzliche Überfälle im tiefen Schnee ---
@@ -431,7 +432,8 @@ const G = {
     const n = npcAt(m, tx, ty, ctx);
     if (n) { if (n.pose !== 'schlaf') n.dir = { up: 'down', down: 'up', left: 'right', right: 'left' }[p.dir]; return this.runTalk(pickTalk(n.talk, ctx)); }
     const sec = secretAt(m, tx, ty, ctx);
-    if (sec && this.revealed[sec.id]) return this.findSecret(sec);
+    if (sec && (DATA.maps[this.mapId].secrets || []).some(s => this.revealed[s.id] && s.x === sec.x && s.y === sec.y)) return this.findSecret(sec);
+    const nah = this.revealedNear(); if (nah) return this.findSecret(nah);
     const o = objAt(m, tx, ty, ctx);
     if (o && o.talk) return this.runTalk(pickTalk(o.talk, ctx));
     const sp = spotAt(m, tx, ty, ctx);
@@ -645,18 +647,30 @@ const G = {
   sniffDone() {
     const d = this.followers.find(f => f.char === 'diego'); if (d) d.pose = null;
     const m = DATA.maps[this.mapId], ctx = this.ctx();
-    let best = null;
+    // Diego legt Spuren zu allen Verstecken im Raum, in alle Richtungen
+    const spuren = [];
     (m.secrets || []).filter(s => condsOk(s.if, ctx) && !(s.count !== false && this.save.secrets.indexOf(s.id) >= 0)).forEach(s => {
-      const path = findPath(m, { x: d.x, y: d.y }, s, ctx, 14);
-      if (path && (!best || path.length < best.path.length)) best = { s, path };
+      if (spuren.some(x => x.s.x === s.x && x.s.y === s.y)) return;
+      const path = findPath(m, { x: d.x, y: d.y }, s, ctx, 80);
+      if (path) spuren.push({ s, pts: path, target: { x: s.x, y: s.y } });
     });
-    if (!best) return this.say('diego_kein_geruch');
-    this.revealed[best.s.id] = true;
-    this.trail = { pts: best.path, target: { x: best.s.x, y: best.s.y }, t0: this.time };
+    if (!spuren.length) return this.say('diego_kein_geruch');
+    spuren.forEach(x => { this.revealed[x.s.id] = true; });
+    this.trail = { spuren, t0: this.time };
     AU.sfx('spur');
+    if (spuren.length > 1) this.banner('Diego wittert ' + spuren.length + ' Spuren!');
+  },
+  // Aufgedecktes Geheimnis direkt neben Charly (oder unter ihr)
+  revealedNear() {
+    const m = DATA.maps[this.mapId], p = this.player, ctx = this.ctx();
+    const r = (m.secrets || []).find(s => this.revealed[s.id] && condsOk(s.if, ctx) && !(s.count !== false && this.save.secrets.indexOf(s.id) >= 0) && Math.abs(s.x - p.x) + Math.abs(s.y - p.y) <= 1);
+    // an derselben Stelle gilt die erste Variante, deren Bedingung jetzt stimmt (z. B. das letzte von drei Wörtern)
+    return r ? secretAt(m, r.x, r.y, ctx) || r : null;
   },
   findSecret(sec) {
-    this.trail = null;
+    (DATA.maps[this.mapId].secrets || []).forEach(s => { if (s.x === sec.x && s.y === sec.y) delete this.revealed[s.id]; });
+    if (this.trail && this.trail.spuren) { this.trail.spuren = this.trail.spuren.filter(x => x.s.x !== sec.x || x.s.y !== sec.y); if (!this.trail.spuren.length) this.trail = null; } else this.trail = null;
+    AU.sfx('wuff');
     const zaehlt = sec.count !== false;
     if (sec.found.zauber) return this.runTalk(Object.assign({}, sec.found, zaehlt ? { geheimnis: sec.id } : {}));
     if (zaehlt && this.save.secrets.indexOf(sec.id) < 0) this.save.secrets.push(sec.id);

@@ -47,6 +47,13 @@ const MIGRATIONS = {
     out.flags = f;
     return out;
   },
+  // v4 → v5 (S3): Spurgabel ohne Finten – drei Wörter im Raureif. Wer die echte Spur schon hatte, hat alle drei.
+  4: d => {
+    const out = Object.assign({}, d), f = Object.assign({}, isObj(d.flags) ? d.flags : {});
+    if (f.q01_echt) ['q01_wort_1', 'q01_wort_2', 'q01_wort_3'].forEach(k => { f[k] = true; });
+    out.flags = f;
+    return out;
+  },
 };
 const PROLOG_FLAGS = ['prolog_fest', 'prolog_joern', 'prolog_tour', 'prolog_tor', 'prolog_fertig'];
 

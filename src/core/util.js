@@ -1,5 +1,5 @@
 // ===== Grundlagen (ohne DOM, in Node testbar) =====
-const SAVE_VERSION = 4;
+const SAVE_VERSION = 5;
 const SAVE_KEY = 'winterphoenix_save';
 const TEST_KEY = 'winterphoenix_test';
 const SOUND_KEY = 'winterphoenix_ton';

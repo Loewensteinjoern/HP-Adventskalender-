@@ -9,12 +9,16 @@
     "text": "Am Kamin im Gemeinschaftsraum glitzert Raureif. Lass Diego schnüffeln (Taste B)."
    },
    {
-    "flag": "q01_echt",
-    "text": "Folge der Raureif-Spur durch den Kellergang in den Schlosskern. Dort teilt sie sich – nur eine Spur ist echt. Lass Diego an jedem Ende schnüffeln."
+    "flags": [
+     "q01_wort_1",
+     "q01_wort_2",
+     "q01_wort_3"
+    ],
+    "text": "Die Raureif-Spur führt durch den Kellergang in den Schlosskern und teilt sich dort in drei. Lass Diego schnüffeln und folge jeder Spur bis ans Ende ({n}/3)."
    },
    {
     "flag": "q01_brunnen",
-    "text": "Folge der echten Spur durch den Arkadengang in den Innenhof."
+    "text": "„Wo das Wasser schläft“: Folge der Spur durch den Arkadengang zum zugefrorenen Brunnen im Innenhof."
    },
    {
     "flag": "q01_feder",

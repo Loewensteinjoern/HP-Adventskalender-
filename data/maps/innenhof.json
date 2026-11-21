@@ -98,6 +98,20 @@
      "if": [
       "quest:Q01",
       "flag:q01_echt",
+      "!flag:q01_brunnen",
+      "glut>=1"
+     ],
+     "dialog": "q01_brunnen_glut",
+     "set": [
+      "q01_brunnen",
+      "q01_feder"
+     ],
+     "sound": "fund"
+    },
+    {
+     "if": [
+      "quest:Q01",
+      "flag:q01_echt",
       "!flag:q01_brunnen"
      ],
      "dialog": "q01_brunnen",
@@ -368,6 +382,44 @@
    "y": 12,
    "found": {
     "dialog": "geheim_handschuh",
+    "sound": "fund"
+   }
+  },
+  {
+   "id": "q01_brunnen_g",
+   "x": 14,
+   "y": 8,
+   "count": false,
+   "if": [
+    "quest:Q01",
+    "flag:q01_echt",
+    "!flag:q01_brunnen",
+    "glut>=1"
+   ],
+   "found": {
+    "dialog": "q01_brunnen_glut",
+    "set": [
+     "q01_brunnen",
+     "q01_feder"
+    ],
+    "sound": "fund"
+   }
+  },
+  {
+   "id": "q01_brunnen",
+   "x": 14,
+   "y": 8,
+   "count": false,
+   "if": [
+    "quest:Q01",
+    "flag:q01_echt",
+    "!flag:q01_brunnen"
+   ],
+   "found": {
+    "dialog": "q01_brunnen",
+    "set": [
+     "q01_brunnen"
+    ],
     "sound": "fund"
    }
   }
