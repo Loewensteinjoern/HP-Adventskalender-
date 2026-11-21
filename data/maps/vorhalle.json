@@ -268,8 +268,8 @@
   },
   {
    "char": "charly",
-   "x": 10,
-   "y": 6,
+   "x": 9,
+   "y": 7,
    "dir": "right",
    "if": [
     "flag:szene_versteck"
@@ -277,8 +277,8 @@
   },
   {
    "char": "joern",
-   "x": 10,
-   "y": 5,
+   "x": 8,
+   "y": 7,
    "dir": "right",
    "if": [
     "flag:szene_versteck"
@@ -286,8 +286,8 @@
   },
   {
    "char": "diego",
-   "x": 9,
-   "y": 6,
+   "x": 7,
+   "y": 7,
    "dir": "right",
    "if": [
     "flag:szene_versteck"

@@ -1282,23 +1282,55 @@
    "sag": "tor_ertappt"
   },
   {
-   "figur": {
-    "char": "wurzelgruen",
-    "nach": [
-     7,
-     3
-    ],
-    "warten": false
+   "blick": {
+    "char": "sternwald",
+    "dir": "right"
    }
   },
   {
    "figur": {
     "char": "sternwald",
     "nach": [
-     6,
-     3
+     18,
+     5
     ]
    }
+  },
+  {
+   "figur": {
+    "char": "wurzelgruen",
+    "nach": [
+     18,
+     6
+    ]
+   }
+  },
+  {
+   "warte": 0.4
+  },
+  {
+   "ton": "tuer"
+  },
+  {
+   "aktion": {
+    "set": [
+     "tor_offen"
+    ]
+   }
+  },
+  {
+   "fx": {
+    "art": "schnee",
+    "x": 18.2,
+    "y": 5.5,
+    "w": 0.5,
+    "zeit": 3,
+    "h": 3,
+    "vx": -70
+   }
+  },
+  {
+   "warte": 0.9
   },
   {
    "aktion": {
@@ -1308,7 +1340,20 @@
    }
   },
   {
-   "warte": 0.6
+   "warte": 1.2
+  },
+  {
+   "ton": "tuer"
+  },
+  {
+   "aktion": {
+    "unset": [
+     "tor_offen"
+    ]
+   }
+  },
+  {
+   "warte": 0.8
   },
   {
    "aktion": {
