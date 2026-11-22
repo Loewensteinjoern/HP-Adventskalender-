@@ -41,10 +41,18 @@ const SHOTS = process.argv[2] || null;
   // Q02: Luxa, Spieluhr, Kerzen (erst falsch, dann richtig)
   await go('grosse_halle', 7, 5, 'up'); await talk(); await expect('zauber_luxa', 'Q02: Luxa');
   await go('grosse_halle', 16, 5, 'up'); await talk(); await expect('q02_melodie', 'Q02: Spieluhr'); await wait(400); await shot('22_demo');
-  const kx = { 1: 5, 2: 9, 3: 14, 4: 18 };
+  const kx = { 1: 5, 2: 9, 3: 14, 4: 18 }, folgen = [[2, 4, 1, 3], [1, 3, 3, 2, 4], [4, 2, 4, 1, 3, 1], [3, 1, 2, 4, 4, 2, 1, 3]];
+  const tippe = async n => { await go('grosse_halle', kx[n], 10, 'up'); await key('Enter', 1, 160); };
   await go('grosse_halle', kx[1], 10, 'up'); await cast('luxa'); await drain();
-  if ((await st()).flags.kerzen_1) errors.push('Q02: falsche Kerze wurde nicht zurückgesetzt');
-  for (const n of [2, 4, 1, 3]) { await go('grosse_halle', kx[n], 10, 'up'); await cast('luxa'); }
+  await expect('kerzen_bereit', 'Q02: Luxa weckt die Kerzen');
+  await tippe(1); await drain();   // falsch: Durchgang 1 beginnt mit Kerze 2
+  if ((await st()).flags.kerzen_runde) errors.push('Q02: falsche Kerze zählt');
+  for (let r = 0; r < 4; r++) {
+    for (const n of folgen[r]) await tippe(n);
+    await drain();
+    if (r < 3 && (await st()).flags.kerzen_runde !== r + 1) errors.push('Q02: Durchgang ' + (r + 1) + ' nicht geschafft');
+    if (r === 1) await shot('23a_durchgang');
+  }
   await drain(); await expect('q02_kerzen', 'Q02: Kerzenrätsel'); await shot('23_kerzen_an');
   // Q02: Knarz schickt Charly zum kichernden Schneehaufen (der Kampf selbst steckt in smoke_kampf.js)
   await go('schlosskern', 7, 13, 'up'); await talk(); await expect('q02_knarz', 'Q02: Knarz');
@@ -66,7 +74,11 @@ const SHOTS = process.argv[2] || null;
   // Q04: Pendel, Geheimgang, Zahnrad, Uhrwerk, Uhrmeister
   await talk(); await expect('q04_pendel', 'Q04: Pendel');
   await go('uhrenturm', 9, 7, 'right'); await sniffAndFind(); await expect('geheimgang_uhr', 'Q04: Geheimgang');
-  await key('ArrowRight', 3, 260); await key('ArrowRight', 1, 200); await shot('27_geheimgang'); await talk(); await expect('q04_zahnrad', 'Q04: Zahnrad');
+  await key('ArrowRight', 3, 260); await key('ArrowRight', 1, 200); await shot('27_geheimgang');
+  await key('Enter', 1, 200); for (let i = 0; i < 20 && (await st()).mode !== 'kampf'; i++) await key('Enter', 1, 150);
+  if ((await st()).mode !== 'kampf') errors.push('Q04: Wächterkampf um das Zahnrad startet nicht');
+  else { await page.evaluate(() => window.__kampfEnde('sieg')); await drain(); if ((await st()).mode === 'stufe') await key('Enter', 1, 300); await drain(); }
+  await expect('q04_zahnrad', 'Q04: Zahnrad nach dem Wächterkampf');
   await go('uhrenturm', 6, 6, 'up'); await cast('restauro'); await drain(); await expect('q04_eingesetzt', 'Q04: eingesetzt');
   await go('uhrenturm', 9, 5, 'up'); await key('Enter', 1, 150); await drain();
   for (let r = 0; r < 3; r++) {

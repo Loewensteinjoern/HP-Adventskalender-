@@ -128,7 +128,7 @@ const SHOTS = process.argv[2] || null;
   await drain();
   if ((await st()).map !== 'gemeinschaftsraum') errors.push('Startszene endet nicht im Gemeinschaftsraum');
   // Kerze 4 ist nach Haken 2 aus und lässt sich mit Luxa wieder anzünden
-  await flags({ zauber_luxa: true, kerzen_1: true, kerzen_2: true, kerzen_3: true, kerzen_4: true });
+  await flags({ zauber_luxa: true, q02_kerzen: true });
   await go('grosse_halle', 18, 10, 'up');
   if (!(await ex()).objs.some(o => o === 'raureif@12,14')) errors.push('Raureif-Spur zur Tür fehlt nach Haken 2');
   await cast('luxa'); await drain();

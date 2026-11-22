@@ -159,6 +159,15 @@ function validateData() {
   Object.keys(DATA.puzzles).forEach(id => {
     const P = DATA.puzzles[id];
     if (P.fragen) { P.fragen.forEach((f, i) => { if (!f.text || !(f.stunde >= 1 && f.stunde <= 12)) E('Uhr-Rätsel ' + id + ' Frage ' + (i + 1) + ' ungültig'); }); return; }
+    if (Array.isArray(P.runden)) {
+      if (!P.runden.length || P.runden.some(r => !Array.isArray(r) || !r.length)) return E('Rätsel ' + id + ': Durchgänge leer');
+      P.runden.forEach((r, i) => { if (i && r.length <= P.runden[i - 1].length) E('Rätsel ' + id + ': Durchgang ' + (i + 1) + ' muss länger sein'); });
+      if (!Array.isArray(P.notes) || P.notes.length < Math.max.apply(null, [].concat.apply([], P.runden))) E('Rätsel ' + id + ': zu wenige Töne');
+      if (!P.fertig) E('Rätsel ' + id + ': Fertig-Flag fehlt');
+      checkAction(P.weiter, 'Rätsel ' + id + ' weiter'); checkAction(P.win, 'Rätsel ' + id + ' Sieg'); checkAction(P.fail, 'Rätsel ' + id + ' Fehler');
+      if (P.win && (P.win.set || []).indexOf(P.fertig) < 0) E('Rätsel ' + id + ': Sieg muss das Fertig-Flag setzen');
+      return;
+    }
     if (!Array.isArray(P.order) || !P.order.length) return E('Rätsel ' + id + ': Reihenfolge fehlt');
     if (!Array.isArray(P.notes) || P.notes.length < Math.max.apply(null, P.order)) E('Rätsel ' + id + ': zu wenige Töne');
     P.order.forEach(v => setFlags.add(id + '_' + v));

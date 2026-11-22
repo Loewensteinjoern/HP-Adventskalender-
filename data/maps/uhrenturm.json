@@ -157,13 +157,19 @@
    "talk": [
     {
      "if": [
-      "quest:Q04"
+      "quest:Q04",
+      "flag:zauber_restauro",
+      "!flag:q04_zahnrad"
      ],
-     "dialog": "q04_zahnrad_fund",
-     "set": [
-      "q04_zahnrad"
-     ],
-     "sound": "fund"
+     "dialog": "q04_waechter",
+     "kampf": "uhrwaechter",
+     "win": {
+      "dialog": "q04_waechter_sieg",
+      "set": [
+       "q04_zahnrad"
+      ],
+      "sound": "fund"
+     }
     },
     {
      "dialog": "zahnrad"

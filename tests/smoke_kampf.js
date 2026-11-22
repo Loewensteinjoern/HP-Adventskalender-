@@ -147,6 +147,22 @@ const SHOTS = process.argv[2] || null;
     { const s9 = await st(); if (s9.mode !== 'play' || (!(s9.flags.siege >= 1) && s9.waerme !== 10)) errors.push('Frostwicht-Kampf endet nicht sauber'); }
   }
 
+  // 4b) Q04: Drei Frosträder bewachen das Zahnrad im geheimen Turmzimmer (Restauro wirkt)
+  await page.goto(FILE + '?testtag=7'); await page.evaluate(() => localStorage.clear()); await page.reload(); await wait(400);
+  await key('ArrowRight'); await key('Enter'); await wait(400); await drain();
+  await flags({ diego_dabei: true, zauber_luxa: true, zauber_restauro: true, q04_pendel: true, geheimgang_uhr: true });
+  await go('uhrenturm', 12, 7, 'right');
+  for (let i = 0; i < 80 && !(await kb()); i++) await key('Enter', 1, 150);   // erst die Tagesstart-Dialoge, dann die Wächter
+  k = await bisMenue(); await shot('51_uhrwaechter');
+  if (!k || k.gegner.length !== 3 || k.gegner.some(g => g.id !== 'frostrad')) errors.push('Wächterkampf um das Zahnrad startet nicht mit drei Frosträdern');
+  else {
+    await kaempfe('51b_uhrwaechter');
+    for (let i = 0; i < 30 && (await kb()); i++) await key('Enter', 1, 150);
+    await drain(); if ((await st()).mode === 'stufe') await key('Enter', 1, 300); await drain();
+    const s8 = await st();
+    if (!s8.flags.q04_zahnrad && s8.map === 'uhrenturm') errors.push('Nach dem Wächterkampf kein Zahnrad');
+  }
+
   // Stufenaufstieg: Wahl zwischen Kraft und Lebenspunkten
   { const vor = await st();
     await page.evaluate(() => window.__giveEp(200));
@@ -166,5 +182,5 @@ const SHOTS = process.argv[2] || null;
 
   await browser.close();
   if (errors.length) { console.error('KAMPF-TEST FEHLER:\n- ' + errors.join('\n- ')); process.exit(1); }
-  console.log('Kampf-Test ok: Probekampf, Überfall im Tiefschnee, Zurückziehen, Niederlage ohne Game Over, Frostwicht, Schlosskarte.');
+  console.log('Kampf-Test ok: Probekampf, Überfall im Tiefschnee, Zurückziehen, Niederlage ohne Game Over, Frostwicht, Wächter im Uhrenturm, Schlosskarte.');
 })().catch(e => { console.error(e); process.exit(1); });

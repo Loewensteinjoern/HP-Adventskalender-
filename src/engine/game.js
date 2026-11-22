@@ -241,6 +241,7 @@ const G = {
   banner(text) { this.bannerMsg = { text, t0: this.time }; },
 
   enterMap(mid, x, y, dir) {
+    if (mid !== this.mapId) this.seqPos = {};   // Kerzen-Fortschritt gilt nur, solange man im Raum bleibt
     this.mapId = mid; this.bubble = null; this.autoPath = null;   // ein angefangener Weg gilt nur im alten Raum
     this.player = { x, y, fx: x, fy: y, dir, t: 1, moving: false, par: 0 };
     const back = DIRS[dir] ? [-DIRS[dir][0], -DIRS[dir][1]] : [0, 1], m = DATA.maps[mid];
@@ -378,10 +379,10 @@ const G = {
     this.mode = 'play'; this.next();
   },
   startFight(gruppe, talk) {
-    const s = this.save;
+    const s = this.save; this.kampfTalk = talk;
     this.mode = 'kampf'; this.bubble = null; this.trail = null;
     AU.sfx('kampf'); AU.playMusic('kampf');
-    KB.start(gruppe, { max: waermeMax(s), waerme: s.waerme, energie: s.energie, kakao: s.kakao, kraft: s.kraft, zauber: this.spells(), diego: s.followers.indexOf('diego') >= 0, joern: s.followers.indexOf('joern') >= 0 },
+    KB.start(gruppe, { kulisse: (DATA.kampf.gruppen[gruppe] || {}).kulisse || null, max: waermeMax(s), waerme: s.waerme, energie: s.energie, kakao: s.kakao, kraft: s.kraft, zauber: this.spells(), diego: s.followers.indexOf('diego') >= 0, joern: s.followers.indexOf('joern') >= 0 },
       (ende, F) => this.endFight(ende, F, talk));
   },
   endFight(ende, F, talk) {
@@ -492,7 +493,7 @@ const G = {
     if (t.seq) return this.seqPress(t.seq, t.val);
     const apply = () => {
       this.applyAction(t);
-      if (t.demo) this.demo = { id: t.demo, t0: this.time, played: -1 };
+      if (t.demo) { this.demo = { id: t.demo, t0: this.time + 0.4, played: -1 }; this.seqPos = Object.assign({}, this.seqPos, { [t.demo]: 0 }); }
       if (t.minigame) this.startMini(t.minigame, () => this.runTalk(t.win));
       if (t.kampf) this.startFight(t.kampf, t);
       if (t.szene) SZ.start(t.szene);
@@ -502,8 +503,16 @@ const G = {
     else if (!apply() && !t.szene && !t.kampf && !t.minigame) this.next();
   },
   // --- Reihenfolge-Rätsel (z. B. singende Kerzen) ---
+  // Aktuelle Folge eines Rätsels (bei mehreren Durchgängen die des laufenden Durchgangs)
+  seqFolge(id) {
+    const P = DATA.puzzles[id];
+    if (!P.runden) return P.order;
+    return P.runden[Math.min(P.runden.length - 1, this.save.flags[id + '_runde'] || 0)];
+  },
   seqPress(id, val) {
-    const P = DATA.puzzles[id], f = this.save.flags, n = P.order.filter(v => f[id + '_' + v]).length;
+    const P = DATA.puzzles[id];
+    if (P.runden) return this.seqRunde(id, val);
+    const f = this.save.flags, n = P.order.filter(v => f[id + '_' + v]).length;
     const note = P.notes[val - 1];
     if (f[id + '_' + val]) { AU.note(note); return; }
     if (P.order[n] === val) {
@@ -515,6 +524,22 @@ const G = {
       this.runTalk(P.fail);
     }
   },
+  // Rätsel mit Durchgängen: jede Kerze darf mehrfach vorkommen, Fehler = Durchgang von vorn
+  seqRunde(id, val) {
+    const P = DATA.puzzles[id], f = this.save.flags;
+    AU.note(P.notes[val - 1]); this.flash = { id, val, t0: this.time };
+    if (f[P.fertig]) return;
+    const r = f[id + '_runde'] || 0, folge = P.runden[r], pos = (this.seqPos || {})[id] || 0;
+    this.seqPos = Object.assign({}, this.seqPos, { [id]: 0 });
+    if (folge[pos] !== val) { AU.sfx(P.failSound || 'jaul'); return this.runTalk(P.fail); }
+    if (pos + 1 < folge.length) { this.seqPos[id] = pos + 1; return; }
+    f[id + '_runde'] = r + 1; this.persist();
+    if (r + 1 >= P.runden.length) return this.runTalk(P.win);
+    AU.sfx('spur'); this.banner('Durchgang ' + (r + 1) + ' von ' + P.runden.length + ' geschafft!');
+    // nach einer kurzen Pause spielt die Spieluhr die nächste, längere Melodie vor
+    this.runTalk(Object.assign({}, P.weiter, { demo: id }));
+  },
+  flashVal(o) { const F = this.flash; return !!F && o.seq === F.id && o.seqVal === F.val && this.time - F.t0 < 0.45; },
   // --- Takt-Minispiel (Uhrmeister): Schläge merken und nachmachen ---
   spells() { return Object.keys(DATA.zauber).filter(z => this.save.flags['zauber_' + z]); },
   updateSpell() {
@@ -645,14 +670,14 @@ const G = {
   },
   // Vorführung eines Rätsels: Töne nacheinander, passende Objekte leuchten
   updateDemo() {
-    const D = this.demo, P = DATA.puzzles[D.id], i = Math.floor((this.time - D.t0) / 0.75);
-    if (i !== D.played && i < P.order.length) { D.played = i; AU.note(P.notes[P.order[i] - 1]); }
-    if (i >= P.order.length + 1) this.demo = null;
+    const D = this.demo, P = DATA.puzzles[D.id], folge = this.seqFolge(D.id), i = Math.floor((this.time - D.t0) / 0.75);
+    if (i !== D.played && i >= 0 && i < folge.length) { D.played = i; AU.note(P.notes[folge[i] - 1]); }
+    if (i >= folge.length + 1) this.demo = null;
   },
   demoVal(o) {
     const D = this.demo; if (!D || o.seq !== D.id) return false;
-    const i = Math.floor((this.time - D.t0) / 0.75), P = DATA.puzzles[D.id];
-    return i >= 0 && i < P.order.length && P.order[i] === o.seqVal;
+    const i = Math.floor((this.time - D.t0) / 0.75), folge = this.seqFolge(D.id);
+    return i >= 0 && i < folge.length && folge[i] === o.seqVal;
   },
 
   // --- Diegos Schnüffeln ---

@@ -56,6 +56,8 @@ function boot() {
     window.__talkNpc = ch => { const n = G.npcByChar(ch); if (!n) return false; G.runTalk(pickTalk(n.talk || (DATA.characters[ch] || {}).talk, G.ctx())); return true; };
     window.__secret = id => { const sec = (DATA.maps[G.mapId].secrets || []).find(x => x.id === id && condsOk(x.if, G.ctx())); if (!sec) return false; G.revealed[id] = true; G.findSecret(sec); return true; };
     window.__walk = (x, y, d) => G.walkPlayer([x, y], d);
+    window.__kampfEnde = e => { const F = KB.F; F.ende = e; KB.F = null; G.endFight(e, F, G.kampfTalk || null); };
+    window.__dlgText = () => (DLG.open ? DLG.pages[DLG.idx].lines.join(' ') + ' | fade=' + !!G.fade + ' mode=' + G.mode + ' sniff=' + G.sniffT : null);
     window.__lied = d => G.liedZeigen(d, () => { window.__liedFertig = true; G.next(); });
     window.__extra = () => ({ schmuck: G.schmuckZahl(), rueck: G.rueckblicke().map(r => r.id), lied: G.liedNeu ? G.liedNeu.tag : null, secrets: G.save.secrets.length, glut: G.save.glut.length, objs: visibleObjs(DATA.maps[G.mapId], G.ctx()).map(o => o.type + '@' + o.x + ',' + o.y), nacht: !!G.nacht, hide: !!G.hidePlayer, spuren: G.trail && G.trail.spuren ? G.trail.spuren.length : (G.trail ? 1 : 0), ziele: G.trail && G.trail.spuren ? G.trail.spuren.map(x => x.s.id) : [], marken: (() => { const o = G.offeneSchritte(); return visibleNpcs(DATA.maps[G.mapId], G.ctx()).filter(n => n.talk && G.hatAufgabe(n, o)).map(n => n.char); })() });
     window.__flags = o => { Object.assign(G.save.flags, o); if (o.diego_dabei && G.save.followers.indexOf('diego') < 0) G.save.followers.push('diego'); G.enterMap(G.mapId, G.player.x, G.player.y, G.player.dir); };

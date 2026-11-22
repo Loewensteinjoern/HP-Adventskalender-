@@ -236,17 +236,27 @@
    "seq": "kerzen",
    "seqVal": 1,
    "if": [
-    "!flag:kerzen_1",
+    "!flag:q02_kerzen",
     "flag:prolog_tour"
    ],
    "talk": [
     {
      "if": [
-      "flag:zauber_luxa"
+      "flag:zauber_luxa",
+      "!flag:kerzen_bereit"
+     ],
+     "zauber": "luxa",
+     "dialog": "kerzen_bereit",
+     "set": [
+      "kerzen_bereit"
+     ]
+    },
+    {
+     "if": [
+      "flag:kerzen_bereit"
      ],
      "seq": "kerzen",
-     "val": 1,
-     "zauber": "luxa"
+     "val": 1
     },
     {
      "dialog": "kerze_ohne_luxa"
@@ -261,7 +271,7 @@
    "seq": "kerzen",
    "seqVal": 1,
    "if": [
-    "flag:kerzen_1",
+    "flag:q02_kerzen",
     "flag:prolog_tour"
    ],
    "talk": [
@@ -279,17 +289,27 @@
    "seq": "kerzen",
    "seqVal": 2,
    "if": [
-    "!flag:kerzen_2",
+    "!flag:q02_kerzen",
     "flag:prolog_tour"
    ],
    "talk": [
     {
      "if": [
-      "flag:zauber_luxa"
+      "flag:zauber_luxa",
+      "!flag:kerzen_bereit"
+     ],
+     "zauber": "luxa",
+     "dialog": "kerzen_bereit",
+     "set": [
+      "kerzen_bereit"
+     ]
+    },
+    {
+     "if": [
+      "flag:kerzen_bereit"
      ],
      "seq": "kerzen",
-     "val": 2,
-     "zauber": "luxa"
+     "val": 2
     },
     {
      "dialog": "kerze_ohne_luxa"
@@ -304,7 +324,7 @@
    "seq": "kerzen",
    "seqVal": 2,
    "if": [
-    "flag:kerzen_2",
+    "flag:q02_kerzen",
     "flag:prolog_tour"
    ],
    "talk": [
@@ -322,17 +342,27 @@
    "seq": "kerzen",
    "seqVal": 3,
    "if": [
-    "!flag:kerzen_3",
+    "!flag:q02_kerzen",
     "flag:prolog_tour"
    ],
    "talk": [
     {
      "if": [
-      "flag:zauber_luxa"
+      "flag:zauber_luxa",
+      "!flag:kerzen_bereit"
+     ],
+     "zauber": "luxa",
+     "dialog": "kerzen_bereit",
+     "set": [
+      "kerzen_bereit"
+     ]
+    },
+    {
+     "if": [
+      "flag:kerzen_bereit"
      ],
      "seq": "kerzen",
-     "val": 3,
-     "zauber": "luxa"
+     "val": 3
     },
     {
      "dialog": "kerze_ohne_luxa"
@@ -347,7 +377,7 @@
    "seq": "kerzen",
    "seqVal": 3,
    "if": [
-    "flag:kerzen_3",
+    "flag:q02_kerzen",
     "flag:prolog_tour"
    ],
    "talk": [
@@ -365,17 +395,27 @@
    "seq": "kerzen",
    "seqVal": 4,
    "if": [
-    "!flag:kerzen_4",
+    "!flag:q02_kerzen",
     "flag:prolog_tour"
    ],
    "talk": [
     {
      "if": [
-      "flag:zauber_luxa"
+      "flag:zauber_luxa",
+      "!flag:kerzen_bereit"
+     ],
+     "zauber": "luxa",
+     "dialog": "kerzen_bereit",
+     "set": [
+      "kerzen_bereit"
+     ]
+    },
+    {
+     "if": [
+      "flag:kerzen_bereit"
      ],
      "seq": "kerzen",
-     "val": 4,
-     "zauber": "luxa"
+     "val": 4
     },
     {
      "dialog": "kerze_ohne_luxa"
@@ -390,7 +430,7 @@
    "seq": "kerzen",
    "seqVal": 4,
    "if": [
-    "flag:kerzen_4",
+    "flag:q02_kerzen",
     "flag:prolog_tour",
     "!flag:kerze4_aus"
    ],
@@ -407,7 +447,7 @@
    "x": 18,
    "y": 9,
    "if": [
-    "flag:kerzen_4",
+    "flag:q02_kerzen",
     "flag:kerze4_aus"
    ],
    "talk": [

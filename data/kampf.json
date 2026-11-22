@@ -1,121 +1,155 @@
 {
-  "regeln": {
-    "zauberSchaden": 2,
-    "zauberKosten": 2,
-    "kakaoWaerme": 3,
-    "kakaoEnergie": 2,
-    "kochRunden": 3,
-    "kochMenge": 2,
-    "mutRunden": 2,
-    "mutSchutz": 1,
-    "betaeubChance": 0.35
+ "regeln": {
+  "zauberSchaden": 2,
+  "zauberKosten": 2,
+  "kakaoWaerme": 3,
+  "kakaoEnergie": 2,
+  "kochRunden": 3,
+  "kochMenge": 2,
+  "mutRunden": 2,
+  "mutSchutz": 1,
+  "betaeubChance": 0.35
+ },
+ "texte": {
+  "schneeball": "Charly wirft einen Schneeball – Treffer! {name} schüttelt sich.",
+  "zauber_schwach": "{name} zuckt kurz zusammen. Der Zauber wirkt kaum.",
+  "kakao": "Jörn reicht Charly einen Becher heißen Kakao. Mmh! (+{w} Wärme, +{e} Energie)",
+  "mut": "Jörn legt Charly die Hand auf die Schulter: „Du schaffst das!“ Ein warmer Schimmer schützt sie.",
+  "bellen": "WUFF! WUFF! Diego bellt {name} an. {name} erschrickt fürchterlich.",
+  "hinweis_kann": "Probier es mit {z}!",
+  "hinweis_fehlt": "Diesen Zauber kennt Charly noch nicht – aber Schneebälle helfen auch.",
+  "flucht": "Charly, Jörn und Diego ziehen sich schnell zurück.",
+  "keine_flucht": "Diego stellt sich mutig vor Charly. Weglaufen? Nicht jetzt!",
+  "geschuetzt": "Jörns Mut fängt das Schlimmste ab.",
+  "kalt": "(−{n} Wärme)",
+  "erfroren": "Charly ist ganz durchgefroren … Ihre Finger sind steif, die Augen fallen zu.",
+  "kochen": "Jörn entfacht ein kleines Feuer, setzt sich daneben und hält eine Kanne darüber. Das dauert drei Runden.",
+  "kakao_fertig": "Der Kakao ist fertig! Jörn füllt zwei Becher ab. (+{n} Kakao)",
+  "warum_eingefroren": "Charly ist eingefroren und muss diese Runde aussetzen – Jörn und Diego können aber helfen.",
+  "warum_keinzauber": "Charly kennt noch keinen Zauber.",
+  "warum_energie": "Keine Energie mehr zum Zaubern. Kakao gibt Energie zurück.",
+  "warum_kakao": "Der Kakao ist alle. Jörn kann neuen kochen.",
+  "warum_kocht": "Jörn sitzt am Feuer und kocht Kakao.",
+  "warum_voll": "Jörn hat schon genug Kakao dabei.",
+  "warum_mut": "Charly hat keine Energie mehr – Mut geht erst wieder nach einem Kakao.",
+  "bellen_immun": "WUFF! Aber {name} hat sich gerade erst erholt und lässt sich nicht noch einmal erschrecken.",
+  "ep": "+{n} Erfahrung"
+ },
+ "gegner": {
+  "schneepixie": {
+   "name": "Schneepixie",
+   "kraft": 10,
+   "angriff": [
+    1,
+    2,
+    2
+   ],
+   "ausweichen": 0.25,
+   "schwaeche": "luxa",
+   "angriffe": [
+    "{name} wirft eine Handvoll Schnee in Charlys Kragen!",
+    "{name} zupft kichernd an Charlys Schal.",
+    "{name} pustet eiskalten Glitzer!"
+   ],
+   "ausgewichen": "{name} flitzt kichernd zur Seite. Daneben!",
+   "treffer": "Grelles Licht! {name} kreischt und taumelt zurück.",
+   "aussetzen": "{name} reibt sich die Augen und tut nichts.",
+   "hinweis": "Diego schnüffelt: {name} riecht nach Nacht und Dunkelheit – helles Licht mag sie gar nicht.",
+   "besiegt": "{name} quiekt und flattert über die Mauer davon.",
+   "frieren": 0.2,
+   "frost": "{name} wirbelt einen Glitzerschauer um Charly – ihre Hände frieren fest! Sie muss eine Runde aussetzen.",
+   "betaeubt": "Sie ist geblendet!",
+   "ep": 5
   },
-  "texte": {
-    "schneeball": "Charly wirft einen Schneeball – Treffer! {name} schüttelt sich.",
-    "zauber_schwach": "{name} zuckt kurz zusammen. Der Zauber wirkt kaum.",
-    "kakao": "Jörn reicht Charly einen Becher heißen Kakao. Mmh! (+{w} Wärme, +{e} Energie)",
-    "mut": "Jörn legt Charly die Hand auf die Schulter: „Du schaffst das!“ Ein warmer Schimmer schützt sie.",
-    "bellen": "WUFF! WUFF! Diego bellt {name} an. {name} erschrickt fürchterlich.",
-    "hinweis_kann": "Probier es mit {z}!",
-    "hinweis_fehlt": "Diesen Zauber kennt Charly noch nicht – aber Schneebälle helfen auch.",
-    "flucht": "Charly, Jörn und Diego ziehen sich schnell zurück.",
-    "keine_flucht": "Diego stellt sich mutig vor Charly. Weglaufen? Nicht jetzt!",
-    "geschuetzt": "Jörns Mut fängt das Schlimmste ab.",
-    "kalt": "(−{n} Wärme)",
-    "erfroren": "Charly ist ganz durchgefroren … Ihre Finger sind steif, die Augen fallen zu.",
-    "kochen": "Jörn entfacht ein kleines Feuer, setzt sich daneben und hält eine Kanne darüber. Das dauert drei Runden.",
-    "kakao_fertig": "Der Kakao ist fertig! Jörn füllt zwei Becher ab. (+{n} Kakao)",
-    "warum_eingefroren": "Charly ist eingefroren und muss diese Runde aussetzen – Jörn und Diego können aber helfen.",
-    "warum_keinzauber": "Charly kennt noch keinen Zauber.",
-    "warum_energie": "Keine Energie mehr zum Zaubern. Kakao gibt Energie zurück.",
-    "warum_kakao": "Der Kakao ist alle. Jörn kann neuen kochen.",
-    "warum_kocht": "Jörn sitzt am Feuer und kocht Kakao.",
-    "warum_voll": "Jörn hat schon genug Kakao dabei.",
-    "warum_mut": "Charly hat keine Energie mehr – Mut geht erst wieder nach einem Kakao.",
-    "bellen_immun": "WUFF! Aber {name} hat sich gerade erst erholt und lässt sich nicht noch einmal erschrecken.",
-    "ep": "+{n} Erfahrung"
+  "frostwicht": {
+   "name": "Frostwicht",
+   "kraft": 14,
+   "angriff": [
+    2,
+    2,
+    3
+   ],
+   "ausweichen": 0,
+   "schwaeche": "flammula",
+   "angriffe": [
+    "{name} haucht eisigen Frost!",
+    "{name} schleudert spitze Eiskristalle!",
+    "{name} stampft – kalter Schnee stiebt hoch!"
+   ],
+   "ausgewichen": "{name} duckt sich weg.",
+   "treffer": "Ein Flämmchen tanzt los – {name} zischt und schmilzt ein Stück!",
+   "aussetzen": "{name} muss erst wieder zusammenfrieren.",
+   "hinweis": "Diego schnüffelt: {name} besteht aus hartem Eis – Feuer würde ihn schmelzen.",
+   "besiegt": "{name} zerrinnt zu einer kleinen Pfütze. Puh!",
+   "frieren": 0.3,
+   "frost": "{name} pustet einen eisigen Hauch – Charly ist im Eis gefangen! Sie muss eine Runde aussetzen.",
+   "betaeubt": "Er muss erst wieder zusammenfrieren.",
+   "ep": 9
   },
-  "gegner": {
-    "schneepixie": {
-      "name": "Schneepixie",
-      "kraft": 10,
-      "angriff": [
-        1,
-        2,
-        2
-      ],
-      "ausweichen": 0.25,
-      "schwaeche": "luxa",
-      "angriffe": [
-        "{name} wirft eine Handvoll Schnee in Charlys Kragen!",
-        "{name} zupft kichernd an Charlys Schal.",
-        "{name} pustet eiskalten Glitzer!"
-      ],
-      "ausgewichen": "{name} flitzt kichernd zur Seite. Daneben!",
-      "treffer": "Grelles Licht! {name} kreischt und taumelt zurück.",
-      "aussetzen": "{name} reibt sich die Augen und tut nichts.",
-      "hinweis": "Diego schnüffelt: {name} riecht nach Nacht und Dunkelheit – helles Licht mag sie gar nicht.",
-      "besiegt": "{name} quiekt und flattert über die Mauer davon.",
-      "frieren": 0.2,
-      "frost": "{name} wirbelt einen Glitzerschauer um Charly – ihre Hände frieren fest! Sie muss eine Runde aussetzen.",
-      "betaeubt": "Sie ist geblendet!",
-      "ep": 5
-    },
-    "frostwicht": {
-      "name": "Frostwicht",
-      "kraft": 14,
-      "angriff": [
-        2,
-        2,
-        3
-      ],
-      "ausweichen": 0,
-      "schwaeche": "flammula",
-      "angriffe": [
-        "{name} haucht eisigen Frost!",
-        "{name} schleudert spitze Eiskristalle!",
-        "{name} stampft – kalter Schnee stiebt hoch!"
-      ],
-      "ausgewichen": "{name} duckt sich weg.",
-      "treffer": "Ein Flämmchen tanzt los – {name} zischt und schmilzt ein Stück!",
-      "aussetzen": "{name} muss erst wieder zusammenfrieren.",
-      "hinweis": "Diego schnüffelt: {name} besteht aus hartem Eis – Feuer würde ihn schmelzen.",
-      "besiegt": "{name} zerrinnt zu einer kleinen Pfütze. Puh!",
-      "frieren": 0.3,
-      "frost": "{name} pustet einen eisigen Hauch – Charly ist im Eis gefangen! Sie muss eine Runde aussetzen.",
-      "betaeubt": "Er muss erst wieder zusammenfrieren.",
-      "ep": 9
-    }
-  },
-  "gruppen": {
-    "probe": {
-      "gegner": [
-        "schneepixie"
-      ],
-      "tutorial": true,
-      "flucht": false
-    },
-    "pixie1": {
-      "gegner": [
-        "schneepixie"
-      ]
-    },
-    "pixie2": {
-      "gegner": [
-        "schneepixie",
-        "schneepixie"
-      ]
-    },
-    "wicht1": {
-      "gegner": [
-        "frostwicht"
-      ]
-    },
-    "wicht_pixie": {
-      "gegner": [
-        "frostwicht",
-        "schneepixie"
-      ]
-    }
+  "frostrad": {
+   "name": "Frostrad",
+   "kraft": 4,
+   "angriff": [
+    0,
+    1,
+    1
+   ],
+   "ausweichen": 0,
+   "schwaeche": "restauro",
+   "angriffe": [
+    "{name} rollt Charly über die Zehen!",
+    "{name} spuckt kleine Eissplitter.",
+    "{name} klappert mit seinen eisigen Zähnen."
+   ],
+   "ausgewichen": "{name} rollt blitzschnell zur Seite.",
+   "treffer": "Ein feines Klicken – das Eis an {name} bekommt Risse!",
+   "aussetzen": "{name} dreht sich verwirrt im Kreis.",
+   "hinweis": "Diego schnüffelt: {name} riecht nach Öl und Messing – eigentlich ist das nur ein kaputtes Zahnrad.",
+   "besiegt": "{name} klirrt – das Eis springt ab, und ein ganz normales Zahnrad rollt davon.",
+   "frieren": 0.1,
+   "frost": "{name} sprüht Eisstaub – Charlys Hände frieren fest! Sie muss eine Runde aussetzen.",
+   "betaeubt": "Es klemmt!",
+   "ep": 4
   }
+ },
+ "gruppen": {
+  "probe": {
+   "gegner": [
+    "schneepixie"
+   ],
+   "tutorial": true,
+   "flucht": false
+  },
+  "pixie1": {
+   "gegner": [
+    "schneepixie"
+   ]
+  },
+  "pixie2": {
+   "gegner": [
+    "schneepixie",
+    "schneepixie"
+   ]
+  },
+  "wicht1": {
+   "gegner": [
+    "frostwicht"
+   ]
+  },
+  "wicht_pixie": {
+   "gegner": [
+    "frostwicht",
+    "schneepixie"
+   ]
+  },
+  "uhrwaechter": {
+   "gegner": [
+    "frostrad",
+    "frostrad",
+    "frostrad"
+   ],
+   "flucht": false,
+   "kulisse": "turm"
+  }
+ }
 }

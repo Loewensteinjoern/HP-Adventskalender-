@@ -118,7 +118,7 @@ const R = {
     objs.forEach(o => { const t = objType(o); if (t.overlay) draw(o, this.objFrame(o, time)); });
     // Rätsel-Vorführung: das gerade klingende Objekt leuchtet
     objs.forEach(o => {
-      if (!G.demoVal(o)) return;
+      if (!G.demoVal(o) && !G.flashVal(o)) return;
       const t = objType(o), x = o.x * TILE + t.w * 16 - cam.x, y = o.y * TILE - t.up / 2 - cam.y;
       const g = c.createRadialGradient(x, y, 0, x, y, 34); g.addColorStop(0, 'rgba(255,230,140,0.75)'); g.addColorStop(1, 'rgba(255,230,140,0)');
       c.fillStyle = g; c.fillRect(x - 34, y - 34, 68, 68);

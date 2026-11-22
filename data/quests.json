@@ -46,7 +46,7 @@
    },
    {
     "flag": "q02_kerzen",
-    "text": "Zünde die vier singenden Kerzen in der Reihenfolge der Melodie an: vor die Kerze stellen, A, den richtigen Zauber wählen."
+    "text": "Zünde die singenden Kerzen mit dem Lichtzauber an und spiel ihnen die Melodie nach (A an der Kerze). Vier Durchgänge, jeder länger – die Spieluhr spielt jeden vor."
    },
    {
     "flag": "q02_knarz",
@@ -102,7 +102,7 @@
    },
    {
     "flag": "q04_zahnrad",
-    "text": "Jemand hat das Zahnrad versteckt. Diego hat die beste Nase (Taste B)."
+    "text": "Jemand hat das Zahnrad versteckt. Diego hat die beste Nase (Taste B). Aber Vorsicht – es wird bewacht."
    },
    {
     "flag": "q04_eingesetzt",

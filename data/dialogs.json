@@ -475,11 +475,7 @@
  "spieluhr_q02": [
   [
    "",
-   "Charly zieht die Spieluhr auf. Vier Töne erklingen – und bei jedem leuchtet eine der Kerzen auf."
-  ],
-  [
-   "joern",
-   "Merk dir die Reihenfolge. Ich hab sie schon wieder vergessen."
+   "Die Spieluhr spielt eine Melodie. Bei jedem Ton leuchtet eine der vier Kerzen kurz auf."
   ]
  ],
  "spieluhr_danach": [
@@ -503,11 +499,11 @@
  "kerzen_falsch": [
   [
    "",
-   "Diego jault schief mit. Die Kerzen erlöschen mit einem beleidigten Zischen."
+   "Die Kerzen jaulen schief auf und verstummen."
   ],
   [
-   "",
-   "Noch einmal von vorn! Die Spieluhr hilft beim Erinnern."
+   "federleicht",
+   "Uff. Dieser Durchgang noch einmal von vorn. Die Spieluhr hilft dir gern."
   ]
  ],
  "q02_geschafft": [
@@ -2878,6 +2874,58 @@
   [
    "",
    "Lauf der goldenen Pfotenspur nach. Am Ende funkelt es – sobald Charly danebensteht, zeigt Diego, was er gefunden hat."
+  ]
+ ],
+ "kerzen_bereit": [
+  [
+   "",
+   "Ein warmes Licht springt von Kerze zu Kerze. Sie glimmen auf und summen leise – jetzt antworten sie, wenn Charly sie antippt."
+  ],
+  [
+   "federleicht",
+   "Wunderbar! Nun spiel ihnen die Melodie der Spieluhr vor. Es sind vier Durchgänge – und jeder ist länger als der davor."
+  ]
+ ],
+ "kerzen_weiter": [
+  [
+   "",
+   "Die Kerzen flackern zufrieden. Doch der Frost im Docht sitzt tief."
+  ],
+  [
+   "federleicht",
+   "Noch nicht ganz! Hör gut hin – die Spieluhr spielt dir jetzt eine längere Melodie vor. Manche Kerze kommt mehrmals dran."
+  ]
+ ],
+ "q04_waechter": [
+  [
+   "",
+   "Charly greift nach dem Zahnrad – da knirscht es in der Dunkelheit. Drei kleine Räder aus Messing und Eis rollen aus den Ecken."
+  ],
+  [
+   "diego",
+   "Grrrr …"
+  ],
+  [
+   "joern",
+   "Die sind vom Frost verhext! Charly, vielleicht kann man sie … reparieren?"
+  ]
+ ],
+ "q04_waechter_sieg": [
+  [
+   "",
+   "Das letzte Frostrad klirrt, das Eis springt ab – übrig bleibt ein ganz normales kleines Zahnrad, das friedlich zur Seite rollt."
+  ],
+  [
+   "joern",
+   "Restauro! Klar – die waren nur kaputt."
+  ],
+  [
+   "",
+   "In der Nische liegt das große Zahnrad aus Messing. Es ist warm, als hätte es gerade noch getickt."
+  ],
+  [
+   "",
+   "Charly hat das Zahnrad gefunden."
   ]
  ]
 }

@@ -53,7 +53,18 @@ function drawWicht(fr) {
   outline(c, '#16263e');
   return c;
 }
-const FOES = { schneepixie: drawPixie, frostwicht: drawWicht };
+// Frostrad: ein vom Frost verhextes Zahnrad mit Augen, Eiszacken an den Zähnen
+function drawFrostrad(fr) {
+  const c = mkCanvas(32, 40), p = Pen(c.getContext('2d')), cx = 16, cy = 22, rot = fr % 2 ? 0.31 : 0;
+  for (let k = 0; k < 8; k++) { const a = rot + k / 8 * 6.283; p.r(Math.round(cx + Math.cos(a) * 12 - 2), Math.round(cy + Math.sin(a) * 12 - 2), 5, 5, '#a88a3a'); p.px(Math.round(cx + Math.cos(a) * 14), Math.round(cy + Math.sin(a) * 14), '#e4f4ff'); }
+  p.circ(cx, cy, 11, '#c8a040'); p.circ(cx, cy, 9, '#a88a3a'); p.circ(cx, cy, 8, '#9cc8ec'); p.circ(cx - 2, cy - 2, 4, '#cfeaff');
+  p.r(cx - 5, cy - 2, 3, 3, '#0e1a3a'); p.r(cx + 2, cy - 2, 3, 3, '#0e1a3a'); p.px(cx - 4, cy - 1, '#5ab8ff'); p.px(cx + 3, cy - 1, '#5ab8ff');
+  p.r(cx - 3, cy + 4, 6, 1, '#0e1a3a'); p.px(cx - 4, cy + 3, '#0e1a3a'); p.px(cx + 3, cy + 3, '#0e1a3a');
+  [[cx - 7, cy - 9], [cx + 6, cy - 9], [cx, cy - 11]].forEach(([x, y]) => p.r(x, y, 1, 3, '#ffffff'));
+  outline(c, '#2a1e0a');
+  return c;
+}
+const FOES = { schneepixie: drawPixie, frostwicht: drawWicht, frostrad: drawFrostrad };
 const FOE_SPR = { cache: {}, get(id, fr) { const k = id + fr; return this.cache[k] || (this.cache[k] = FOES[id](fr)); } };
 
 const SPELL_COL = { luxa: '255,244,190', flammula: '255,140,50', clavis: '200,180,255', restauro: '160,230,160', advoco: '180,220,255', levitas: '230,210,255', custodia: '255,220,120', phoenix: '255,180,80' };
@@ -74,6 +85,7 @@ const KB = {
 
   start(gruppe, opt, onEnd) {
     this.F = kampfNeu(gruppe, opt);
+    if ((opt.kulisse || null) !== this.kulisse) { this.kulisse = opt.kulisse || null; this.bg = null; }
     this.onEnd = onEnd; this.phase = 'intro'; this.t = 0; this.sel = 0; this.evs = []; this.ev = null; this.pend = null; this.shake = 0;
     this.vis = this.F.gegner.map(e => ({ kraft: e.kraft, alpha: 1, gone: false, erkannt: false }));
     this.visW = this.F.waerme; this.visMut = 0; this.visE = this.F.energie; this.visK = this.F.kakao; this.visKochen = false; this.visFrost = false;
@@ -181,6 +193,20 @@ const KB = {
   backdrop() {
     if (this.bg) return this.bg;
     const c = mkCanvas(VIEW_W, VIEW_H), g = c.getContext('2d'), p = Pen(g), Rn = srand(77);
+    if (this.kulisse === 'turm') {
+      // Geheimes Turmzimmer: Steinwände, große Zahnräder, Frost auf dem Boden
+      p.vgrad(0, 0, VIEW_W, 200, '#1a1424', '#2e2638', 7);
+      for (let y = 0; y < 200; y += 12) for (let x = (y / 12 % 2) * 12; x < VIEW_W; x += 24) { p.r(x, y, 22, 10, '#3a3048'); p.r(x, y, 22, 1, '#4a4058'); }
+      const rad = (cx, cy, r, col) => { p.circ(cx, cy, r, col); p.circ(cx, cy, r - 5, shade(col, -0.2)); p.circ(cx, cy, 4, '#1a1424');
+        for (let k = 0; k < 10; k++) { const a = k / 10 * 6.283; p.r(Math.round(cx + Math.cos(a) * r - 3), Math.round(cy + Math.sin(a) * r - 3), 6, 6, col); } };
+      rad(80, 90, 38, '#a8862a'); rad(150, 50, 22, '#c8a040'); rad(430, 110, 44, '#8a6a2a'); rad(360, 40, 18, '#c8a040');
+      [[80, 90], [430, 110]].forEach(([x, y]) => { for (let k = 0; k < 8; k++) p.px(x - 30 + Rn() * 60, y - 30 + Rn() * 60, '#dff2ff'); });
+      p.r(0, 196, VIEW_W, VIEW_H - 196, '#4a4458');
+      for (let y = 196; y < VIEW_H; y += 16) for (let x = (y / 16 % 2) * 16; x < VIEW_W; x += 32) p.r(x, y, 30, 14, '#565068');
+      for (let i = 0; i < 120; i++) p.px(Rn() * VIEW_W, 200 + Rn() * 70, Rn() < 0.6 ? '#cfe8ff' : '#ffffff');
+      p.ell(130, 252, 110, 10, 'rgba(200,230,255,0.35)'); p.ell(385, 250, 110, 10, 'rgba(200,230,255,0.35)');
+      return (this.bg = c);
+    }
     p.vgrad(0, 0, VIEW_W, 200, '#0c1030', '#30305a', 7);
     for (let i = 0; i < 50; i++) p.px(Rn() * VIEW_W, Rn() * 130, Rn() < 0.7 ? '#c8d0f0' : '#ffffff');
     // Schlossmauer mit Fenstern
