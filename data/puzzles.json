@@ -62,16 +62,34 @@
  "uhrmeister": {
   "fragen": [
    {
-    "text": "Das Frühstück in der Großen Halle beginnt um 7 Uhr. Der Unterricht beginnt zwei Stunden später. Stell meinen Zeiger auf den Unterrichtsbeginn.",
-    "stunde": 9
+    "text": "Mein Stundenzeiger steht auf der 7. Dreh ihn 100 Stunden vorwärts. Wohin zeigt er dann?",
+    "stunde": 11,
+    "tipp": "Alle 12 Stunden steht der Zeiger wieder gleich. Was bleibt von 100 übrig, wenn man die vollen Runden abzieht?"
    },
    {
-    "text": "Heute Nacht lief ich rückwärts. Um Mitternacht fing es an, fünf Stunden lief ich zurück. Auf welcher Stunde stand mein Zeiger am Ende?",
-    "stunde": 7
+    "text": "Mein Stundenzeiger dreht sich gleichmäßig. Wie viele Stunden braucht er, um genau 240 Grad zu überstreichen?",
+    "stunde": 8,
+    "tipp": "Eine volle Runde: 360 Grad in 12 Stunden."
    },
    {
-    "text": "Pimpernell fliegt um 3 Uhr los. Sie braucht 4 Stunden ins Dorf, rastet dort 1 Stunde und fliegt genauso lange zurück. Wann ist sie wieder da?",
-    "stunde": 12
+    "text": "Zu einer vollen Stunde x schließen Stunden- und Minutenzeiger einen Winkel von 150 Grad ein. x ist größer als 6. Welche Stunde ist x?",
+    "stunde": 7,
+    "tipp": "Jede Stunde sind 30 Grad, der Minutenzeiger steht dann auf der 12. Gemessen wird der kleinere Winkel."
+   },
+   {
+    "text": "Auf meinem Zifferblatt gilt 12 + 1 = 1. Es gibt genau eine Stunde x mit 5 · x = 3 auf meinem Zifferblatt. Welche?",
+    "stunde": 3,
+    "tipp": "Rechne 5 · x und zieh so oft 12 ab, wie es geht. Bei welchem x bleibt 3 übrig?"
+   },
+   {
+    "text": "Es ist 12 Uhr. Ich warte 2 hoch 10 Stunden. Auf welche Stunde zeige ich dann?",
+    "stunde": 4,
+    "tipp": "2, 4, 8, 16, 32 … – schau, was auf dem Zifferblatt jeweils übrig bleibt. Es wiederholt sich."
+   },
+   {
+    "text": "Ich beginne bei 12 und gehe erst 1 Stunde vor, dann 2, dann 3 – und so weiter bis 100. Wo bleibt mein Zeiger stehen?",
+    "stunde": 10,
+    "tipp": "1 + 2 + 3 + … + 100 – der kleine Gauß hilft. Dann die vollen Runden abziehen."
    }
   ]
  }

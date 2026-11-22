@@ -81,11 +81,11 @@ const SHOTS = process.argv[2] || null;
   await expect('q04_zahnrad', 'Q04: Zahnrad nach dem Wächterkampf');
   await go('uhrenturm', 6, 6, 'up'); await cast('restauro'); await drain(); await expect('q04_eingesetzt', 'Q04: eingesetzt');
   await go('uhrenturm', 9, 5, 'up'); await key('Enter', 1, 150); await drain();
-  for (let r = 0; r < 3; r++) {
+  for (let r = 0; r < 6; r++) {
     let m = null;
     for (let i = 0; i < 30; i++) { m = await page.evaluate(() => window.__mini()); if (m && m.round === r && m.phase === 'frage') break; await wait(150); }
     if (!m || m.type !== 'uhr') { errors.push('Q04: Uhr-Rätsel nicht gestartet'); break; }
-    if (r === 0) { await key('Enter', 1, 300); if ((await page.evaluate(() => window.__mini())).phase !== 'falsch') errors.push('Q04: falsche Uhrzeit wurde akzeptiert'); await wait(1800); await shot('28_uhr'); }
+    if (r === 0) { for (let i = 0; i < 12 && (await page.evaluate(() => window.__mini())).hour === m.ziel; i++) await key('ArrowRight', 1, 90); await key('Enter', 1, 300); if ((await page.evaluate(() => window.__mini())).phase !== 'falsch') errors.push('Q04: falsche Uhrzeit wurde akzeptiert'); await wait(1800); await shot('28_uhr'); }
     for (let i = 0; i < 12 && (await page.evaluate(() => window.__mini())).hour !== m.ziel; i++) await key('ArrowRight', 1, 90);
     await key('Enter', 1, 200); await wait(1900);
   }

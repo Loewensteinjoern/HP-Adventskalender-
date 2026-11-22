@@ -623,7 +623,7 @@ const G = {
     if (IN.take('left') || IN.take('down')) { M.hour = (M.hour + 10) % 12 + 1; AU.sfx('zahnrad'); }
     if (IN.take('a') && M.phase === 'frage') {
       if (M.hour === M.fragen[M.round].stunde) { M.phase = 'ok'; M.t = 0; AU.sfx('fund'); }
-      else { M.phase = 'falsch'; M.t = 0; AU.sfx('stoss'); }
+      else { M.phase = 'falsch'; M.t = 0; AU.sfx('stoss'); M.fehler = Object.assign({}, M.fehler, { [M.round]: true }); }
     }
   },
   // --- Belebung: Figuren schauen sich um, laufen ein Stück, sagen etwas ---
