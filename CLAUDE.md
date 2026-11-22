@@ -26,6 +26,18 @@ Quelle: `plan/STARTPAKET.md`, Abschnitt 1 (verbindlich). Weltlexikon und Haustie
 - **Wasserzeichen** im Titelbild/Abspann: „Entwickelt und erstellt von Jörn Löwenstein mit Hilfe von künstlicher Intelligenz (Claude)“.
 - **Glutberg-Vorlage** nur lesen (Link in `STATUS.md`), nie ins Repo kopieren – sie enthält private Insider.
 
+## Rätsel- und Quest-Standard (Jörn, 22.11. – gilt für alle neuen Quests)
+Maßstab sind Q01–Q04 in ihrer abgenommenen Form. Die Spielerin ist mathematisch sehr fit (Oberstufen-Niveau) und will gefordert werden.
+- **Umfang:** Jede Tagesquest hat mindestens ein richtiges Rätsel *und* mehrere Stationen (ca. 10–15 Minuten). Reines Hin- und Herlaufen zählt nicht als Rätsel.
+- **Folgen-/Melodie-Rätsel:** mindestens 4 Durchgänge mit wachsender Länge (Richtwert 4, 5, 6, 8), Elemente dürfen sich wiederholen, Vorführung vor jedem Durchgang, Fehler = nur dieser Durchgang von vorn (Vorbild Kerzen Q02, `runden` in `puzzles.json`).
+- **Denkaufgaben:** mindestens 6 Aufgaben auf Oberstufen-Niveau (z. B. modulo-Rechnen, Winkel, Potenzen, Summenformeln, Logik, Folgen), eindeutige Lösung, **jede Lösung vor dem Einbau nachrechnen** (am besten per Skript), Tipp erscheint erst nach einem Fehler (Vorbild Uhrmeister Q04, `fragen` mit `tipp`).
+- **Bewachte Schätze:** Wichtige Gegenstände werden bewacht – vor dem Fund ein Kampf gegen mehrere Gegner (Vorbild Frosträder Q04). Die Schwäche der Gegner ist ein Zauber, den Charly an diesem Tag schon hat; klug gespielt auf Stufe 1 ≥ 90 % gewinnbar (Kern-Test rechnet das nach).
+- **Spurensuche:** mehrstufig (Vorbild Q01): Spur → Verzweigung mit mehreren Teilen, **keine Finten**, jede Station gibt eine positive Rückmeldung → die Teile ergeben einen Rätselhinweis, den Charly selbst deuten muss (Jörn verrät die Lösung nie, er stellt nur eine Frage) → zum Schluss ein Hindernis, das etwas Gesammeltes braucht (z. B. Glutsplitter).
+- **Keine Sackgassen:** Raureif-Spuren enden *im* Raum, nie an Türen; Fundstellen funkeln; Fund durch Danebenstehen; was man für eine Aufgabe braucht, funkelt; Figuren mit Aufgabe tragen ein goldenes „!“.
+- **Diego:** schnüffelt nach Vorrang Tagesquest (alle Spuren) → laufende Nebenaufgabe (nächste) → sonstiges Geheimnis (nächstes).
+- **Nebenaufgaben:** mindestens 3 Stationen in verschiedenen Räumen, Belohnung (Glutsplitter, Baumschmuck oder Szene).
+- **Test:** Der Rauchtest spielt jede neue Tagesquest zu Fuß durch (echte Wege durch die Türen, nicht nur Teleport), inklusive Rätsel und Kampf.
+
 ## Technik
 - Quellcode in `src/` (Module), Inhalte als JSON in `data/` (Karten, Figuren, Gegner, Bosse, Objekte, Quests, Dialoge).
 - Build-Skript (Node, ohne Pakete) bündelt alles zu **einer** Datei `docs/index.html`. GitHub Pages veröffentlicht aus `main` → `/docs`. Planungsdokumente liegen in `plan/`.

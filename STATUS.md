@@ -70,6 +70,7 @@
 - **Version 0.11 (Jörn, 20.11.):** Haupttor sitzt jetzt in der **rechten Seitenwand** der Vorhalle (Objekt `haupttor_seite`, x=19, y=4–7, Varianten zu/eis/offen; Hand `frosthand_seite`), Läufer quer zum Tor (Reihen 5–6). Das Tor ist **erst nach der Führung vereist** (Bedingung `flag:prolog_tour`), der Rauchtest prüft das. Szenen (Tor tauen, Schnee weht seitlich herein, Schatten huscht am Tor entlang auf und ab) angepasst.
 
 ## Entscheidungen
+- **Rätsel- und Quest-Standard (Jörn, 22.11.):** steht verbindlich in `CLAUDE.md` (Abschnitt „Rätsel- und Quest-Standard“) – gilt für alle Quests ab S4. Q01–Q04 sind in der jetzigen Form abgenommen (Q03 bleibt, wie sie ist).
 - Siehe `CLAUDE.md`, Weltlexikon und Bauauftrag (`plan/STARTPAKET.md`).
 - Grafikmaß wie geplant umgesetzt: 512×384, Kachel 32, Figur 32×40, ganzzahlig skaliert (iPad quer: 3-fach). **Von Jörn freigegeben (18.11.).**
 - Tasten: A = sprechen/untersuchen, B = Diego schnüffeln lassen, ☰ = Menü. Kein Schritt-Geräusch.
