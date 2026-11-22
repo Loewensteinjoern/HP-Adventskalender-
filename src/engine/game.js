@@ -241,7 +241,7 @@ const G = {
   banner(text) { this.bannerMsg = { text, t0: this.time }; },
 
   enterMap(mid, x, y, dir) {
-    this.mapId = mid; this.bubble = null;
+    this.mapId = mid; this.bubble = null; this.autoPath = null;   // ein angefangener Weg gilt nur im alten Raum
     this.player = { x, y, fx: x, fy: y, dir, t: 1, moving: false, par: 0 };
     const back = DIRS[dir] ? [-DIRS[dir][0], -DIRS[dir][1]] : [0, 1], m = DATA.maps[mid];
     let bx = x, by = y;
@@ -432,7 +432,7 @@ const G = {
     const n = npcAt(m, tx, ty, ctx);
     if (n) { if (n.pose !== 'schlaf') n.dir = { up: 'down', down: 'up', left: 'right', right: 'left' }[p.dir]; return this.runTalk(pickTalk(n.talk, ctx)); }
     const sec = secretAt(m, tx, ty, ctx);
-    if (sec && (DATA.maps[this.mapId].secrets || []).some(s => this.revealed[s.id] && s.x === sec.x && s.y === sec.y)) return this.findSecret(sec);
+    if (sec && (DATA.maps[this.mapId].secrets || []).some(s => (this.revealed[s.id] || s.offen) && s.x === sec.x && s.y === sec.y)) return this.findSecret(sec);
     const nah = this.revealedNear(); if (nah) return this.findSecret(nah);
     const o = objAt(m, tx, ty, ctx);
     if (o && o.talk) return this.runTalk(pickTalk(o.talk, ctx));
@@ -666,7 +666,11 @@ const G = {
   // Aufgedecktes Geheimnis direkt neben Charly (oder unter ihr)
   revealedNear() {
     const m = DATA.maps[this.mapId], p = this.player, ctx = this.ctx();
-    const r = (m.secrets || []).find(s => this.revealed[s.id] && condsOk(s.if, ctx) && !(s.count !== false && this.save.secrets.indexOf(s.id) >= 0) && Math.abs(s.x - p.x) + Math.abs(s.y - p.y) <= 1);
+    // Liegt das Versteck in einem Möbelstück (z. B. Brunnen 2×2), zählt jede Seite davon
+    const nah = s => { const o = objAt(m, s.x, s.y, ctx), t = o ? objType(o) : null;
+      const x0 = o ? o.x : s.x, y0 = o ? o.y : s.y, x1 = o ? o.x + t.w - 1 : s.x, y1 = o ? o.y + t.h - 1 : s.y;
+      return Math.max(x0 - p.x, 0, p.x - x1) + Math.max(y0 - p.y, 0, p.y - y1) <= 1; };
+    const r = (m.secrets || []).find(s => (this.revealed[s.id] || s.offen) && condsOk(s.if, ctx) && !(s.count !== false && this.save.secrets.indexOf(s.id) >= 0) && nah(s));
     // an derselben Stelle gilt die erste Variante, deren Bedingung jetzt stimmt (z. B. das letzte von drei Wörtern)
     return r ? secretAt(m, r.x, r.y, ctx) || r : null;
   },

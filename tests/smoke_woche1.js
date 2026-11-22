@@ -27,6 +27,16 @@ const SHOTS = process.argv[2] || null;
   const shot = async n => { if (SHOTS) await page.locator('#c').screenshot({ path: path.join(SHOTS, n + '.png') }); };
   const expect = async (flag, what) => { const s = await st(); if (!s.flags[flag]) errors.push(what + ' (Flag ' + flag + ' fehlt)'); };
   const cast = async z => { await key('Enter', 1, 200); if ((await st()).mode !== 'zauber') { errors.push('Zaubermenü öffnet sich nicht'); return; } await page.evaluate(n => window.__pickSpell(n), z); await key('Enter', 1, 200); };
+  // Charly läuft wirklich (Weg suchen, Schritt für Schritt); steht sie neben dem Ziel, noch ein Schritt darauf
+  const walk = async (x, y, versuch = 0) => {
+    await page.evaluate(a => window.__walk(a[0], a[1]), [x, y]);
+    const map0 = (await st()).map; let last = '', ruhig = 0;
+    for (let i = 0; i < 200 && ruhig < 5; i++) { await wait(150); const s = await st(); if (s.dialog) { await drain(); ruhig = 0; continue; } const k = JSON.stringify(s.pos) + s.map; ruhig = k === last ? ruhig + 1 : 0; last = k; }
+    const s = await st(); if (!s.pos) return; if (s.map !== map0) { await wait(900); return; }   // Abblende abwarten
+    const dx = x - s.pos.x, dy = y - s.pos.y;
+    if (Math.abs(dx) + Math.abs(dy) === 1) { await key(dx > 0 ? 'ArrowRight' : dx < 0 ? 'ArrowLeft' : dy > 0 ? 'ArrowDown' : 'ArrowUp', 1, 900); await drain(); }
+    else if ((dx || dy) && versuch < 3) { await wait(600); return walk(x, y, versuch + 1); }   // jemand stand im Weg
+  };
   const start = async t => { await page.goto(FILE + '?testtag=' + t); await page.evaluate(() => localStorage.clear()); await page.reload(); await wait(500); await key('ArrowRight'); await key('Enter'); await wait(500); await drain(); await wait(300); await drain(); };
 
   // --- Teil 1: Tag 1 beenden → Phönixlied taut auf → Haken 1 → Hinweis aufs nächste Türchen ---
@@ -43,19 +53,33 @@ const SHOTS = process.argv[2] || null;
     const s1 = await st(); if (s1.dialog) jo = true; await drain(); if (jo) break;
   }
   if (!jo) errors.push('Q01: Zu Jörn umdrehen und ansprechen klappt nicht');
-  // Spurgabel im Schlosskern: einmal schnüffeln → Spuren in alle Richtungen; an jedem Ende ein Wort (Fund durch Danebenstehen)
-  await go('schlosskern', 6, 9, 'up'); await key('x'); await wait(1400);
+  // Zu Fuß der Raureif-Spur nach: Gemeinschaftsraum → Kellergang → Schlosskern
+  await go('gemeinschaftsraum', 15, 4, 'right'); await walk(17, 2);
+  if ((await st()).map !== 'kellergang') errors.push('Q01: Weg in den Kellergang klappt nicht (' + (await st()).map + ')');
+  await walk(14, 2); await walk(14, 1);
+  if ((await st()).map !== 'schlosskern') errors.push('Q01: Weg in den Schlosskern klappt nicht (' + (await st()).map + ')');
+  await walk(6, 9); await shot('w0_spurgabel');
+  // Diego zeigt hier nur die drei Quest-Spuren
+  await key('x'); await wait(1400);
   if ((await ex()).spuren !== 3) errors.push('Q01: Diego zeigt im Schlosskern nicht genau die drei Quest-Spuren (' + (await ex()).spuren + ')');
-  await shot('w0_spuren_gabel');
-  for (const [x, y, d, f] of [[3, 8, 'left', 'q01_wort_1'], [18, 8, 'right', 'q01_wort_2'], [10, 11, 'down', 'q01_wort_3']]) {
-    await go('schlosskern', x, y, d); await key('Arrow' + d[0].toUpperCase() + d.slice(1), 1, 500); await drain();
-    await expect(f, 'Q01: Wort an der Spur (' + f + ') durch Danebenstehen gefunden');
+  // Jedes Spurende ablaufen: das Wort wird beim Hingehen gefunden (ohne A)
+  for (const [x, y, f] of [[8, 4, 'q01_wort_1'], [19, 5, 'q01_wort_2'], [12, 12, 'q01_wort_3']]) {
+    await walk(x, y); await drain();
+    await expect(f, 'Q01: Wort am Spurende (' + f + ') beim Hingehen gefunden');
   }
-  await expect('q01_echt', 'Q01: Wörter zusammengesetzt → Brunnen');
-  await go('arkadengang', 10, 4, 'right'); await shot('w0_spur_arkade');
+  await expect('q01_echt', 'Q01: Wörter zusammengesetzt');
+  // Zu Fuß in den Innenhof, dort führt Diego zum Brunnen
+  await walk(10, 14); await walk(10, 15);
+  if ((await st()).map !== 'arkadengang') errors.push('Q01: Weg in den Arkadengang (' + (await st()).map + ')');
+  await walk(19, 3); await walk(20, 3);
+  if ((await st()).map !== 'innenhof') errors.push('Q01: Weg in den Innenhof (' + (await st()).map + ')');
+  await key('x'); await wait(1400);
+  if ((await ex()).spuren !== 1) errors.push('Q01: Diego zeigt im Innenhof nicht genau die Brunnen-Spur');
+  await walk(14, 10); await drain();
+  await expect('q01_brunnen', 'Q01: Brunnen über Diegos Spur gefunden');
   // Brunnen: erst ohne Glutsplitter (geht nicht), dann mit
-  await go('innenhof', 14, 9, 'up'); await talk(); await expect('q01_brunnen', 'Q01: Brunnen gefunden');
   if ((await st()).flags.q01_feder) errors.push('Q01: Feder ohne Glutsplitter aufgetaut');
+  await go('innenhof', 14, 9, 'up');
   await talk(); if ((await st()).flags.q01_feder) errors.push('Q01: Feder taut ohne Glutsplitter');
   await go('gemeinschaftsraum', 13, 9, 'up'); await secret('glut_sofa');
   if ((await ex()).glut < 1) errors.push('Q01: Glutsplitter unter dem Sofa fehlt');

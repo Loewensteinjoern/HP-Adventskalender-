@@ -179,6 +179,26 @@
     "flag:q01_daune",
     "!flag:q01_feder"
    ]
+  },
+  {
+   "type": "raureif",
+   "x": 8,
+   "y": 5,
+   "if": [
+    "quest:Q01",
+    "flag:q01_daune",
+    "!flag:q01_feder"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 8,
+   "y": 4,
+   "if": [
+    "quest:Q01",
+    "flag:q01_daune",
+    "!flag:q01_feder"
+   ]
   }
  ],
  "secrets": [

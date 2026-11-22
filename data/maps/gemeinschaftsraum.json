@@ -332,6 +332,46 @@
      "dialog": "buecher"
     }
    ]
+  },
+  {
+   "type": "raureif",
+   "x": 15,
+   "y": 4,
+   "if": [
+    "quest:Q01",
+    "flag:q01_daune",
+    "!flag:q01_feder"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 16,
+   "y": 4,
+   "if": [
+    "quest:Q01",
+    "flag:q01_daune",
+    "!flag:q01_feder"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 16,
+   "y": 3,
+   "if": [
+    "quest:Q01",
+    "flag:q01_daune",
+    "!flag:q01_feder"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 17,
+   "y": 3,
+   "if": [
+    "quest:Q01",
+    "flag:q01_daune",
+    "!flag:q01_feder"
+   ]
   }
  ],
  "npcs": [

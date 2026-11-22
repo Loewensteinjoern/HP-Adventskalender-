@@ -475,7 +475,11 @@ Object.assign(PAINT_OBJ, {
     p.r(7, 21, 14, 1, '#3a2418'); p.r(9, 31, 14, 1, '#3a2418');
   },
   raureif(p, f) {
-    const g = (x, y) => { p.r(x, y, 3, 4, 'rgba(220,240,255,0.85)'); p.px(x - 1, y - 2, 'rgba(220,240,255,0.8)'); p.px(x + 1, y - 3, 'rgba(220,240,255,0.8)'); p.px(x + 3, y - 2, 'rgba(220,240,255,0.8)'); };
+    // Abdruck mit langen Fingern: bläulicher Rand, heller Kern – sichtbar auf hellem Marmor und dunklem Holz
+    const g = (x, y) => {
+      p.r(x - 1, y - 1, 5, 6, 'rgba(70,130,200,0.55)'); p.r(x, y, 3, 4, 'rgba(225,242,255,0.95)');
+      [[-1, -3], [1, -4], [3, -3]].forEach(([dx, dy]) => { p.r(x + dx, y + dy, 1, 2, 'rgba(70,130,200,0.7)'); p.px(x + dx, y + dy, '#eef8ff'); });
+    };
     g(8, 14); g(19, 24);
     if (f % 2) { p.px(12, 10, '#ffffff'); p.px(24, 19, '#ffffff'); } else { p.px(6, 20, '#ffffff'); p.px(22, 28, '#ffffff'); }
   },

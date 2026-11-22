@@ -181,7 +181,7 @@ const R = {
     }
     // Aufgedeckte Fundstellen funkeln, bis Charly sie gefunden hat
     const m = DATA.maps[G.mapId], ctx = G.ctx();
-    (m.secrets || []).forEach(s => { if (G.revealed[s.id] && condsOk(s.if, ctx) && !(s.count !== false && G.save.secrets.indexOf(s.id) >= 0)) this.funkeln(s, time, 1); });
+    (m.secrets || []).forEach(s => { if ((G.revealed[s.id] || s.offen) && condsOk(s.if, ctx) && !(s.count !== false && G.save.secrets.indexOf(s.id) >= 0)) this.funkeln(s, time, 1); });
     c.globalAlpha = 1;
   },
   funkeln(t, time, a) {

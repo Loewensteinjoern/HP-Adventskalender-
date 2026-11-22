@@ -206,6 +206,16 @@
   {
    "type": "raureif",
    "x": 3,
+   "y": 13,
+   "if": [
+    "quest:Q01",
+    "flag:q01_daune",
+    "!flag:q01_feder"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 3,
    "y": 12,
    "if": [
     "quest:Q01",
@@ -245,48 +255,58 @@
   },
   {
    "type": "raureif",
-   "x": 4,
-   "y": 8,
+   "x": 6,
+   "y": 9,
    "if": [
     "quest:Q01",
     "flag:q01_daune",
-    "!flag:q01_echt"
-   ]
-  },
-  {
-   "type": "raureif",
-   "x": 3,
-   "y": 8,
-   "if": [
-    "quest:Q01",
-    "flag:q01_daune",
-    "!flag:q01_echt"
-   ]
-  },
-  {
-   "type": "raureif",
-   "x": 2,
-   "y": 8,
-   "if": [
-    "quest:Q01",
-    "flag:q01_daune",
-    "!flag:q01_echt"
-   ]
-  },
-  {
-   "type": "raureif",
-   "x": 1,
-   "y": 8,
-   "if": [
-    "quest:Q01",
-    "flag:q01_daune",
-    "!flag:q01_echt"
+    "!flag:q01_feder"
    ]
   },
   {
    "type": "raureif",
    "x": 6,
    "y": 8,
+   "if": [
+    "quest:Q01",
+    "flag:q01_daune",
+    "!flag:q01_echt"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 7,
+   "y": 7,
+   "if": [
+    "quest:Q01",
+    "flag:q01_daune",
+    "!flag:q01_echt"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 7,
+   "y": 6,
+   "if": [
+    "quest:Q01",
+    "flag:q01_daune",
+    "!flag:q01_echt"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 8,
+   "y": 5,
+   "if": [
+    "quest:Q01",
+    "flag:q01_daune",
+    "!flag:q01_echt"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 8,
+   "y": 4,
    "if": [
     "quest:Q01",
     "flag:q01_daune",
@@ -406,7 +426,17 @@
   {
    "type": "raureif",
    "x": 18,
-   "y": 8,
+   "y": 7,
+   "if": [
+    "quest:Q01",
+    "flag:q01_daune",
+    "!flag:q01_echt"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 18,
+   "y": 6,
    "if": [
     "quest:Q01",
     "flag:q01_daune",
@@ -416,27 +446,7 @@
   {
    "type": "raureif",
    "x": 19,
-   "y": 8,
-   "if": [
-    "quest:Q01",
-    "flag:q01_daune",
-    "!flag:q01_echt"
-   ]
-  },
-  {
-   "type": "raureif",
-   "x": 20,
-   "y": 8,
-   "if": [
-    "quest:Q01",
-    "flag:q01_daune",
-    "!flag:q01_echt"
-   ]
-  },
-  {
-   "type": "raureif",
-   "x": 6,
-   "y": 10,
+   "y": 5,
    "if": [
     "quest:Q01",
     "flag:q01_daune",
@@ -446,7 +456,7 @@
   {
    "type": "raureif",
    "x": 7,
-   "y": 11,
+   "y": 10,
    "if": [
     "quest:Q01",
     "flag:q01_daune",
@@ -456,7 +466,7 @@
   {
    "type": "raureif",
    "x": 8,
-   "y": 12,
+   "y": 11,
    "if": [
     "quest:Q01",
     "flag:q01_daune",
@@ -466,7 +476,7 @@
   {
    "type": "raureif",
    "x": 9,
-   "y": 13,
+   "y": 11,
    "if": [
     "quest:Q01",
     "flag:q01_daune",
@@ -476,7 +486,27 @@
   {
    "type": "raureif",
    "x": 10,
-   "y": 13,
+   "y": 12,
+   "if": [
+    "quest:Q01",
+    "flag:q01_daune",
+    "!flag:q01_echt"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 11,
+   "y": 12,
+   "if": [
+    "quest:Q01",
+    "flag:q01_daune",
+    "!flag:q01_echt"
+   ]
+  },
+  {
+   "type": "raureif",
+   "x": 12,
+   "y": 12,
    "if": [
     "quest:Q01",
     "flag:q01_daune",
@@ -608,8 +638,8 @@
   },
   {
    "id": "q01_wort_1_fertig",
-   "x": 1,
-   "y": 8,
+   "x": 8,
+   "y": 4,
    "count": false,
    "if": [
     "quest:Q01",
@@ -626,12 +656,13 @@
      "q01_echt"
     ],
     "sound": "spur"
-   }
+   },
+   "offen": true
   },
   {
    "id": "q01_wort_1",
-   "x": 1,
-   "y": 8,
+   "x": 8,
+   "y": 4,
    "count": false,
    "if": [
     "quest:Q01",
@@ -645,12 +676,13 @@
      "q01_wort_1"
     ],
     "sound": "fund"
-   }
+   },
+   "offen": true
   },
   {
    "id": "q01_wort_2_fertig",
-   "x": 20,
-   "y": 8,
+   "x": 19,
+   "y": 5,
    "count": false,
    "if": [
     "quest:Q01",
@@ -667,12 +699,13 @@
      "q01_echt"
     ],
     "sound": "spur"
-   }
+   },
+   "offen": true
   },
   {
    "id": "q01_wort_2",
-   "x": 20,
-   "y": 8,
+   "x": 19,
+   "y": 5,
    "count": false,
    "if": [
     "quest:Q01",
@@ -686,12 +719,13 @@
      "q01_wort_2"
     ],
     "sound": "fund"
-   }
+   },
+   "offen": true
   },
   {
    "id": "q01_wort_3_fertig",
-   "x": 10,
-   "y": 13,
+   "x": 12,
+   "y": 12,
    "count": false,
    "if": [
     "quest:Q01",
@@ -708,12 +742,13 @@
      "q01_echt"
     ],
     "sound": "spur"
-   }
+   },
+   "offen": true
   },
   {
    "id": "q01_wort_3",
-   "x": 10,
-   "y": 13,
+   "x": 12,
+   "y": 12,
    "count": false,
    "if": [
     "quest:Q01",
@@ -727,7 +762,8 @@
      "q01_wort_3"
     ],
     "sound": "fund"
-   }
+   },
+   "offen": true
   }
  ],
  "doors": [
@@ -790,7 +826,7 @@
  ],
  "spots": [
   {
-   "x": 5,
+   "x": 6,
    "y": 9,
    "if": [
     "quest:Q01",

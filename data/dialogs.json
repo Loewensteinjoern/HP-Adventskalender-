@@ -2644,18 +2644,17 @@
   ],
   [
    "joern",
-   "Schau, die Raureif-Spur. Sie führt zur Tür hinaus, durch den Kellergang hinauf in den Schlosskern."
+   "Schau, die Raureif-Spur! Sie führt zur Tür hinaus in den Kellergang und die Treppe hinauf in den Schlosskern."
   ]
  ],
  "q01_spur_gabel": [
   [
    "",
-   "Hier teilt sich die Raureif-Spur. Eine läuft nach links, eine nach rechts, eine nach unten."
+   "Hier teilt sich die Raureif-Spur in drei. Eine führt nach oben, eine nach rechts, eine nach unten – und an jedem Ende glitzert etwas."
   ],
   [
    "joern",
-   "Drei Spuren auf einmal. Lass Diego schnüffeln, dann folgen wir jeder bis ans Ende.",
-   "b"
+   "Folgen wir jeder Spur bis an ihr Ende."
   ]
  ],
  "q01_brunnen": [
@@ -2712,7 +2711,7 @@
  "joern_q01_spur": [
   [
    "joern",
-   "Im Schlosskern teilt sich die Raureif-Spur in drei. Lass Diego schnüffeln und folg jeder Spur bis ans Ende – da steht bestimmt was."
+   "Im Schlosskern teilt sich die Raureif-Spur in drei. Am Ende jeder Spur glitzert etwas – geh einfach hin."
   ]
  ],
  "joern_q01_hof": [
@@ -2736,7 +2735,7 @@
  "q01_wort_1": [
   [
    "",
-   "Diego setzt sich und bellt. Am Ende der Spur hat jemand mit langen, dünnen Fingern in den Raureif geschrieben:"
+   "Am Ende der Spur hat jemand mit langen, dünnen Fingern in den Raureif geschrieben:"
   ],
   [
    "stimme",
@@ -2744,13 +2743,13 @@
   ],
   [
    "joern",
-   "Nur ein Teil. Die anderen Spuren, Charly – da steht bestimmt der Rest."
+   "Nur ein Teil. Folgen wir den anderen Spuren, da steht bestimmt der Rest."
   ]
  ],
  "q01_wort_1_fertig": [
   [
    "",
-   "Diego setzt sich und bellt. Am Ende der Spur hat jemand mit langen, dünnen Fingern in den Raureif geschrieben:"
+   "Am Ende der Spur hat jemand mit langen, dünnen Fingern in den Raureif geschrieben:"
   ],
   [
    "stimme",
@@ -2772,7 +2771,7 @@
  "q01_wort_2": [
   [
    "",
-   "Diego bellt einen Eiszapfen an. Darin, wie eingeritzt, ein einzelnes Wort:"
+   "Am Ende der Spur, in einer Eisblume auf dem Boden, steht ein einzelnes Wort:"
   ],
   [
    "stimme",
@@ -2780,13 +2779,13 @@
   ],
   [
    "joern",
-   "Nur ein Teil. Die anderen Spuren, Charly – da steht bestimmt der Rest."
+   "Nur ein Teil. Folgen wir den anderen Spuren, da steht bestimmt der Rest."
   ]
  ],
  "q01_wort_2_fertig": [
   [
    "",
-   "Diego bellt einen Eiszapfen an. Darin, wie eingeritzt, ein einzelnes Wort:"
+   "Am Ende der Spur, in einer Eisblume auf dem Boden, steht ein einzelnes Wort:"
   ],
   [
    "stimme",
@@ -2808,7 +2807,7 @@
  "q01_wort_3": [
   [
    "",
-   "Diego kratzt an der Türschwelle. Im Raureif steht, in Kronenzacken-Schrift:"
+   "Am Ende der Spur, in Kronenzacken-Schrift:"
   ],
   [
    "stimme",
@@ -2816,13 +2815,13 @@
   ],
   [
    "joern",
-   "Nur ein Teil. Die anderen Spuren, Charly – da steht bestimmt der Rest."
+   "Nur ein Teil. Folgen wir den anderen Spuren, da steht bestimmt der Rest."
   ]
  ],
  "q01_wort_3_fertig": [
   [
    "",
-   "Diego kratzt an der Türschwelle. Im Raureif steht, in Kronenzacken-Schrift:"
+   "Am Ende der Spur, in Kronenzacken-Schrift:"
   ],
   [
    "stimme",
