@@ -443,6 +443,22 @@ const G = {
   lines(id) {
     return DATA.dialogs[id].map(([sp, tx, taste]) => [sp, tx.replace(/\{tage\}/g, String(this.daysLeft())).replace(/\{tag\}/g, String(this.day)).replace(/\{schmuck\}/g, String(this.schmuckZahl())), taste]);
   },
+  // Schritt-Flags aller offenen Aufgaben, die noch fehlen: { flag: 'tag' | 'neben' }
+  offeneSchritte() {
+    const s = this.save, out = {};
+    questIds().forEach(id => {
+      const q = DATA.quests[id];
+      if (q.day > this.day || s.done.indexOf(id) >= 0) return;
+      q.steps.forEach(st => stepFlags(st).forEach(f => { if (!s.flags[f]) out[f] = q.neben ? 'neben' : 'tag'; }));
+    });
+    return out;
+  },
+  // Hat diese Figur gerade etwas für eine Aufgabe? (goldenes „!“ über dem Kopf)
+  hatAufgabe(n, offen) {
+    const t = pickTalk(n.talk, this.ctx()); if (!t) return false;
+    const sets = (t.set || []).concat(t.win && t.win.set || []);
+    return sets.some(f => offen[f]);
+  },
   schmuckZahl() { return Object.keys(this.save.flags).filter(k => k.indexOf('schmuck_') === 0).length; },
   // Rückblicke: gesehene Haken noch einmal ansehen
   rueckblicke() {
@@ -647,17 +663,22 @@ const G = {
   sniffDone() {
     const d = this.followers.find(f => f.char === 'diego'); if (d) d.pose = null;
     const m = DATA.maps[this.mapId], ctx = this.ctx();
-    // Läuft eine Türchen-Quest und gibt es hier Verstecke dafür: Spuren zu genau diesen (in alle Richtungen).
-    // Sonst nur die Spur zum nächstgelegenen Versteck.
+    // Vorrang: 1) Verstecke der Türchen-Quest (alle auf einmal), 2) die nächste Spur einer laufenden Nebenaufgabe,
+    // 3) sonst die Spur zum nächstgelegenen Versteck.
+    const offen = this.offeneSchritte();
     let spuren = [];
     (m.secrets || []).filter(s => condsOk(s.if, ctx) && !(s.count !== false && this.save.secrets.indexOf(s.id) >= 0)).forEach(s => {
       if (spuren.some(x => x.s.x === s.x && x.s.y === s.y)) return;
       const path = findPath(m, { x: d.x, y: d.y }, s, ctx, 80);
-      if (path) spuren.push({ s, pts: path, target: { x: s.x, y: s.y }, quest: (s.if || []).some(c => { const q = /^quest:(\w+)$/.exec(c); return q && DATA.quests[q[1]] && !DATA.quests[q[1]].neben; }) });
+      if (!path) return;
+      const setzt = (s.found.set || []).filter(f => offen[f]);
+      const tag = (s.if || []).some(c => { const q = /^quest:(\w+)$/.exec(c); return q && DATA.quests[q[1]] && !DATA.quests[q[1]].neben; }) || setzt.some(f => offen[f] === 'tag');
+      spuren.push({ s, pts: path, target: { x: s.x, y: s.y }, rang: tag ? 0 : setzt.length ? 1 : 2 });
     });
     if (!spuren.length) return this.say('diego_kein_geruch');
-    if (spuren.some(x => x.quest)) spuren = spuren.filter(x => x.quest);
-    else spuren = [spuren.reduce((a, b) => (b.pts.length < a.pts.length ? b : a))];
+    const best = Math.min(...spuren.map(x => x.rang));
+    spuren = spuren.filter(x => x.rang === best);
+    if (best > 0) spuren = [spuren.reduce((a, b) => (b.pts.length < a.pts.length ? b : a))];
     spuren.forEach(x => { this.revealed[x.s.id] = true; });
     this.trail = { spuren, t0: this.time };
     AU.sfx('spur');

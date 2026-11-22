@@ -8,6 +8,10 @@
   "text": "Zwischen zwei Räumen liegt immer ein Gang, eine Treppe oder eine Halle. Geh einfach durch Türen und Durchgänge."
  },
  {
+  "titel": "Aufgaben ( ! )",
+  "text": "Hat jemand eine Aufgabe für dich oder wartet auf etwas, schwebt ein goldenes „!“ über dem Kopf. Sprich die Person mit A an. Alle offenen Aufgaben stehen im Questlog."
+ },
+ {
   "titel": "Menü (☰)",
   "text": "Oben rechts. Im Questlog steht, was als Nächstes zu tun ist. Dazu die Schlosskarte, das Phönixlied und diese Hilfe."
  },
@@ -17,7 +21,7 @@
  },
  {
   "titel": "Diego schnüffeln lassen (B)",
-  "text": "Mit B schnüffelt Diego. Eine goldene Pfotenspur führt zum nächsten Versteck. Läuft gerade die Aufgabe des Tages, zeigt er nur Spuren, die dazu gehören – manchmal mehrere auf einmal. Wo es funkelt, liegt etwas: Stell dich daneben, dann zeigt Diego dir den Fund."
+  "text": "Mit B schnüffelt Diego. Eine goldene Pfotenspur führt zu einem Versteck: zuerst zu allem, was die Aufgabe des Tages braucht, dann zu Dingen für eine laufende Nebenaufgabe, sonst zum nächsten Geheimnis. Wo es funkelt, liegt etwas: Stell dich daneben, dann zeigt Diego dir den Fund."
  },
  {
   "titel": "Sammeln",
@@ -53,6 +57,6 @@
  },
  {
   "titel": "Baumschmuck",
-  "text": "Jeden Tag ist irgendwo im Schloss ein Schmuckstück versteckt. Diego findet es mit B. Es hängt dann am großen Baum in der Großen Halle. Auch manche Nebenaufgaben schenken dir Schmuck."
+  "text": "Jeden Tag ist irgendwo im Schloss ein Schmuckstück versteckt. Diego findet es mit B. Es hängt dann am großen Weihnachtsbaum gleich am Eingang der Großen Halle. Auch manche Nebenaufgaben schenken dir Schmuck."
  }
 ]

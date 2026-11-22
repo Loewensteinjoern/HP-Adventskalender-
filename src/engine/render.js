@@ -102,6 +102,18 @@ const R = {
       list.push({ y: pp.y + TILE + 0.6, d: () => this.actor('charly', pp.x, pp.y, G.player.dir, G.walkFrame(G.player), null, time) });
     }
     list.sort((a, b) => a.y - b.y).forEach(e => e.d());
+    // Goldenes „!“ über Figuren, die etwas für eine Aufgabe haben
+    if (G.mode === 'play' && !G.hidePlayer) {
+      const offen = G.offeneSchritte();
+      visibleNpcs(m, ctx).forEach(n => {
+        if (!n.talk || !G.hatAufgabe(n, offen)) return;
+        const np = n.fx !== undefined ? G.renderPos(n) : { x: n.x * TILE, y: n.y * TILE };
+        const x = Math.round(np.x + 16 - cam.x), y = Math.round(np.y - 22 - cam.y + Math.sin(time * 4 + n.x) * 2);
+        const p = Pen(c);
+        p.circ(x, y + 5, 8, '#5a3a10'); p.circ(x, y + 5, 7, '#ffd36a'); p.circ(x - 1, y + 4, 5, '#ffe28a');
+        p.r(x - 1, y, 3, 7, '#5a3a10'); p.r(x - 1, y + 8, 3, 2, '#5a3a10');
+      });
+    }
     objs.forEach(o => { const t = objType(o); if (t.overlay) draw(o, this.objFrame(o, time)); });
     // Rätsel-Vorführung: das gerade klingende Objekt leuchtet
     objs.forEach(o => {

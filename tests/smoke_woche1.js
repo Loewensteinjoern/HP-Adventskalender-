@@ -142,11 +142,17 @@ const SHOTS = process.argv[2] || null;
   if ((await tag()).szene !== 'haken_1') errors.push('Rückblick spielt nicht den gewählten Haken');
   await drain();
 
-  // N02 Oskars Schneemann
-  await go('innenhof', 8, 13, 'up'); await npc('oskar'); await expect('oskar_auftrag', 'N02: Auftrag');
+  // N02 Oskars Schneemann – Oskar trägt ein goldenes „!“, solange er eine Aufgabe hat
+  await go('innenhof', 8, 13, 'up');
+  if ((await ex()).marken.indexOf('oskar') < 0) errors.push('N02: kein „!“ über Oskar');
+  await shot('w3_oskar_marke');
+  await npc('oskar'); await expect('oskar_auftrag', 'N02: Auftrag');
   await go('grosse_halle', 16, 12, 'down'); await key('Enter', 1, 150); await drain(); await expect('oskar_karotte', 'N02: Karotte');
   await go('grosse_halle', 4, 4, 'up'); await key('Enter', 1, 150); await drain(); await expect('kohle_halle', 'N02: Kohle Halle');
   await go('gemeinschaftsraum', 14, 4, 'up'); await key('Enter', 1, 150); await drain(); await expect('kohle_gemein', 'N02: Kohle Gemeinschaftsraum');
+  // Diego: Spur der laufenden Nebenaufgabe hat Vorrang vor einem näheren Glutsplitter
+  await go('vorhalle', 9, 7, 'down'); await key('x'); await wait(1400);
+  { const e = await ex(); if (e.ziele.join() !== 'kohle_vorhalle') errors.push('N02: Diego führt nicht zur Kohle, sondern zu ' + e.ziele.join()); }
   await go('vorhalle', 13, 8, 'left'); await secret('kohle_vorhalle'); await expect('kohle_vorhalle', 'N02: Kohle Vorhalle');
   await go('arkadengang', 6, 4, 'up'); await secret('schal'); await expect('oskar_schal', 'N02: Schal');
   await go('innenhof', 8, 13, 'up'); await npc('oskar'); await expect('oskar_fertig', 'N02: fertig');
@@ -177,11 +183,12 @@ const SHOTS = process.argv[2] || null;
   for (const [m, id] of [['kellergang', 'schmuck_fliese'], ['wendeltreppe', 'schmuck_stufe'], ['eulenstiege', 'schmuck_eule'], ['uhrenturm', 'schmuck_gloeckchen']]) { await go(m, 5, 5, 'down'); await secret(id); }
   const e2 = await ex();
   if (e2.schmuck !== 6) errors.push('Baumschmuck: ' + e2.schmuck + ' statt 6');
-  await go('grosse_halle', 20, 6, 'up'); await wait(300); await shot('w5_baum');
+  await go('grosse_halle', 11, 13, 'right'); await wait(500); await shot('w5_baum');
   if (!(await ex()).objs.some(o => o.indexOf('baumschmuck') === 0)) errors.push('Kein Schmuck am Baum zu sehen');
   const s = await st();
   ['N_oskar', 'N_ida', 'N_finn'].forEach(q => { if (s.done.indexOf(q) < 0) errors.push(q + ' nicht abgeschlossen'); });
   await key('Escape'); await key('Enter'); await wait(250); await shot('w6_questlog'); await key('Escape');
+  { const mk = (await ex()).marken; if (mk.join() !== 'lotte') errors.push('„!“ falsch in der Halle (nur Lotte, Q01 ist hier offen): ' + mk.join()); }
   await key('ArrowDown', 2); await key('Enter'); await wait(300); await shot('w7_lied'); await key('Escape');
 
   await browser.close();

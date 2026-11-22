@@ -211,7 +211,7 @@ const UI = {
     R.text(head, VIEW_W - 34, 40, { size: 12, align: 'right', color: '#c8b898' });
     const lines = [];
     const all = questIds().filter(id => DATA.quests[id].day <= G.day);
-    const neben = all.filter(id => DATA.quests[id].neben && (G.save.done.indexOf(id) < 0) && DATA.quests[id].steps.some(st => stepCount(st, G.save.flags) > 0));
+    const neben = all.filter(id => DATA.quests[id].neben && G.save.done.indexOf(id) < 0);   // alle offenen Nebenaufgaben, auch noch nicht begonnene
     const ids = all.filter(id => !DATA.quests[id].neben).reverse().concat(neben);
     const wrapLine = (txt, col) => R.wrap(txt, 400, 13, 600).forEach((l, i) => lines.push([(i ? '     ' : '  ▸ ') + l, col || '#f4ead8', 600]));
     // Tagesablauf: nach der Tagesaufgabe zurück zum Kamin
