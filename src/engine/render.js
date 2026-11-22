@@ -102,9 +102,10 @@ const R = {
       list.push({ y: pp.y + TILE + 0.6, d: () => this.actor('charly', pp.x, pp.y, G.player.dir, G.walkFrame(G.player), null, time) });
     }
     list.sort((a, b) => a.y - b.y).forEach(e => e.d());
-    // Goldenes „!“ über Figuren, die etwas für eine Aufgabe haben
+    // Goldenes „!“ über Figuren, die etwas für eine Aufgabe haben; Dinge, die man für eine Aufgabe braucht, funkeln
     if (G.mode === 'play' && !G.hidePlayer) {
       const offen = G.offeneSchritte();
+      objs.forEach(o => { if (o.talk && G.hatAufgabe(o, offen)) { const t = objType(o); this.funkeln({ x: o.x + (t.w - 1) / 2, y: o.y - Math.min(1, t.up / 32) * 0.6 }, time, 0.9); } });
       visibleNpcs(m, ctx).forEach(n => {
         if (!n.talk || !G.hatAufgabe(n, offen)) return;
         const np = n.fx !== undefined ? G.renderPos(n) : { x: n.x * TILE, y: n.y * TILE };

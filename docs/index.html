@@ -14,7 +14,7 @@
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <title>Die Reise zum Winterphönix</title>
-<!-- Version 0.12 · Woche 1 neu erzählt · gebaut 2026-11-22 13:26 UTC · Entwickelt und erstellt von Jörn Löwenstein mit Hilfe von künstlicher Intelligenz (Claude) -->
+<!-- Version 0.12 · Woche 1 neu erzählt · gebaut 2026-11-22 16:52 UTC · Entwickelt und erstellt von Jörn Löwenstein mit Hilfe von künstlicher Intelligenz (Claude) -->
 <style>
 html,body{margin:0;height:100%;background:#120c1c;overflow:hidden;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}
 body{position:fixed;inset:0;box-sizing:border-box;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
@@ -2645,9 +2645,10 @@ const R = {
       list.push({ y: pp.y + TILE + 0.6, d: () => this.actor('charly', pp.x, pp.y, G.player.dir, G.walkFrame(G.player), null, time) });
     }
     list.sort((a, b) => a.y - b.y).forEach(e => e.d());
-    // Goldenes „!“ über Figuren, die etwas für eine Aufgabe haben
+    // Goldenes „!“ über Figuren, die etwas für eine Aufgabe haben; Dinge, die man für eine Aufgabe braucht, funkeln
     if (G.mode === 'play' && !G.hidePlayer) {
       const offen = G.offeneSchritte();
+      objs.forEach(o => { if (o.talk && G.hatAufgabe(o, offen)) { const t = objType(o); this.funkeln({ x: o.x + (t.w - 1) / 2, y: o.y - Math.min(1, t.up / 32) * 0.6 }, time, 0.9); } });
       visibleNpcs(m, ctx).forEach(n => {
         if (!n.talk || !G.hatAufgabe(n, offen)) return;
         const np = n.fx !== undefined ? G.renderPos(n) : { x: n.x * TILE, y: n.y * TILE };
@@ -3301,7 +3302,11 @@ const UI = {
     const lines = [];
     const all = questIds().filter(id => DATA.quests[id].day <= G.day);
     const neben = all.filter(id => DATA.quests[id].neben && G.save.done.indexOf(id) < 0);   // alle offenen Nebenaufgaben, auch noch nicht begonnene
-    const ids = all.filter(id => !DATA.quests[id].neben).reverse().concat(neben);
+    // Reihenfolge: heutige Türchen-Quest, begonnene Nebenaufgaben, ältere offene Türchen, neue Nebenaufgaben, erledigte Türchen
+    const begonnen = id => DATA.quests[id].steps.some(st => stepCount(st, G.save.flags) > 0);
+    const haupt = all.filter(id => !DATA.quests[id].neben).reverse(), fertig = id => G.save.done.indexOf(id) >= 0;
+    const heute = haupt.filter(id => !fertig(id) && DATA.quests[id].day === sv0.tag), aeltere = haupt.filter(id => !fertig(id) && DATA.quests[id].day !== sv0.tag);
+    const ids = heute.concat(neben.filter(begonnen), aeltere, neben.filter(id => !begonnen(id)), haupt.filter(fertig));
     const wrapLine = (txt, col) => R.wrap(txt, 400, 13, 600).forEach((l, i) => lines.push([(i ? '     ' : '  ▸ ') + l, col || '#f4ead8', 600]));
     // Tagesablauf: nach der Tagesaufgabe zurück zum Kamin
     if (!sv0.tagEnde && G.tagesAufgabeFertig()) {
@@ -3338,6 +3343,8 @@ const UI = {
     const total = allSecretIds().length, found = G.save.secrets.length;
     const maxRows = 11; this.scroll = clamp(this.scroll, 0, Math.max(0, lines.length - maxRows));
     lines.slice(this.scroll, this.scroll + maxRows).forEach(([t, col, wgt], i) => R.text(t, 34, 74 + i * 20, { size: 13, color: col, weight: wgt }));
+    if (this.scroll + maxRows < lines.length) R.text('▼ mehr', VIEW_W - 34, VIEW_H - 78, { size: 11, align: 'right', color: '#ffd36a' });
+    if (this.scroll > 0) R.text('▲', VIEW_W - 34, 62, { size: 11, align: 'right', color: '#ffd36a' });
     c.fillStyle = 'rgba(224,154,44,0.4)'; c.fillRect(34, VIEW_H - 70, VIEW_W - 68, 1);
     const sv = G.save;
     R.text('★ Stufe ' + sv.stufe + '   Erfahrung ' + sv.ep + ' / ' + epFuerStufe(sv.stufe) + '   Kraft ' + sv.kraft + '   Wärme ' + waermeMax(sv) + '   ☕ ' + sv.kakao, 34, VIEW_H - 54, { size: 12, color: '#ffd36a' });
@@ -4528,7 +4535,8 @@ const G = {
     const sec = secretAt(m, tx, ty, ctx);
     if (sec && (DATA.maps[this.mapId].secrets || []).some(s => (this.revealed[s.id] || s.offen) && s.x === sec.x && s.y === sec.y)) return this.findSecret(sec);
     const nah = this.revealedNear(); if (nah) return this.findSecret(nah);
-    const o = objAt(m, tx, ty, ctx);
+    // Liegen mehrere Dinge übereinander (z. B. schwebende Kerzen über dem Buffet), zählt das, was etwas zu sagen hat
+    const o = visibleObjs(m, ctx).find(x => x.talk && objCovers(x, tx, ty)) || objAt(m, tx, ty, ctx);
     if (o && o.talk) return this.runTalk(pickTalk(o.talk, ctx));
     const sp = spotAt(m, tx, ty, ctx);
     if (sp && sp.talk) return this.runTalk(pickTalk(sp.talk, ctx));
@@ -4549,7 +4557,7 @@ const G = {
   },
   // Hat diese Figur gerade etwas für eine Aufgabe? (goldenes „!“ über dem Kopf)
   hatAufgabe(n, offen) {
-    const t = pickTalk(n.talk, this.ctx()); if (!t) return false;
+    const t = pickTalk(n.talk, this.ctx()); if (!t || t.zauber && !this.spells().length) return false;
     const sets = (t.set || []).concat(t.win && t.win.set || []);
     return sets.some(f => offen[f]);
   },

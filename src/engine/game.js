@@ -434,7 +434,8 @@ const G = {
     const sec = secretAt(m, tx, ty, ctx);
     if (sec && (DATA.maps[this.mapId].secrets || []).some(s => (this.revealed[s.id] || s.offen) && s.x === sec.x && s.y === sec.y)) return this.findSecret(sec);
     const nah = this.revealedNear(); if (nah) return this.findSecret(nah);
-    const o = objAt(m, tx, ty, ctx);
+    // Liegen mehrere Dinge übereinander (z. B. schwebende Kerzen über dem Buffet), zählt das, was etwas zu sagen hat
+    const o = visibleObjs(m, ctx).find(x => x.talk && objCovers(x, tx, ty)) || objAt(m, tx, ty, ctx);
     if (o && o.talk) return this.runTalk(pickTalk(o.talk, ctx));
     const sp = spotAt(m, tx, ty, ctx);
     if (sp && sp.talk) return this.runTalk(pickTalk(sp.talk, ctx));
@@ -455,7 +456,7 @@ const G = {
   },
   // Hat diese Figur gerade etwas für eine Aufgabe? (goldenes „!“ über dem Kopf)
   hatAufgabe(n, offen) {
-    const t = pickTalk(n.talk, this.ctx()); if (!t) return false;
+    const t = pickTalk(n.talk, this.ctx()); if (!t || t.zauber && !this.spells().length) return false;
     const sets = (t.set || []).concat(t.win && t.win.set || []);
     return sets.some(f => offen[f]);
   },

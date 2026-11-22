@@ -147,7 +147,8 @@ const SHOTS = process.argv[2] || null;
   if ((await ex()).marken.indexOf('oskar') < 0) errors.push('N02: kein „!“ über Oskar');
   await shot('w3_oskar_marke');
   await npc('oskar'); await expect('oskar_auftrag', 'N02: Auftrag');
-  await go('grosse_halle', 16, 12, 'down'); await key('Enter', 1, 150); await drain(); await expect('oskar_karotte', 'N02: Karotte');
+  await key('Escape'); await key('Enter'); await wait(250); await shot('w3_questlog_neben'); await key('Escape'); await key('Escape');
+  await go('grosse_halle', 17, 14, 'up'); await key('Enter', 1, 150); await drain(); await expect('oskar_karotte', 'N02: Karotte (A unter den schwebenden Kerzen)');
   await go('grosse_halle', 4, 4, 'up'); await key('Enter', 1, 150); await drain(); await expect('kohle_halle', 'N02: Kohle Halle');
   await go('gemeinschaftsraum', 14, 4, 'up'); await key('Enter', 1, 150); await drain(); await expect('kohle_gemein', 'N02: Kohle Gemeinschaftsraum');
   // Diego: Spur der laufenden Nebenaufgabe hat Vorrang vor einem näheren Glutsplitter

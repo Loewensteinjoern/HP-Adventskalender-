@@ -212,7 +212,11 @@ const UI = {
     const lines = [];
     const all = questIds().filter(id => DATA.quests[id].day <= G.day);
     const neben = all.filter(id => DATA.quests[id].neben && G.save.done.indexOf(id) < 0);   // alle offenen Nebenaufgaben, auch noch nicht begonnene
-    const ids = all.filter(id => !DATA.quests[id].neben).reverse().concat(neben);
+    // Reihenfolge: heutige Türchen-Quest, begonnene Nebenaufgaben, ältere offene Türchen, neue Nebenaufgaben, erledigte Türchen
+    const begonnen = id => DATA.quests[id].steps.some(st => stepCount(st, G.save.flags) > 0);
+    const haupt = all.filter(id => !DATA.quests[id].neben).reverse(), fertig = id => G.save.done.indexOf(id) >= 0;
+    const heute = haupt.filter(id => !fertig(id) && DATA.quests[id].day === sv0.tag), aeltere = haupt.filter(id => !fertig(id) && DATA.quests[id].day !== sv0.tag);
+    const ids = heute.concat(neben.filter(begonnen), aeltere, neben.filter(id => !begonnen(id)), haupt.filter(fertig));
     const wrapLine = (txt, col) => R.wrap(txt, 400, 13, 600).forEach((l, i) => lines.push([(i ? '     ' : '  ▸ ') + l, col || '#f4ead8', 600]));
     // Tagesablauf: nach der Tagesaufgabe zurück zum Kamin
     if (!sv0.tagEnde && G.tagesAufgabeFertig()) {
@@ -249,6 +253,8 @@ const UI = {
     const total = allSecretIds().length, found = G.save.secrets.length;
     const maxRows = 11; this.scroll = clamp(this.scroll, 0, Math.max(0, lines.length - maxRows));
     lines.slice(this.scroll, this.scroll + maxRows).forEach(([t, col, wgt], i) => R.text(t, 34, 74 + i * 20, { size: 13, color: col, weight: wgt }));
+    if (this.scroll + maxRows < lines.length) R.text('▼ mehr', VIEW_W - 34, VIEW_H - 78, { size: 11, align: 'right', color: '#ffd36a' });
+    if (this.scroll > 0) R.text('▲', VIEW_W - 34, 62, { size: 11, align: 'right', color: '#ffd36a' });
     c.fillStyle = 'rgba(224,154,44,0.4)'; c.fillRect(34, VIEW_H - 70, VIEW_W - 68, 1);
     const sv = G.save;
     R.text('★ Stufe ' + sv.stufe + '   Erfahrung ' + sv.ep + ' / ' + epFuerStufe(sv.stufe) + '   Kraft ' + sv.kraft + '   Wärme ' + waermeMax(sv) + '   ☕ ' + sv.kakao, 34, VIEW_H - 54, { size: 12, color: '#ffd36a' });
